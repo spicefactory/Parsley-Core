@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<design>
+   <namespaces>
+     <namespace prefix="parsley" uri="http://www.spicefactory.org/parsley"/>
+   </namespaces>
+</design>
