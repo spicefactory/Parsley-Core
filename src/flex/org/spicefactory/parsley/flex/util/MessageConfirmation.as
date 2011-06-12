@@ -50,9 +50,11 @@ public class MessageConfirmation {
 	 */
     public function showAlert (processor:MessageProcessor) : void {
     	
+    	processor.suspend();
+    	
         var onClose:Function = function (event:CloseEvent) : void {
         	if (event.detail == Alert.YES) {
-            	processor.proceed();
+            	processor.resume();
             }
         };
         

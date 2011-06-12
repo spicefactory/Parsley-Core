@@ -72,7 +72,7 @@ public class DefaultCommandManager implements CommandManager {
 	
 	private function matches (command:Command, messageType:Class, selector:*) : Boolean {
 		return (command.message.instance is messageType && 
-				(selector == undefined || selector == command.selector));
+				(selector == undefined || selector == command.message.selector));
 	}
 	
 	

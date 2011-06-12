@@ -15,7 +15,6 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap.impl {
-import org.spicefactory.lib.util.Flag;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -165,16 +164,7 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 		_parents.push(parent);
 	}
 	
-	[Deprecated(replacement="addParent or parents")]
-	public function get parent () : Context {
-		return (_parents.length) ? _parents[0] : null;
-	}
-	
-	public function set parent (value:Context) : void {
-		if (value) addParent(value);
-	}
-	
-	
+
 	private var _findParentInView:Boolean = true; 
 	
 	public function get findParentInView () : Boolean {

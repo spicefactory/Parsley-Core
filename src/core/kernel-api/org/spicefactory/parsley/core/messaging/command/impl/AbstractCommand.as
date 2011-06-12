@@ -15,10 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.messaging.command.impl {
+
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.Delegate;
-import org.spicefactory.lib.util.DelegateChain;
 import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.command.Command;
 import org.spicefactory.parsley.core.messaging.command.CommandStatus;

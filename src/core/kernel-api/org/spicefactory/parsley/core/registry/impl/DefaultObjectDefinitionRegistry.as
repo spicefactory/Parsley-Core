@@ -15,21 +15,18 @@
  */
 
 package org.spicefactory.parsley.core.registry.impl {
+
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.lib.util.collection.SimpleMap;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.context.provider.ObjectProvider;
-import org.spicefactory.parsley.core.context.provider.ObjectProviderFactory;
 import org.spicefactory.parsley.core.events.ObjectDefinitionRegistryEvent;
 import org.spicefactory.parsley.core.registry.ConfigurationProperties;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.core.registry.builder.ObjectDefinitionBuilderFactory;
-import org.spicefactory.parsley.core.registry.builder.impl.DefaultObjectDefinitionBuilderFactory;
 import org.spicefactory.parsley.core.scope.ScopeManager;
+import org.spicefactory.parsley.dsl.ObjectDefinitionBuilderFactory;
 
 import flash.events.EventDispatcher;
 import flash.system.ApplicationDomain;
@@ -54,9 +51,6 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	
 	private var definitions:SimpleMap = new SimpleMap();
 
-	/* Deprecated */
-	private var objectProviderFactory:ObjectProviderFactory;
-
 
 	/**
 	 * Creates a new instance.
@@ -74,8 +68,6 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 		_context = info.context;
 		_properties = info.properties;
 		_decoratorAssemblers = [];
-		this.objectProviderFactory = info.objectProviderFactory;
-		_builders = new DefaultObjectDefinitionBuilderFactory(this);
 	}
 	
 	/**
@@ -239,12 +231,6 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 		}
 	}
 	
-	/**
-	 * @inheritDoc
-	 */
-	public function createObjectProvider (type:Class, id:String = null) : ObjectProvider {
-		return objectProviderFactory.createProvider(type, id);
-	}
 	
 }
 }

@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.scope.impl {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
@@ -28,7 +29,6 @@ import org.spicefactory.parsley.core.messaging.command.impl.DefaultCommandManage
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
 import org.spicefactory.parsley.core.scope.InitializingExtension;
-import org.spicefactory.parsley.core.scope.ObjectLifecycleScope;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeExtensions;
@@ -58,9 +58,6 @@ public class DefaultScopeInfo implements ScopeInfo {
 	private var _lifecycleRegistry:DefaultMessageReceiverRegistry;
 	private var _extensions:DefaultScopeExtensions;
 	
-	// deprecated - remove in 3.0
-	private var _objectLifecycle:ObjectLifecycleScope;
-	
 	
 	/**
 	 * Creates a new instance.
@@ -86,8 +83,6 @@ public class DefaultScopeInfo implements ScopeInfo {
 		_lifecycleRegistry = new DefaultMessageReceiverRegistry(domainManager);
 		this._lifecycleObservers = new DefaultLifecycleObserverRegistry(_lifecycleRegistry);
 		this._extensions = new DefaultScopeExtensions(extensions, initScopeExtension);
-		
-		this._objectLifecycle = new DefaultObjectLifecycleScope(_lifecycleRegistry);
 	}
 
 	
@@ -173,11 +168,6 @@ public class DefaultScopeInfo implements ScopeInfo {
 	 */
 	public function get extensions () : ScopeExtensions {
 		return _extensions;
-	}
-	
-	[Deprecated]
-	public function get objectLifecycle () : ObjectLifecycleScope {
-		return _objectLifecycle;
 	}
 	
 	

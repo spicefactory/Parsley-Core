@@ -104,8 +104,6 @@ public interface MessageProcessor {
 	 */
 	function createCommand (returnValue:*) : Command;
 	
-	[Deprecated(replacement="resume")]
-	function proceed () : void;
 	
 }
 }

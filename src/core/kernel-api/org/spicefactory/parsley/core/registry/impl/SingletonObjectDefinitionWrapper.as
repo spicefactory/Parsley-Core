@@ -15,17 +15,14 @@
  */
 
 package org.spicefactory.parsley.core.registry.impl {
-import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.registry.AsyncInitConfig;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
+import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.ObjectInstantiator;
 import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
-import org.spicefactory.parsley.core.registry.definition.ConstructorArgRegistry;
-import org.spicefactory.parsley.core.registry.definition.LifecycleListenerRegistry;
-import org.spicefactory.parsley.core.registry.definition.MethodRegistry;
-import org.spicefactory.parsley.core.registry.definition.PropertyRegistry;
 
 /**
  * A simple wrapper around an existing root object definition.
@@ -118,34 +115,6 @@ public class SingletonObjectDefinitionWrapper implements SingletonObjectDefiniti
 	 */
 	public function get instantiator () : ObjectInstantiator {
 		return wrappedDefinition.instantiator;
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get constructorArgs () : ConstructorArgRegistry {
-		return wrappedDefinition.constructorArgs;
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get properties () : PropertyRegistry {
-		return wrappedDefinition.properties;
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get injectorMethods () : MethodRegistry {
-		return wrappedDefinition.injectorMethods;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function get objectLifecycle () : LifecycleListenerRegistry {
-		return wrappedDefinition.objectLifecycle;
 	}
 	
 	/**

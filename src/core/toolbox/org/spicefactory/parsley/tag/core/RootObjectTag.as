@@ -15,8 +15,7 @@
  */
 
 package org.spicefactory.parsley.tag.core {
-import org.spicefactory.lib.logging.LogContext;
-import org.spicefactory.lib.logging.Logger;
+
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 
@@ -28,9 +27,6 @@ import org.spicefactory.parsley.config.RootConfigurationElement;
  * @author Jens Halm
  */
 public class RootObjectTag implements RootConfigurationElement {
-	
-	
-	private static const log:Logger = LogContext.getLogger(RootObjectTag);
 	
 	
 	/**
@@ -47,9 +43,6 @@ public class RootObjectTag implements RootConfigurationElement {
 	 * @copy org.spicefactory.parsley.asconfig.metadata.ObjectDefinitionMetadata#lazy
 	 */
 	public var lazy:Boolean = false;
-	
-	[Deprecated(replacement="DynamicObject tag")]
-	public var singleton:Boolean = true;
 	
 	/**
 	 * @copy org.spicefactory.parsley.asconfig.metadata.ObjectDefinitionMetadata#order
@@ -68,25 +61,14 @@ public class RootObjectTag implements RootConfigurationElement {
 	 * @inheritDoc
 	 */
 	public function process (config:Configuration) : void {
-		if (singleton) {
-			config.builders
-				.forClass(type)
-					.asSingleton()
-						.id(id)
-						.lazy(lazy)
-						.order(order)
-						.decorators(decorators)
-						.register();
-		}
-		else {
-			log.warn("The use of the singleton attribute is deprecated. Use <DynamicObject> instead");
-			config.builders
-				.forClass(type)
-					.asDynamicObject()
-						.id(id)
-						.decorators(decorators)
-						.register();
-		}
+		config.builders
+			.forClass(type)
+				.asSingleton()
+					.id(id)
+					.lazy(lazy)
+					.order(order)
+					.decorators(decorators)
+					.register();
 	}
 	
 	

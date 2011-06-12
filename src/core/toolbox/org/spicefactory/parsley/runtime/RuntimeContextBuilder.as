@@ -15,9 +15,9 @@
  */
 
 package org.spicefactory.parsley.runtime {
+
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
-import org.spicefactory.parsley.core.builder.CompositeContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
 
@@ -65,11 +65,6 @@ public class RuntimeContextBuilder {
 		manager.config.domain = domain;
 		manager.config.addProcessor(new RuntimeConfigurationProcessor(instances));
 		return manager.createProcessor().process();
-	}
-	
-	[Deprecated(replacement="ContextBuilder DSL")]
-	public static function merge (instances:Array, builder:CompositeContextBuilder) : void {
-		builder.addProcessor(new RuntimeConfigurationProcessor(instances));
 	}
 	
 	

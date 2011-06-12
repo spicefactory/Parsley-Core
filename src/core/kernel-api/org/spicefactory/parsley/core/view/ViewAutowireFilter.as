@@ -25,11 +25,7 @@ import flash.display.DisplayObject;
  * @author Jens Halm
  */
 public interface ViewAutowireFilter {
-	
-	[Deprecated(replacement="ViewSettings.autowireComponents")]
-	function get enabled () : Boolean;
-	
-	function set enabled (value:Boolean) : void;
+
 	
 	/**
 	 * The event type to listen to in the view roots. The listener will be registered for 

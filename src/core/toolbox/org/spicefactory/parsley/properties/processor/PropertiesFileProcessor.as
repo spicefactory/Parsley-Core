@@ -15,7 +15,8 @@
  */
 
 package org.spicefactory.parsley.properties.processor {
-import org.spicefactory.parsley.core.builder.AsyncConfigurationProcessor;
+
+import org.spicefactory.parsley.core.bootstrap.AsyncConfigurationProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.properties.Properties;
 

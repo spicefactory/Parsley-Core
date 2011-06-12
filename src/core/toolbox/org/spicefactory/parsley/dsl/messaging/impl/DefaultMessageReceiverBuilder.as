@@ -98,19 +98,6 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 	}
 	
 	/**	
-	 * Creates a new builder for an interceptor.
-	 * 
-	 * @param target the intercepting method
-	 * @param config the configuration for the associated registry
-	 * @return a new builder for an interceptor
-	 */
-	public static function forMessageInterceptor (target:Method, config:Configuration) : DefaultMessageReceiverBuilder {
-		var info:MessageReceiverInfo = new MessageReceiverInfo(config);
-		var builderPart:ObjectDefinitionBuilderPart = new MessageInterceptorBuilderPart(target, info);
-		return new DefaultMessageReceiverBuilder(builderPart, info);
-	}
-	
-	/**	
 	 * Creates a new builder for a command result handler.
 	 * 
 	 * @param target the method that handles the result
@@ -168,24 +155,6 @@ import org.spicefactory.parsley.processor.messaging.MessageReceiverFactory;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverProcessorFactory;
 import org.spicefactory.parsley.processor.messaging.receiver.CommandStatusFlag;
 import org.spicefactory.parsley.processor.messaging.receiver.DefaultCommandObserver;
-import org.spicefactory.parsley.processor.messaging.receiver.DefaultMessageInterceptor;
-
-class MessageInterceptorBuilderPart implements ObjectDefinitionBuilderPart {
-	
-	private var info:MessageReceiverInfo;
-	private var method:Method;
-	
-	function MessageInterceptorBuilderPart (target:Method, info:MessageReceiverInfo) {
-		this.method = target;
-		this.info = info;
-	}
-
-	public function apply (target:ObjectDefinition) : void {
-		var factory:MessageReceiverFactory = DefaultMessageInterceptor.newFactory(method.name, info.type, info.selector, info.order);
-		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
-	}
-	
-}
 
 class CommandResultBuilderPart implements ObjectDefinitionBuilderPart {
 	

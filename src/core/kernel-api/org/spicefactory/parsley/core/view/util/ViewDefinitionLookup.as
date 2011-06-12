@@ -36,7 +36,7 @@ public class ViewDefinitionLookup {
 	
 	private static function getDefinitionById (config:ViewConfiguration, context:Context) : DynamicObjectDefinition {
 		if (!context.containsObject(config.configId)) return null;
-		var definition:ObjectDefinition = context.getDefinition(config.configId);
+		var definition:ObjectDefinition = context.findDefinition(config.configId);
 		if (definition is DynamicObjectDefinition && config.target is definition.type.getClass()) {
 			return definition as DynamicObjectDefinition;
 		} else {
@@ -47,11 +47,10 @@ public class ViewDefinitionLookup {
 	private static function getDefinitionByType (config:ViewConfiguration, context:Context) : DynamicObjectDefinition {
 		var type:Class = ClassInfo.forInstance(config.target, context.domain).getClass();
 		
-		var ids:Array = context.getObjectIds(type);
+		var defs:Array = context.findAllDefinitionsByType(type);
 		var def:DynamicObjectDefinition = null;
 		
-		for each (var id:String in ids) {
-			var candidate:ObjectDefinition = context.getDefinition(id);
+		for each (var candidate:ObjectDefinition in defs) {
 			if (candidate is DynamicObjectDefinition && config.target is candidate.type.getClass()) {
 				if (def == null) {
 					def = candidate as DynamicObjectDefinition; 

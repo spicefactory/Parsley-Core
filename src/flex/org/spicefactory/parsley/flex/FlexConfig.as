@@ -15,7 +15,8 @@
  */
 
 package org.spicefactory.parsley.flex {
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
+
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.flex.processor.FlexConfigurationProcessor;
 
 /**

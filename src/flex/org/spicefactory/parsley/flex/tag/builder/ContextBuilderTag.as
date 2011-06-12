@@ -15,14 +15,13 @@
  */
 
 package org.spicefactory.parsley.flex.tag.builder {
+
 import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
-import org.spicefactory.parsley.core.builder.CompositeContextBuilder;
-import org.spicefactory.parsley.core.builder.impl.DefaultCompositeContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.errors.ContextBuilderError;
 import org.spicefactory.parsley.core.events.ContextConfigurationEvent;
@@ -42,7 +41,6 @@ import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
-import flash.utils.getQualifiedClassName;
 
 /**
  * Dispatched when the Context built by this tag was fully initialized.
@@ -86,9 +84,6 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 	ResourceBindingProcessor.adapterClass = FlexResourceBindingAdapter;
 	
 
-	[Deprecated(replacement="parents")]
-	public var parent:Context;
-	
 	/**
 	 * The parents to use for the Context to build.
 	 * One parent will usually get detected automatically in the view hierarchy. This parameter can be used
@@ -132,7 +127,7 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 	 */
 	public var description:String;
 	
-	[ArrayElementType("org.spicefactory.parsley.flex.tag.builder.ContextBuilderChildTag")]
+	[ArrayElementType("org.spicefactory.parsley.flex.tag.builder.BootstrapConfigProcessor")]
 	/**
 	 * The individual configuration artifacts for this ContextBuilder.
 	 */
@@ -288,7 +283,6 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 		try {
 			var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
 			if (viewRoot) manager.config.viewRoot = viewRoot;
-			if (parent) manager.config.parent = parent;
 			if (parents) {
 				for each (var parent:Context in parents) {
 					manager.config.addParent(parent);
@@ -297,22 +291,9 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 			if (domain) manager.config.domain = domain;
 			manager.config.findParentInView = findParentInView;
 			if (description) manager.config.description = description;
-			var builder:CompositeContextBuilder; // don't create upfront, hope we don't need it
 			if (processors != null) {
-				for each (var processor:ContextBuilderChildTag in processors) {
-					if (processor is BootstrapConfigProcessor) {
-						BootstrapConfigProcessor(processor).processConfig(manager.config);
-					}
-					else if (processor is ContextBuilderProcessor) {
-						/* deprecated - remove in later versions */
-						if (!builder) {
-							builder = new DefaultCompositeContextBuilder(viewRoot, parent, domain, description, manager);
-						}
-						ContextBuilderProcessor(processor).processBuilder(builder);
-					}
-					else {
-						throw Error("Unknown type of child tag for ContextBuilder: " + getQualifiedClassName(processor));
-					}
+				for each (var processor:BootstrapConfigProcessor in processors) {
+					processor.processConfig(manager.config);
 				}
 			}
 			if (config != null) {

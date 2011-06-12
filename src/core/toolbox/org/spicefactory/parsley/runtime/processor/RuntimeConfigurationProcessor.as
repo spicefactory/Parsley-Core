@@ -15,9 +15,10 @@
  */
 
 package org.spicefactory.parsley.runtime.processor {
+
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.config.Configurations;
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 
 /**

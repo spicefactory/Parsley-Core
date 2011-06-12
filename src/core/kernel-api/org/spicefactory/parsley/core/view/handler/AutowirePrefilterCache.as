@@ -15,9 +15,6 @@
  */
 
 package org.spicefactory.parsley.core.view.handler {
-import org.spicefactory.lib.util.DelayedDelegateChain;
-import org.spicefactory.lib.util.Delegate;
-import org.spicefactory.lib.util.DelegateChain;
 
 import flash.events.Event;
 import flash.utils.Dictionary;

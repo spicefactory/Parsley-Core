@@ -15,15 +15,15 @@
  */
  
 package org.spicefactory.parsley.binding.impl {
+
+import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
-import flash.events.Event;
-import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.collection.ArrayMap;
 import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.binding.Subscriber;
 
+import flash.events.Event;
 import flash.utils.Dictionary;
 
 /**

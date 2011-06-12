@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.registry.impl {
+
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -23,14 +24,6 @@ import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.ObjectInstantiator;
 import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
-import org.spicefactory.parsley.core.registry.definition.ConstructorArgRegistry;
-import org.spicefactory.parsley.core.registry.definition.LifecycleListenerRegistry;
-import org.spicefactory.parsley.core.registry.definition.MethodRegistry;
-import org.spicefactory.parsley.core.registry.definition.PropertyRegistry;
-import org.spicefactory.parsley.core.registry.definition.impl.DefaultConstructorArgRegistry;
-import org.spicefactory.parsley.core.registry.definition.impl.DefaultLifecycleListenerRegistry;
-import org.spicefactory.parsley.core.registry.definition.impl.DefaultMethodRegistry;
-import org.spicefactory.parsley.core.registry.definition.impl.DefaultPropertyRegistry;
 
 /** 
  * Abstract base class for all ObjectDefinition implementations.
@@ -54,13 +47,6 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 
 	private var _frozen:Boolean;
 
-
-	/* deprecated */
-	private var _constructorArgs:ConstructorArgRegistry;
-	private var _properties:PropertyRegistry;
-	private var _methods:MethodRegistry;
-	private var _listeners:LifecycleListenerRegistry;
-
 	
 	/**
 	 * Creates a new instance.
@@ -76,12 +62,6 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 		_id = id;
 		_registry = registry;
 		_parent = parent;		
-		
-		/* deprecated */
-		_constructorArgs = new DefaultConstructorArgRegistry(this);
-		_properties = new DefaultPropertyRegistry(this);
-		_methods = new DefaultMethodRegistry(this);
-		_listeners = new DefaultLifecycleListenerRegistry(this);
 	}
 	
 
@@ -105,35 +85,7 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	public function get registry () : ObjectDefinitionRegistry {
 		return _registry;
 	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get constructorArgs () : ConstructorArgRegistry {
-		return (_parent) ? _parent.constructorArgs : _constructorArgs;
-	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function get properties () : PropertyRegistry {
-		return (_parent) ? _parent.properties : _properties;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function get injectorMethods () : MethodRegistry {
-		return (_parent) ? _parent.injectorMethods : _methods;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function get objectLifecycle () : LifecycleListenerRegistry {
-		return (_parent) ? _parent.objectLifecycle : _listeners;
-	}
-	
 	/**
 	 * @inheritDoc
 	 */
@@ -241,20 +193,8 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 		for each (var factory:ObjectProcessorFactory in source.processorFactories) {
 			addProcessorFactory(factory);
 		}
-		replaceLegacyRegistries(source);
 	}
 	
-	/**
-	 * @private
-	 */
-	private function replaceLegacyRegistries (source:ObjectDefinition) : void {
-		// deprecated
-		_constructorArgs = source.constructorArgs;
-		_properties = source.properties;
-		_methods = source.injectorMethods;
-		_listeners = source.objectLifecycle;
-	}
-
 	
 	/**
 	 * @private

@@ -15,8 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.errors {
+
 import org.spicefactory.lib.errors.CompoundError;
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 
 /**
  * Error thrown while processing a <code>ConfigurationProcessor</code>.

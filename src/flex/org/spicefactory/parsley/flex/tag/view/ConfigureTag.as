@@ -53,9 +53,6 @@ public class ConfigureTag extends ConfigurationTagBase {
 	}
 	
 	
-	[Deprecated(replacement="targets")]
-	public var target:Object;
-	
 	/**
 	 * The target objects to be wired to the Context.
 	 * If this property is not set explicitly then the document object this tag
@@ -74,10 +71,6 @@ public class ConfigureTag extends ConfigurationTagBase {
 	 */
 	public var configId:String;
 	
-	[Deprecated(replacement="reuse")]
-	public function set repeat (value:Boolean) : void {
-		_reuse = value;
-	}
 	
 	private var _reuse:Boolean = true; // TODO - change default to false in version 3.0
 	

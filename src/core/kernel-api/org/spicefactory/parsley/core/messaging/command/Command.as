@@ -32,9 +32,6 @@ public interface Command {
 	 */
 	function get message () : Message;
 	
-	[Deprecated(replacement="message.selector")]
-	function get selector () : *;
-	
 	/**
 	 * The return value from the Command execution.
 	 */

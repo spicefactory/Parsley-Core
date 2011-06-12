@@ -84,11 +84,6 @@ public interface BootstrapConfig {
 	 */
 	function addParent (parent:Context) : void;
 	
-	[Deprecated(replacement="addParent and parents")]
-	function get parent () : Context;
-	
-	function set parent (value:Context) : void;
-	
 	/**
 	 * Specifies whether the new Context should automatically find a parent Context
 	 * in the view hierarchy above the view root. The default is true. When a parent

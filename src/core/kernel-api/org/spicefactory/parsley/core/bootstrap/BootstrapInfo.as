@@ -17,7 +17,6 @@
 package org.spicefactory.parsley.core.bootstrap {
 import flash.utils.Dictionary;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.context.provider.ObjectProviderFactory;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycleManager;
 import org.spicefactory.parsley.core.messaging.MessageRouter;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
@@ -131,20 +130,6 @@ public interface BootstrapInfo {
 	 * of the extension.
 	 */
 	function get scopeExtensions () : Dictionary;
-	
-
-
-
-	[Deprecated]
-	function get objectProviderFactory () : ObjectProviderFactory;
-
-	function set objectProviderFactory (value:ObjectProviderFactory) : void;
-	
-	[Deprecated]
-	function createDynamicInfo () : BootstrapInfo;
-	
-	[Deprecated(replacement="parents")]
-	function get parent () : Context;
 	
 	
 }

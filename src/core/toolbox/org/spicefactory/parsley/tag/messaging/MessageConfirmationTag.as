@@ -69,7 +69,7 @@ public class MessageConfirmationTag implements RootConfigurationElement {
 				
 		builder
 			.method("showAlert")
-				.messageInterceptor()
+				.messageHandler()
 					.type(type)
 					.selector(selector)
 					.scope(scope);

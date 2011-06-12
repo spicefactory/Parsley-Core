@@ -17,9 +17,6 @@
 package org.spicefactory.parsley.core.registry {
 
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.context.provider.ObjectProvider;
-import org.spicefactory.parsley.core.registry.builder.ObjectDefinitionBuilderFactory;
-import org.spicefactory.parsley.core.scope.ScopeManager;
 
 import flash.events.IEventDispatcher;
 import flash.system.ApplicationDomain;
@@ -143,20 +140,6 @@ public interface ObjectDefinitionRegistry extends IEventDispatcher {
 	 * Properties that may be used to build or process ObjectDefinitions.
 	 */
 	function get properties () : ConfigurationProperties;
-	
-	
-
-	[Deprecated(replacement="Configuration.builders")]
-	function get builders () : ObjectDefinitionBuilderFactory;
-	
-	[Deprecated(replacement="context.scopeManager")]
-	function get scopeManager () : ScopeManager;
-	
-	[Deprecated(replacement="Provider.forDefinition")]
- 	function createObjectProvider (type:Class, id:String = null) : ObjectProvider;
- 	
- 	[Deprecated(replacement="ConfigurationFactory.addDecoratorAssembler")]
-	function get decoratorAssemblers () : Array;
 	
 	
 }

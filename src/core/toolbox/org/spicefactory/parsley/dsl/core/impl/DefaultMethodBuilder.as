@@ -210,16 +210,6 @@ public class DefaultMethodBuilder extends AbstractParameterBuilder implements Me
 		return builder;
 	}
 	
-	/**
-	 * @inheritDoc
-	 */
-	public function messageInterceptor () : MessageReceiverBuilder {
-		var builder:DefaultMessageReceiverBuilder 
-				= DefaultMessageReceiverBuilder.forMessageInterceptor(method, context.config);
-		context.addBuilderPart(builder);
-		return builder;
-	}
-	
 	
 }
 }

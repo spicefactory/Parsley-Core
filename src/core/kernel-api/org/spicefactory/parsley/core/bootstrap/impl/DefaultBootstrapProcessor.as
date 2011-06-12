@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap.impl {
+
 import org.spicefactory.lib.events.CompoundErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
@@ -22,8 +23,6 @@ import org.spicefactory.parsley.core.bootstrap.AsyncConfigurationProcessor;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.BootstrapProcessor;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
-import org.spicefactory.parsley.core.builder.AsyncObjectDefinitionBuilder;
-import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.errors.ContextBuilderError;
 import org.spicefactory.parsley.core.events.ContextEvent;
@@ -104,13 +103,8 @@ public class DefaultBootstrapProcessor implements BootstrapProcessor {
 		else {
 			var async:Boolean = false;
 			try {
-				var processor:Object = processors.shift();
-				if (processor is ConfigurationProcessor) {
-					async = !handleProcessor(ConfigurationProcessor(processor));
-				}
-				else {
-					async = !handleLegacyBuilder(ObjectDefinitionBuilder(processor));
-				}
+				var processor:ConfigurationProcessor = processors.shift();
+				async = !handleProcessor(processor);
 			} catch (e:Error) {
 				removeCurrentProcessor();
 				log.error("Error processing {0}: {1}", e);
@@ -131,22 +125,6 @@ public class DefaultBootstrapProcessor implements BootstrapProcessor {
 		}
 		else {
 			ConfigurationProcessor(processor).processConfiguration(info.registry);
-			return true;
-		}
-	}
-	
-	private function handleLegacyBuilder (builder:ObjectDefinitionBuilder) : Boolean {
-		/* TODO - deprecated - remove in later versions */
-		if (builder is AsyncObjectDefinitionBuilder) {
-			currentProcessor = builder;
-			var asyncBuilder:AsyncObjectDefinitionBuilder = AsyncObjectDefinitionBuilder(builder);
-			asyncBuilder.addEventListener(Event.COMPLETE, processorComplete);				
-			asyncBuilder.addEventListener(ErrorEvent.ERROR, processorError);		
-			asyncBuilder.build(info.registry);
-			return false;
-		}
-		else {
-			builder.build(info.registry);
 			return true;
 		}
 	}

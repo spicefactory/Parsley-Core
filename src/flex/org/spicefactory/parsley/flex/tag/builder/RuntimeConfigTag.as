@@ -15,17 +15,15 @@
  */
 
 package org.spicefactory.parsley.flex.tag.builder {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
-import org.spicefactory.parsley.core.registry.ObjectDefinition;
-import org.spicefactory.parsley.core.registry.ObjectDefinitionFactory;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
-import org.spicefactory.parsley.tag.RootConfigurationTag;
 
 [DefaultProperty("instances")]
 
@@ -75,18 +73,8 @@ public class RuntimeConfigTag implements BootstrapConfigProcessor, Configuration
 				var tag:InstanceTag = InstanceTag(instance);
 				runtimeProcessor.addInstance(tag.instance, tag.id);
 			}
-			else if (instance is ObjectDefinitionFactory) {
-				/* TODO - ObjectDefinitionFactory is deprecated - remove in later versions */
-				var definition:ObjectDefinition 
-						= ObjectDefinitionFactory(instance).createRootDefinition(registry);
-				registry.registerDefinition(definition);
-			}
 			else if (instance is RootConfigurationElement) {
 				RootConfigurationElement(instance).process(Configurations.forRegistry(registry));
-			}
-			else if (instance is RootConfigurationTag) {
-				/* TODO - RootConfigurationTag is deprecated - remove in later versions */
-				RootConfigurationTag(instance).process(registry);
 			}
 			else {
 				var ci:ClassInfo = ClassInfo.forInstance(instance, registry.domain);

@@ -32,12 +32,6 @@ import org.spicefactory.parsley.core.view.impl.DefaultViewSettings;
  */
 public class ViewSettingsTag extends DefaultViewSettings implements BootstrapConfigProcessor {
 	
-	[Deprecated]
-	public var local:Boolean = false;
-	
-	[Deprecated(replacement="viewRootHandler")]
-	public var viewHandler:Class;
-	
 	/**
 	 * The type of a view root handler to add to this Context. 
 	 * The class must implement the <code>ViewRootHandler</code> interface.
@@ -54,9 +48,6 @@ public class ViewSettingsTag extends DefaultViewSettings implements BootstrapCon
 		config.viewSettings.autowireComponents = autowireComponents;
 		if (autowireFilter) {
 			config.viewSettings.autowireFilter = autowireFilter;
-		}
-		if (viewHandler) {
-			config.viewSettings.addViewRootHandler(viewHandler);
 		}
 		if (viewRootHandler) {
 			config.viewSettings.addViewRootHandler(viewRootHandler);

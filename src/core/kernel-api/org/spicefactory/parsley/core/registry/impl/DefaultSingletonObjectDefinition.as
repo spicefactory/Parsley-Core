@@ -15,13 +15,12 @@
  */
 
 package org.spicefactory.parsley.core.registry.impl {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.registry.AsyncInitConfig;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
-import org.spicefactory.parsley.core.registry.definition.LifecycleListenerRegistry;
-import org.spicefactory.parsley.core.registry.definition.impl.SingletonLifecycleListenerRegistry;
 
 /**
  * Default implementation of the SingletonObjectDefinition interface.
@@ -35,8 +34,6 @@ public class DefaultSingletonObjectDefinition extends AbstractObjectDefinition i
 	private var _order:int;
 	private var _asyncInitConfig:AsyncInitConfig;
 	private var _parent:SingletonObjectDefinition;
-
-	private var _singletonListeners:LifecycleListenerRegistry;
 
 	/**
 	 * Creates a new instance.
@@ -53,7 +50,6 @@ public class DefaultSingletonObjectDefinition extends AbstractObjectDefinition i
 		super(type, id, registry, parent);
 		_lazy = lazy;
 		_order = order;
-		_singletonListeners = new SingletonLifecycleListenerRegistry(this, registry);
 		if (parent is SingletonObjectDefinition) {
 			_parent = SingletonObjectDefinition(parent);
 		}
@@ -86,13 +82,6 @@ public class DefaultSingletonObjectDefinition extends AbstractObjectDefinition i
 	 */
 	public function set asyncInitConfig (config:AsyncInitConfig) : void {
 		_asyncInitConfig = config;
-	}
-	
-	/**
-	 * @private
-	 */
-	public override function get objectLifecycle () : LifecycleListenerRegistry {
-		return _singletonListeners;
 	}
 	
 	

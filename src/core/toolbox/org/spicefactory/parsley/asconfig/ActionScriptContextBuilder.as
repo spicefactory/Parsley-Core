@@ -15,10 +15,10 @@
  */
 
 package org.spicefactory.parsley.asconfig {
+
 import org.spicefactory.parsley.asconfig.processor.ActionScriptConfigurationProcessor;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
-import org.spicefactory.parsley.core.builder.CompositeContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 
 import flash.display.DisplayObject;
@@ -49,28 +49,12 @@ public class ActionScriptContextBuilder {
 	 */
 	public static function build (configClass:Class, viewRoot:DisplayObject = null, 
 			parent:Context = null, domain:ApplicationDomain = null) : Context {
-		return buildAll([configClass], viewRoot, parent, domain);		
-	}
-	
-	[Deprecated(replacement="ContextBuilder DSL")]
-	public static function buildAll (configClasses:Array, viewRoot:DisplayObject = null, 
-			parent:Context = null, domain:ApplicationDomain = null) : Context {
 		var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
 		manager.config.viewRoot = viewRoot;
 		if (parent) manager.config.addParent(parent);
 		manager.config.domain = domain;
-		manager.config.addProcessor(new ActionScriptConfigurationProcessor(configClasses));
+		manager.config.addProcessor(new ActionScriptConfigurationProcessor([configClass]));
 		return manager.createProcessor().process();
-	}
-	
-	[Deprecated(replacement="ContextBuilder DSL")]
-	public static function merge (configClass:Class, builder:CompositeContextBuilder) : void {
-		mergeAll([configClass], builder);
-	}
-	
-	[Deprecated(replacement="ContextBuilder DSL")]
-	public static function mergeAll (configClasses:Array, builder:CompositeContextBuilder) : void {
-		builder.addProcessor(new ActionScriptConfigurationProcessor(configClasses));
 	}
 	
 	

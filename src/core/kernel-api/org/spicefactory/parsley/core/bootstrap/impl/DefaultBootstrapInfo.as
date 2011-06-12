@@ -15,11 +15,11 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap.impl {
+
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.context.provider.ObjectProviderFactory;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycleManager;
 import org.spicefactory.parsley.core.messaging.MessageRouter;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
@@ -92,11 +92,6 @@ public class DefaultBootstrapInfo implements BootstrapInfo {
 		return config.parents;
 	}
 	
-	[Deprecated(replacement="parents")]
-	public function get parent () : Context {
-		return config.parent;
-	}
-
 	/**
 	 * @inheritDoc
 	 */
@@ -253,27 +248,7 @@ public class DefaultBootstrapInfo implements BootstrapInfo {
 		return _scopeExtensions;
 	}
 
-	
-	
-	private var _objectProviderFactory:ObjectProviderFactory;
-	
-	[Deprecated]
-	public function get objectProviderFactory () : ObjectProviderFactory {
-		return _objectProviderFactory;
-	}
-	
-	public function set objectProviderFactory (value:ObjectProviderFactory) : void {
-		_objectProviderFactory = value;
-	}
-	
-	[Deprecated]
-	public function createDynamicInfo () : BootstrapInfo {
-		var info:DefaultBootstrapInfo 
-				= new DynamicBootstrapInfo(config, scopeInfoRegistry, scopeExtensions, globalState, context);
-		info._scopeManager = scopeManager;
-		info._viewManager = viewManager;
-		return info;
-	}
+
 }
 }
 
@@ -294,10 +269,6 @@ class DynamicBootstrapInfo extends DefaultBootstrapInfo {
 	}
 	
 	private var _parent:Context;
-	
-	public override function get parent () : Context {
-		return _parent;
-	}
 	
 	public override function get parents () : Array {
 		return [_parent];

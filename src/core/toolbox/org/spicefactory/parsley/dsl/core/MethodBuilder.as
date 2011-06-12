@@ -163,9 +163,6 @@ public interface MethodBuilder {
 	 */
 	function messageHandler () : MessageHandlerBuilder;
 	
-	[Deprecated(replacement="messageHandler with optional MessageProcessor parameter on target method")]
-	function messageInterceptor () : MessageReceiverBuilder;
-
 	
 }
 }

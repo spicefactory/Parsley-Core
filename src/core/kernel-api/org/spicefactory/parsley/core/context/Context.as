@@ -297,24 +297,6 @@ public interface Context extends IEventDispatcher {
 	function get domain () : ApplicationDomain;
 	
 	
-	[Deprecated(replacement="findDefinition")]
-	function getType (id:String) : Class;
-	
-	[Deprecated(replacement="findDefinition")]
-	function isDynamic (id:String) : Boolean;
-	
-	[Deprecated(replacement="findAllDefinitions")]
-	function getObjectIds (type:Class = null) : Array;
-		 
-	[Deprecated(replacement="findDefinition")]
-	function getDefinition (id:String) : ObjectDefinition;		 
-	
-	[Deprecated(replacement="findDefinitionByType")]
-	function getDefinitionByType (type:Class) : ObjectDefinition;
-	
-	[Deprecated(replacement="new methods for dynamic objects on the core Context interface")]
-	function createDynamicContext () : DynamicContext;
-	
 }
 
 }

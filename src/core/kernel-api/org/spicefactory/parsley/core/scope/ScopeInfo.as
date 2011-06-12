@@ -99,9 +99,6 @@ public interface ScopeInfo {
 	 */
 	function get extensions () : ScopeExtensions;
 	
-	
-	[Deprecated(replacement="lifecycleObservers")]
-	function get objectLifecycle () : ObjectLifecycleScope;
 
 }
 }

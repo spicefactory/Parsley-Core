@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.dsl.impl {
+
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
@@ -50,8 +51,6 @@ public class DefaultObjectDefinitionContext implements ObjectDefinitionContext {
 	
 	private var builderParts:Array = new Array();
 	private var replacer:ObjectDefinitionReplacer;
-	
-	private var legacyHandler:LegacyDecoratorHandler = new LegacyDecoratorHandler();
 	
 	
 	/**
@@ -176,11 +175,9 @@ public class DefaultObjectDefinitionContext implements ObjectDefinitionContext {
 			decorators = additionalDecorators;
 		}
 		var errors:Array = new Array();
-		for each (var decorator:Object in decorators) {
+		for each (var decorator:ObjectDefinitionDecorator in decorators) {
 			try {
-				if (!legacyHandler.processDecorator(decorator, definition, this)) {
-					ObjectDefinitionDecorator(decorator).decorate(builder);
-				}
+				decorator.decorate(builder);
 			}
 			catch (e:Error) {
 				log.error("Error applying {0}: {1}", decorator, e);
@@ -195,10 +192,8 @@ public class DefaultObjectDefinitionContext implements ObjectDefinitionContext {
 }
 
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
-import org.spicefactory.parsley.core.registry.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.dsl.core.ObjectDefinitionReplacer;
 import org.spicefactory.parsley.dsl.impl.ObjectDefinitionBuilderPart;
-import org.spicefactory.parsley.dsl.impl.ObjectDefinitionContext;
 
 class FunctionDelegateBuilderPart implements ObjectDefinitionBuilderPart {
 	
@@ -215,27 +210,6 @@ class FunctionDelegateBuilderPart implements ObjectDefinitionBuilderPart {
 		params.unshift(target);
 		builderFunction.apply(null, params);
 	}
-	
-}
-
-
-class LegacyDecoratorHandler {
-	
-	
-	public function	processDecorator (object:Object, definition:ObjectDefinition, context:ObjectDefinitionContext) : Boolean {
-				
-		if (!(object is ObjectDefinitionDecorator)) {
-			return false;
-		}
-		
-		var decorator:ObjectDefinitionDecorator = ObjectDefinitionDecorator(object);
-		var finalDefinition:ObjectDefinition = decorator.decorate(definition, context.config.registry);
-		if (definition != finalDefinition) {
-			context.setDefinitionReplacer(new SimpleDefinitionReplacer(finalDefinition));
-		}
-		return true;
-	}
-	
 	
 }
 

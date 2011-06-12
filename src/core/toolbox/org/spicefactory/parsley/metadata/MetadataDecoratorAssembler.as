@@ -15,7 +15,7 @@
  */
 
 package org.spicefactory.parsley.metadata {
-import flash.system.ApplicationDomain;
+
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.*;
 import org.spicefactory.lib.reflect.converter.EnumerationConverter;
@@ -29,10 +29,10 @@ import org.spicefactory.parsley.core.view.metadata.Autoremove;
 import org.spicefactory.parsley.tag.core.ObjectDecoratorMarker;
 import org.spicefactory.parsley.tag.inject.*;
 import org.spicefactory.parsley.tag.lifecycle.*;
-import org.spicefactory.parsley.tag.lifecycle.legacy.*;
 import org.spicefactory.parsley.tag.messaging.*;
 import org.spicefactory.parsley.tag.resources.ResourceBindingDecorator;
 
+import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
 
 /**
@@ -68,7 +68,6 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 		MessageDispatcherDecorator,
 		MessageHandlerDecorator,
 		MessageBindingDecorator,
-		MessageInterceptorDecorator,
 		MessageErrorDecorator,
 
 		CommandDecorator,
@@ -79,10 +78,6 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 		
 		ResourceBindingDecorator,
 		
-		// 2 deprecated tags:
-		PostConstructMethodDecorator,
-		PreDestroyMethodDecorator,
-
 		Autoremove,
 
 		Selector,

@@ -24,7 +24,7 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
  * 
  * @author Jens Halm
  */
-public interface BootstrapConfigProcessor extends ContextBuilderChildTag {
+public interface BootstrapConfigProcessor {
 	
 	
 	/**

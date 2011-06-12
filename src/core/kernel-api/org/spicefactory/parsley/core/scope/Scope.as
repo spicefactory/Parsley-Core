@@ -68,9 +68,6 @@ public interface Scope {
 	 */
 	function get lifecyleObservers () : LifecycleObserverRegistry; 
 	 
-	[Deprecated(replacement="lifecycleObservers")]
-	function get objectLifecycle () : ObjectLifecycleScope;
-	
 	/**
 	 * Custom extensions registered for this scope.
 	 */

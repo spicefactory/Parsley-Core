@@ -15,20 +15,18 @@
  */
 
 package org.spicefactory.parsley.core.context.impl {
+
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.collection.SimpleMap;
 import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.context.DynamicContext;
 import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.context.LookupStatus;
-import org.spicefactory.parsley.core.context.provider.impl.ContextObjectProviderFactory;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.events.ContextEvent;
 import org.spicefactory.parsley.core.events.ObjectDefinitionRegistryEvent;
@@ -83,16 +81,8 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	private var _parents:Array;
 	private var uninitializedParents:int = 0;
 	
-	/* deprecated */
-	private var bootstrapInfo:BootstrapInfo; // TODO - remove after createDynamicContext had been removed
-	private var objectProviderFactory:ContextObjectProviderFactory;
 
-	
-	
 	public function init (info:BootstrapInfo) : void {
-		this.bootstrapInfo = info;
-		this.objectProviderFactory = new ContextObjectProviderFactory(this, info.domain);
-		info.objectProviderFactory = objectProviderFactory;
 		_registry = info.registry;
 		_lifecycleManager = info.lifecycleManager;
 		_scopeManager = info.scopeManager;
@@ -129,8 +119,6 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	 * all singletons have been instantiated the <code>initialized</code> Event will be fired.
 	 */
 	protected function initializeSingletons () : void {
-		
-		objectProviderFactory.initialize();
 		
 		initSequence = new InitializerSequence(this);
 		dispatchEvent(new ContextEvent(ContextEvent.CONFIGURED));
@@ -523,61 +511,6 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	
 	public override function toString () : String {
 		return "[Context(" + description + ")]";
-	}
-	
-	
-	[Deprecated(replacement="findDefinition")]
-	public function getType (id:String) : Class {
-		var def:ObjectDefinition = findDefinition(id);
-		if (!def) {
-			throw new ContextError("Context does not contain an object with id " + id); 
-		}
-		return def.type.getClass();
-	}
-	
-	[Deprecated(replacement="findDefinition")]
-	public function isDynamic (id:String) : Boolean {
-		var def:ObjectDefinition = findDefinition(id);
-		if (!def) {
-			throw new ContextError("Context does not contain an object with id " + id); 
-		}
-		return (def is DynamicObjectDefinition);
-	}
-	
-	[Deprecated(replacement="findAllDefinitions")]
-	public function getObjectIds (type:Class = null) : Array {
-		// TODO - 3.0 - remove this method - causes problems with the returned id's in case of overriden defs
-		var defs:Array = findAllDefinitionsByType(type);
-		var ids:Array = new Array();
-		for each (var def:ObjectDefinition in defs) {
-			ids.push(def.id);
-		}
-		return ids;
-	}
-	
-	[Deprecated(replacement="findDefinition")]
-	public function getDefinition (id:String) : ObjectDefinition {
-		var def:ObjectDefinition = findDefinition(id);
-		if (!def) {
-			throw new ContextError("Context does not contain an object with id " + id); 
-		}
-		return def;
-	}
-	
-	[Deprecated(replacement="findDefinitionByType")]
-	public function getDefinitionByType (type:Class) : ObjectDefinition {
-		var def:ObjectDefinition = findDefinitionByType(type);
-		if (!def) {
-			throw new ContextError("Context does not contain an object of type " + type);
-		}
-		return def;
-	}
-	
-	[Deprecated(replacement="new methods for dynamic objects on the core Context interface")]
-	public function createDynamicContext () : DynamicContext {
-		var context:DefaultDynamicContext = new DefaultDynamicContext();
-		context.init(bootstrapInfo.createDynamicInfo()); 
-		return context;
 	}
 	
 	

@@ -15,11 +15,8 @@
  */
 
 package org.spicefactory.parsley.core.registry {
+
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.core.registry.definition.ConstructorArgRegistry;
-import org.spicefactory.parsley.core.registry.definition.LifecycleListenerRegistry;
-import org.spicefactory.parsley.core.registry.definition.MethodRegistry;
-import org.spicefactory.parsley.core.registry.definition.PropertyRegistry;
 
 /**
  * Represents the configuration for a single object definition.
@@ -96,20 +93,6 @@ public interface ObjectDefinition {
 	 */	
 	function get frozen () : Boolean;
 
-	
-	
-	[Deprecated]
-	function get constructorArgs () : ConstructorArgRegistry;
-	
-	[Deprecated]
-	function get properties () : PropertyRegistry;
-	
-	[Deprecated]
-	function get injectorMethods () : MethodRegistry;
-
-	[Deprecated]
-	function get objectLifecycle () : LifecycleListenerRegistry;
-	
 	
 }
 

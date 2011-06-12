@@ -15,8 +15,9 @@
  */
 
 package org.spicefactory.parsley.asconfig {
+
 import org.spicefactory.parsley.asconfig.processor.ActionScriptConfigurationProcessor;
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 
 /**
  * Static entry point methods for creating ActionScript configuration processors to be added to a ContextBuilder.

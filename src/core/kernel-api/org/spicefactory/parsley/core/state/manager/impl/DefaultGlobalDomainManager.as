@@ -15,11 +15,10 @@
  */
 
 package org.spicefactory.parsley.core.state.manager.impl {
+
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.Delegate;
-import org.spicefactory.lib.util.DelegateChain;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ContextEvent;
 import org.spicefactory.parsley.core.state.manager.GlobalDomainManager;

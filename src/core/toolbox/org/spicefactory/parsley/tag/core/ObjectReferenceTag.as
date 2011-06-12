@@ -15,10 +15,11 @@
  */
 
 package org.spicefactory.parsley.tag.core {
+
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.config.Configuration;
+import org.spicefactory.parsley.config.NestedConfigurationElement;
 import org.spicefactory.parsley.core.errors.ObjectDefinitionBuilderError;
-import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.tag.ResolvableConfigurationValue;
 import org.spicefactory.parsley.tag.model.ObjectIdReference;
 import org.spicefactory.parsley.tag.model.ObjectTypeReference;
 
@@ -29,7 +30,7 @@ import org.spicefactory.parsley.tag.model.ObjectTypeReference;
  * 
  * @author Jens Halm
  */
-public class ObjectReferenceTag implements ResolvableConfigurationValue {
+public class ObjectReferenceTag implements NestedConfigurationElement {
 	
 	
 	/**
@@ -51,7 +52,7 @@ public class ObjectReferenceTag implements ResolvableConfigurationValue {
 	/**
 	 * @inheritDoc
 	 */
-	public function resolve (registry:ObjectDefinitionRegistry) : * {
+	public function resolve (config:Configuration) : Object {
 		if ((idRef != null && typeRef != null) || (idRef == null && typeRef == null)) {
 			throw new ObjectDefinitionBuilderError("Exactly one attribute of either id-ref or type-ref must be specified");
 		}
@@ -59,7 +60,7 @@ public class ObjectReferenceTag implements ResolvableConfigurationValue {
 			return new ObjectIdReference(idRef, required);
 		}
 		else {
-			return new ObjectTypeReference(ClassInfo.forClass(typeRef, registry.domain), required);
+			return new ObjectTypeReference(ClassInfo.forClass(typeRef, config.domain), required);
 		}
 	}
 	

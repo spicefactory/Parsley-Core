@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.context.provider {
+
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
@@ -67,7 +68,6 @@ import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
 import flash.system.ApplicationDomain;
-import flash.utils.getQualifiedClassName;
 
 class SimpleInstanceProvider implements ObjectProvider {
 	
@@ -107,11 +107,6 @@ class ContextObjectProvider implements ObjectProvider {
 		if (_instance == null) {
 			if (!context.containsObject(definition.id)) {
 				throw new ContextError("Invalid ObjectProvider: Context does not contain an object with id " + definition.id);
-			}
-			if (!type.isType(context.getType(definition.id))) {
-				throw new ContextError("Invalid ObjectProvider: Object with id " + definition.id 
-						+ " has an incompatible type - Expected type: " + type.name 
-						+ " - Actual type: " + getQualifiedClassName(context.getType(definition.id)));
 			}
 			_instance = context.getObject(definition.id);
 		}

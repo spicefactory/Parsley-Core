@@ -39,9 +39,6 @@ public class ConfigurationValueResolver {
 		if (value is NestedConfigurationElement) {
 			return NestedConfigurationElement(value).resolve(config);
 		}
-		else if (LegacyConfigurationValueResolver.isLegacyValue(value)) {
-			return LegacyConfigurationValueResolver.resolveValue(value, config.registry);
-		}
 		else {
 			return value;
 		}

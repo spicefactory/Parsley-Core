@@ -15,8 +15,9 @@
  */
 
 package org.spicefactory.parsley.flex.tag.builder {
+
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 
 [DefaultProperty("processor")]
 

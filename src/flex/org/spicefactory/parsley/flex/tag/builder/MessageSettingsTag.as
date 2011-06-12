@@ -52,9 +52,6 @@ public class MessageSettingsTag implements BootstrapConfigProcessor {
 	 */
 	public var defaultReceiverScope:String;
 	
-	[Deprecated]
-	public var local:Boolean = false;
-	
 	
 	/**
 	 * @private

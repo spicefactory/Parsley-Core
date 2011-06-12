@@ -37,9 +37,6 @@ public class ObjectDefinitionMetadata {
 	 */
 	public var lazy:Boolean = false;
 	
-	[Deprecated]
-	public var singleton:Boolean = true;
-	
 	/**
 	 * The processing order for this object. 
 	 * 

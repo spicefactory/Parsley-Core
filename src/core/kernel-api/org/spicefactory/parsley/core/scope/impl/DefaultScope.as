@@ -15,11 +15,10 @@
  */
 
 package org.spicefactory.parsley.core.scope.impl {
+
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.Delegate;
-import org.spicefactory.lib.util.DelegateChain;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ContextEvent;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
@@ -30,7 +29,6 @@ import org.spicefactory.parsley.core.messaging.MessageRouter;
 import org.spicefactory.parsley.core.messaging.command.CommandManager;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
-import org.spicefactory.parsley.core.scope.ObjectLifecycleScope;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeExtensions;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
@@ -170,11 +168,6 @@ public class DefaultScope implements Scope {
 	 */
 	public function get lifecyleObservers () : LifecycleObserverRegistry {
 		return info.lifecycleObservers;
-	}
-
-	[Deprecated(replacement="lifecycleObservers")]
-	public function get objectLifecycle () : ObjectLifecycleScope {
-		return info.objectLifecycle;
 	}
 	
 	/**

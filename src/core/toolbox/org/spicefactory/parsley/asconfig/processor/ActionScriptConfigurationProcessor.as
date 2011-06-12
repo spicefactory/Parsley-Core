@@ -15,6 +15,8 @@
  */
 
 package org.spicefactory.parsley.asconfig.processor {
+
+import org.spicefactory.parsley.config.NestedConfigurationElement;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -28,15 +30,11 @@ import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.config.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.config.RootConfigurationElement;
-import org.spicefactory.parsley.core.builder.ConfigurationProcessor;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.errors.ConfigurationProcessorError;
 import org.spicefactory.parsley.core.errors.ConfigurationUnitError;
-import org.spicefactory.parsley.core.registry.ObjectDefinition;
-import org.spicefactory.parsley.core.registry.ObjectDefinitionFactory;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
-import org.spicefactory.parsley.tag.ResolvableConfigurationValue;
-import org.spicefactory.parsley.tag.RootConfigurationTag;
 
 /**
  * ConfigurationProcessor implementation that processes ActionScript configuration classes.
@@ -119,13 +117,7 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 	
 	private function processProperty (property:Property, configClass:Object, config:Configuration) : void {
 		try {
-			if (property.type.isType(ObjectDefinitionFactory)) {
-				handleLegacyFactory(property.getValue(configClass), config.registry);
-			}
-			else if (property.type.isType(RootConfigurationTag)) {
-				RootConfigurationTag(property.getValue(configClass)).process(config.registry);
-			}
-			else if (property.type.isType(RootConfigurationElement)) {
+			if (property.type.isType(RootConfigurationElement)) {
 				RootConfigurationElement(property.getValue(configClass)).process(config);
 			}
 			else {
@@ -141,7 +133,7 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 	private function createDefinition (property:Property, configClass:Object, config:Configuration) : void {
 		var metadata:Object = getMetadata(property);
 		var id:String = (metadata.id != null) ? metadata.id : property.name;
-		if (metadata is ObjectDefinitionMetadata && ObjectDefinitionMetadata(metadata).singleton) {
+		if (metadata is ObjectDefinitionMetadata) {
 			var singleton:ObjectDefinitionMetadata = ObjectDefinitionMetadata(metadata);
 			
 			var builder:ObjectDefinitionBuilder = config.builders.forClass(property.type.getClass());
@@ -171,17 +163,11 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 		}
 	}
 	
-	private function handleLegacyFactory (factory:ObjectDefinitionFactory, registry:ObjectDefinitionRegistry) : void {
-		/* TODO - ObjectDefinitionFactory is deprecated - remove in later versions */
-		var definition:ObjectDefinition = factory.createRootDefinition(registry);
-		registry.registerDefinition(definition);
-	}
-	
 	private function isValidRootConfig (property:Property) : Boolean {
 		return (property.getMetadata(InternalProperty).length == 0 
 				&& property.readable 
 				&& !property.namespaceURI
-				&& !property.type.isType(ResolvableConfigurationValue) 
+				&& !property.type.isType(NestedConfigurationElement) 
 				&& !property.type.isType(ObjectDefinitionDecorator));
 	}
 	

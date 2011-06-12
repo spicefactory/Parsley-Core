@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.lifecycle.impl {
+
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.parsley.core.context.Context;
@@ -25,8 +26,6 @@ import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectProcessor;
 import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
-import org.spicefactory.parsley.core.registry.definition.MethodParameterRegistry;
-import org.spicefactory.parsley.core.registry.definition.PropertyValue;
 
 /**
  * Default implementation of the ManagedObjectHandler interface.
@@ -88,14 +87,7 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	public function createObject () : void {
 		checkState(PREPARED);
 		state = CREATED;
-		if (target.definition.instantiator != null) {
-			 _target.instance = target.definition.instantiator.instantiate(target);
-		}
-		else {
-			/* deprecated */
-			var args:Array = resolveArray(target.definition.constructorArgs.getAll(), target);
-			_target.instance = target.definition.type.newInstance(args);
-		}
+		_target.instance = target.definition.instantiator.instantiate(target);
 	}
 	
 	/**
@@ -116,11 +108,6 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 
 		processLifecycle(ObjectLifecycle.PRE_CONFIGURE);
 		
-		/* deprecated */
-		processProperties();
-		/* deprecated */
-	 	processMethods();
-	 	
 	 	invokePreInitMethods();
 		processLifecycle(ObjectLifecycle.PRE_INIT);
 		if (target.definition.initMethod != null) {
@@ -194,13 +181,6 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	 * @param event the lifecycle event type
 	 */
 	protected function processLifecycle (event:ObjectLifecycle) : void {
-		
-		/* deprecated */
-	 	var listeners:Array = target.definition.objectLifecycle.getListeners(event);
-		for each (var listener:Function in listeners) {
- 			listener(target.instance, target.context);
-		}	
-		
 		manager.processObservers(target, event);
 	}
 	
@@ -211,47 +191,14 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		}
 	}
 
-
-	/********************************************************************************************************
-	 * 
-	 * Deprecated methods
-	 *
-	 ********************************************************************************************************/
-	
-
-	private function processProperties () : void {
-	 	var props:Array = target.definition.properties.getAll();
-	 	for each (var prop:PropertyValue in props) {
-	 		var value:* = target.resolveValue(prop.value);
-	 		if (value != null || prop.value == null) {
-	 			prop.property.setValue(target.instance, value);
-	 		}
-		}		
-	}
-
-	private function processMethods () : void {
-	 	var methods:Array = target.definition.injectorMethods.getAll();
-	 	for each (var mpr:MethodParameterRegistry in methods) {
-			var params:Array = resolveArray(mpr.getAll(), target);
-	 		mpr.method.invoke(target.instance, params);
-		}		
-	}
-		
-	private function resolveArray (array:Array, parent:ManagedObject) : Array {
-		for (var i:uint = 0; i < array.length; i++) {
-			array[i] = parent.resolveValue(array[i]);
-		}
-		return array;
-	}
-	
 	
 }
 }
 
-import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
+import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ResolvableValue;
 
