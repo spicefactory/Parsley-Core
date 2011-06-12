@@ -18,6 +18,7 @@ package org.spicefactory.parsley.core.view.handler {
 
 import flash.events.Event;
 import flash.utils.Dictionary;
+import flash.utils.setTimeout;
 
 /**
  * Utility class that keeps track of all views that have already been prefiltered in a particular frame.
@@ -28,7 +29,7 @@ public class AutowirePrefilterCache {
 	
 	
 	private static var cachedEvents:Dictionary = new Dictionary();
-	private static var cachePurger:DelegateChain;
+	private static var purgeTimer:Boolean;
 	
 	
 	/**
@@ -40,15 +41,15 @@ public class AutowirePrefilterCache {
 	public static function addEvent (event:Event) : Boolean {
 		if (cachedEvents[event]) return false;
 		cachedEvents[event] = true;
-		if (cachePurger == null) {
-			cachePurger = new DelayedDelegateChain(1);
-			cachePurger.addDelegate(new Delegate(purgePrefilterCache));
+		if (!purgeTimer) {
+			purgeTimer = true;
+			setTimeout(purgePrefilterCache, 1);
 		}
 		return true;
 	}
 	
 	private static function purgePrefilterCache () : void {
-		cachePurger = null;
+		purgeTimer = false;
 		cachedEvents = new Dictionary();
 	}
 	

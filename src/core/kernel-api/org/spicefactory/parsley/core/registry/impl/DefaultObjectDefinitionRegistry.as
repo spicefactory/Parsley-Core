@@ -18,6 +18,7 @@ package org.spicefactory.parsley.core.registry.impl {
 
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.errors.IllegalStateError;
+import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
@@ -49,7 +50,7 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	
 	private var _frozen:Boolean;
 	
-	private var definitions:SimpleMap = new SimpleMap();
+	private var definitions:Map = new Map();
 
 
 	/**
@@ -156,7 +157,7 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	 */
 	public function getDefinitionCount (type:Class = null) : uint {
 		if (type == null) {
-			return definitions.getSize();
+			return definitions.size();
 		}
 		else {
 			return getAllDefinitionsByType(type).length;
@@ -168,7 +169,7 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	 */
 	public function getDefinitionIds (type:Class = null) : Array {
 		if (type == null) {
-			return definitions.keys;
+			return definitions.keys.toArray();
 		}
 		else {
 			return getAllDefinitionsByType(type).map(idMapper);
@@ -192,14 +193,11 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	 * @inheritDoc
 	 */
 	public function getAllDefinitionsByType (type:Class) : Array {
-		return definitions.values.filter(getTypeFilter(type));
-	}
-	
-	
-	private function getTypeFilter (type:Class) : Function {
-		return function (definition:ObjectDefinition, index:int, array:Array) : Boolean {
-			return (definition.type.isType(type));
-		};
+		var defs:Array = [];
+		for each (var def:ObjectDefinition in definitions.values) {
+			if (def.type.isType(type)) defs.push(def);
+		}
+		return defs;
 	}
 	
 	private function idMapper (definition:ObjectDefinition, index:int, array:Array) : String {

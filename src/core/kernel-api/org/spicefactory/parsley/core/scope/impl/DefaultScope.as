@@ -16,6 +16,8 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
+import org.spicefactory.lib.command.builder.CommandGroupBuilder;
+import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -47,7 +49,7 @@ public class DefaultScope implements Scope {
 
 
 	private var context:Context;
-	private var deferredActions:DelegateChain;
+	private var deferredActions:CommandGroupBuilder;
 	private var activated:Boolean = false;	
 	
 	private var info:ScopeInfo;
@@ -71,7 +73,7 @@ public class DefaultScope implements Scope {
 			activated = true;
 		}
 		else {
-			deferredActions = new DelegateChain();
+			deferredActions = Commands.asSequence();
 			context.addEventListener(ContextEvent.CONFIGURED, contextConfigured);
 			context.addEventListener(ContextEvent.DESTROYED, contextDestroyed);
 		}
@@ -80,7 +82,7 @@ public class DefaultScope implements Scope {
 	private function contextConfigured (event:ContextEvent) : void {
 		removeListeners();
 		activated = true;
-		deferredActions.invoke();
+		deferredActions.execute();
 		deferredActions = null;
 	}
 	
@@ -98,7 +100,7 @@ public class DefaultScope implements Scope {
 	 */
 	public function dispatchMessage (message:Object, selector:* = undefined) : void {
 		if (!activated) {
-			deferredActions.addDelegate(new Delegate(doDispatchMessage, [message, selector]));
+			deferredActions.add(Commands.delegate(doDispatchMessage, message, selector));
 		}
 		else {
 			doDispatchMessage(message, selector);

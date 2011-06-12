@@ -16,6 +16,8 @@
 
 package org.spicefactory.parsley.core.state.manager.impl {
 
+import org.spicefactory.lib.command.builder.CommandGroupBuilder;
+import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -47,8 +49,9 @@ public class DefaultGlobalDomainManager implements GlobalDomainManager {
 	 */
 	public function addPurgeHandler (domain:ApplicationDomain, handler:Function, ...params) : void {
 		params.unshift(domain);
-		var chain:DelegateChain = DelegateChain(domainPurgeHandlers[domain]);
-		if (chain) chain.addDelegate(new Delegate(handler, params));
+		params.unshift(handler);
+		var chain:CommandGroupBuilder = CommandGroupBuilder(domainPurgeHandlers[domain]);
+		if (chain) chain.add(Commands.delegate.apply(null, params));
 	}
 	
 	
@@ -79,7 +82,7 @@ public class DefaultGlobalDomainManager implements GlobalDomainManager {
 			domainCounter[domain] = 1;
 		}
 		if (domainPurgeHandlers[domain] == undefined) {
-			domainPurgeHandlers[domain] = new DelegateChain();
+			domainPurgeHandlers[domain] = Commands.asSequence();
 		}
 		domainByContext[context] = domain;
 		context.addEventListener(ContextEvent.DESTROYED, contextDestroyed, false, -100);
@@ -102,8 +105,8 @@ public class DefaultGlobalDomainManager implements GlobalDomainManager {
 			log.info("Purging reflection cache for ApplicationDomain that is no longer used by any Context");
 			delete domainCounter[domain];
 			ClassInfo.cache.purgeDomain(domain);
-			var chain:DelegateChain = DelegateChain(domainPurgeHandlers[domain]);
-			if (chain) chain.invoke();
+			var chain:CommandGroupBuilder = CommandGroupBuilder(domainPurgeHandlers[domain]);
+			if (chain) chain.execute();
 			delete domainPurgeHandlers[domain];
 			for (var key:Object in domainByCustomKey) {
 				if (domainByCustomKey[key] == domain) {

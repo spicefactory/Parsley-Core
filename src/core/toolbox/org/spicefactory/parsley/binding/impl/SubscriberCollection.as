@@ -20,6 +20,8 @@ import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.lib.util.collection.List;
+import org.spicefactory.lib.util.collection.MultiMap;
 import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.binding.Subscriber;
 
@@ -39,8 +41,8 @@ public class SubscriberCollection {
 	
 	private var _type:ClassInfo;
 	
-	private var subscribers:ArrayMap = new ArrayMap();
-	private var publishers:ArrayMap = new ArrayMap();
+	private var subscribers:MultiMap = new MultiMap();
+	private var publishers:MultiMap = new MultiMap();
 	
 	private var currentValue:Dictionary = new Dictionary();
 	
@@ -66,7 +68,7 @@ public class SubscriberCollection {
 	 * Publishers are not considered.
 	 */
 	public function get empty () : Boolean {
-		return subscribers.empty;
+		return subscribers.isEmpty();
 	}
 	
 	/**
@@ -85,11 +87,11 @@ public class SubscriberCollection {
 	 * @param publisher the publisher to add
 	 */
 	public function addPublisher (publisher:Publisher) : void {
-		if (publishers.getSize(publisher.id) > 0) {
-			var all:Array = publishers.getAll(publisher.id);
-			validate(all[all.length - 1] as Publisher, publisher, publisher.id);
+		if (!publishers.getAll(publisher.id).isEmpty()) {
+			var all:List = publishers.getAll(publisher.id);
+			validate(all.getLast() as Publisher, publisher, publisher.id);
 		}
-		publishers.put(publisher.id, publisher);
+		publishers.add(publisher.id, publisher);
 		processPublisherValue(publisher);
 		publisher.addEventListener(Event.CHANGE, publisherChanged);
 	}
@@ -133,7 +135,7 @@ public class SubscriberCollection {
 	public function removePublisher (publisher:Publisher) : void {
 		publisher.removeEventListener(Event.CHANGE, publisherChanged);
 		publishers.remove(publisher.id, publisher);
-		if (publishers.getSize(publisher.id) == 0) {
+		if (publishers.getAll(publisher.id).isEmpty()) {
 			setCurrentValue(publisher.id, undefined);
 		}
 	}
@@ -145,8 +147,8 @@ public class SubscriberCollection {
 	 * @param subscriber the subscriber to add
 	 */
 	public function addSubscriber (subscriber:Subscriber) : void {
-		subscribers.put(subscriber.id, subscriber);
-		if (!(subscriber is Publisher) || publishers.getSize(subscriber.id) > 0) {
+		subscribers.add(subscriber.id, subscriber);
+		if (!(subscriber is Publisher) || !publishers.getAll(subscriber.id).isEmpty()) {
 			subscriber.update(currentValue[subscriber.id]);
 		}
 	}

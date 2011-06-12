@@ -16,6 +16,8 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
+import org.spicefactory.lib.command.builder.CommandGroupBuilder;
+import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.logging.LogContext;
@@ -52,7 +54,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	
 	
 	private var context:Context;
-	private var deferredActions:DelegateChain;
+	private var deferredActions:CommandGroupBuilder;
 	private var activated:Boolean = false;	
 	
 	private var scopes:Dictionary = new Dictionary();
@@ -76,7 +78,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 			activated = true;
 		}
 		else {
-			deferredActions = new DelegateChain();
+			deferredActions = Commands.asSequence();
 			context.addEventListener(ContextEvent.CONFIGURED, contextConfigured);
 			context.addEventListener(ContextEvent.DESTROYED, contextDestroyed);
 		}
@@ -122,7 +124,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	private function contextConfigured (event:ContextEvent) : void {
 		removeListeners();
 		activated = true;
-		deferredActions.invoke();
+		deferredActions.execute();
 		deferredActions = null;
 	}
 	
@@ -171,7 +173,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	 */
 	public function dispatchMessage (message:Object, selector:* = undefined) : void {
 		if (!activated) {
-			deferredActions.addDelegate(new Delegate(doDispatchMessage, [message, selector]));
+			deferredActions.add(Commands.delegate(doDispatchMessage, message, selector));
 		}
 		else {
 			doDispatchMessage(message, selector);
@@ -203,7 +205,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	 */
 	public function observeCommand (command:Command) : void {
 		if (!activated) {
-			deferredActions.addDelegate(new Delegate(doObserveCommand, [command]));
+			deferredActions.add(Commands.delegate(doObserveCommand, command));
 		}
 		else {
 			doObserveCommand(command);

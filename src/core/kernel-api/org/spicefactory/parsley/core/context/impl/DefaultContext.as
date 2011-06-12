@@ -21,6 +21,7 @@ import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
@@ -67,7 +68,7 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	private var _scopeManager:ScopeManager;
 	private var _viewManager:ViewManager;
 	
-	private var singletonCache:SimpleMap = new SimpleMap();
+	private var singletonCache:Map = new Map();
 	
 	private var initSequence:InitializerSequence;
 	private var underConstruction:Dictionary = new Dictionary();
