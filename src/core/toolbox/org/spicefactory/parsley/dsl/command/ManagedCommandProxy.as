@@ -13,35 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.spicefactory.parsley.dsl.command {
 
+import org.spicefactory.lib.command.Command;
+import org.spicefactory.lib.command.proxy.DefaultCommandProxy;
 import org.spicefactory.parsley.core.command.ManagedCommand;
-import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.messaging.Message;
-import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
-	
+
 /**
  * @author Jens Halm
  */
-public class DefaultManagedCommandFactory implements ManagedCommandFactory {
+public class ManagedCommandProxy extends DefaultCommandProxy implements ManagedCommand {
 
-	// TODO - maybe move to CommandTag
 
-	private var target:DynamicObjectDefinition;
-	private var trigger:Message;
+	private var _context:Context;
+	private var _id:String;
+	private var _trigger:Message;
 	
-	
-	function DefaultManagedCommandFactory (target:DynamicObjectDefinition, trigger:Message = null) {
+
+	function ManagedCommandProxy (target:Command,
+			context:Context, id:String, trigger:Message = null) {
 		this.target = target;
-		this.trigger = trigger;
+		_context = context;
+		_id = id;
+		_trigger = trigger;
+	}
+
+
+	public function get context () : Context {
+		return _context;
+	}
+
+	public function get id () : String {
+		return _id;
+	}
+	
+	public function get trigger () : Message {
+		return _trigger;
 	}
 	
 
-	public function newInstance () : ManagedCommand {
-		return new DefaultManagedCommand(target, trigger);
-	}
-	
-	
 }
 }
