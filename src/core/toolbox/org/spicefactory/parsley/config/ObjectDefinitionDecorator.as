@@ -15,7 +15,7 @@
  */
 
 package org.spicefactory.parsley.config {
-import org.spicefactory.parsley.tag.core.ObjectDecoratorMarker;
+
 import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
 
 /**
@@ -32,7 +32,7 @@ import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
  * 
  * @author Jens Halm
  */
-public interface ObjectDefinitionDecorator extends ObjectDecoratorMarker {
+public interface ObjectDefinitionDecorator {
 	
 	/**
 	 * Method to be invoked by the container for each configuration tag it encounters for an object 

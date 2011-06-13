@@ -49,7 +49,7 @@ public class RootObjectTag implements RootConfigurationElement {
 	 */
 	public var order:int = int.MAX_VALUE;
 
-	[ArrayElementType("org.spicefactory.parsley.tag.core.ObjectDecoratorMarker")]
+	[ArrayElementType("org.spicefactory.parsley.config.ObjectDefinitionDecorator")]
 	[ChoiceId("decorators")]
 	/**
 	 * The ObjectDefinitionDecorator instances added to this definition.

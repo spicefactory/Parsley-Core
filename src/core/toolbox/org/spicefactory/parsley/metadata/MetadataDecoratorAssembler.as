@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.metadata {
 
+import org.spicefactory.parsley.config.ObjectDefinitionDecorator;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.*;
 import org.spicefactory.lib.reflect.converter.EnumerationConverter;
@@ -26,7 +27,6 @@ import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.messaging.impl.Selector;
 import org.spicefactory.parsley.core.view.metadata.Autoremove;
-import org.spicefactory.parsley.tag.core.ObjectDecoratorMarker;
 import org.spicefactory.parsley.tag.inject.*;
 import org.spicefactory.parsley.tag.lifecycle.*;
 import org.spicefactory.parsley.tag.messaging.*;
@@ -176,7 +176,7 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 
 	private function extractMetadataDecorators (type:MetadataAware, decorators:Array) : void {
 		for each (var metadata:Object in type.getAllMetadata()) {
-			if (metadata is ObjectDecoratorMarker) {
+			if (metadata is ObjectDefinitionDecorator) {
 				if (type is Member) {
 					setTargetProperty(type as Member, metadata);
 				}

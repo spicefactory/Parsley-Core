@@ -38,7 +38,7 @@ public class ViewTag implements RootConfigurationElement {
 	 */
 	public var type:Class = Object;
 	
-	[ArrayElementType("org.spicefactory.parsley.tag.core.ObjectDecoratorMarker")]
+	[ArrayElementType("org.spicefactory.parsley.config.ObjectDefinitionDecorator")]
 	[ChoiceId("decorators")]
 	/**
 	 * The ObjectDefinitionDecorator instances added to this definition.
