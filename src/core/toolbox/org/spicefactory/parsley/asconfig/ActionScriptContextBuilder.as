@@ -22,7 +22,6 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.context.Context;
 
 import flash.display.DisplayObject;
-import flash.system.ApplicationDomain;
 
 /**
  * Static entry point methods for building a Context from ActionScript configuration classes.
@@ -43,16 +42,11 @@ public class ActionScriptContextBuilder {
 	 * 
 	 * @param configClass the class that contains the ActionScript configuration
 	 * @param viewRoot the initial view root for dynamically wiring view objects
-	 * @param parent deprecated, use ContextBuilder DSL when specifying custom bootstrap settings
-	 * @param domain deprecated, use ContextBuilder DSL when specifying custom bootstrap settings
 	 * @return a new Context instance, possibly not fully initialized yet
 	 */
-	public static function build (configClass:Class, viewRoot:DisplayObject = null, 
-			parent:Context = null, domain:ApplicationDomain = null) : Context {
+	public static function build (configClass:Class, viewRoot:DisplayObject = null) : Context {
 		var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
 		manager.config.viewRoot = viewRoot;
-		if (parent) manager.config.addParent(parent);
-		manager.config.domain = domain;
 		manager.config.addProcessor(new ActionScriptConfigurationProcessor([configClass]));
 		return manager.createProcessor().process();
 	}

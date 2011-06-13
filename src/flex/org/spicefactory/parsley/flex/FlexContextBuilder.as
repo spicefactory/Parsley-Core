@@ -24,7 +24,6 @@ import org.spicefactory.parsley.flex.resources.FlexResourceBindingAdapter;
 import org.spicefactory.parsley.processor.resources.ResourceBindingProcessor;
 
 import flash.display.DisplayObject;
-import flash.system.ApplicationDomain;
 
 /**
  * Static entry point methods for building a Context from MXML configuration classes.
@@ -48,17 +47,12 @@ public class FlexContextBuilder {
 	 * 
 	 * @param configClass the class that contains the MXML configuration
 	 * @param viewRoot the initial view root for dynamically wiring view objects
-	 * @param parent deprecated, use ContextBuilder DSL when specifying custom bootstrap settings
-	 * @param domain deprecated, use ContextBuilder DSL when specifying custom bootstrap settings
 	 * @return a new Context instance, possibly not fully initialized yet
 	 */	
-	public static function build (configClass:Class, viewRoot:DisplayObject = null, 
-			parent:Context = null, domain:ApplicationDomain = null) : Context {
+	public static function build (configClass:Class, viewRoot:DisplayObject = null) : Context {
 		FlexSupport.initialize();
 		var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
 		manager.config.viewRoot = viewRoot;
-		if (parent) manager.config.addParent(parent);
-		manager.config.domain = domain;
 		manager.config.addProcessor(new FlexConfigurationProcessor([configClass]));
 		return manager.createProcessor().process();
 	}
