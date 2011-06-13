@@ -108,10 +108,9 @@ public class ContextBuilderSetup {
 	/**
 	 * Allows to specify messaging settings.
 	 * 
-	 * @param local this parameter is deprecated and has no effect
 	 * @return a builder that allows to specify messaging settings 
 	 */
-	public function messageSettings (local:Boolean = false) : MessageSettingsBuilder {
+	public function messageSettings () : MessageSettingsBuilder {
 		var part:MessageSettingsBuilder = new MessageSettingsBuilder(this);
 		addPart(part);
 		return part;
@@ -120,10 +119,9 @@ public class ContextBuilderSetup {
 	/**
 	 * Allows to specify settings for view wiring.
 	 * 
-	 * @param local this parameter is deprecated and has no effect
 	 * @return a builder that allows to specify settings for view wiring 
 	 */
-	public function viewSettings (local:Boolean = false) : ViewSettingsBuilder {
+	public function viewSettings () : ViewSettingsBuilder {
 		var part:ViewSettingsBuilder = new ViewSettingsBuilder(this);
 		addPart(part);
 		return part;
@@ -132,10 +130,9 @@ public class ContextBuilderSetup {
 	/**
 	 * Allows to register scope extensions.
 	 * 
-	 * @param local this parameter is deprecated and has no effect
 	 * @return a builder that allows to register scope extensions
 	 */
-	public function scopeExtensions (local:Boolean = false) : ScopeExtensionsBuilder {
+	public function scopeExtensions () : ScopeExtensionsBuilder {
 		var part:ScopeExtensionsBuilder = new ScopeExtensionsBuilder(this);
 		addPart(part);
 		return part;
@@ -144,10 +141,9 @@ public class ContextBuilderSetup {
 	/**
 	 * Allows to specify implementations or decorators for the IOC kernel services.
 	 * 
-	 * @param local this parameter is deprecated and has no effect
 	 * @return a builder that allows to specify factories for the IOC kernel services 
 	 */
-	public function services (local:Boolean = false) : ServiceRegistryBuilder {
+	public function services () : ServiceRegistryBuilder {
 		var part:ServiceRegistryBuilder = new ServiceRegistryBuilder(this);
 		addPart(part);
 		return part;

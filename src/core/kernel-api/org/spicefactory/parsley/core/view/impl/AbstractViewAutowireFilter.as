@@ -15,12 +15,11 @@
  */
 
 package org.spicefactory.parsley.core.view.impl {
-import org.spicefactory.lib.logging.LogContext;
-import org.spicefactory.lib.logging.Logger;
+
 import org.spicefactory.lib.errors.AbstractMethodError;
-import org.spicefactory.parsley.core.view.ViewSettings;
 import org.spicefactory.parsley.core.view.ViewAutowireFilter;
 import org.spicefactory.parsley.core.view.ViewAutowireMode;
+import org.spicefactory.parsley.core.view.ViewSettings;
 
 import flash.display.DisplayObject;
 import flash.events.Event;
@@ -34,8 +33,6 @@ import flash.events.Event;
 public class AbstractViewAutowireFilter implements ViewAutowireFilter {
 	
 	
-	private static const log:Logger = LogContext.getLogger(AbstractViewAutowireFilter);
-	
 	private var _eventType:String = Event.ADDED_TO_STAGE;
 	private var settings:ViewSettings;
 	
@@ -47,31 +44,6 @@ public class AbstractViewAutowireFilter implements ViewAutowireFilter {
 		this.settings = settings;
 	}
 
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get enabled () : Boolean {
-		if (settings == null) {
-			logDeprecationWarning();
-			return true;
-		}
-		return settings.autowireComponents;
-	}
-	
-	private function logDeprecationWarning () : void {
-		log.warn("This Autowire Filter does not support the deprecated enabled property, will always return true." +
-			" Use ViewSettings.autowireComponents instead.");
-	}
-	
-	public function set enabled (value:Boolean) : void {
-		if (settings == null) {
-			logDeprecationWarning();
-			return;
-		}
-		settings.autowireComponents = value;
-	}
-	
 	/**
 	 * @inheritDoc
 	 */
