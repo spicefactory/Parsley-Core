@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.messaging.command {
+package org.spicefactory.parsley.core.command {
 
 /**
  * Responsible for managing all active commands for a single scope.

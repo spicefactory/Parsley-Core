@@ -15,8 +15,8 @@
  */
 
 package org.spicefactory.parsley.core.messaging {
+
 import org.spicefactory.parsley.core.context.LookupStatus;
-import org.spicefactory.parsley.core.messaging.command.CommandFactoryRegistry;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
 
 /**
@@ -54,11 +54,6 @@ public interface MessageSettings {
 	 */
 	function getErrorHandlers (status:LookupStatus = null) : Array;
 
-	/**
-	 * The registry for command factories.
-	 */
-	function get commandFactories () : CommandFactoryRegistry;
-	
 	/**
 	 * The default scope to use for message receivers and observers.
 	 * If not specified the global scope will be used.

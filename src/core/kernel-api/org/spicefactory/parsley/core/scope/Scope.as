@@ -15,10 +15,10 @@
  */
 
 package org.spicefactory.parsley.core.scope {
+import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
-import org.spicefactory.parsley.core.messaging.command.CommandManager;
 
 /**
  * Represents a single scope.

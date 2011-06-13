@@ -15,7 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.scope {
-import org.spicefactory.parsley.core.messaging.command.Command;
+import org.spicefactory.parsley.core.command.ManagedCommand;
 
 /**
  * Responsible for managing the scopes associated with a single Context.
@@ -72,7 +72,7 @@ public interface ScopeManager {
 	 * 
 	 * @param command the command to observe
 	 */
-	function observeCommand (command:Command) : void;
+	function observeCommand (command:ManagedCommand) : void;
 	
 }
 }

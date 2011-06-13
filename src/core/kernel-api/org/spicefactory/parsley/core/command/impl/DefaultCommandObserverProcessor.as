@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.messaging.command.impl {
+package org.spicefactory.parsley.core.command.impl {
+import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.logging.LogUtil;
+import org.spicefactory.parsley.core.command.CommandObserverProcessor;
+import org.spicefactory.parsley.core.command.CommandStatus;
+import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageProcessor;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
@@ -33,8 +34,9 @@ import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 public class DefaultCommandObserverProcessor extends DefaultMessageProcessor implements CommandObserverProcessor {
 	
 	
-	private var _command:Command;
-	private var status:CommandStatus;
+	private var _command:ManagedCommand;
+	private var _status:CommandStatus;
+	private var _result:Object;
 	
 
 	/**
@@ -43,20 +45,38 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @param command the command to handle observers for
 	 * @param cache the receiver selection cache corresponding to the messageType
 	 * @param settings the settings for this processor
+	 * @param result the result of the command
 	 * @param status the status to handle the matching observers for
 	 */
-	function DefaultCommandObserverProcessor (command:Command, cache:MessageReceiverCache, 
-			settings:MessageSettings, status:CommandStatus) {
-		super(command.message, cache, settings, invokeObserver);
-		this._command = command;
-		this.status = status;
+	function DefaultCommandObserverProcessor (command:ManagedCommand, cache:MessageReceiverCache, 
+			settings:MessageSettings, result:Object, status:CommandStatus) {
+		super(command.trigger, cache, settings, invokeObserver);
+		_command = command;
+		_status = status;
+		_result = result;
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function get command () : Command {
+	public function get command () : ManagedCommand {
 		return _command;
+	}
+	
+	public function get result () : Object {
+		return _result;
+	}
+	
+	public function get status () : CommandStatus {
+		return _status;
+	}
+	
+	public function changeResult (result:Object, error:Boolean = false) : void {
+		if (status == CommandStatus) {
+			throw new IllegalStateError("Cannot set the result while command is still executing");
+		}
+		_result = result;
+		_status = (error) ? CommandStatus.ERROR : CommandStatus.COMPLETE;
 	}
 
 	/**
@@ -70,8 +90,7 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	private function invokeObserver (observer:CommandObserver) : void {
 		var oldStatus:CommandStatus = status;
 		observer.observeCommand(this);
-		if (oldStatus != command.status && oldStatus != CommandStatus.EXECUTE) {
-			status = command.status;
+		if (oldStatus != status && oldStatus != CommandStatus.EXECUTE) {
 			rewind();
 		}
 	}
@@ -80,13 +99,7 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @private
 	 */
 	protected override function fetchReceivers () : Array {	
-		if (cache) {
-			var receivers:Array = cache.getReceivers(command.message, MessageReceiverKind.forCommandStatus(status));
-			return command.getObservers(status).concat(receivers);
-		}
-		else {
-			return command.getObservers(status);
-		}
+		return cache.getReceivers(command.trigger, MessageReceiverKind.forCommandStatus(status));
 	}
 	
 	

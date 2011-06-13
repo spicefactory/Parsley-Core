@@ -18,11 +18,11 @@ package org.spicefactory.parsley.processor.messaging.receiver {
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Parameter;
+import org.spicefactory.parsley.core.command.CommandObserverProcessor;
+import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
-import org.spicefactory.parsley.core.messaging.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverFactory;
 import org.spicefactory.parsley.processor.util.MessageReceiverFactories;
@@ -117,8 +117,7 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 		var paramTypes:Array = targetMethod.parameters;
 		var params:Array = new Array();
 		if (paramTypes.length >= 1 && maxParams == 4) {
-			var resultType:ClassInfo = Parameter(paramTypes[0]).type;
-			params.push(processor.command.getResult(resultType));
+			params.push(processor.result.value);
 		}
 		if (paramTypes.length >= maxParams - 2) {
 			params.push(processor.message);

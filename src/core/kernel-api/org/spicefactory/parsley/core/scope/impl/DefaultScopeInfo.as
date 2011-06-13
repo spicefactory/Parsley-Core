@@ -16,16 +16,17 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
+import flash.utils.Dictionary;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.command.CommandManager;
+import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.impl.DefaultCommandManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 import org.spicefactory.parsley.core.lifecycle.impl.DefaultLifecycleObserverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandManager;
-import org.spicefactory.parsley.core.messaging.command.impl.DefaultCommandManager;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
 import org.spicefactory.parsley.core.scope.InitializingExtension;
@@ -35,7 +36,6 @@ import org.spicefactory.parsley.core.scope.ScopeExtensions;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
 import org.spicefactory.parsley.core.state.manager.GlobalDomainManager;
 
-import flash.utils.Dictionary;
 
 /**
  * Default implementation of the ScopeInfo interface.
@@ -145,7 +145,7 @@ public class DefaultScopeInfo implements ScopeInfo {
 	/**
 	 * @inheritDoc
 	 */
-	public function addActiveCommand (command:Command) : void {
+	public function addActiveCommand (command:ManagedCommand) : void {
 		_commandManager.addActiveCommand(command);
 	}
 

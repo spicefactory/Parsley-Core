@@ -90,19 +90,6 @@ public class DefaultMessageHandlerBuilder implements MessageHandlerBuilder, Obje
 	
 	
 	/**	
-	 * Creates a new builder for a command.
-	 * 
-	 * @param target the target method to invoke
-	 * @param config the configuration for the associated registry
-	 * @return a new builder for a command 
-	 */
-	public static function forCommand (target:Method, config:Configuration) : DefaultMessageHandlerBuilder {
-		var info:MessageReceiverInfo = new MessageReceiverInfo(config);
-		var builderPart:MessageHandlerBuilderPartBase = new CommandBuilderPart(target, info);
-		return new DefaultMessageHandlerBuilder(builderPart, info);
-	}
-	
-	/**	
 	 * Creates a new builder for a message handler.
 	 * 
 	 * @param target the target method to invoke
@@ -128,7 +115,6 @@ import org.spicefactory.parsley.dsl.impl.ObjectDefinitionBuilderPart;
 import org.spicefactory.parsley.dsl.messaging.impl.MessageReceiverInfo;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverFactory;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverProcessorFactory;
-import org.spicefactory.parsley.processor.messaging.receiver.DefaultCommandTarget;
 import org.spicefactory.parsley.processor.messaging.receiver.MessageHandler;
 
 class MessageHandlerBuilderPartBase implements ObjectDefinitionBuilderPart {
@@ -165,26 +151,4 @@ class MessageHandlerBuilderPart extends MessageHandlerBuilderPartBase {
 	}
 	
 }
-
-class CommandBuilderPart extends MessageHandlerBuilderPartBase {
-	
-	function CommandBuilderPart (target:Method, info:MessageReceiverInfo) {
-		super(target, info);
-	}
-
-	public override function apply (target:ObjectDefinition) : void {
-		if (messageProperties != null && info.type == null) {
-			throw new ContextError("Message type must be specified if messageProperties attribute is used");
-		}
-		var messageType:ClassInfo = (info.type != null) ? ClassInfo.forClass(info.type, info.config.domain) : null;
-		var factory:MessageReceiverFactory 
-				= DefaultCommandTarget.newFactory(method.name, info.selector, messageType, messageProperties, info.order);
-		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
-	}
-	
-}
-
-
-
-
 

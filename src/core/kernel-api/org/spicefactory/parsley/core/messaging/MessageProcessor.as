@@ -15,8 +15,8 @@
  */
 
 package org.spicefactory.parsley.core.messaging {
+
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.messaging.command.Command;
 
 /**
  * Responsible for processing a single message. Will be passed to registered message interceptors and error handlers
@@ -92,17 +92,6 @@ public interface MessageProcessor {
 	 * @param selector the selector to use if it cannot be determined from the message instance itself
 	 */
 	function sendResponse (msg:Object, selector:* = null) : void;
-	
-	/**
-	 * Creates a Command instance for the specified value returned from a command object or method.
-	 * The return value must be a value known by the <code>CommandFactoryRegistry</code>, like <code>AsyncToken</code>.
-	 * The new command instance can then be passed to <code>Context.scopeManger.observeCommand()</code>
-	 * or dealt with in any other way.
-	 * 
-	 * @param returnValue the value returned from a command object or method
-	 * @return a Command instance for the specified return value  
-	 */
-	function createCommand (returnValue:*) : Command;
 	
 	
 }

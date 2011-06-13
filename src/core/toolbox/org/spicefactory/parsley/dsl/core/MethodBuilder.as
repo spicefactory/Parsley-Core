@@ -110,15 +110,6 @@ public interface MethodBuilder {
 	
 
 	/**
-	 * Configures this method as a command executor.
-	 * The builder returned by this method should be used to 
-	 * specify further options for the command.
-	 * 
-	 * @return a builder to specify the options for the command
-	 */
-	function command () : MessageHandlerBuilder;
-	
-	/**
 	 * Configures this method as a command error handler.
 	 * The builder returned by this method should be used to 
 	 * specify further options for the command error handler.

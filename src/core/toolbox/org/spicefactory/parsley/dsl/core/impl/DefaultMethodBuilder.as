@@ -155,15 +155,6 @@ public class DefaultMethodBuilder extends AbstractParameterBuilder implements Me
 	/**
 	 * @inheritDoc
 	 */
-	public function command () : MessageHandlerBuilder {
-		var builder:DefaultMessageHandlerBuilder = DefaultMessageHandlerBuilder.forCommand(method, context.config);
-		context.addBuilderPart(builder);
-		return builder;
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
 	public function commandComplete () : MessageReceiverBuilder {
 		var builder:DefaultMessageReceiverBuilder 
 				= DefaultMessageReceiverBuilder.forCommandComplete(method, context.config);

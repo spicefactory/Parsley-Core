@@ -15,8 +15,8 @@
  */
 
 package org.spicefactory.parsley.core.messaging {
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
+import org.spicefactory.parsley.core.command.CommandStatus;
+import org.spicefactory.parsley.core.command.ManagedCommand;
 
 /**
  * The central message routing facility.
@@ -35,16 +35,16 @@ public interface MessageRouter {
 	function dispatchMessage (message:Message, cache:MessageReceiverCache) : void;
   
     /**
-	 * Observes the specified command and dispatches messages to registered observers
-	 * when the state of the command changes.
+	 * Processes the observers registered for the specified command and its current status.
 	 * 
-	 * @param command the command to observe
+	 * @param command the command to process the observers for
 	 * @param cache the cache of observers for the message type that triggered the command
-	 * @param status the status of the command in case it differs from the status property of the command
+	 * @param result the result of the command
+	 * @param status the status of the command
 	 */
-    function observeCommand (command:Command, cache:MessageReceiverCache, status:CommandStatus = null) : void;
+    function observeCommand (command:ManagedCommand, cache:MessageReceiverCache, 
+    		result:Object, status:CommandStatus) : void;
     
-    // TODO - 3.0 - remove the 3rd parameter
 	
 }
 }

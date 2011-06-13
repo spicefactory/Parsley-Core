@@ -17,11 +17,11 @@
 package org.spicefactory.parsley.processor.messaging.receiver {
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
+import org.spicefactory.parsley.core.command.CommandManager;
+import org.spicefactory.parsley.core.command.CommandObserverProcessor;
+import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
-import org.spicefactory.parsley.core.messaging.command.CommandManager;
-import org.spicefactory.parsley.core.messaging.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverFactory;
 import org.spicefactory.parsley.processor.util.MessageReceiverFactories;

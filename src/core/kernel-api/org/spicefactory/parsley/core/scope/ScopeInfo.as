@@ -16,12 +16,12 @@
 
 package org.spicefactory.parsley.core.scope {
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.command.CommandManager;
+import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandManager;
 
 /**
  * Holds the definition and state (like all registered message receivers) for a single scope. Instances of this class
@@ -77,7 +77,7 @@ public interface ScopeInfo {
 	 * Adds an actice command to the command manager of this scope.
 	 * As the CommandManager is a public API it does not contain a comparable method itself.
 	 */
-	function addActiveCommand (command:Command) : void;
+	function addActiveCommand (command:ManagedCommand) : void;
 	
 	/**
 	 * The registry for observers of lifecycle events dispatched by objects within this scope.

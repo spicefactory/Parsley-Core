@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.messaging.command.impl {
-import org.spicefactory.lib.util.ArrayUtil;
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandManager;
+package org.spicefactory.parsley.core.command.impl {
+
+import org.spicefactory.lib.util.collection.List;
+import org.spicefactory.parsley.core.command.CommandManager;
+import org.spicefactory.parsley.core.command.CommandStatus;
+import org.spicefactory.parsley.core.command.ManagedCommand;
 
 /**
  * Default implementation of the CommandManager interface.
@@ -27,7 +29,7 @@ import org.spicefactory.parsley.core.messaging.command.CommandManager;
 public class DefaultCommandManager implements CommandManager {
 
 
-	private var commands:Array = new Array();
+	private var commands:List = new List();
 
 	
 	/**
@@ -35,13 +37,13 @@ public class DefaultCommandManager implements CommandManager {
 	 * 
 	 * @param command the active command to add
 	 */
-	public function addActiveCommand (command:Command) : void {
-		commands.push(command);
-		command.addStatusHandler(commandCompleted);
+	public function addActiveCommand (command:ManagedCommand) : void {
+		commands.add(command);
+		CommandStatus.observe(command, commandCompleted);
 	}
 	
-	private function commandCompleted (command:Command) : void {
-		ArrayUtil.remove(commands, command);
+	private function commandCompleted (command:ManagedCommand, result:Object, status:CommandStatus, data:Object) : void {
+		commands.remove(command);
 	}
 
 
@@ -49,7 +51,7 @@ public class DefaultCommandManager implements CommandManager {
 	 * @inheritDoc
 	 */
 	public function hasActiveCommands (messageType:Class, selector:* = undefined) : Boolean {
-		for each (var command:Command in commands) {
+		for each (var command:ManagedCommand in commands) {
 			if (matches(command, messageType, selector)) {
 				return true;
 			}
@@ -62,7 +64,7 @@ public class DefaultCommandManager implements CommandManager {
 	 */
 	public function getActiveCommands (messageType:Class, selector:* = undefined) : Array {
 		var result:Array = new Array();
-		for each (var command:Command in commands) {
+		for each (var command:ManagedCommand in commands) {
 			if (matches(command, messageType, selector)) {
 				result.push(command);
 			}
@@ -70,9 +72,9 @@ public class DefaultCommandManager implements CommandManager {
 		return result;
 	}
 	
-	private function matches (command:Command, messageType:Class, selector:*) : Boolean {
-		return (command.message.instance is messageType && 
-				(selector == undefined || selector == command.message.selector));
+	private function matches (command:ManagedCommand, messageType:Class, selector:*) : Boolean {
+		return (command.trigger.instance is messageType &&
+				(selector == undefined || selector == command.trigger.selector));
 	}
 	
 	

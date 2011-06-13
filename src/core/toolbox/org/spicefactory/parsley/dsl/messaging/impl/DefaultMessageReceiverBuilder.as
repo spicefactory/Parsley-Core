@@ -18,7 +18,7 @@ package org.spicefactory.parsley.dsl.messaging.impl {
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
+import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.dsl.impl.ObjectDefinitionBuilderPart;
 import org.spicefactory.parsley.dsl.messaging.MessageReceiverBuilder;
@@ -143,9 +143,9 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Property;
+import org.spicefactory.parsley.core.command.CommandManager;
+import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.messaging.command.CommandManager;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ResolvableValue;
 import org.spicefactory.parsley.dsl.impl.ObjectDefinitionBuilderPart;

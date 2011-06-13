@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.messaging.command {
+package org.spicefactory.parsley.core.command {
+
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
 
 /**
@@ -22,7 +23,13 @@ import org.spicefactory.parsley.core.messaging.MessageProcessor;
  */
 public interface CommandObserverProcessor extends MessageProcessor {
 	
-	function get command () : Command;
+	function get command () : ManagedCommand;
+	
+	function get result () : Object;
+	
+	function get status () : CommandStatus;
+	
+	function changeResult (result:Object, error:Boolean = false) : void;
 	
 }
 }

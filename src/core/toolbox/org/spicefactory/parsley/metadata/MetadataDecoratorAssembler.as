@@ -70,7 +70,6 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 		MessageBindingDecorator,
 		MessageErrorDecorator,
 
-		CommandDecorator,
 		CommandCompleteDecorator,
 		CommandResultDecorator,
 		CommandErrorDecorator,

@@ -17,13 +17,13 @@
 package org.spicefactory.parsley.core.messaging.impl {
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
+import org.spicefactory.parsley.core.command.CommandStatus;
+import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.impl.DefaultCommandObserverProcessor;
 import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageRouter;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
-import org.spicefactory.parsley.core.messaging.command.impl.DefaultCommandObserverProcessor;
 
 /**
  * Default implementation of the MessageRouter interface.
@@ -53,10 +53,10 @@ public class DefaultMessageRouter implements MessageRouter, InitializingService 
 	/**
 	 * @inheritDoc
 	 */
-	public function observeCommand (command:Command, cache:MessageReceiverCache, status:CommandStatus = null) : void {
-		// TODO - 3.0 - status param should be obsolete when observeCommand is called before starting command
+	public function observeCommand (command:ManagedCommand, cache:MessageReceiverCache, 
+    		result:Object, status:CommandStatus) : void {
 		var processor:DefaultCommandObserverProcessor 
-				= new DefaultCommandObserverProcessor(command, cache, settings, status);
+				= new DefaultCommandObserverProcessor(command, cache, settings, result, status);
 		processor.start();
 	}
 	

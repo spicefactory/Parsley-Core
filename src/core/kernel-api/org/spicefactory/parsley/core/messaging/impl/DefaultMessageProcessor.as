@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.messaging.impl {
+
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.LogUtil;
@@ -26,8 +27,6 @@ import org.spicefactory.parsley.core.messaging.MessageProcessor;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
 import org.spicefactory.parsley.core.messaging.MessageState;
-import org.spicefactory.parsley.core.messaging.command.Command;
-import org.spicefactory.parsley.core.messaging.command.CommandFactory;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
 
@@ -289,14 +288,6 @@ public class DefaultMessageProcessor implements MessageProcessor {
 			throw new IllegalStateError("Unable to send response for message " 
 					+ message + ": sender Context unknown");
 		}
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function createCommand (returnValue:*) : Command {
-		var factory:CommandFactory = settings.commandFactories.getCommandFactory(returnValue);
-		return factory.createCommand(returnValue, _message);
 	}
 	
 	/**

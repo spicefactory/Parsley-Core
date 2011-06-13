@@ -15,7 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.messaging.impl {
-import org.spicefactory.parsley.core.messaging.command.CommandStatus;
+import org.spicefactory.parsley.core.command.CommandStatus;
 
 /**
  * Enumeration for the different kinds of message receivers.
