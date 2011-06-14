@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.dsl.command {
 
+import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.messaging.Message;
@@ -29,16 +30,17 @@ public class DefaultManagedCommandFactory implements ManagedCommandFactory {
 	// TODO - maybe move to CommandTag
 
 	private var target:DynamicObjectDefinition;
-	private var trigger:Message;
 	
 	
-	function DefaultManagedCommandFactory (target:DynamicObjectDefinition, trigger:Message = null) {
+	function DefaultManagedCommandFactory (target:DynamicObjectDefinition) {
 		this.target = target;
-		this.trigger = trigger;
 	}
 	
-
-	public function newInstance () : ManagedCommand {
+	public function get type () : ClassInfo {
+		return target.type;
+	}
+	
+	public function newInstance (trigger:Message = null) : ManagedCommand {
 		return new DefaultManagedCommand(target, trigger);
 	}
 	

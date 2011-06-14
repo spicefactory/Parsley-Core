@@ -15,6 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.command {
+
+import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.messaging.Message;
 	
 /**
  * @author Jens Halm
@@ -22,7 +25,9 @@ package org.spicefactory.parsley.core.command {
 public interface ManagedCommandFactory {
 	
 	
-	function newInstance () : ManagedCommand;
+	function get type () : ClassInfo;
+	
+	function newInstance (trigger:Message = null) : ManagedCommand;
 	
 	
 }
