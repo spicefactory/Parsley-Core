@@ -65,7 +65,7 @@ class Factory implements ManagedCommandFactory {
 						+ id + " does not implement ManagedCommandFactory");
 			}
 		}
-		return factory.newInstance();
+		return factory.newInstance(trigger);
 	}
 
 	public function get type () : ClassInfo {
