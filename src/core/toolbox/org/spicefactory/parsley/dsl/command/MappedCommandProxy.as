@@ -15,6 +15,8 @@
  */
 package org.spicefactory.parsley.dsl.command {
 
+import org.spicefactory.lib.command.lifecycle.DefaultCommandLifecycle;
+import org.spicefactory.lib.command.data.DefaultCommandData;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
@@ -45,6 +47,9 @@ public class MappedCommandProxy extends AbstractMessageReceiver implements Messa
 				ClassInfo.forInstance(processor.message, processor.senderContext.domain), 
 				processor.selector, processor.senderContext);
 		var command:ManagedCommand = factory.newInstance(message);
+		var data:DefaultCommandData = new DefaultCommandData();
+		data.addValue(message.instance);
+		command.prepare(new DefaultCommandLifecycle(), data);
 		try {
 			command.execute();
 		}
