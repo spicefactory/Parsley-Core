@@ -16,47 +16,39 @@
 package org.spicefactory.parsley.dsl.command {
 
 import org.spicefactory.lib.command.Command;
+import org.spicefactory.lib.command.lifecycle.CommandLifecycle;
 import org.spicefactory.lib.command.proxy.DefaultCommandProxy;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.messaging.Message;
 
 /**
  * @author Jens Halm
  */
-public class ManagedCommandProxy extends DefaultCommandProxy implements ManagedCommand {
-
+public class DefaultManagedCommandProxy extends DefaultCommandProxy implements ManagedCommandProxy {
 
 	private var _context:Context;
 	private var _id:String;
-	private var _trigger:Message;
 	
-
-	function ManagedCommandProxy (target:Command = null,
-			context:Context = null, id:String = null, trigger:Message = null) {
-		this.target = target;
+	function DefaultManagedCommandProxy (context:Context = null, target:Command = null, id:String = null) {
 		_context = context;
-		_id = id;
-		_trigger = trigger;
-	}
-
-
-	public function init (context:Context, id:String = null) : void {
 		this.target = target;
-		_context = context;
 		_id = id;
 	}
 
-	public function get context () : Context {
-		return _context;
+	protected override function createLifecycle () : CommandLifecycle {
+		return new ManagedCommandLifecycle(_context, this);
+	}
+	
+	public function set context (value:Context) : void {
+		_context = value;
+	}
+
+	public function set id (value:String) : void {
+		_id = id;
 	}
 
 	public function get id () : String {
 		return _id;
-	}
-	
-	public function get trigger () : Message {
-		return _trigger;
 	}
 	
 

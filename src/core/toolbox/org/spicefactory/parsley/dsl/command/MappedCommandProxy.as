@@ -15,11 +15,11 @@
  */
 package org.spicefactory.parsley.dsl.command {
 
-import org.spicefactory.lib.command.lifecycle.DefaultCommandLifecycle;
 import org.spicefactory.lib.command.data.DefaultCommandData;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
+import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
@@ -33,12 +33,14 @@ public class MappedCommandProxy extends AbstractMessageReceiver implements Messa
 
 
 	private var factory:ManagedCommandFactory;
+	private var context:Context;
 
 
-	public function MappedCommandProxy (factory:ManagedCommandFactory, 
+	public function MappedCommandProxy (factory:ManagedCommandFactory, context:Context,
 			messageType:Class = null, selector:* = undefined, order:int = int.MAX_VALUE) {
 		super(messageType, selector, order);
 		this.factory = factory;
+		this.context = context;
 	}
 
 	public function handleMessage (processor:MessageProcessor) : void {
@@ -46,18 +48,16 @@ public class MappedCommandProxy extends AbstractMessageReceiver implements Messa
 		var message:Message = new DefaultMessage(processor.message, 
 				ClassInfo.forInstance(processor.message, processor.senderContext.domain), 
 				processor.selector, processor.senderContext);
-		var command:ManagedCommand = factory.newInstance(message);
+		var command:ManagedCommandProxy = factory.newInstance();
 		var data:DefaultCommandData = new DefaultCommandData();
 		data.addValue(message.instance);
-		command.prepare(new DefaultCommandLifecycle(), data);
+		command.prepare(new ManagedCommandLifecycle(context, command, message), data);
 		try {
-			command.execute();
+			command.execute(); // TODO - move execution to ScopeManager
 		}
 		catch (e:Error) {
 			return;
 		}
-		// TODO - managed command might call ScopeManager, too
-		processor.senderContext.scopeManager.observeCommand(command);
 	}
 	
 	

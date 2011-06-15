@@ -15,9 +15,10 @@
  */
 
 package org.spicefactory.parsley.core.scope {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.CommandManager;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
@@ -77,7 +78,7 @@ public interface ScopeInfo {
 	 * Adds an actice command to the command manager of this scope.
 	 * As the CommandManager is a public API it does not contain a comparable method itself.
 	 */
-	function addActiveCommand (command:ManagedCommand) : void;
+	function addActiveCommand (command:ObservableCommand) : void;
 	
 	/**
 	 * The registry for observers of lifecycle events dispatched by objects within this scope.

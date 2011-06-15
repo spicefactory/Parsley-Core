@@ -56,11 +56,10 @@ public class AbstractCommandGroupTag implements NestedCommandTag {
 
 import org.spicefactory.lib.command.group.CommandGroup;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.messaging.Message;
-import org.spicefactory.parsley.dsl.command.ManagedCommandProxy;
+import org.spicefactory.parsley.dsl.command.DefaultManagedCommandProxy;
 
 class Factory implements ManagedCommandFactory {
 	
@@ -74,13 +73,13 @@ class Factory implements ManagedCommandFactory {
 		this.context = context;
 	}
 	
-	public function newInstance (trigger:Message = null) : ManagedCommand {
+	public function newInstance () : ManagedCommandProxy {
 		var group:CommandGroup = new _type();
 		for each (var factory:ManagedCommandFactory in factories) {
 			group.addCommand(factory.newInstance());
 		}
 		// TODO - handle id ?
-		return new ManagedCommandProxy(group, context, null);
+		return new DefaultManagedCommandProxy(context, group);
 	}
 
 	public function get type () : ClassInfo {

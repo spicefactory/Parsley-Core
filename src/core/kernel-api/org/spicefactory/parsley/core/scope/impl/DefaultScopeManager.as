@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
-import flash.utils.Dictionary;
 import org.spicefactory.lib.command.builder.CommandGroupBuilder;
 import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.errors.IllegalArgumentError;
@@ -26,8 +25,7 @@ import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
-import org.spicefactory.parsley.core.command.CommandStatus;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ContextEvent;
 import org.spicefactory.parsley.core.messaging.Message;
@@ -40,6 +38,8 @@ import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
 import org.spicefactory.parsley.core.scope.ScopeInfoRegistry;
 import org.spicefactory.parsley.core.scope.ScopeManager;
+
+import flash.utils.Dictionary;
 
 
 /**
@@ -203,7 +203,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	/**
 	 * @inheritDoc
 	 */
-	public function observeCommand (command:ManagedCommand) : void {
+	public function observeCommand (command:ObservableCommand) : void {
 		// TODO - parameter should be Object
 		if (!activated) {
 			deferredActions.add(Commands.delegate(doObserveCommand, command));
@@ -213,25 +213,28 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 		}
 	}
 	
-	private function doObserveCommand (command:ManagedCommand) : void {
+	private function doObserveCommand (command:ObservableCommand) : void {
 		var caches:Array = new Array();
 		for each (var scope:ScopeInfo in scopeInfoRegistry.activeScopes) {
 			caches.push(scope.getMessageReceiverCache(command.trigger.type));
 			scope.addActiveCommand(command);
 		}
-		CommandStatus.observe(command, handleCommand, caches);
-		handleCommand(command, null, CommandStatus.EXECUTE, caches);
+		command.observe(function (command:ObservableCommand) : void {
+			handleCommand(command, caches);
+		});
+		handleCommand(command, caches); // TODO - prevent suspension in CommandStatus.EXECUTE
 	}
 	
-	private function handleCommand (command:ManagedCommand, result:Object, status:CommandStatus, caches:Array) : void {
+	private function handleCommand (command:ObservableCommand, caches:Array) : void {
 		var cache:MessageReceiverCache = new MergedMessageReceiverCache(caches);
-		if (cache.getReceivers(command.trigger, MessageReceiverKind.forCommandStatus(status)).length == 0) {
+		if (cache.getReceivers(command.trigger, MessageReceiverKind.forCommandStatus(command.status)).length == 0) {
 			if (log.isDebugEnabled()) {
-				log.debug("Discarding command status {0} for message '{1}': no matching observer", status, command.trigger.instance);
+				log.debug("Discarding command status {0} for message '{1}': no matching observer", 
+						command.status, command.trigger.instance);
 			}
 			return;
 		}
-		messageRouter.observeCommand(command, cache, result, status);
+		messageRouter.observeCommand(command, cache);
 	}
 }
 }

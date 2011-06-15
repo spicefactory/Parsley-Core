@@ -15,10 +15,10 @@
  */
 
 package org.spicefactory.parsley.core.messaging.impl {
+
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
-import org.spicefactory.parsley.core.command.CommandStatus;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.command.impl.DefaultCommandObserverProcessor;
 import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
@@ -53,10 +53,9 @@ public class DefaultMessageRouter implements MessageRouter, InitializingService 
 	/**
 	 * @inheritDoc
 	 */
-	public function observeCommand (command:ManagedCommand, cache:MessageReceiverCache, 
-    		result:Object, status:CommandStatus) : void {
+	public function observeCommand (command:ObservableCommand, cache:MessageReceiverCache) : void {
 		var processor:DefaultCommandObserverProcessor 
-				= new DefaultCommandObserverProcessor(command, cache, settings, result, status);
+				= new DefaultCommandObserverProcessor(command, cache, settings);
 		processor.start();
 	}
 	

@@ -16,10 +16,9 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
-import flash.utils.Dictionary;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.CommandManager;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.command.impl.DefaultCommandManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
@@ -35,6 +34,8 @@ import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeExtensions;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
 import org.spicefactory.parsley.core.state.manager.GlobalDomainManager;
+
+import flash.utils.Dictionary;
 
 
 /**
@@ -145,7 +146,7 @@ public class DefaultScopeInfo implements ScopeInfo {
 	/**
 	 * @inheritDoc
 	 */
-	public function addActiveCommand (command:ManagedCommand) : void {
+	public function addActiveCommand (command:ObservableCommand) : void {
 		_commandManager.addActiveCommand(command);
 	}
 

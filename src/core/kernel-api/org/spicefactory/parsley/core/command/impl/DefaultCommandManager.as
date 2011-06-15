@@ -18,8 +18,7 @@ package org.spicefactory.parsley.core.command.impl {
 
 import org.spicefactory.lib.util.collection.List;
 import org.spicefactory.parsley.core.command.CommandManager;
-import org.spicefactory.parsley.core.command.CommandStatus;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 
 /**
  * Default implementation of the CommandManager interface.
@@ -37,12 +36,12 @@ public class DefaultCommandManager implements CommandManager {
 	 * 
 	 * @param command the active command to add
 	 */
-	public function addActiveCommand (command:ManagedCommand) : void {
+	public function addActiveCommand (command:ObservableCommand) : void {
 		commands.add(command);
-		CommandStatus.observe(command, commandCompleted);
+		command.observe(commandCompleted);
 	}
 	
-	private function commandCompleted (command:ManagedCommand, result:Object, status:CommandStatus, data:Object) : void {
+	private function commandCompleted (command:ObservableCommand) : void {
 		commands.remove(command);
 	}
 
@@ -51,7 +50,7 @@ public class DefaultCommandManager implements CommandManager {
 	 * @inheritDoc
 	 */
 	public function hasActiveCommands (messageType:Class, selector:* = undefined) : Boolean {
-		for each (var command:ManagedCommand in commands) {
+		for each (var command:ObservableCommand in commands) {
 			if (matches(command, messageType, selector)) {
 				return true;
 			}
@@ -64,7 +63,7 @@ public class DefaultCommandManager implements CommandManager {
 	 */
 	public function getActiveCommands (messageType:Class, selector:* = undefined) : Array {
 		var result:Array = new Array();
-		for each (var command:ManagedCommand in commands) {
+		for each (var command:ObservableCommand in commands) {
 			if (matches(command, messageType, selector)) {
 				result.push(command);
 			}
@@ -72,8 +71,8 @@ public class DefaultCommandManager implements CommandManager {
 		return result;
 	}
 	
-	private function matches (command:ManagedCommand, messageType:Class, selector:*) : Boolean {
-		return (command.trigger.instance is messageType &&
+	private function matches (command:ObservableCommand, messageType:Class, selector:*) : Boolean {
+		return (command.trigger && command.trigger.instance is messageType &&
 				(selector == undefined || selector == command.trigger.selector));
 	}
 	

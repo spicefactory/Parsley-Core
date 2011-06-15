@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,33 +16,25 @@
 
 package org.spicefactory.parsley.core.command {
 
-import org.spicefactory.lib.command.proxy.CommandProxy;
-import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.messaging.Message;
-
+	
 /**
- * Represents a single Command execution.
- * 
  * @author Jens Halm
  */
-public interface ManagedCommand extends CommandProxy {
+public interface ObservableCommand {
 	
 	
-	/**
-	 * The message that triggered the Command.
-	 * This property is null when the command was not triggered by a message.
-	 */
 	function get trigger () : Message;
 	
-	/**
-	 * The Context that this command belongs to.
-	 */
-	function get context () : Context;
-	
-	/**
-	 * The id of the command as declared in the Context.
-	 */
 	function get id () : String;
+	
+	function get command () : Object;
+	
+	function get result () : Object;
+	
+	function get status () : CommandStatus;
+	
+	function observe (callback:Function) : void;
 	
 	
 }

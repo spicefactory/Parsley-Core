@@ -63,6 +63,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 	 */
 	function DefaultMessageProcessor (message:Message, cache:MessageReceiverCache, 
 			settings:MessageSettings, receiverHandler:Function = null) {
+		// TODO - message may now be null in CommandObserverProcessor subclass
 		this._message = message;
 		this._cache = cache;
 		this.settings = settings;

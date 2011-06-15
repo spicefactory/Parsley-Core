@@ -15,11 +15,12 @@
  */
 
 package org.spicefactory.parsley.core.command.impl {
+
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.logging.LogUtil;
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
 import org.spicefactory.parsley.core.command.CommandStatus;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageProcessor;
@@ -34,7 +35,7 @@ import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 public class DefaultCommandObserverProcessor extends DefaultMessageProcessor implements CommandObserverProcessor {
 	
 	
-	private var _command:ManagedCommand;
+	private var _command:ObservableCommand;
 	private var _status:CommandStatus;
 	private var _result:Object;
 	
@@ -48,19 +49,19 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @param result the result of the command
 	 * @param status the status to handle the matching observers for
 	 */
-	function DefaultCommandObserverProcessor (command:ManagedCommand, cache:MessageReceiverCache, 
-			settings:MessageSettings, result:Object, status:CommandStatus) {
+	function DefaultCommandObserverProcessor (command:ObservableCommand, cache:MessageReceiverCache, 
+			settings:MessageSettings) {
 		super(command.trigger, cache, settings, invokeObserver);
 		_command = command;
-		_status = status;
-		_result = result;
+		_status = command.status;
+		_result = command.result;
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function get command () : ManagedCommand {
-		return _command;
+	public function get command () : Object {
+		return _command.command;
 	}
 	
 	public function get result () : Object {

@@ -39,12 +39,11 @@ public class CommandRefTag implements NestedCommandTag {
 }
 }
 
-import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.messaging.Message;
 
 class Factory implements ManagedCommandFactory {
 
@@ -57,7 +56,7 @@ class Factory implements ManagedCommandFactory {
 		this.id = id;
 	}
 
-	public function newInstance (trigger:Message = null) : ManagedCommand {
+	public function newInstance () : ManagedCommandProxy {
 		if (!factory) {
 			factory = context.getObject(id) as ManagedCommandFactory;
 			if (!factory) {
@@ -65,7 +64,7 @@ class Factory implements ManagedCommandFactory {
 						+ id + " does not implement ManagedCommandFactory");
 			}
 		}
-		return factory.newInstance(trigger);
+		return factory.newInstance();
 	}
 
 	public function get type () : ClassInfo {

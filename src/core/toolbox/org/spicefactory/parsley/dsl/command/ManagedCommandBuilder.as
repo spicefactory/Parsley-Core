@@ -16,7 +16,7 @@
 package org.spicefactory.parsley.dsl.command {
 
 import org.spicefactory.lib.command.builder.CommandProxyBuilder;
-import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
 	
 /**
@@ -27,13 +27,13 @@ public class ManagedCommandBuilder {
 	
 	private var builder:CommandProxyBuilder;
 	
-	private var proxy:ManagedCommandProxy;
+	private var proxy:DefaultManagedCommandProxy;
 	
 	private var _id:String;
 	
 	
 	function ManagedCommandBuilder (target:Object) {
-		this.proxy = new ManagedCommandProxy();
+		this.proxy = new DefaultManagedCommandProxy();
 		builder = new CommandProxyBuilder(target, proxy);
 	}
 	
@@ -67,15 +67,16 @@ public class ManagedCommandBuilder {
 		return this;
 	}
 	
-	public function build (context:Context) : ManagedCommand {
+	public function build (context:Context) : ManagedCommandProxy {
 		builder.domain(context.domain);
-		proxy.init(context, _id);
+		proxy.id = _id;
+		proxy.context =  context;
 		builder.build();
 		return proxy;
 	}
 	
-	public function execute (context:Context) : ManagedCommand {
-		var com:ManagedCommand = build(context);
+	public function execute (context:Context) : ManagedCommandProxy {
+		var com:ManagedCommandProxy = build(context);
 		com.execute();
 		return com;
 	}

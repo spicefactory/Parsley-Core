@@ -18,51 +18,43 @@ package org.spicefactory.parsley.dsl.command {
 import org.spicefactory.lib.command.Command;
 import org.spicefactory.lib.command.CommandResult;
 import org.spicefactory.lib.command.adapter.CommandAdapters;
+import org.spicefactory.lib.command.lifecycle.CommandLifecycle;
 import org.spicefactory.lib.command.proxy.DefaultCommandProxy;
-import org.spicefactory.parsley.core.command.ManagedCommand;
-import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.DynamicObject;
-import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 
 /**
  * @author Jens Halm
  */
-public class DefaultManagedCommand extends DefaultCommandProxy implements ManagedCommand {
+public class DefinitionBasedCommandProxy extends DefaultCommandProxy implements ManagedCommandProxy {
 
 
-	private var _target:DynamicObjectDefinition;
-	private var _trigger:Message;
+	private var definition:DynamicObjectDefinition;
 	
 	private var dynamicObject:DynamicObject;
 
 
-	function DefaultManagedCommand (target:DynamicObjectDefinition, trigger:Message = null) {
-		_target = target;
-		_trigger = trigger;
-	}
-
-
-	public function get context () : Context {
-		return _target.registry.context;
+	function DefinitionBasedCommandProxy (target:DynamicObjectDefinition) {
+		definition = target;
 	}
 
 	public function get id () : String {
-		return _target.id;
+		return definition.id;
 	}
 	
-	public function get trigger () : Message {
-		return _trigger;
+	protected override function createLifecycle () : CommandLifecycle {
+		return new ManagedCommandLifecycle(definition.registry.context, this);
 	}
 	
 	/**
 	 * @private
 	 */
 	protected override function doExecute () : void {
-		dynamicObject = _target.registry.context.addDynamicDefinition(_target);
+		dynamicObject = definition.registry.context.addDynamicDefinition(definition);
 		target =  (dynamicObject.instance is Command) 
 				? dynamicObject.instance as Command
-				: CommandAdapters.createAdapter(dynamicObject.instance, _target.registry.domain);
+				: CommandAdapters.createAdapter(dynamicObject.instance, definition.registry.domain);
 		super.doExecute();
 	}
 	

@@ -96,13 +96,13 @@ public class MappedCommandBuilder {
 	public function register (context:Context) : void {
 		
 		if (factory is Factory) 
-			Factory(factory).init(context.domain);
+			Factory(factory).init(context);
 		
 		var messageInfo:ClassInfo = (_messageType) 
 			? ClassInfo.forClass(_messageType, context.domain)
 			: deduceMessageType();
 		
-		target = new MappedCommandProxy(factory, messageInfo.getClass(), selector, _order);
+		target = new MappedCommandProxy(factory, context, messageInfo.getClass(), selector, _order);
 				
 		context.scopeManager.getScope(_scope).messageReceivers.addTarget(target);
 		
@@ -125,35 +125,35 @@ public class MappedCommandBuilder {
 
 import org.spicefactory.lib.command.builder.CommandProxyBuilder;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.core.command.ManagedCommand;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-import org.spicefactory.parsley.core.messaging.Message;
-import org.spicefactory.parsley.dsl.command.ManagedCommandProxy;
-
-import flash.system.ApplicationDomain;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
+import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.dsl.command.DefaultManagedCommandProxy;
 
 class Factory implements ManagedCommandFactory {
 
 	private var factory:Function;
 	private var _type:Class;
 	private var typeInfo:ClassInfo;
+	private var context:Context;
 
 	function Factory (type:Class, factory:Function = null) {
 		_type = type;		
 		this.factory = factory;
 	}
 	
-	public function init (domain:ApplicationDomain) : void {
-		typeInfo = ClassInfo.forClass(_type, domain);
+	public function init (context:Context) : void {
+		this.context = context;
+		typeInfo = ClassInfo.forClass(_type, context.domain);
 	}
 
 	public function get type () : ClassInfo {
 		return typeInfo;
 	}
 
-	public function newInstance (trigger:Message = null) : ManagedCommand {
+	public function newInstance () : ManagedCommandProxy {
 		var target:Object = (factory) ? factory() : type;
-		var proxy:ManagedCommandProxy = new ManagedCommandProxy();
+		var proxy:DefaultManagedCommandProxy = new DefaultManagedCommandProxy(context);
 		var builder:CommandProxyBuilder = new CommandProxyBuilder(target, proxy);
 		builder.build();
 		return proxy;

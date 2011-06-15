@@ -15,21 +15,16 @@
  */
 
 package org.spicefactory.parsley.core.command {
-
-import org.spicefactory.parsley.core.messaging.MessageProcessor;
-
+	
+import org.spicefactory.lib.command.proxy.CommandProxy;
 /**
  * @author Jens Halm
  */
-public interface CommandObserverProcessor extends MessageProcessor {
+public interface ManagedCommandProxy extends CommandProxy {
 	
-	function get command () : Object;
 	
-	function get result () : Object;
+	function get id () : String;
 	
-	function get status () : CommandStatus;
-	
-	function changeResult (result:Object, error:Boolean = false) : void;
 	
 }
 }
