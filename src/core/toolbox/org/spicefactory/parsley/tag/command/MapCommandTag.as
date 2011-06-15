@@ -16,11 +16,10 @@
 
 package org.spicefactory.parsley.tag.command {
 
-import org.spicefactory.parsley.dsl.command.MappedCommandBuilder;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.config.RootConfigurationElement;
-import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.dsl.command.MappedCommandBuilder;
 	
 [DefaultProperty("command")]
 [XmlMapping(elementName="map-command")]
@@ -71,12 +70,16 @@ public class MapCommandTag implements RootConfigurationElement {
 			throw new IllegalStateError("Either command or type must be specified");
 		}
 		
-		var factory:ManagedCommandFactory = (command)
-				? command.resolve(config)
-				: null; // TODO - logic like in CommandTag, avoid duplication
-		
-		var builder:MappedCommandBuilder = new MappedCommandBuilder(factory, config, messageType, selector, scope, order);
-		builder.build();			
+		var builder:MappedCommandBuilder = (command)
+				? MappedCommandBuilder.forFactory(command.resolve(config))
+				: MappedCommandBuilder.forType(type);
+
+		builder
+			.messageType(messageType)
+			.selector(selector)
+			.scope(scope)
+			.order(order)
+			.register(config.context);
 	}
 	
 	

@@ -15,14 +15,14 @@
  */
 package org.spicefactory.parsley.dsl.command {
 
-	import org.spicefactory.lib.reflect.ClassInfo;
-	import org.spicefactory.parsley.core.command.ManagedCommand;
-	import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-	import org.spicefactory.parsley.core.messaging.Message;
-	import org.spicefactory.parsley.core.messaging.MessageProcessor;
-	import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
-	import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
-	import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageReceiver;
+import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.command.ManagedCommand;
+import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.messaging.Message;
+import org.spicefactory.parsley.core.messaging.MessageProcessor;
+import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
+import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
+import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageReceiver;
 
 /**
  * @author Jens Halm

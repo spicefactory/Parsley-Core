@@ -32,14 +32,20 @@ public class ManagedCommandProxy extends DefaultCommandProxy implements ManagedC
 	private var _trigger:Message;
 	
 
-	function ManagedCommandProxy (target:Command,
-			context:Context, id:String, trigger:Message = null) {
+	function ManagedCommandProxy (target:Command = null,
+			context:Context = null, id:String = null, trigger:Message = null) {
 		this.target = target;
 		_context = context;
 		_id = id;
 		_trigger = trigger;
 	}
 
+
+	public function init (context:Context, id:String = null) : void {
+		this.target = target;
+		_context = context;
+		_id = id;
+	}
 
 	public function get context () : Context {
 		return _context;
