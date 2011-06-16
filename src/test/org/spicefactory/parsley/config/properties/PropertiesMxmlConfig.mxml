@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tags:MxmlObjectsTag xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:tags="org.spicefactory.parsley.tag.core.*">
+
+
+		<tags:MxmlRootObjectTag id="object" type="{StringHolder}">
+		
+			<tags:PropertyTag name="stringProp" value="{properties.someValue}"/>
+		
+		</tags:MxmlRootObjectTag>
+	
+
+
+</tags:MxmlObjectsTag >

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Object xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:binding="org.spicefactory.parsley.binding.decorator.*"
+	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	<mx:Script>
+		<![CDATA[
+			import org.spicefactory.parsley.binding.model.StringHolder;
+			import org.spicefactory.parsley.binding.model.AnimalHolder;
+			import org.spicefactory.parsley.binding.model.CatHolder;
+		]]>
+	</mx:Script>
+
+	<flextag:MxmlDynamicObjectTag id="publish" type="{CatHolder}">
+		<binding:PublishDecorator property="value"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="publishId" type="{CatHolder}">
+		<binding:PublishDecorator property="value" objectId="cat"/>
+	</flextag:MxmlDynamicObjectTag>
+	
+	<flextag:MxmlDynamicObjectTag id="publishLocal" type="{CatHolder}">
+		<binding:PublishDecorator property="value" scope="local"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="publishManaged" type="{CatHolder}">
+		<binding:PublishDecorator property="value" managed="true" scope="local"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="publishPersistent" type="{StringHolder}">
+		<binding:PublishSubscribeDecorator persistent="true" property="value" scope="local" objectId="test"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="subscribe" type="{CatHolder}">
+		<binding:SubscribeDecorator property="value"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="subscribeId" type="{CatHolder}">
+		<binding:SubscribeDecorator property="value" objectId="cat"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="subscribeLocal" type="{CatHolder}">
+		<binding:SubscribeDecorator property="value" scope="local"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="animalSubscribe" type="{AnimalHolder}">
+		<binding:SubscribeDecorator property="value"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="pubsub" type="{CatHolder}">
+		<binding:PublishSubscribeDecorator property="value"/>
+	</flextag:MxmlDynamicObjectTag>
+	
+</mx:Object>

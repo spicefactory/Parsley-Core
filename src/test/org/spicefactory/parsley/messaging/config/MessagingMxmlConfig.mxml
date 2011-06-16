@@ -1,0 +1,86 @@
+<mx:Object 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:msg="org.spicefactory.parsley.tag.messaging.*"
+	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import org.spicefactory.parsley.messaging.model.SelectorMessageHandlers;
+			import org.spicefactory.parsley.messaging.model.MessageInterceptors;
+			import org.spicefactory.parsley.messaging.model.MessageBindingsBlank;
+			import org.spicefactory.parsley.messaging.model.ErrorHandlers;
+			import org.spicefactory.parsley.messaging.model.FaultyMessageHandlers;
+			import org.spicefactory.parsley.messaging.messages.TestEvent;
+			import org.spicefactory.parsley.messaging.model.MessageHandlers;
+			import org.spicefactory.parsley.messaging.messages.TestMessage;
+			import org.spicefactory.parsley.messaging.model.TestMessageHandlers;
+			import org.spicefactory.parsley.messaging.model.TestMessageDispatcher;
+			import org.spicefactory.parsley.messaging.model.EventSource;
+			import org.spicefactory.parsley.core.errors.ContextError;		
+			import flash.events.*;		
+		]]>
+	</mx:Script>
+	
+	
+	<flextag:MxmlDynamicObjectTag id="eventSource" type="{EventSource}">
+		<msg:ManagedEventsDecorator names="['test1','test2','foo']"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="eventSource2" type="{EventSource}">
+		<msg:ManagedEventsDecorator names="['test1','test2','foo']"/>
+	</flextag:MxmlDynamicObjectTag>
+	
+	<flextag:MxmlDynamicObjectTag id="testDispatcher" type="{TestMessageDispatcher}">
+		<msg:MessageDispatcherDecorator property="dispatcher"/>
+	</flextag:MxmlDynamicObjectTag> 
+
+	<flextag:MxmlDynamicObjectTag id="testMessageHandlers" type="{TestMessageHandlers}">
+		<msg:MessageHandlerDecorator method="allTestMessages" type="{TestMessage}"/>
+		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestMessage}"/>
+		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestMessage}"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="selectorMessageHandlers" type="{SelectorMessageHandlers}">
+		<msg:MessageHandlerDecorator method="allTestMessages" type="{TestMessage}"/>
+		<msg:MessageHandlerDecorator method="event1" type="{TestMessage}"/>
+		<msg:MessageHandlerDecorator method="event2" type="{TestMessage}"/>
+	</flextag:MxmlDynamicObjectTag> 
+
+	<flextag:MxmlDynamicObjectTag id="messageHandlers" type="{MessageHandlers}">
+		<msg:MessageHandlerDecorator method="allTestEvents" type="{TestEvent}" order="3"/>
+		<msg:MessageHandlerDecorator method="allEvents" type="{Event}" order="2"/>
+		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}" order="1"/>
+		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}" order="1"/>
+		<msg:MessageHandlerDecorator method="mappedProperties" messageProperties="['stringProp','intProp']" type="{TestEvent}"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlDynamicObjectTag id="faultyHandlers" type="{FaultyMessageHandlers}">
+		<msg:MessageHandlerDecorator method="allTestEvents" type="{TestEvent}"/>
+		<msg:MessageHandlerDecorator method="allEvents" type="{Event}"/>
+		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}"/>
+		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	<flextag:MxmlRootObjectTag id="errorHandlers" type="{ErrorHandlers}">
+		<msg:MessageErrorDecorator method="allTestEvents" type="{TestEvent}"/>
+		<msg:MessageErrorDecorator method="allEvents" type="{Event}"/>
+		<msg:MessageErrorDecorator method="event1" selector="test1" type="{TestEvent}" errorType="{ContextError}"/>
+		<msg:MessageErrorDecorator method="event2" selector="test2" type="{TestEvent}" errorType="{ContextError}"/>
+	</flextag:MxmlRootObjectTag> 
+	
+	
+	<flextag:MxmlDynamicObjectTag id="messageBindings" type="{MessageBindingsBlank}">
+		<msg:MessageBindingDecorator targetProperty="stringProp" messageProperty="stringProp" type="{TestEvent}"/>
+		<msg:MessageBindingDecorator targetProperty="intProp1" messageProperty="intProp" selector="test1" type="{TestEvent}"/>
+		<msg:MessageBindingDecorator targetProperty="intProp2" messageProperty="intProp" selector="test2" type="{TestEvent}"/>
+	</flextag:MxmlDynamicObjectTag> 
+
+	<flextag:MxmlDynamicObjectTag id="messageInterceptors" type="{MessageInterceptors}">
+		<msg:MessageHandlerDecorator method="interceptAllMessages" type="{TestEvent}"/>
+		<msg:MessageHandlerDecorator method="allEvents"/>
+		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}" order="-1"/>
+		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}" order="-1"/>
+	</flextag:MxmlDynamicObjectTag> 
+	
+	
+</mx:Object>
