@@ -1,30 +1,33 @@
 package org.spicefactory.parsley.messaging.model {
+
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
+import org.spicefactory.parsley.messaging.messages.TestEvent;
 
 /**
  * @author Jens Halm
  */
 public class MessageInterceptorsMetadata extends MessageInterceptors {
 
+	// TODO - test at least one handler without message param
 	
-	[MessageInterceptor(type="org.spicefactory.parsley.messaging.messages.TestEvent")]
-	public override function interceptAllMessages (processor:MessageProcessor) : void {
-		super.interceptAllMessages(processor);
+	[MessageHandler(type="org.spicefactory.parsley.messaging.messages.TestEvent", order="-1")]
+	public override function interceptAllMessages (message:TestEvent, processor:MessageProcessor) : void {
+		super.interceptAllMessages(message, processor);
 	}
 	
-	[MessageInterceptor]
-	public override function allEvents (processor:MessageProcessor) : void {
-		super.allEvents(processor);
+	[MessageHandler(order="-1")]
+	public override function allEvents (message:Object, processor:MessageProcessor) : void {
+		super.allEvents(message, processor);
 	}
 	
-	[MessageInterceptor(type="org.spicefactory.parsley.messaging.messages.TestEvent", selector="test1", order="-1")]
-	public override function event1 (processor:MessageProcessor) : void {
-		super.event1(processor);
+	[MessageHandler(type="org.spicefactory.parsley.messaging.messages.TestEvent", selector="test1")]
+	public override function event1 (message:TestEvent, processor:MessageProcessor) : void {
+		super.event1(message, processor);
 	}
 	
-	[MessageInterceptor(type="org.spicefactory.parsley.messaging.messages.TestEvent", selector="test2", order="-1")]
-	public override function event2 (processor:MessageProcessor) : void {
-		super.event2(processor);
+	[MessageHandler(type="org.spicefactory.parsley.messaging.messages.TestEvent", selector="test2")]
+	public override function event2 (message:TestEvent, processor:MessageProcessor) : void {
+		super.event2(message, processor);
 	}
 	
 	
