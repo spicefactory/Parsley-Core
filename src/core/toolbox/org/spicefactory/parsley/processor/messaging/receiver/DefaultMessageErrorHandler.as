@@ -93,7 +93,7 @@ public class DefaultMessageErrorHandler extends AbstractMethodReceiver implement
 	 * @inheritDoc
 	 */
 	public function handleError (processor:MessageProcessor, error:Error) : void {
-		processor.suspend();
+		//processor.suspend();
 		var params:Array = (targetMethod.parameters.length == 2) ? [processor, error] : [processor];
 		targetMethod.invoke(provider.instance, params);
 	}
