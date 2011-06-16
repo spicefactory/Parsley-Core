@@ -10,19 +10,19 @@ public class ErrorHandlers extends MessageCounter {
 
 	
 	public function allTestEvents (processor:MessageProcessor, error:Error) : void {
-		addMessage(processor.message);
+		addMessage(processor.message.instance);
 	}
 	
 	public function allEvents (processor:MessageProcessor, error:Error) : void {
-		addMessage(processor.message);
+		addMessage(processor.message.instance);
 	}
 	
 	public function event1 (processor:MessageProcessor, error:ContextError) : void {
-		addMessage(processor.message, "test1");
+		addMessage(processor.message.instance, "test1");
 	}
 	
 	public function event2 (processor:MessageProcessor, error:ContextError) : void {
-		addMessage(processor.message, "test2");
+		addMessage(processor.message.instance, "test2");
 	}
 	
 
