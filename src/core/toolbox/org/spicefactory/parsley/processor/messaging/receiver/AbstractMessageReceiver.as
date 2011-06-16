@@ -25,7 +25,7 @@ import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 public class AbstractMessageReceiver implements MessageReceiver {
 
 
-	private var _messageType:Class;
+	private var _type:Class;
 	private var _selector:*;
 	private var _order:int;
 	
@@ -37,8 +37,8 @@ public class AbstractMessageReceiver implements MessageReceiver {
 	 * @param selector an additional selector value to be used to determine matching messages
 	 * @param order the execution order for this receiver
 	 */
-	function AbstractMessageReceiver (messageType:Class = null, selector:* = undefined, order:int = int.MAX_VALUE) {
-		_messageType = (messageType != null) ? messageType : Object;
+	function AbstractMessageReceiver (type:Class = null, selector:* = undefined, order:int = int.MAX_VALUE) {
+		_type = (type != null) ? type : Object;
 		_selector = selector;
 		_order = order;
 	}
@@ -47,8 +47,8 @@ public class AbstractMessageReceiver implements MessageReceiver {
 	/**
 	 * @inheritDoc
 	 */
-	public function get messageType () : Class {
-		return _messageType;
+	public function get type () : Class {
+		return _type;
 	}
 	
 	/**

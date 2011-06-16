@@ -15,12 +15,12 @@
  */
 
 package org.spicefactory.parsley.core.messaging.impl {
+
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.errors.ContextError;
-import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 
 import flash.events.Event;
@@ -113,13 +113,13 @@ public class DefaultMessageReceiverCache implements MessageReceiverCache {
 	/**
 	 * @inheritDoc
 	 */	
-	public function getReceivers (message:Message, kind:MessageReceiverKind) : Array {
+	public function getReceivers (kind:MessageReceiverKind, selector:* = undefined) : Array {
 		if (selectorMaps == null) {
 			log.info("ApplicationDomain for type " + _messageType.name 
 					+ " is no longer used, using empty list of message receivers");
 			return [];
 		}
-		return getSelectorMap(kind).getReceivers(message);
+		return getSelectorMap(kind).getReceivers(selector, _messageType.applicationDomain);
 	}
 	
 	private function getSelectorMap (kind:MessageReceiverKind) : SelectorMap {
@@ -147,14 +147,13 @@ public class DefaultMessageReceiverCache implements MessageReceiverCache {
 }
 }
 
-import flash.utils.getQualifiedClassName;
-
-import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverCollection;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 
+import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
 import flash.utils.Proxy;
+import flash.utils.getQualifiedClassName;
 
 class SelectorMap {
 	
@@ -168,43 +167,42 @@ class SelectorMap {
 		this.kind = kind;
 	}
 
-	public function getReceivers (message:Message) : Array {
-		var selector:* = message.selector;
+	public function getReceivers (selector:*, domain:ApplicationDomain) : Array {
 		if (selector == undefined
 				|| selector is String 
 				|| selector is Number 
 				|| selector is Class
 				) {
-			return getReceiversBySelectorValue(message);
+			return getReceiversBySelectorValue(selector);
 		}
 		else {
-			return getReceiversBySelectorType(message);
+			return getReceiversBySelectorType(selector, domain);
 		}
 	}
 
-	private function getReceiversBySelectorValue (message:Message) : Array {
-		if (byValue[message.selector] != undefined) {
-			return byValue[message.selector];		
+	private function getReceiversBySelectorValue (selector:*) : Array {
+		if (byValue[selector] != undefined) {
+			return byValue[selector];		
 		}
 		var receivers:Array = new Array();
 		for each (var collection:MessageReceiverCollection in collections) {
-			var subset:Array = collection.getReceiversBySelectorValue(kind, message.selector);
+			var subset:Array = collection.getReceiversBySelectorValue(kind, selector);
 			if (subset.length > 0) {
 				receivers = (receivers.length > 0) ? receivers.concat(subset) : subset;
 			}
 		}
-		byValue[message.selector] = receivers;
+		byValue[selector] = receivers;
 		return receivers;
 	}
 	
-	private function getReceiversBySelectorType (message:Message) : Array {
-		var type:Class = getSelectorType(message);
+	private function getReceiversBySelectorType (selector:*, domain:ApplicationDomain) : Array {
+		var type:Class = getSelectorType(selector, domain);
 		if (byType[type] != undefined) {
 			return byType[type];		
 		}
 		var receivers:Array = new Array();
 		for each (var collection:MessageReceiverCollection in collections) {
-			var subset:Array = collection.getReceiversBySelectorType(kind, message.selector);
+			var subset:Array = collection.getReceiversBySelectorType(kind, selector);
 			if (subset.length > 0) {
 				receivers = (receivers.length > 0) ? receivers.concat(subset) : subset;
 			}
@@ -213,15 +211,15 @@ class SelectorMap {
 		return receivers;
 	}
 	
-	private function getSelectorType (message:Message) : Class {
+	private function getSelectorType (selector:*, domain:ApplicationDomain) : Class {
 		var C:Class;
-		if (!(message.selector is Proxy && message.selector is Number)) {
+		if (!(selector is Proxy && selector is Number)) {
 			// Cannot rely on Proxy subclasses to support the constructor property
 			// For Number instance constructor property always returns Number (never int)
-			C = message.selector.constructor as Class;
+			C = selector.constructor as Class;
 		}
 		if (C == null) {
-			C = message.type.applicationDomain.getDefinition(getQualifiedClassName(message.selector)) as Class;
+			C = domain.getDefinition(getQualifiedClassName(selector)) as Class;
 		}
 		return C;
 	}

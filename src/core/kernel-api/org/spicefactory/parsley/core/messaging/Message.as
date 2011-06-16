@@ -42,6 +42,11 @@ public interface Message {
 	
 	/**
 	 * The Context the message was dispatched from.
+	 * This value may be null. It is only set if the message was sent
+	 * by an object managed by Parsley through one of the available options
+	 * for dispatching a message (like ManagedEvents or MessageDispatchers).
+	 * If the message was dispatched programmatically using the ScopeManager API,
+	 * then the sender Context is unknown.
 	 */
  	function get senderContext () : Context;
  	

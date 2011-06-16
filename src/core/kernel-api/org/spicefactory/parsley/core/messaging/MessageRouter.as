@@ -38,11 +38,11 @@ public interface MessageRouter {
 	 * Processes the observers registered for the specified command and its current status.
 	 * 
 	 * @param command the command to process the observers for
-	 * @param cache the cache of observers for the message type that triggered the command
-	 * @param result the result of the command
-	 * @param status the status of the command
+	 * @param typeCache the cache of observers matching by the type of the command
+	 * @param triggerCache the cache of observers matching by the message type that triggered the command
 	 */
-    function observeCommand (command:ObservableCommand, cache:MessageReceiverCache) : void;
+    function observeCommand (command:ObservableCommand, 
+    		typeCache:MessageReceiverCache, triggerCache:MessageReceiverCache) : void;
     
 	
 }

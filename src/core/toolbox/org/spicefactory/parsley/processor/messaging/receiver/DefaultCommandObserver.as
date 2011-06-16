@@ -15,14 +15,15 @@
  */
 
 package org.spicefactory.parsley.processor.messaging.receiver {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Parameter;
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverFactory;
 import org.spicefactory.parsley.processor.util.MessageReceiverFactories;
@@ -35,7 +36,7 @@ import org.spicefactory.parsley.processor.util.MessageReceiverFactories;
 public class DefaultCommandObserver extends AbstractMethodReceiver implements CommandObserver {
 	
 	
-	private var _status:CommandStatus;
+	private var _kind:MessageReceiverKind;
 	private var maxParams:int;
 	private var isInterceptor:Boolean;
 	
@@ -51,13 +52,13 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	 * @param order the execution order for this receiver
 	 * @param supportsResult whether a result parameter is supported in the handler method
 	 */
-	function DefaultCommandObserver (provider:ObjectProvider, methodName:String, status:CommandStatus, 
+	function DefaultCommandObserver (provider:ObjectProvider, methodName:String, kind:MessageReceiverKind, 
 			selector:* = undefined, messageType:ClassInfo = null, order:int = int.MAX_VALUE, supportsResult:Boolean = true) {
 		super(provider, methodName, 
 				getMessageType(provider, methodName, messageType, supportsResult), 
 				getSelector(provider, methodName, selector, supportsResult), 
 				order);
-		_status = status;
+		_kind = kind;
 		isInterceptor = (targetMethod.parameters.length > 0) 
 				? Parameter(targetMethod.parameters[targetMethod.parameters.length - 1])
 						.type.isType(MessageProcessor)
@@ -120,7 +121,7 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 			params.push(processor.result.value);
 		}
 		if (paramTypes.length >= maxParams - 2) {
-			params.push(processor.message);
+			params.push(processor.message.instance);
 		}
 		if (paramTypes.length >= maxParams - 1) {
 			var param:Parameter = paramTypes[params.length];
@@ -128,11 +129,11 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 				params.push(processor);
 			}
 			else {
-				if (processor.selector is Class) {
+				if (processor.message.selector is Class) {
 					params.push(null);
 				}
 				else {
-					params.push(processor.selector);
+					params.push(processor.message.selector);
 				}
 				if (paramTypes.length == maxParams) {
 					params.push(processor);
@@ -145,8 +146,8 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	/**
 	 * @inheritDoc
 	 */
-	public function get status () : CommandStatus {
-		return _status;
+	public function get kind () : MessageReceiverKind {
+		return _kind;
 	}
 	
 	
@@ -163,11 +164,11 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	 * @param supportsResult whether a result parameter is supported in the handler method
 	 * @return a new factory that creates DefaultCommandObserver instance
 	 */
-	public static function newFactory (methodName:String, status:CommandStatus, selector:* = undefined, 
+	public static function newFactory (methodName:String, kind:MessageReceiverKind, selector:* = undefined, 
 			messageType:ClassInfo = null, order:int = int.MAX_VALUE, supportsResult:Boolean = true) : MessageReceiverFactory {
 				
 		return MessageReceiverFactories.newFactory(DefaultCommandObserver, 
-				[methodName, status, selector, messageType, order, supportsResult]);
+				[methodName, kind, selector, messageType, order, supportsResult]);
 	}
 	
 	

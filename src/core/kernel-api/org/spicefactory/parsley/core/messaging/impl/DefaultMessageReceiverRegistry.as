@@ -82,10 +82,10 @@ public class DefaultMessageReceiverRegistry implements MessageReceiverRegistry {
 	
 	
 	private function addReceiver (kind:MessageReceiverKind, receiver:MessageReceiver) : void {
-		var collection:MessageReceiverCollection = receivers[receiver.messageType] as MessageReceiverCollection;
+		var collection:MessageReceiverCollection = receivers[receiver.type] as MessageReceiverCollection;
 		if (collection == null) {
-			collection = new MessageReceiverCollection(receiver.messageType);
-			receivers[receiver.messageType] = collection; 
+			collection = new MessageReceiverCollection(receiver.type);
+			receivers[receiver.type] = collection; 
 			for each (var cache:DefaultMessageReceiverCache in selectionCache) {
 				cache.checkNewCollection(collection);
 			}
@@ -94,7 +94,7 @@ public class DefaultMessageReceiverRegistry implements MessageReceiverRegistry {
 	}
 	
 	private function removeReceiver (kind:MessageReceiverKind, receiver:MessageReceiver) : void {
-		var collection:MessageReceiverCollection = receivers[receiver.messageType] as MessageReceiverCollection;
+		var collection:MessageReceiverCollection = receivers[receiver.type] as MessageReceiverCollection;
 		if (collection == null) {
 			return;
 		}
@@ -134,14 +134,14 @@ public class DefaultMessageReceiverRegistry implements MessageReceiverRegistry {
 	 * @inheritDoc
 	 */
 	public function addCommandObserver (observer:CommandObserver) : void {
-		addReceiver(MessageReceiverKind.forCommandStatus(observer.status), observer);
+		addReceiver(observer.kind, observer);
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
 	public function removeCommandObserver (observer:CommandObserver) : void {
-		removeReceiver(MessageReceiverKind.forCommandStatus(observer.status), observer);
+		removeReceiver(observer.kind, observer);
 	}
 	
 	

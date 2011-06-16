@@ -20,7 +20,6 @@ import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.LogUtil;
 import org.spicefactory.lib.logging.Logger;
-import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.messaging.ErrorPolicy;
 import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
@@ -63,7 +62,6 @@ public class DefaultMessageProcessor implements MessageProcessor {
 	 */
 	function DefaultMessageProcessor (message:Message, cache:MessageReceiverCache, 
 			settings:MessageSettings, receiverHandler:Function = null) {
-		// TODO - message may now be null in CommandObserverProcessor subclass
 		this._message = message;
 		this._cache = cache;
 		this.settings = settings;
@@ -78,7 +76,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 	 * @return a string that can be used to describe the message handled by this processor
 	 */
 	protected function getLogString (action:String, receiverCount:int) : String {
-		return LogUtil.buildLogMessage("{0} message '{1}' with {2} receiver(s)", [action, message, receiverCount]);
+		return LogUtil.buildLogMessage("{0} message '{1}' with {2} receiver(s)", [action, message.instance, receiverCount]);
 	}
 	
 	private function illegalState (methodName:String) : void {
@@ -190,7 +188,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 
 	private function handleError (e:Error) : Boolean {
 		var handlers:Array = new Array();
-		var errorHandlers:Array = cache.getReceivers(_message, MessageReceiverKind.ERROR_HANDLER);
+		var errorHandlers:Array = (_message) ? cache.getReceivers(MessageReceiverKind.ERROR_HANDLER, _message.selector) : [];
 		for each (var errorHandler:MessageErrorHandler in errorHandlers) {
 			if (e is errorHandler.errorType) {
 				handlers.push(errorHandler);
@@ -254,7 +252,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 	 * @return the receivers for the message type and receiver kind this processor handles
 	 */
 	protected function fetchReceivers () : Array {
-		return cache.getReceivers(_message, MessageReceiverKind.TARGET);
+		return cache.getReceivers(MessageReceiverKind.TARGET, _message.selector);
 	}
 	
 	/**
@@ -267,35 +265,21 @@ public class DefaultMessageProcessor implements MessageProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function get message () : Object {
-		return _message.instance;
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get selector () : * {
-		return _message.selector;
+	public function get message () : Message {
+		return (_message);
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
 	public function sendResponse (msg:Object, selector:* = null) : void {
-		if (senderContext) {
-			senderContext.scopeManager.dispatchMessage(msg, selector);
+		if (message && message.senderContext) {
+			message.senderContext.scopeManager.dispatchMessage(msg, selector);
 		}
 		else {
 			throw new IllegalStateError("Unable to send response for message " 
 					+ message + ": sender Context unknown");
 		}
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get senderContext () : Context {
-		return _message.senderContext;
 	}
 	
 	

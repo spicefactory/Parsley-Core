@@ -149,11 +149,11 @@ public class AbstractMessageHandler extends AbstractMethodReceiver {
 					params.push(processor);
 				}
 				else {
-					if (processor.selector is Class) {
+					if (processor.message.selector is Class) {
 						params.push(null);
 					}
 					else {
-						params.push(processor.selector);
+						params.push(processor.message.selector);
 					}
 					if (cnt == 3) {
 						params.push(processor);
@@ -163,7 +163,7 @@ public class AbstractMessageHandler extends AbstractMethodReceiver {
 		}
 		else {
 			for each (var messageProperty:Property in messageProperties) {
-				var value:* = messageProperty.getValue(processor.message);
+				var value:* = messageProperty.getValue(processor.message.instance);
 				params.push(value);
 			}
 			if (targetMethod.parameters.length > params.length) {

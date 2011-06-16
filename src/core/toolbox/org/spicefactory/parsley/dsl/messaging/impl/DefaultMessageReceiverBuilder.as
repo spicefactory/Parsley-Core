@@ -15,10 +15,11 @@
  */
 
 package org.spicefactory.parsley.dsl.messaging.impl {
+
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.core.command.CommandStatus;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.dsl.impl.ObjectDefinitionBuilderPart;
 import org.spicefactory.parsley.dsl.messaging.MessageReceiverBuilder;
@@ -106,7 +107,8 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 	 */
 	public static function forCommandResult (target:Method, config:Configuration) : DefaultMessageReceiverBuilder {
 		var info:MessageReceiverInfo = new MessageReceiverInfo(config);
-		var builderPart:ObjectDefinitionBuilderPart = new CommandResultBuilderPart(target, CommandStatus.COMPLETE, info);
+		var builderPart:ObjectDefinitionBuilderPart 
+				= new CommandResultBuilderPart(target, MessageReceiverKind.COMMAND_COMPLETE_BY_TRIGGER, info);
 		return new DefaultMessageReceiverBuilder(builderPart, info);
 	}
 	
@@ -119,7 +121,8 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 	 */
 	public static function forCommandError (target:Method, config:Configuration) : DefaultMessageReceiverBuilder {
 		var info:MessageReceiverInfo = new MessageReceiverInfo(config);
-		var builderPart:ObjectDefinitionBuilderPart = new CommandResultBuilderPart(target, CommandStatus.ERROR, info);
+		var builderPart:ObjectDefinitionBuilderPart 
+				= new CommandResultBuilderPart(target, MessageReceiverKind.COMMAND_ERROR_BY_TRIGGER, info);
 		return new DefaultMessageReceiverBuilder(builderPart, info);
 	}
 	
@@ -132,7 +135,8 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 	 */
 	public static function forCommandComplete (target:Method, config:Configuration) : DefaultMessageReceiverBuilder {
 		var info:MessageReceiverInfo = new MessageReceiverInfo(config);
-		var builderPart:ObjectDefinitionBuilderPart = new CommandResultBuilderPart(target, CommandStatus.COMPLETE, info, false);
+		var builderPart:ObjectDefinitionBuilderPart 
+				= new CommandResultBuilderPart(target, MessageReceiverKind.COMMAND_COMPLETE_BY_TRIGGER, info, false);
 		return new DefaultMessageReceiverBuilder(builderPart, info);
 	}
 	
@@ -144,8 +148,8 @@ import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.command.CommandManager;
-import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ResolvableValue;
 import org.spicefactory.parsley.dsl.impl.ObjectDefinitionBuilderPart;
@@ -160,20 +164,20 @@ class CommandResultBuilderPart implements ObjectDefinitionBuilderPart {
 	
 	private var info:MessageReceiverInfo;
 	private var method:Method;
-	private var status:CommandStatus;
+	private var kind:MessageReceiverKind;
 	private var supportsResult:Boolean;
 	
-	function CommandResultBuilderPart (target:Method, status:CommandStatus, info:MessageReceiverInfo, supportsResult:Boolean = true) {
+	function CommandResultBuilderPart (target:Method, kind:MessageReceiverKind, info:MessageReceiverInfo, supportsResult:Boolean = true) {
 		this.method = target;
 		this.info = info;
-		this.status = status;
+		this.kind = kind;
 		this.supportsResult = supportsResult;
 	}
 
 	public function apply (target:ObjectDefinition) : void {
 		var messageType:ClassInfo = (info.type != null) ? ClassInfo.forClass(info.type, info.config.domain) : null;
 		var factory:MessageReceiverFactory 
-				= DefaultCommandObserver.newFactory(method.name, status, info.selector, messageType, info.order, supportsResult);
+				= DefaultCommandObserver.newFactory(method.name, kind, info.selector, messageType, info.order, supportsResult);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 	}
 	
@@ -195,16 +199,20 @@ class CommandStatusBuilderPart implements ObjectDefinitionBuilderPart {
 
 		var factory:MessageReceiverFactory;
 		
-		factory = CommandStatusFlag.newFactory(property.name, manager, CommandStatus.EXECUTE, messageType, info.selector, int.MIN_VALUE);
+		factory = CommandStatusFlag.newFactory(property.name, manager, 
+				MessageReceiverKind.COMMAND_EXECUTE_BY_TRIGGER, messageType, info.selector, int.MIN_VALUE);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 		
-		factory = CommandStatusFlag.newFactory(property.name, manager, CommandStatus.COMPLETE, messageType, info.selector, int.MIN_VALUE);
+		factory = CommandStatusFlag.newFactory(property.name, manager, 
+				MessageReceiverKind.COMMAND_COMPLETE_BY_TRIGGER, messageType, info.selector, int.MIN_VALUE);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 		
-		factory = CommandStatusFlag.newFactory(property.name, manager, CommandStatus.ERROR, messageType, info.selector, int.MIN_VALUE);
+		factory = CommandStatusFlag.newFactory(property.name, manager, 
+				MessageReceiverKind.COMMAND_ERROR_BY_TRIGGER, messageType, info.selector, int.MIN_VALUE);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 		
-		factory = CommandStatusFlag.newFactory(property.name, manager, CommandStatus.CANCEL, messageType, info.selector, int.MIN_VALUE);
+		factory = CommandStatusFlag.newFactory(property.name, manager, 
+				MessageReceiverKind.COMMAND_CANCEL_BY_TRIGGER, messageType, info.selector, int.MIN_VALUE);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 
 		target.addProcessorFactory(PropertyProcessor.newFactory(property, 

@@ -21,6 +21,7 @@ import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.command.data.CommandData;
 import org.spicefactory.lib.command.lifecycle.DefaultCommandLifecycle;
 import org.spicefactory.lib.command.proxy.CommandProxy;
+import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
@@ -76,7 +77,8 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	}
 	
 	private function createObservableCommand (command:Object, dynamicObject:DynamicObject) : ObservableCommand {
-		var observable:ObservableCommand = new ObservableCommandImpl(command, dynamicObject, nextId, nextTrigger);
+		var type:ClassInfo = ClassInfo.forInstance(command, context.domain);
+		var observable:ObservableCommand = new ObservableCommandImpl(command, type, dynamicObject, nextId, nextTrigger);
 		nextId = null;
 		nextTrigger = null;
 		observables[command] = observable;
@@ -88,6 +90,7 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 }
 
 import org.spicefactory.lib.command.CommandResult;
+import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.DynamicObject;
@@ -98,6 +101,7 @@ class ObservableCommandImpl implements ObservableCommand {
 	private var dynamicObject:DynamicObject;
 
 	private var _command:Object;
+	private var _type:ClassInfo;
 	private var _trigger:Message;
 	private var _id:String;
 	private var _status:CommandStatus;
@@ -106,10 +110,11 @@ class ObservableCommandImpl implements ObservableCommand {
 	private var callbacks:Array = [];
 	
 
-	function ObservableCommandImpl (command:Object, dynamicObject:DynamicObject = null, 
+	function ObservableCommandImpl (command:Object, type:ClassInfo, dynamicObject:DynamicObject = null, 
 			id:String = null, trigger:Message = null) {
 		this.dynamicObject = dynamicObject;
 		_command = command;
+		_type = type;
 		_id = id;
 		_trigger = trigger;
 		_status = CommandStatus.EXECUTE;
@@ -126,6 +131,10 @@ class ObservableCommandImpl implements ObservableCommand {
 
 	public function get command () : Object {
 		return _command;
+	}
+	
+	public function get type () : ClassInfo {
+		return _type;
 	}
 
 	public function get result () : Object {

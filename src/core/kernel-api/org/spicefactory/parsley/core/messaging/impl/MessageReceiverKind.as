@@ -36,42 +36,62 @@ public class MessageReceiverKind {
 	public static const ERROR_HANDLER:MessageReceiverKind = new MessageReceiverKind("errorHandler");
 
 	/**
-	 * Constant for a command observer for the status EXECUTE.
+	 * Constant for a command observer for the status EXECUTE, matching by trigger message and selector.
 	 */
-	public static const COMMAND_EXECUTE:MessageReceiverKind = new MessageReceiverKind("commandExecute");
+	public static const COMMAND_EXECUTE_BY_TRIGGER:MessageReceiverKind = new MessageReceiverKind("commandExecute");
 	
 	/**
-	 * Constant for a command observer for the status COMPLETE.
+	 * Constant for a command observer for the status COMPLETE, matching by trigger message and selector.
 	 */
-	public static const COMMAND_COMPLETE:MessageReceiverKind = new MessageReceiverKind("commandComplete");
+	public static const COMMAND_COMPLETE_BY_TRIGGER:MessageReceiverKind = new MessageReceiverKind("commandComplete");
 	
 	/**
-	 * Constant for a command observer for the status ERROR.
+	 * Constant for a command observer for the status ERROR, matching by trigger message and selector.
 	 */
-	public static const COMMAND_ERROR:MessageReceiverKind = new MessageReceiverKind("commandError");
+	public static const COMMAND_ERROR_BY_TRIGGER:MessageReceiverKind = new MessageReceiverKind("commandError");
 	
 	/**
-	 * Constant for a command observer for the status CANCEL.
+	 * Constant for a command observer for the status CANCEL, matching by trigger message and selector.
 	 */
-	public static const COMMAND_CANCEL:MessageReceiverKind = new MessageReceiverKind("commandCancel");
+	public static const COMMAND_CANCEL_BY_TRIGGER:MessageReceiverKind = new MessageReceiverKind("commandCancel");
 
+	/**
+	 * Constant for a command observer for the status EXECUTE, matching by command type and id.
+	 */
+	public static const COMMAND_EXECUTE_BY_TYPE:MessageReceiverKind = new MessageReceiverKind("commandExecuteByType");
+	
+	/**
+	 * Constant for a command observer for the status COMPLETE, matching by command type and id.
+	 */
+	public static const COMMAND_COMPLETE_BY_TYPE:MessageReceiverKind = new MessageReceiverKind("commandExecuteByType");
+	
+	/**
+	 * Constant for a command observer for the status ERROR, matching by command type and id.
+	 */
+	public static const COMMAND_ERROR_BY_TYPE:MessageReceiverKind = new MessageReceiverKind("commandExecuteByType");
+	
+	/**
+	 * Constant for a command observer for the status CANCEL, matching by command type and id.
+	 */
+	public static const COMMAND_CANCEL_BY_TYPE:MessageReceiverKind = new MessageReceiverKind("commandExecuteByType");
 
 	/**
 	 * Returns the constant corrsesponding to the specified command status.
 	 * 
 	 * @param status the status to return the corresponding receiver kind for
+	 * @param byTrigger whether the observer matches by trigger message and selector (true) or command type and id (false) 
 	 * @return the constant corrsesponding to the specified command status
 	 */
-	public static function forCommandStatus (status:CommandStatus) : MessageReceiverKind {
+	public static function forCommandStatus (status:CommandStatus, byTrigger:Boolean) : MessageReceiverKind {
 		switch (status.key) {
 			case CommandStatus.EXECUTE.key: 
-				return COMMAND_EXECUTE;
+				return (byTrigger) ? COMMAND_EXECUTE_BY_TRIGGER : COMMAND_EXECUTE_BY_TYPE;
 			case CommandStatus.COMPLETE.key: 
-				return COMMAND_COMPLETE;
+				return (byTrigger) ? COMMAND_COMPLETE_BY_TRIGGER : COMMAND_COMPLETE_BY_TYPE;
 			case CommandStatus.CANCEL.key: 
-				return COMMAND_CANCEL;
+				return (byTrigger) ? COMMAND_CANCEL_BY_TRIGGER : COMMAND_CANCEL_BY_TYPE;
 			case CommandStatus.ERROR.key: 
-				return COMMAND_ERROR;
+				return (byTrigger) ? COMMAND_ERROR_BY_TRIGGER : COMMAND_ERROR_BY_TYPE;
 		}
 		return null;
 	}

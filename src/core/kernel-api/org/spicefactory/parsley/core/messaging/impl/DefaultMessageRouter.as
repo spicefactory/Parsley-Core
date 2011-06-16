@@ -53,9 +53,10 @@ public class DefaultMessageRouter implements MessageRouter, InitializingService 
 	/**
 	 * @inheritDoc
 	 */
-	public function observeCommand (command:ObservableCommand, cache:MessageReceiverCache) : void {
+	public function observeCommand (command:ObservableCommand,
+    		typeCache:MessageReceiverCache, triggerCache:MessageReceiverCache) : void {
 		var processor:DefaultCommandObserverProcessor 
-				= new DefaultCommandObserverProcessor(command, cache, settings);
+				= new DefaultCommandObserverProcessor(command, typeCache, triggerCache, settings);
 		processor.start();
 	}
 	

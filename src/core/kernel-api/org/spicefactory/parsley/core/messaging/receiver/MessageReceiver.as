@@ -25,9 +25,11 @@ public interface MessageReceiver {
 	
 	
 	/**
-	 * The class or interface of the message. 
+	 * The class or interface of the message.
+	 * In case of a command observer this may also be interpreted
+	 * as the type of the command, depending on the kind of receiver. 
 	 */
-	function get messageType () : Class;
+	function get type () : Class;
 	
 	/**
 	 * An optional selector value to be used for selecting matching messages.

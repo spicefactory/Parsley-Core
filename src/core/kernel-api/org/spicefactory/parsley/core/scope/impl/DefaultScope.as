@@ -114,7 +114,7 @@ public class DefaultScope implements Scope {
 			selector = info.getMessageReceiverCache(type).getSelectorValue(instance);
 		}
 		var message:Message = new DefaultMessage(instance, type, selector, context);
-		if (cache.getReceivers(message, MessageReceiverKind.TARGET).length == 0) {
+		if (cache.getReceivers(MessageReceiverKind.TARGET, message.selector).length == 0) {
 			if (log.isDebugEnabled()) {
 				log.debug("Discarding message '{0}' for scope '{1}': no matching receiver", instance, this);
 			}

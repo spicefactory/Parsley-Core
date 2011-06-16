@@ -85,7 +85,7 @@ public class MessageBinding extends AbstractObjectProviderReceiver implements Me
 	 * @inheritDoc
 	 */
 	public function handleMessage (processor:MessageProcessor) : void {
-		var value:* = messageProperty.getValue(processor.message);
+		var value:* = messageProperty.getValue(processor.message.instance);
 		targetProperty.setValue(provider.instance, value);
 	}
 	

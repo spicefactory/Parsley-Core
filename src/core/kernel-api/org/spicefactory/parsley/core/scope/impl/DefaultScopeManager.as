@@ -191,7 +191,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 			selector = cache.getSelectorValue(instance);
 		}
 		var message:Message = new DefaultMessage(instance, type, selector, context);
-		if (cache.getReceivers(message, MessageReceiverKind.TARGET).length == 0) {
+		if (cache.getReceivers(MessageReceiverKind.TARGET, selector).length == 0) {
 			if (log.isDebugEnabled()) {
 				log.debug("Discarding message '{0}': no matching receiver in any scope", instance);
 			}
@@ -204,7 +204,6 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	 * @inheritDoc
 	 */
 	public function observeCommand (command:ObservableCommand) : void {
-		// TODO - parameter should be Object
 		if (!activated) {
 			deferredActions.add(Commands.delegate(doObserveCommand, command));
 		}
@@ -214,32 +213,47 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 	}
 	
 	private function doObserveCommand (command:ObservableCommand) : void {
-		var caches:Array = new Array();
+		var typeCaches:Array = new Array();
+		var triggerCaches:Array = new Array();
 		for each (var scope:ScopeInfo in scopeInfoRegistry.activeScopes) {
-			caches.push(scope.getMessageReceiverCache(command.trigger.type));
+			if (command.trigger) {
+				triggerCaches.push(scope.getMessageReceiverCache(command.trigger.type));
+			}
+			typeCaches.push(scope.getMessageReceiverCache(command.type));
 			scope.addActiveCommand(command);
 		}
+		var typeCache:MessageReceiverCache = new MergedMessageReceiverCache(typeCaches);
+		var triggerCache:MessageReceiverCache = new MergedMessageReceiverCache(triggerCaches);
 		command.observe(function (command:ObservableCommand) : void {
-			handleCommand(command, caches);
+			handleCommand(command, typeCache, triggerCache);
 		});
-		handleCommand(command, caches); // TODO - prevent suspension in CommandStatus.EXECUTE
+		handleCommand(command, typeCache, triggerCache); // TODO - prevent suspension in CommandStatus.EXECUTE
 	}
 	
-	private function handleCommand (command:ObservableCommand, caches:Array) : void {
-		var cache:MessageReceiverCache = new MergedMessageReceiverCache(caches);
-		if (cache.getReceivers(command.trigger, MessageReceiverKind.forCommandStatus(command.status)).length == 0) {
+	private function handleCommand (command:ObservableCommand, 
+			typeCache:MessageReceiverCache, triggerCache:MessageReceiverCache) : void {
+		if (!hasReceivers(command, typeCache, triggerCache)) {
 			if (log.isDebugEnabled()) {
 				log.debug("Discarding command status {0} for message '{1}': no matching observer", 
 						command.status, command.trigger.instance);
 			}
 			return;
 		}
-		messageRouter.observeCommand(command, cache);
+		messageRouter.observeCommand(command, typeCache, triggerCache);
 	}
+	
+	private function hasReceivers (command:ObservableCommand, 
+			typeCache:MessageReceiverCache, triggerCache:MessageReceiverCache) : Boolean {
+		if (command.trigger 
+				&& triggerCache.getReceivers(MessageReceiverKind.forCommandStatus(command.status, true), command.trigger.selector).length > 0) {
+			return true;
+		}
+		return (typeCache.getReceivers(MessageReceiverKind.forCommandStatus(command.status, false), command.id).length > 0);
+	}
+	
 }
 }
 
-import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 
@@ -251,10 +265,10 @@ class MergedMessageReceiverCache implements MessageReceiverCache {
 		this.caches = caches;
 	}
 
-	public function getReceivers (message:Message, kind:MessageReceiverKind) : Array {
+	public function getReceivers (kind:MessageReceiverKind, selector:* = undefined) : Array {
 		var receivers:Array = new Array();
 		for each (var cache:MessageReceiverCache in caches) {
-			var merge:Array = cache.getReceivers(message, kind);
+			var merge:Array = cache.getReceivers(kind, selector);
 			if (merge.length > 0) {
 				receivers = (receivers.length > 0) ? receivers.concat(merge) : merge;
 			}
@@ -263,8 +277,9 @@ class MergedMessageReceiverCache implements MessageReceiverCache {
 	}
 	
 	public function getSelectorValue (message:Object) : * {
-		return MessageReceiverCache(caches[0]).getSelectorValue(message);
+		return (caches.length) ? MessageReceiverCache(caches[0]).getSelectorValue(message) : undefined;
 	}
 	
 	
 }
+

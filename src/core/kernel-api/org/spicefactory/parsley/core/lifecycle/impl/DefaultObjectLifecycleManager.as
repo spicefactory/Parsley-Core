@@ -99,10 +99,10 @@ public class DefaultObjectLifecycleManager implements ObjectLifecycleManager, In
 	
 	private function dispatchLifecycleMessage (info:ScopeInfo, typeMessage:Message, idMessage:Message = null) : void {
 		var cache:MessageReceiverCache = info.getLifecycleObserverCache(typeMessage.type);
-		if (cache.getReceivers(typeMessage, MessageReceiverKind.TARGET).length > 0) {
+		if (cache.getReceivers(MessageReceiverKind.TARGET, typeMessage.selector).length > 0) {
 			messageRouter.dispatchMessage(typeMessage, cache);
 		}
-		if (idMessage && cache.getReceivers(idMessage, MessageReceiverKind.TARGET).length > 0) {
+		if (idMessage && cache.getReceivers(MessageReceiverKind.TARGET, idMessage.selector).length > 0) {
 			messageRouter.dispatchMessage(idMessage, cache);
 		}
 	}	

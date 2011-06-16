@@ -15,8 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.messaging.receiver {
+
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.command.CommandStatus;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 
 /**
  * Represents a message receiver that gets invoked when an asnychronous command starts or finishes its execution.
@@ -28,7 +29,7 @@ public interface CommandObserver extends MessageReceiver {
 	/**
 	 * The status this observer is interested in. 
 	 */
-	function get status () : CommandStatus;
+	function get kind () : MessageReceiverKind;
 	
 	/**
 	 * Invoked when a matching command starts or finishes its execution.

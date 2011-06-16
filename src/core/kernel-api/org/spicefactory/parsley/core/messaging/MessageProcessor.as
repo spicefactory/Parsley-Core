@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.core.messaging {
 
-import org.spicefactory.parsley.core.context.Context;
 
 /**
  * Responsible for processing a single message. Will be passed to registered message interceptors and error handlers
@@ -29,28 +28,13 @@ public interface MessageProcessor {
 	/**
 	 * The message instance.
 	 */
-	function get message () : Object;
-	
-	/**
-	 * The optional selector value to be used for selecting matching receivers.
-	 */
-	function get selector () : *; 
+	function get message () : Message;
 	
 	/**
 	 * The current state of this processor.
 	 */
 	function get state () : MessageState;
 
-	/**
-	 * The Context the object that sent the message belongs to.
-	 * This value may be null. It is only set if the message was sent
-	 * by an object managed by Parsley through one of the available options
-	 * for dispatching a message (like ManagedEvents or MessageDispatchers).
-	 * If the message was dispatched programmatically using the ScopeManager API,
-	 * then the sender Context is unknown.
-	 */
- 	function get senderContext () : Context;
-	
 	/**
 	 * Cancels processing of this message.
 	 * No further handlers will be invoked and all resources associated with this message are disposed.

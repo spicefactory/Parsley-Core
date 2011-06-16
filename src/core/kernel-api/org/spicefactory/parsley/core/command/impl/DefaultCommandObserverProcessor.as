@@ -35,9 +35,11 @@ import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 public class DefaultCommandObserverProcessor extends DefaultMessageProcessor implements CommandObserverProcessor {
 	
 	
-	private var _command:ObservableCommand;
+	private var observable:ObservableCommand;
 	private var _status:CommandStatus;
 	private var _result:Object;
+	
+	private var typeCache:MessageReceiverCache;
 	
 
 	/**
@@ -49,19 +51,20 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @param result the result of the command
 	 * @param status the status to handle the matching observers for
 	 */
-	function DefaultCommandObserverProcessor (command:ObservableCommand, cache:MessageReceiverCache, 
-			settings:MessageSettings) {
-		super(command.trigger, cache, settings, invokeObserver);
-		_command = command;
-		_status = command.status;
-		_result = command.result;
+	function DefaultCommandObserverProcessor (observable:ObservableCommand, typeCache:MessageReceiverCache, 
+			triggerCache:MessageReceiverCache, settings:MessageSettings) {
+		super(command.trigger, triggerCache, settings, invokeObserver);
+		this.typeCache = typeCache;
+		this.observable = observable;
+		_status = observable.status;
+		_result = observable.result;
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
 	public function get command () : Object {
-		return _command.command;
+		return observable.command;
 	}
 	
 	public function get result () : Object {
@@ -100,7 +103,11 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @private
 	 */
 	protected override function fetchReceivers () : Array {	
-		return cache.getReceivers(command.trigger, MessageReceiverKind.forCommandStatus(status));
+		var receivers:Array = typeCache.getReceivers(MessageReceiverKind.forCommandStatus(status, false), observable.id);
+		return (observable.trigger) ?
+			receivers.concat(cache.getReceivers(MessageReceiverKind.forCommandStatus(status, true), 
+					observable.trigger.selector))
+			: receivers;
 	}
 	
 	

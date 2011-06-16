@@ -84,7 +84,7 @@ class ObjectLifecycleTarget extends AbstractMessageReceiver implements MessageTa
 	}
 	
 	public function handleMessage (processor:MessageProcessor) : void {
-		observer.observe(processor.message);
+		observer.observe(processor.message.instance);
 	}
 	
 }

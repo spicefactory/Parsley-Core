@@ -16,13 +16,10 @@
 package org.spicefactory.parsley.dsl.command {
 
 import org.spicefactory.lib.command.data.DefaultCommandData;
-import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
-import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
 import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageReceiver;
 
@@ -44,14 +41,10 @@ public class MappedCommandProxy extends AbstractMessageReceiver implements Messa
 	}
 
 	public function handleMessage (processor:MessageProcessor) : void {
-		// TODO - change MessageProcessor interface, exposing Message directly instead
-		var message:Message = new DefaultMessage(processor.message, 
-				ClassInfo.forInstance(processor.message, processor.senderContext.domain), 
-				processor.selector, processor.senderContext);
 		var command:ManagedCommandProxy = factory.newInstance();
 		var data:DefaultCommandData = new DefaultCommandData();
-		data.addValue(message.instance);
-		command.prepare(new ManagedCommandLifecycle(context, command, message), data);
+		data.addValue(processor.message.instance);
+		command.prepare(new ManagedCommandLifecycle(context, command, processor.message), data);
 		try {
 			command.execute(); // TODO - move execution to ScopeManager
 		}

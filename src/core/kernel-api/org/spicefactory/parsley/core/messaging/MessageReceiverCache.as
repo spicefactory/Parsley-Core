@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.messaging {
+
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 
 /**
@@ -28,11 +29,11 @@ public interface MessageReceiverCache {
 	/**
 	 * Returns the receivers for the specified receiver kind and selector value.
 	 * 
-	 * @param message the message to retrieve the receivers for
 	 * @param kind the kind of receivers to return
+	 * @param selector the selector to use for finding matching receivers
 	 * @return the receivers for the specified receiver kind and messag
 	 */
-	function getReceivers (message:Message, kind:MessageReceiverKind) : Array;
+	function getReceivers (kind:MessageReceiverKind, selector:* = undefined) : Array;
 	
 	/**
 	 * Returns the value of the selector property of the specified message instance.

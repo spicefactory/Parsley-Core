@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.core.command {
 
+import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.messaging.Message;
 	
 /**
@@ -29,6 +30,8 @@ public interface ObservableCommand {
 	function get id () : String;
 	
 	function get command () : Object;
+	
+	function get type () : ClassInfo;
 	
 	function get result () : Object;
 	

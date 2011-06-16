@@ -15,13 +15,14 @@
  */
 
 package org.spicefactory.parsley.processor.messaging.receiver {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.processor.messaging.MessageReceiverFactory;
 import org.spicefactory.parsley.processor.util.MessageReceiverFactories;
@@ -39,7 +40,7 @@ public class CommandStatusFlag extends AbstractObjectProviderReceiver implements
 	
 	private var _property:Property;
 	
-	private var _status:CommandStatus;
+	private var _kind:MessageReceiverKind;
 	
 	
 	/**
@@ -54,7 +55,7 @@ public class CommandStatusFlag extends AbstractObjectProviderReceiver implements
 	 * @param order the execution order for this receiver
 	 */
 	function CommandStatusFlag (provider:ObjectProvider, propertyName:String, manager:CommandManager, 
-			status:CommandStatus, messageType:ClassInfo, selector:* = undefined, order:int = int.MIN_VALUE) {
+			kind:MessageReceiverKind, messageType:ClassInfo, selector:* = undefined, order:int = int.MIN_VALUE) {
 		super(provider, messageType.getClass(), selector, order);
 		_property = provider.type.getProperty(propertyName);
 		if (_property == null) {
@@ -67,7 +68,7 @@ public class CommandStatusFlag extends AbstractObjectProviderReceiver implements
 		else if (_property.type.getClass() != Boolean) {
 			throw new ContextError("Target " + _property + " for CommandStatus must be of type Boolean");
 		}
-		_status = status;
+		_kind = kind;
 		this.manager = manager;
 	}
 	
@@ -82,14 +83,14 @@ public class CommandStatusFlag extends AbstractObjectProviderReceiver implements
 	 * @inheritDoc
 	 */
 	public function observeCommand (processor:CommandObserverProcessor) : void {
-		property.setValue(provider.instance, manager.hasActiveCommandsForTrigger(messageType, selector));
+		property.setValue(provider.instance, manager.hasActiveCommandsForTrigger(type, selector));
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function get status () : CommandStatus {
-		return _status;
+	public function get kind () : MessageReceiverKind {
+		return _kind;
 	}
 	
 	
@@ -106,10 +107,10 @@ public class CommandStatusFlag extends AbstractObjectProviderReceiver implements
 	 * @param order the execution order for this receiver
 	 * @return a new factory that creates CommandStatusFlag instance
 	 */
-	public static function newFactory (propertyName:String, manager:CommandManager, status:CommandStatus, 
+	public static function newFactory (propertyName:String, manager:CommandManager, kind:MessageReceiverKind, 
 			messageType:ClassInfo, selector:* = undefined, order:int = int.MAX_VALUE) : MessageReceiverFactory {
 				
-		return MessageReceiverFactories.newFactory(CommandStatusFlag, [propertyName, manager, status, messageType, selector, order]);
+		return MessageReceiverFactories.newFactory(CommandStatusFlag, [propertyName, manager, kind, messageType, selector, order]);
 	}
 	
 	
