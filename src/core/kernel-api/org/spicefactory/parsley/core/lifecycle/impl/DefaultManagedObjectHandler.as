@@ -87,7 +87,13 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	public function createObject () : void {
 		checkState(PREPARED);
 		state = CREATED;
-		_target.instance = target.definition.instantiator.instantiate(target);
+		if (target.definition.instantiator != null) {
+			 _target.instance = target.definition.instantiator.instantiate(target);
+		}
+		else {
+			// TODO - 3.0.M2 - implicit injection by type in case of no-arg constructors
+			_target.instance = target.definition.type.newInstance([]);
+		}
 	}
 	
 	/**
