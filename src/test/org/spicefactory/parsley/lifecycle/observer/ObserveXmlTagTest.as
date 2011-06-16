@@ -34,7 +34,7 @@ public class ObserveXmlTagTest extends ObserveMethodTestBase {
 		<object type="mx.containers.Box" lazy="true"/>
 		<object type="mx.controls.Text" lazy="true" id="text"/>
 		<object type="mx.controls.Text" lazy="true" id="text2"/>
-		<object type="org.spicefactory.parsley.lifecycle.methods.model.LifecycleEventCounter">
+		<object type="org.spicefactory.parsley.lifecycle.observer.model.LifecycleEventCounter">
 			<observe method="globalListener"/>
 			<observe method="globalVListener"/>
 			<observe method="globalHListener"/>
@@ -54,7 +54,7 @@ public class ObserveXmlTagTest extends ObserveMethodTestBase {
 	public function testObserverProxy () : void {
 		var config:XML = <objects xmlns="http://www.spicefactory.org/parsley">
 			<object type="mx.containers.Box" order="1"/>
-			<object type="org.spicefactory.parsley.lifecycle.methods.model.LifecycleEventCounter" order="2">
+			<object type="org.spicefactory.parsley.lifecycle.observer.model.LifecycleEventCounter" order="2">
 				<observe method="globalListener"/>
 			</object>
 		</objects>;
