@@ -141,7 +141,7 @@ public class AbstractMessageHandler extends AbstractMethodReceiver {
 		if (messageProperties == null) {
 			var cnt:int = targetMethod.parameters.length;
 			if (cnt >= 1) {
-				params.push(processor.message);
+				params.push(processor.message.instance);
 			}
 			if (cnt >= 2) {
 				var param:Parameter = targetMethod.parameters[1];
