@@ -40,15 +40,15 @@ public class LifecycleObserverDelegate implements LifecycleObserver {
 	}
 
 	public function get observedType () : Class {
-		return null;
+		return _observedType;
 	}
 
 	public function get phase () : ObjectLifecycle {
-		return null;
+		return _phase;
 	}
 
 	public function get objectId () : String {
-		return "";
+		return _objectId;
 	}
 
 	public function observe (observed:Object) : void {
