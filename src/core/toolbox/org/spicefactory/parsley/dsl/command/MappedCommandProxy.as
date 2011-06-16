@@ -46,7 +46,7 @@ public class MappedCommandProxy extends AbstractMessageReceiver implements Messa
 		data.addValue(processor.message.instance);
 		command.prepare(new ManagedCommandLifecycle(context, command, processor.message), data);
 		try {
-			command.execute(); // TODO - move execution to ScopeManager
+			command.execute();
 		}
 		catch (e:Error) {
 			return;
