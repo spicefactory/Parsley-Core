@@ -16,7 +16,7 @@
  
 package org.spicefactory.parsley.tag.command {
 
-import org.spicefactory.lib.util.collection.Map;
+import org.spicefactory.lib.collection.Map;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
@@ -50,13 +50,13 @@ public class CommandFlowTag extends AbstractCommandTag implements NestedCommandT
 }
 }
 
+import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.command.CommandResult;
-import org.spicefactory.lib.command.flow.CommandLinkProcessor;
 import org.spicefactory.lib.command.flow.CommandFlow;
 import org.spicefactory.lib.command.flow.CommandLink;
+import org.spicefactory.lib.command.flow.CommandLinkProcessor;
 import org.spicefactory.lib.command.flow.DefaultCommandFlow;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;

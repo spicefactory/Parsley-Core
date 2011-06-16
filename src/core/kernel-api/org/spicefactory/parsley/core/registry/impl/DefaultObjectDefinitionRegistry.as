@@ -16,9 +16,9 @@
 
 package org.spicefactory.parsley.core.registry.impl {
 
+import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;

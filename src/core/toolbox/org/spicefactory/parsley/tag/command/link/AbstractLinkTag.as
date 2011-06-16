@@ -15,13 +15,13 @@
  */
 package org.spicefactory.parsley.tag.command.link {
 
+import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.command.Command;
 import org.spicefactory.lib.command.flow.CommandLink;
 import org.spicefactory.lib.command.flow.DefaultCommandLink;
 import org.spicefactory.lib.command.flow.LinkCondition;
 import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.tag.command.NestedCommandTag;
 /**
  * @author Jens Halm
@@ -51,9 +51,9 @@ public class AbstractLinkTag implements LinkTag {
 }
 }
 
-import org.spicefactory.lib.command.flow.LinkAction;
 import org.spicefactory.lib.command.Command;
 import org.spicefactory.lib.command.flow.CommandLinkProcessor;
+import org.spicefactory.lib.command.flow.LinkAction;
 
 class ExecuteCommandAction implements LinkAction {
 

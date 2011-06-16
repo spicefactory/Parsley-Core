@@ -15,8 +15,8 @@
  */
 package org.spicefactory.parsley.tag.command.link {
 
+import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.command.flow.CommandLink;
-import org.spicefactory.lib.util.collection.Map;
 /**
  * @author Jens Halm
  */

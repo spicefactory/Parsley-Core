@@ -16,7 +16,7 @@
 
 package org.spicefactory.parsley.core.command.impl {
 
-import org.spicefactory.lib.util.collection.List;
+import org.spicefactory.lib.collection.List;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 

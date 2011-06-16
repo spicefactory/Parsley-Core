@@ -16,12 +16,12 @@
  
 package org.spicefactory.parsley.binding.impl {
 
+import org.spicefactory.lib.collection.List;
+import org.spicefactory.lib.collection.MultiMap;
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.lib.util.collection.List;
-import org.spicefactory.lib.util.collection.MultiMap;
 import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.binding.Subscriber;
 
@@ -117,6 +117,9 @@ public class SubscriberCollection {
 	
 	private function validate (p1:Publisher, p2:Publisher, id:String) : void {
 		var idMsg:String = (id == null) ? " without id" : " with id " + id;
+		if (!p1 || !p2 || !p1.type || !p2.type) {
+			trace("NO");
+		}
 		if (p1.type.getClass() != p2.type.getClass()) {
 			throw new IllegalArgumentError("Ambiguous publishers for subscribers of type " + type.name + idMsg 
 					+ ": " + p1 + " and " + p2 + " - all publishers must publish exactly the same type in this case");
