@@ -101,8 +101,10 @@ public class MappedCommandBuilder {
 		var messageInfo:ClassInfo = (_messageType) 
 			? ClassInfo.forClass(_messageType, context.domain)
 			: deduceMessageType();
+			
+		var message:Class = (messageInfo) ? messageInfo.getClass() : Object;
 		
-		target = new MappedCommandProxy(factory, context, messageInfo.getClass(), selector, _order);
+		target = new MappedCommandProxy(factory, context, message, selector, _order);
 				
 		context.scopeManager.getScope(_scope).messageReceivers.addTarget(target);
 		
@@ -110,8 +112,7 @@ public class MappedCommandBuilder {
 	}
 	
 	private function deduceMessageType () : ClassInfo {
-		// TODO - implement - concrete logic is different for most command adapter types
-		return null;
+		return CommandTriggerProviders.defaultProvider.getTriggerType(factory.type);
 	}
 	
 	private function contextDestroyed (event:ContextEvent) : void {
