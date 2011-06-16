@@ -20,7 +20,6 @@ import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
 [DefaultProperty("commands")]
-[XmlMapping(elementName="command")]
 /**
  * Represents the root tag for an dynamic object definition in MXML or XML configuration.
  * 
