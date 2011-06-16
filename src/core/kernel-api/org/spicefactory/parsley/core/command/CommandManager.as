@@ -33,7 +33,17 @@ public interface CommandManager {
 	 * @param selector the selector of the message that triggered the commands
 	 * @return true if there is at least one matching command in this scope.
 	 */
-	function hasActiveCommands (messageType:Class, selector:* = undefined) : Boolean;
+	function hasActiveCommandsForTrigger (messageType:Class, selector:* = undefined) : Boolean;
+	
+	/**
+	 * Indicates whether this scope has any active commands
+	 * that matches the specified command type and id.
+	 * 
+	 * @param commandType the type of the command
+	 * @param id the id the command is registered with in the Context
+	 * @return true if there is at least one matching command in this scope.
+	 */
+	function hasActiveCommandsOfType (commandType:Class, id:String = null) : Boolean;
 	
 	/**
 	 * Returns all active commands triggered by a message
@@ -41,10 +51,20 @@ public interface CommandManager {
 	 * 
 	 * @param messageType the type of the message that triggered the commands
 	 * @param selector the selector of the message that triggered the commands
-	 * @return all matching Command instances.
+	 * @return all matching ObservableCommand instances.
 	 */
-	function getActiveCommands (messageType:Class, selector:* = undefined) : Array;
-	
+	function getActiveCommandsByTrigger (messageType:Class, selector:* = undefined) : Array;
+
+	/**
+	 * Returns all active commands of the specified type.
+	 * If an id is specified it refers to the id the command is registered with
+	 * in the Context.
+	 * 
+	 * @param commandType the type of the command
+	 * @param id the id the command is registered with in the Context
+	 * @return all matching ObservableCommand instances
+	 */
+	function getActiveCommandsByType (commandType:Class, id:String = null) : Array;
 	
 }
 }

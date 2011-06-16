@@ -49,9 +49,9 @@ public class DefaultCommandManager implements CommandManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function hasActiveCommands (messageType:Class, selector:* = undefined) : Boolean {
+	public function hasActiveCommandsForTrigger (messageType:Class, selector:* = undefined) : Boolean {
 		for each (var command:ObservableCommand in commands) {
-			if (matches(command, messageType, selector)) {
+			if (matchesByTrigger(command, messageType, selector)) {
 				return true;
 			}
 		}
@@ -61,19 +61,49 @@ public class DefaultCommandManager implements CommandManager {
 	/**
 	 * @inheritDoc
 	 */
-	public function getActiveCommands (messageType:Class, selector:* = undefined) : Array {
+	public function getActiveCommandsByTrigger (messageType:Class, selector:* = undefined) : Array {
 		var result:Array = new Array();
 		for each (var command:ObservableCommand in commands) {
-			if (matches(command, messageType, selector)) {
+			if (matchesByTrigger(command, messageType, selector)) {
 				result.push(command);
 			}
 		}
 		return result;
 	}
 	
-	private function matches (command:ObservableCommand, messageType:Class, selector:*) : Boolean {
+	private function matchesByTrigger (command:ObservableCommand, messageType:Class, selector:*) : Boolean {
 		return (command.trigger && command.trigger.instance is messageType &&
 				(selector == undefined || selector == command.trigger.selector));
+	}
+	
+	private function matchesByType (command:ObservableCommand, commandType:Class, id:String = null) : Boolean {
+		return (command.command is commandType &&
+				(id == undefined || id == command.id));
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function hasActiveCommandsOfType (commandType:Class, id:String = null) : Boolean {
+		for each (var command:ObservableCommand in commands) {
+			if (matchesByType(command, commandType, id)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getActiveCommandsByType (commandType:Class, id:String = null) : Array {
+		var result:Array = new Array();
+		for each (var command:ObservableCommand in commands) {
+			if (matchesByType(command, commandType, id)) {
+				result.push(command);
+			}
+		}
+		return result;
 	}
 	
 	

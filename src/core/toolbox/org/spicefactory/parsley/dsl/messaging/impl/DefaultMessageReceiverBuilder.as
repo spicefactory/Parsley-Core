@@ -225,7 +225,7 @@ class CommandStatusValue implements ResolvableValue {
 	}
 
 	public function resolve (target:ManagedObject) : * {
-		return manager.hasActiveCommands(messageType, selector);
+		return manager.hasActiveCommandsForTrigger(messageType, selector);
 	}
 	
 	/**
