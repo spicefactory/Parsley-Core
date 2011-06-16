@@ -21,14 +21,14 @@ import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.dsl.command.DefaultManagedCommandFactory;
 
-[DefaultProperty("decorators")]
+[DefaultProperty("links")]
 [XmlMapping(elementName="command")]
 /**
  * Represents the root tag for an dynamic object definition in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
-public class CommandTag implements NestedCommandTag {
+public class CommandTag extends AbstractCommandTag implements NestedCommandTag {
 	
 	
 	/**
@@ -41,7 +41,7 @@ public class CommandTag implements NestedCommandTag {
 	/**
 	 * The ObjectDefinitionDecorator instances added to this definition.
 	 */
-	public var decorators:Array = new Array();
+	public var config:Array = new Array();
 	
 
 	/**
@@ -52,7 +52,7 @@ public class CommandTag implements NestedCommandTag {
 		var def:DynamicObjectDefinition = config.builders
 			.forClass(type)
 				.asDynamicObject()
-					.decorators(decorators)
+					.decorators(this.config)
 					.build();
 					
 		return new DefaultManagedCommandFactory(def);

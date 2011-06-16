@@ -20,10 +20,11 @@ import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 	
+[DefaultProperty("links")]
 /**
  * @author Jens Halm
  */
-public class CommandRefTag implements NestedCommandTag {
+public class CommandRefTag extends AbstractCommandTag implements NestedCommandTag {
 
 
 	public var idRef:String;

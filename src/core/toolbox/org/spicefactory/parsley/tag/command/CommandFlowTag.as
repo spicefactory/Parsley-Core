@@ -16,16 +16,18 @@
  
 package org.spicefactory.parsley.tag.command {
 
+import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
 [DefaultProperty("commands")]
+[XmlMapping(elementName="command-flow")]
 /**
  * Represents the root tag for an dynamic object definition in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
-public class AbstractCommandGroupTag extends AbstractCommandTag implements NestedCommandTag {
+public class CommandFlowTag extends AbstractCommandTag implements NestedCommandTag {
 	
 	
 	[ArrayElementType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
@@ -34,55 +36,72 @@ public class AbstractCommandGroupTag extends AbstractCommandTag implements Neste
 	 * The ObjectDefinitionDecorator instances added to this definition.
 	 */
 	public var commands:Array = new Array();
-	
-	private var type:Class;
 
-	function AbstractCommandGroupTag (type:Class) {
-		this.type = type;
-	}
 
 	public function resolve (config:Configuration) : ManagedCommandFactory {
-		var factories:Array = [];
+		var map:Map = new Map();
 		for each (var tag:NestedCommandTag in commands) {
-			factories.push(tag.resolve(config));
+			map.put(tag, tag.resolve(config));
 		}
-		return new Factory(type, factories, config.context);
+		return new Factory(map, config.context);
 	}
 	
 	
 }
 }
 
-import org.spicefactory.lib.command.group.CommandGroup;
+import org.spicefactory.lib.command.CommandResult;
+import org.spicefactory.lib.command.flow.CommandLinkProcessor;
+import org.spicefactory.lib.command.flow.CommandFlow;
+import org.spicefactory.lib.command.flow.CommandLink;
+import org.spicefactory.lib.command.flow.DefaultCommandFlow;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.lib.util.collection.Map;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.dsl.command.DefaultManagedCommandProxy;
+import org.spicefactory.parsley.tag.command.NestedCommandTag;
+import org.spicefactory.parsley.tag.command.link.LinkTag;
 
 class Factory implements ManagedCommandFactory {
 	
-	private var _type:Class;
-	private var factories:Array;
+	private var map:Map;
 	private var context:Context;
 	
-	function Factory (type:Class, factories:Array, context:Context) {
-		this._type = type;
-		this.factories = factories;
+	function Factory (map:Map, context:Context) {
+		this.map = map;
 		this.context = context;
 	}
 	
 	public function newInstance () : ManagedCommandProxy {
-		var group:CommandGroup = new _type();
-		for each (var factory:ManagedCommandFactory in factories) {
-			group.addCommand(factory.newInstance());
+		var flow:CommandFlow = new DefaultCommandFlow();
+		for each (var tag:NestedCommandTag in map.keys) {
+			var factory:ManagedCommandFactory = map.get(tag);
+			map.put(tag, factory.newInstance());
 		}
+		for each (var resolvedTag:NestedCommandTag in map.keys) {
+			var command:ManagedCommandProxy = map.get(tag);
+			for each (var linkTag:LinkTag in resolvedTag.links) {
+				var link:CommandLink = linkTag.build(map);
+				flow.addLink(command, link);
+			}
+		}
+		flow.setDefaultLink(new DefaultLink());
 		// TODO - handle id ?
-		return new DefaultManagedCommandProxy(context, group);
+		return new DefaultManagedCommandProxy(context, flow);
 	}
 
 	public function get type () : ClassInfo {
-		return ClassInfo.forClass(_type, context.domain);
+		return ClassInfo.forClass(CommandFlow, context.domain);
+	}
+	
+}
+
+class DefaultLink implements CommandLink {
+
+	public function link (result:CommandResult, processor:CommandLinkProcessor) : void {
+		processor.complete();
 	}
 	
 }

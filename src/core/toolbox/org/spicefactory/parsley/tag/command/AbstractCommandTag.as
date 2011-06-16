@@ -15,19 +15,24 @@
  */
 
 package org.spicefactory.parsley.tag.command {
-
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 	
 /**
  * @author Jens Halm
  */
-public interface NestedCommandTag {
+public class AbstractCommandTag {
 	
 	
-	function resolve (config:Configuration) : ManagedCommandFactory;
+	private var _links:Array = new Array();
 	
-	function get links () : Array;
+	public function get links () : Array {
+		return _links;
+	}
+	
+	[ArrayElementType("org.spicefactory.parsley.tag.command.link.LinkTag")]
+	[ChoiceType("org.spicefactory.parsley.tag.command.link.LinkTag")]
+	public function set links (value:Array) : void {
+		_links = links;
+	}
 	
 	
 }

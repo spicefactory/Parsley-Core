@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.spicefactory.parsley.tag.command.link {
 
-package org.spicefactory.parsley.tag.command {
-
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-	
+import org.spicefactory.lib.command.flow.LinkConditions;
+import org.spicefactory.lib.command.flow.LinkCondition;
 /**
  * @author Jens Halm
  */
-public interface NestedCommandTag {
+public class LinkResultPropertyTag extends AbstractLinkTag {
 	
 	
-	function resolve (config:Configuration) : ManagedCommandFactory;
+	public var name:String;
 	
-	function get links () : Array;
+	public var value:*;
+	
+	
+	protected override function get condition () : LinkCondition {
+		return LinkConditions.forResultProperty(name, value);
+	}
 	
 	
 }

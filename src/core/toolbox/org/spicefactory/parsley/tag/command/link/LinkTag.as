@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.spicefactory.parsley.tag.command.link {
 
-package org.spicefactory.parsley.tag.command {
-
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-	
+import org.spicefactory.lib.command.flow.CommandLink;
+import org.spicefactory.lib.util.collection.Map;
 /**
  * @author Jens Halm
  */
-public interface NestedCommandTag {
+public interface LinkTag {
 	
 	
-	function resolve (config:Configuration) : ManagedCommandFactory;
-	
-	function get links () : Array;
-	
+	function build (commands:Map) : CommandLink;
 	
 }
 }
