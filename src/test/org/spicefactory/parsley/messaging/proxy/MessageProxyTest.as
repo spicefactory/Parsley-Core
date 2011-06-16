@@ -8,7 +8,6 @@ import org.spicefactory.parsley.asconfig.ActionScriptContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.messaging.proxy.config.MessageProxyConfig;
-import org.spicefactory.parsley.messaging.proxy.model.CommandReceiver;
 import org.spicefactory.parsley.messaging.proxy.model.ErrorHandler;
 import org.spicefactory.parsley.messaging.proxy.model.FaultyObjectConfig;
 import org.spicefactory.parsley.messaging.proxy.model.MessageHandlerReceiver;
@@ -24,14 +23,6 @@ public class MessageProxyTest {
 		MessageHandlerReceiver.instanceCount = 0;
 		var context:Context = ActionScriptContextBuilder.build(MessageProxyConfig);
 		var receiver:MessageHandlerReceiver = context.getObjectByType(MessageHandlerReceiver) as MessageHandlerReceiver;
-		assertThat(receiver.getCount(), equalTo(1));
-	}
-	
-	[Test]
-	public function commandProxy () : void {
-		MessageHandlerReceiver.instanceCount = 0;
-		var context:Context = ActionScriptContextBuilder.build(MessageProxyConfig);
-		var receiver:CommandReceiver = context.getObjectByType(CommandReceiver) as CommandReceiver;
 		assertThat(receiver.getCount(), equalTo(1));
 	}
 	
