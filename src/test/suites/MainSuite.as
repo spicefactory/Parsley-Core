@@ -11,7 +11,7 @@ public class MainSuite {
 
 	public var lifecycle:LifecycleSuite;
 	public var messaging:MessagingSuite;
-	public var command:CommandSuite;
+	//public var command:CommandSuite;
 	public var binding:BindingSuite;
 
 	
