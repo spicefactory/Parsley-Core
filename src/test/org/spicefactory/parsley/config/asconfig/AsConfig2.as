@@ -13,7 +13,7 @@ public class AsConfig2 {
 		return new ClassWithSimpleProperties();
 	}
 	
-	[ObjectDefinition(singleton="false")]
+	[DynamicObject]
 	public function get prototypeInstance () : ClassWithSimpleProperties {
 		return new ClassWithSimpleProperties();
 	}

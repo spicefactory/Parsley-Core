@@ -29,7 +29,7 @@ public class MessagingXmlTagTest extends MessagingTestBase {
 			<managed-events names="test1, test2, foo"/>
 		</object> 
 		
-		<object id="eventSource2" type="org.spicefactory.parsley.messaging.model.EventSource" singleton="false">
+		<dynamic-object id="eventSource2" type="org.spicefactory.parsley.messaging.model.EventSource">
 			<managed-events names="test1, test2, foo"/>
 		</object> 
 		
