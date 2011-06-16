@@ -115,12 +115,12 @@ public class DefaultService implements Service {
 	 */
 	public function newInstance(initCallback:Function = null) : Object {
 		var service:Object = factory.newInstance();
-		if (initCallback) {
+		if (initCallback != null) {
 			initCallback(service);
 		}
 		for each (var decorator:ServiceFactory in getDecorators()) {
 			service = decorator.newInstance(service);
-			if (initCallback) {
+			if (initCallback != null) {
 				initCallback(service);
 			}
 		}

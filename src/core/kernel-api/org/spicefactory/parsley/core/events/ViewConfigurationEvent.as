@@ -135,7 +135,7 @@ public class ViewConfigurationEvent extends Event {
 	 * Marks this event instance as processed by a corresponding Context.
 	 */
 	public function markAsCompleted () : void {
-		if (callback) callback();
+		if (callback != null) callback();
 	}
 	
 	

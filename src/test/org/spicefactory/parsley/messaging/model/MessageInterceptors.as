@@ -31,10 +31,10 @@ public class MessageInterceptors {
 	
 
 	public function interceptAllMessages (processor:MessageProcessor) : void {
-		if (processor.message.type == TestEvent.TEST1) {
+		if (processor.message.instance.type == TestEvent.TEST1) {
 			_test1Count++;
 		}
-		else if (processor.message.type == TestEvent.TEST2) {
+		else if (processor.message.instance.type == TestEvent.TEST2) {
 			_test2Count++;
 		}
 		else {
@@ -47,7 +47,7 @@ public class MessageInterceptors {
 	}
 	
 	public function event1 (processor:MessageProcessor) : void {
-		if (processor.message.type == TestEvent.TEST1) {
+		if (processor.message.instance.type == TestEvent.TEST1) {
 			_test1Count++;
 		}
 		else {
@@ -57,7 +57,7 @@ public class MessageInterceptors {
 	
 	public function event2 (processor:MessageProcessor) : void {
 		processor.suspend();
-		if (processor.message.type == TestEvent.TEST2) {
+		if (processor.message.instance.type == TestEvent.TEST2) {
 			_test2Count++;
 		}
 		else {

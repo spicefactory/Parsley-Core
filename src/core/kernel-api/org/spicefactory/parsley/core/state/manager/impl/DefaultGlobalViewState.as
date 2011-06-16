@@ -164,7 +164,7 @@ class ChildContextObserverImpl implements ChildContextObserver {
 	
 	private function onTimeout (event:TimerEvent) : void {
 		cancel();
-		if (timeoutCallback) {
+		if (timeoutCallback != null) {
 			timeoutCallback(view); 
 		}
 	}

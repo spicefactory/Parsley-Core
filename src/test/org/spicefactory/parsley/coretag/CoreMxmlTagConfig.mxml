@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <mx:Object 
-	xmlns:mx="http://ns.adobe.com/mxml/2009"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:tag="org.spicefactory.parsley.tag.core.*"
 	xmlns:model="org.spicefactory.parsley.coretag.inject.model.*">
 	
@@ -17,7 +18,7 @@
 	<tag:MxmlRootObjectTag id="object" type="{CoreModel}">
 		<tag:ConstructorTag>
 			<mx:String>foo</mx:String>
-			<mx:int>7</mx:int>
+			<mx:Number>7</mx:Number>
 		</tag:ConstructorTag>
 		<tag:PropertyTag name="booleanProp" value="true"/>
 		<tag:PropertyTag name="refProp" idRef="dependency"/>

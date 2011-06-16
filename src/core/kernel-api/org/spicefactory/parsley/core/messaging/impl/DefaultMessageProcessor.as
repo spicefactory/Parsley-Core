@@ -65,7 +65,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 		this._message = message;
 		this._cache = cache;
 		this.settings = settings;
-		this.receiverHandler = (receiverHandler) ? receiverHandler : invokeTarget;
+		this.receiverHandler = (receiverHandler != null) ? receiverHandler : invokeTarget;
 	}
 
 	/**

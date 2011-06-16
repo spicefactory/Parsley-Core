@@ -78,7 +78,7 @@ public class DefaultCommandManager implements CommandManager {
 	
 	private function matchesByType (command:ObservableCommand, commandType:Class, id:String = null) : Boolean {
 		return (command.command is commandType &&
-				(id == undefined || id == command.id));
+				(id == null || id == command.id));
 	}
 
 	/**
