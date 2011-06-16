@@ -141,11 +141,11 @@ class ObserveMethodProcessor implements ObjectProcessor {
 	
 	public function addObserver () : void {
 		observer = new DefaultLifecycleObserver(provider, method, phase, objectId);
-		scope.lifecyleObservers.addObserver(observer);
+		scope.lifecycleObservers.addObserver(observer);
 	}
 	
 	public function removeObserver () : void {
-		scope.lifecyleObservers.removeObserver(observer);
+		scope.lifecycleObservers.removeObserver(observer);
 	}
 
 	

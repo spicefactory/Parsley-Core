@@ -66,7 +66,7 @@ public interface Scope {
 	/**
 	 * The registry for observers of lifecycle events dispatched by objects within this scope.
 	 */
-	function get lifecyleObservers () : LifecycleObserverRegistry; 
+	function get lifecycleObservers () : LifecycleObserverRegistry; 
 	 
 	/**
 	 * Custom extensions registered for this scope.

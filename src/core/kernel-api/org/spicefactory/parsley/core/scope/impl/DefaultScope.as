@@ -168,7 +168,7 @@ public class DefaultScope implements Scope {
 	/**
 	 * @inheritDoc
 	 */
-	public function get lifecyleObservers () : LifecycleObserverRegistry {
+	public function get lifecycleObservers () : LifecycleObserverRegistry {
 		return info.lifecycleObservers;
 	}
 	
