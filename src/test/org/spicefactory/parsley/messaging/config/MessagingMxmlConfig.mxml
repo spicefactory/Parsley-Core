@@ -76,10 +76,10 @@
 	</flextag:MxmlDynamicObjectTag> 
 
 	<flextag:MxmlDynamicObjectTag id="messageInterceptors" type="{MessageInterceptors}">
-		<msg:MessageHandlerDecorator method="interceptAllMessages" type="{TestEvent}"/>
-		<msg:MessageHandlerDecorator method="allEvents"/>
-		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}" order="-1"/>
-		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}" order="-1"/>
+		<msg:MessageHandlerDecorator method="interceptAllMessages" type="{TestEvent}" order="-1"/>
+		<msg:MessageHandlerDecorator method="allEvents" order="-1"/>
+		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}"/>
+		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}"/>
 	</flextag:MxmlDynamicObjectTag> 
 	
 	
