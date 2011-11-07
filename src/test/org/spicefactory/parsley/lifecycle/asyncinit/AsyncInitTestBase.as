@@ -1,15 +1,14 @@
 package org.spicefactory.parsley.lifecycle.asyncinit {
+
 import org.flexunit.assertThat;
 import org.hamcrest.object.equalTo;
 import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.lifecycle.asyncinit.model.AsyncInitModel;
-import org.spicefactory.parsley.lifecycle.asyncinit.model.AsyncInitModelMetadata;
 import org.spicefactory.parsley.lifecycle.asyncinit.model.SyncModel;
 import org.spicefactory.parsley.util.contextInState;
 
 import flash.events.Event;
-import flash.utils.describeType;
 
 /**
  * @author Jens Halm
