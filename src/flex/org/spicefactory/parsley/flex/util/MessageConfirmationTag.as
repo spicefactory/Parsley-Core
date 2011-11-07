@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.tag.messaging {
+package org.spicefactory.parsley.flex.util {
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
-import org.spicefactory.parsley.flex.util.MessageConfirmation;
 
 /**
  * Utility tag for convenient declaration of a confirmation dialog that opens
