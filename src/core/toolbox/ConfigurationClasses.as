@@ -23,6 +23,7 @@ import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.dsl.view.Configure;
 import org.spicefactory.parsley.dsl.view.FastInject;
 import org.spicefactory.parsley.metadata.MetadataDecoratorAssembler;
+import org.spicefactory.parsley.properties.Properties;
 import org.spicefactory.parsley.runtime.RuntimeContextBuilder;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
 
@@ -49,5 +50,6 @@ public class ConfigurationClasses {
 	Configure;
 	FastInject;
 	
+	Properties;
 }
 }
