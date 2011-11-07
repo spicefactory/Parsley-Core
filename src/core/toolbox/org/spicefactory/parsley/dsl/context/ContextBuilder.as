@@ -21,7 +21,6 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapProcessor;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.dsl.ObjectDefinitionBuilderFactory;
-import org.spicefactory.parsley.flex.FlexSupport;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
 
 /**
@@ -87,7 +86,7 @@ public class ContextBuilder {
 	 */
 	function ContextBuilder (processor:BootstrapProcessor) {
 		this.processor = processor;
-		FlexSupport.initialize();
+		//FlexSupport.initialize(); TODO - move this to the flex source folder
 	}
 	
 	/**
