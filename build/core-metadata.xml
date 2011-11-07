@@ -18,6 +18,7 @@
 			<name>MessageError</name>
 			<name>MessageInterceptor</name>
 			<name>CommandResult</name>
+			<name>CommandComplete</name>
 			<name>CommandError</name>
 			<name>CommandStatus</name>
 			<name>Publish</name>
