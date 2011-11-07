@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<componentPackage>
+	<component id="Configure" class="org.spicefactory.parsley.flex.tag.view.ConfigureTag"/>
+	<component id="FastInject" class="org.spicefactory.parsley.flex.tag.view.FastInjectTag"/>
+	<component id="Inject" class="org.spicefactory.parsley.flex.tag.view.InjectTag"/>
+
+	<component id="ContextBuilder" class="org.spicefactory.parsley.flex.tag.builder.ContextBuilderTag"/>
+	<component id="FlexConfig" class="org.spicefactory.parsley.flex.tag.builder.FlexConfigTag"/>
+	<component id="XmlConfig" class="org.spicefactory.parsley.flex.tag.builder.XmlConfigTag"/>
+	<component id="RuntimeConfig" class="org.spicefactory.parsley.flex.tag.builder.RuntimeConfigTag"/>
+	<component id="CustomConfig" class="org.spicefactory.parsley.flex.tag.builder.CustomConfigTag"/>
+	<component id="Instance" class="org.spicefactory.parsley.flex.tag.builder.InstanceTag"/>
+	
+	<component id="Scope" class="org.spicefactory.parsley.flex.tag.builder.ScopeTag"/>
+	<component id="LocalScope" class="org.spicefactory.parsley.flex.tag.builder.LocalScopeTag"/>
+	
+	<component id="MessageSettings" class="org.spicefactory.parsley.flex.tag.builder.MessageSettingsTag"/>
+	<component id="ViewSettings" class="org.spicefactory.parsley.flex.tag.builder.ViewSettingsTag"/>
+	<component id="ViewLifecycle" class="org.spicefactory.parsley.flex.tag.builder.ViewLifecycleTag"/>
+	<component id="ViewProcessor" class="org.spicefactory.parsley.flex.tag.builder.ViewProcessorTag"/>
+
+	<component id="PropertiesFile" class="org.spicefactory.parsley.flex.tag.builder.PropertiesFileTag"/>
+	<component id="PropertiesString" class="org.spicefactory.parsley.flex.tag.builder.PropertiesStringTag"/>
+	<component id="PropertiesObject" class="org.spicefactory.parsley.flex.tag.builder.PropertiesObjectTag"/>
+	
+	<component id="MessageConfirmation" class="org.spicefactory.parsley.flex.util.MessageConfirmationTag"/>
+</componentPackage>

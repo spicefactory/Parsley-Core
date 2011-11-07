@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<flex-config>
+
+	<compiler>
+      
+		<source-path>
+      		<path-element>${project}/src/core/kernel-api</path-element>
+      		<path-element>${project}/src/core/toolbox</path-element>
+    	</source-path>
+    	
+		<external-library-path>
+			<path-element>${flexlib}/libs/player/9/playerglobal.swc</path-element>
+			<path-element>${flexlib}/libs/flex.swc</path-element>
+			<path-element>${flexlib}/libs/framework.swc</path-element>
+
+			<path-element>${project}/libs/spicelib-util-3.0.0.swc</path-element>
+			<path-element>${project}/libs/spicelib-reflect-3.0.0.swc</path-element>
+			<path-element>${project}/libs/spicelib-commands-3.0.0.swc</path-element>
+		</external-library-path>
+		
+		<namespaces>
+	      	<namespace>
+	        	<uri>http://www.spicefactory.org/parsley</uri>
+	        	<manifest>${project}/build/core-manifest.xml</manifest>
+	      	</namespace>
+	    </namespaces>
+	    
+		<warn-no-constructor>false</warn-no-constructor>
+	    <verbose-stacktraces>true</verbose-stacktraces>
+	    <debug>true</debug>
+	    
+	</compiler>
+	
+	<include-sources>
+  		<path-element>${project}/src/core/kernel-api</path-element>
+  	</include-sources>
+  	
+  	<include-namespaces>
+    	<uri>http://www.spicefactory.org/parsley</uri>
+  	</include-namespaces>
+  	
+  	<include-classes>
+	    <class>ConfigurationClasses</class>
+  	</include-classes>
+  	
+  	<include-file>
+  		<name>design.xml</name>
+  		<path>${project}/src/flex/design.xml</path>
+  	</include-file>
+  	    
+  	<output>${release}/parsley-core-${version}.swc</output>
+	    
+</flex-config>

@@ -1,0 +1,79 @@
+<project name="Parsley Core"> 
+
+	
+	<property file="build.properties" />
+	
+	<property name="version" value="3.0.0"/>
+	<property name="project.dir" value="${basedir}/.."/>
+	<property name="release.target.dir" value="${project.dir}/release/${version}"/>
+
+	
+	<target name="release" description="Create Release Zip">
+			
+		<antcall target="clean"/>
+		<antcall target="compile-core"/>
+		<antcall target="compile-flex"/>
+		<antcall target="compile-xml"/>
+		<antcall target="copy"/>
+		<antcall target="zip"/>
+		
+	</target>
+	
+	<target name="clean">
+		<delete dir="${release.target.dir}"/>
+		<mkdir dir="${release.target.dir}"/>
+		<mkdir dir="${release.target.dir}/dependencies"/>
+	</target>
+	
+	<target name="compile-core">
+		<exec executable="${flex3.sdk}/bin/${compc}" dir="${basedir}">
+					
+			<arg line="-load-config=core-metadata.xml" />
+			<arg line="-load-config+=core-config.xml" />
+
+			<arg line="+release=${release.target.dir}/release" />
+			<arg line="+project=${project.dir}" />
+			<arg line="+version=${version}" />
+			
+		</exec>
+	</target>
+	
+	<target name="compile-flex">
+		<exec executable="${flex3.sdk}/bin/${compc}" dir="${basedir}">
+							
+			<arg line="-load-config+=flex-config.xml" />
+
+			<arg line="+release=${release.target.dir}/release" />
+			<arg line="+project=${project.dir}" />
+			<arg line="+version=${version}" />
+			
+		</exec>
+	</target>
+	
+	<target name="compile-xml">
+		<exec executable="${flex3.sdk}/bin/${compc}" dir="${basedir}">
+					
+			<arg line="-load-config+=xml-config.xml" />
+
+			<arg line="+release=${release.target.dir}/release" />
+			<arg line="+project=${project.dir}" />
+			<arg line="+version=${version}" />
+			
+		</exec>
+	</target>
+	
+	<target name="copy">
+		<copy todir="${release.target.dir}">
+			<fileset dir="${project.dir}" includes="license.txt"/>
+		</copy>
+		<copy todir="${release.target.dir}/dependencies">
+			<fileset dir="${project.dir}/libs" includes="spicelib-*.swc"/>
+		</copy>
+	</target>
+	
+	<target name="zip">
+		<zip basedir="${release.target.dir}" zipfile="${release.target.dir}/../parsley-core-${version}.zip"/>
+	</target>
+
+	
+</project>

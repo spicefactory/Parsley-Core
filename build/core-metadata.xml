@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<flex-config>
+	<compiler>
+		
+		<keep-as3-metadata append="true">
+			<name>Inject</name>
+			<name>InjectConstructor</name>
+			<name>Factory</name>
+			<name>AssignableTo</name>
+			<name>Init</name>
+			<name>Destroy</name>
+			<name>Observe</name>
+			<name>AsyncInit</name>
+			<name>MessageDispatcher</name>
+			<name>ManagedEvents</name>
+			<name>MessageHandler</name>
+			<name>MessageBinding</name>
+			<name>MessageError</name>
+			<name>MessageInterceptor</name>
+			<name>CommandResult</name>
+			<name>CommandError</name>
+			<name>CommandStatus</name>
+			<name>Publish</name>
+			<name>Subscribe</name>
+			<name>PublishSubscribe</name>
+			<name>ResourceBinding</name>
+			<name>Autoremove</name>
+			<name>Selector</name>
+			<name>Target</name>
+			<name>Internal</name>
+			<name>ObjectDefinition</name>
+			<name>DynamicObject</name>
+		</keep-as3-metadata>
+		
+	</compiler>
+</flex-config>
