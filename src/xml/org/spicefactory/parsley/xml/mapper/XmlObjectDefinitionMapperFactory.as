@@ -32,7 +32,7 @@ import org.spicefactory.parsley.tag.command.CommandSequenceTag;
 import org.spicefactory.parsley.tag.command.CommandTag;
 import org.spicefactory.parsley.tag.command.MapCommandTag;
 import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
-import org.spicefactory.parsley.tag.command.link.DefaultLinkTag;
+import org.spicefactory.parsley.tag.command.link.LinkAllResultsTag;
 import org.spicefactory.parsley.tag.command.link.LinkResultPropertyTag;
 import org.spicefactory.parsley.tag.command.link.LinkResultTypeTag;
 import org.spicefactory.parsley.tag.command.link.LinkResultValueTag;
@@ -136,7 +136,7 @@ public class XmlObjectDefinitionMapperFactory {
 				    .choiceId(CHOICE_ID_NESTED_ELEMENTS, ArrayTag, ObjectReferenceTag, NestedObjectTag,
 				    								CommandTag, CommandFlowTag, CommandSequenceTag, ParallelCommandsTag,
 				    								LinkResultTypeTag, LinkResultValueTag, LinkResultPropertyTag,
-				    								DefaultLinkTag, CommandRefTag, 
+				    								LinkAllResultsTag, CommandRefTag, 
 				    								Void, Any, Boolean, Number, int, uint, String, Date, Class);
 		
 		addCustomConfigurationNamespaces(mappings);

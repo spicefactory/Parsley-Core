@@ -20,11 +20,11 @@ import org.spicefactory.lib.command.flow.LinkConditions;
 /**
  * @author Jens Halm
  */
-public class DefaultLinkTag extends AbstractLinkTag {
+public class LinkAllResultsTag extends AbstractLinkTag {
 	
 	
 	protected override function get condition () : LinkCondition {
-		return LinkConditions.forDefault();
+		return LinkConditions.forAllResults();
 	}
 	
 	
