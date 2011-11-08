@@ -53,7 +53,7 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 */
 	function DefaultCommandObserverProcessor (observable:ObservableCommand, typeCache:MessageReceiverCache, 
 			triggerCache:MessageReceiverCache, settings:MessageSettings) {
-		super(command.trigger, triggerCache, settings, invokeObserver);
+		super(observable.trigger, triggerCache, settings, invokeObserver);
 		this.typeCache = typeCache;
 		this.observable = observable;
 		_status = observable.status;
