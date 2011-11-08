@@ -1,0 +1,35 @@
+<mx:Object 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:msg="org.spicefactory.parsley.tag.messaging.*"
+	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	
+	<mx:Script>
+		<![CDATA[
+
+			import org.spicefactory.parsley.command.observer.CommandObservers;
+			import org.spicefactory.parsley.command.observer.CommandStatusFlags;
+			import org.spicefactory.parsley.command.trigger.Trigger;
+			import org.spicefactory.parsley.command.trigger.TriggerA;
+			import org.spicefactory.parsley.command.trigger.TriggerB;
+		]]>
+	</mx:Script>
+	
+	
+	<flextag:MxmlRootObjectTag id="commandObservers" type="{CommandObservers}">
+		<msg:CommandCompleteDecorator method="completeA"/>
+		<msg:CommandCompleteDecorator method="completeB"/>
+		<msg:CommandCompleteDecorator method="complete"/>
+		<msg:CommandResultDecorator method="resultA"/>
+		<msg:CommandResultDecorator method="resultB"/>
+		<msg:CommandResultDecorator method="result"/>
+		<msg:CommandErrorDecorator method="error"/>
+	</flextag:MxmlRootObjectTag> 
+	
+	<flextag:MxmlRootObjectTag id="commandStatusFlags" type="{CommandStatusFlags}">
+		<msg:CommandStatusDecorator property="trigger" type="{Trigger}"/>
+		<msg:CommandStatusDecorator property="triggerA" type="{TriggerA}"/>
+		<msg:CommandStatusDecorator property="triggerB" type="{TriggerB}"/>
+	</flextag:MxmlRootObjectTag> 
+	
+	
+</mx:Object>
