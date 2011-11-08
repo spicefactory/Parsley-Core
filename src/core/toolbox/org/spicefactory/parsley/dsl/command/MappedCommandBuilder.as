@@ -153,7 +153,7 @@ class Factory implements ManagedCommandFactory {
 	}
 
 	public function newInstance () : ManagedCommandProxy {
-		var target:Object = (factory != null) ? factory() : type;
+		var target:Object = (factory != null) ? factory() : type.getClass();
 		var proxy:DefaultManagedCommandProxy = new DefaultManagedCommandProxy(context);
 		var builder:CommandProxyBuilder = new CommandProxyBuilder(target, proxy);
 		builder.build();
