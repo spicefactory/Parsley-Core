@@ -118,7 +118,7 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 		var paramTypes:Array = targetMethod.parameters;
 		var params:Array = new Array();
 		if (paramTypes.length >= 1 && maxParams == 4) {
-			params.push(processor.result.value);
+			params.push(processor.result);
 		}
 		if (paramTypes.length >= maxParams - 2) {
 			params.push(processor.message.instance);
