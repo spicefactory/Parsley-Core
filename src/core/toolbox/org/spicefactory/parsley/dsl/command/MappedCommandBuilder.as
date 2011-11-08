@@ -104,7 +104,7 @@ public class MappedCommandBuilder {
 			
 		var message:Class = (messageInfo) ? messageInfo.getClass() : Object;
 		
-		target = new MappedCommandProxy(factory, context, message, selector, _order);
+		target = new MappedCommandProxy(factory, context, message, _selector, _order);
 				
 		context.scopeManager.getScope(_scope).messageReceivers.addTarget(target);
 		
