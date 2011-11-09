@@ -235,7 +235,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 		if (!hasReceivers(command, typeCache, triggerCache)) {
 			if (log.isDebugEnabled()) {
 				log.debug("Discarding command status {0} for message '{1}': no matching observer", 
-						command.status, command.trigger.instance);
+						command.status, command.trigger.instance); // TODO - trigger may be null
 			}
 			return;
 		}
