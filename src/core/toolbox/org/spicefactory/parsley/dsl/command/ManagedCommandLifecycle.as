@@ -16,11 +16,10 @@
 
 package org.spicefactory.parsley.dsl.command {
 
+import org.spicefactory.lib.command.CommandExecutor;
 import org.spicefactory.lib.command.CommandResult;
-import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.command.data.CommandData;
 import org.spicefactory.lib.command.lifecycle.DefaultCommandLifecycle;
-import org.spicefactory.lib.command.proxy.CommandProxy;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.command.ObservableCommand;
@@ -73,14 +72,13 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	}
 	
 	private function isManagedTarget (command:Object) : Boolean {
-		return (!(command is CommandAdapter) && !(command is CommandProxy));
+		return (!(command is CommandExecutor)); // TODO - decide on best approach (this excludes groups and flows, too)
 	}
 	
 	private function createObservableCommand (command:Object, dynamicObject:DynamicObject) : ObservableCommand {
 		var type:ClassInfo = ClassInfo.forInstance(command, context.domain);
 		var observable:ObservableCommand = new ObservableCommandImpl(command, type, dynamicObject, nextId, nextTrigger);
 		nextId = null;
-		nextTrigger = null;
 		observables[command] = observable;
 		return observable;
 	}
