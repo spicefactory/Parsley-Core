@@ -26,13 +26,15 @@ public class AsyncCommand {
 	
 	public var destroyCount: uint;
 	
+	public var result: Object;
+	
 	
 	public function execute (event:TriggerA, callback:Function) : void {
 		this.callback = callback;
 	}
 	
-	public function invokeCallback (param:Object): void {
-		callback(param);
+	public function invokeCallback (): void {
+		callback(result);
 	}
 	
 	[Destroy]

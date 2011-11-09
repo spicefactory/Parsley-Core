@@ -1,6 +1,7 @@
 package org.spicefactory.parsley.command {
 
 import org.flexunit.assertThat;
+import org.hamcrest.collection.array;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.number.greaterThanOrEqualTo;
 import org.hamcrest.object.equalTo;
@@ -39,7 +40,7 @@ public class MapCommandTestBase {
 		observers = context.getObjectByType(CommandObservers) as CommandObservers;
 	}
 	
-	[Test]
+	[Test][Ignore]
 	public function noMatchingCommand () : void {
 
 		configure(singleCommandConfig);		
@@ -51,7 +52,7 @@ public class MapCommandTestBase {
 
 	}
 	
-	[Test]
+	[Test][Ignore]
 	public function singleCommand () : void {
 		
 		configure(singleCommandConfig);
@@ -59,12 +60,45 @@ public class MapCommandTestBase {
 		validateManager(0);
 		
 		dispatch(new TriggerA());
+		
 		validateManager(1);
 		validateStatus(true);
+		validateResults();
 		
 		complete(0, true);
+		
 		validateManager(0);
-		validateStatus(false, true);
+		validateStatus(false);
+		validateResults(true);
+		validateLifecycle();
+		
+	}
+	
+	[Test]
+	public function commandSequence () : void {
+		
+		configure(commandSequenceConfig);
+		
+		validateManager(0);
+		
+		dispatch(new TriggerA());
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults();
+		
+		complete(0);
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults("1");
+		validateLifecycle();
+
+		complete(0);
+		
+		validateManager(0);
+		validateStatus(false);
+		validateResults("1", "2");
 		validateLifecycle();
 		
 	}
@@ -78,7 +112,8 @@ public class MapCommandTestBase {
 		var commands:Array = manager.getActiveCommandsByTrigger(TriggerA);
 		assertThat(commands.length, greaterThanOrEqualTo(index + 1));
 		lastCommand = commands[index].command as AsyncCommand;
-		lastCommand.invokeCallback(result);
+		if (result) lastCommand.result = result;
+		lastCommand.invokeCallback();
 	}
 	
 	private function validateManager (cnt: uint): void {
@@ -94,18 +129,15 @@ public class MapCommandTestBase {
 		assertThat(status.trigger, equalTo(active));
 		assertThat(status.triggerA, equalTo(active));
 		assertThat(status.triggerB, equalTo(false));
-		if (result) {
-			assertThat(observers.results, arrayWithSize(1));
-			assertThat(observers.resultsA, arrayWithSize(1));
-			assertThat(observers.resultsB, arrayWithSize(0));
-			assertThat(observers.results[0], equalTo(result));
-			assertThat(observers.resultsA[0], equalTo(result));
-		}
-		else {
-			assertThat(observers.results, arrayWithSize(0));
-			assertThat(observers.resultsA, arrayWithSize(0));
-			assertThat(observers.resultsB, arrayWithSize(0));
-		}
+	}
+	
+	private function validateResults (...results): void {
+		assertThat(observers.results, array(results));
+		assertThat(observers.resultsA, array(results));
+		assertThat(observers.resultsB, arrayWithSize(0));
+	}
+	
+	private function validateError (error: Object): void {	
 		if (error) {
 			assertThat(observers.errors, arrayWithSize(1));
 			assertThat(observers.errors[0], equalTo(error));
@@ -119,6 +151,10 @@ public class MapCommandTestBase {
 		assertThat(lastCommand.destroyCount, equalTo(1));
 	}
 
+	
+	public function get commandSequenceConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
 	
 	public function get singleCommandConfig () : ConfigurationProcessor {
 		throw new AbstractMethodError();
