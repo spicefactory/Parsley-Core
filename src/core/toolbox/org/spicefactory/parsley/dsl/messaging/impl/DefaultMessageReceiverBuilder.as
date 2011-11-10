@@ -108,7 +108,7 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 	public static function forCommandResult (target:Method, config:Configuration) : DefaultMessageReceiverBuilder {
 		var info:MessageReceiverInfo = new MessageReceiverInfo(config);
 		var builderPart:ObjectDefinitionBuilderPart 
-				= new CommandResultBuilderPart(target, MessageReceiverKind.COMMAND_COMPLETE_BY_TRIGGER, info);
+				= new CommandResultBuilderPart(target, MessageReceiverKind.COMMAND_COMPLETE_BY_TRIGGER, info, true, true);
 		return new DefaultMessageReceiverBuilder(builderPart, info);
 	}
 	
@@ -166,18 +166,21 @@ class CommandResultBuilderPart implements ObjectDefinitionBuilderPart {
 	private var method:Method;
 	private var kind:MessageReceiverKind;
 	private var supportsResult:Boolean;
+	private var supportsNestedCommands:Boolean;
 	
-	function CommandResultBuilderPart (target:Method, kind:MessageReceiverKind, info:MessageReceiverInfo, supportsResult:Boolean = true) {
+	function CommandResultBuilderPart (target:Method, kind:MessageReceiverKind, info:MessageReceiverInfo, 
+			supportsResult:Boolean = true, supportsNestedCommands:Boolean = false) {
 		this.method = target;
 		this.info = info;
 		this.kind = kind;
 		this.supportsResult = supportsResult;
+		this.supportsNestedCommands = supportsNestedCommands;
 	}
 
 	public function apply (target:ObjectDefinition) : void {
 		var messageType:ClassInfo = (info.type != null) ? ClassInfo.forClass(info.type, info.config.domain) : null;
-		var factory:MessageReceiverFactory 
-				= DefaultCommandObserver.newFactory(method.name, kind, info.selector, messageType, info.order, supportsResult);
+		var factory:MessageReceiverFactory = DefaultCommandObserver
+				.newFactory(method.name, kind, info.selector, messageType, info.order, supportsResult, supportsNestedCommands);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 	}
 	

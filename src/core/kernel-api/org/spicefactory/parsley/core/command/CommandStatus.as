@@ -82,6 +82,8 @@ public class CommandStatus {
 	 * <p>The callback must have the following signature:</p>
 	 * <code><pre>(command:CancellableCommand, result:Object, status:CommandStatus, data:Object) : void</pre></code>
 	 * 
+	 * TODO - this could get removed
+	 * 
 	 * @param command the command to observe
 	 * @param callback the callback to invoke when the command stops executing
 	 * @param data optional object to be passed through to the callback

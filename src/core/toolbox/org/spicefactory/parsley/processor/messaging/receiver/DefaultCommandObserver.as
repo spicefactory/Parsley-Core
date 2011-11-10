@@ -39,6 +39,7 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	private var _kind:MessageReceiverKind;
 	private var maxParams:int;
 	private var isInterceptor:Boolean;
+	private var supportsNestedCommands:Boolean;
 	
 	
 	/**
@@ -53,7 +54,8 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	 * @param supportsResult whether a result parameter is supported in the handler method
 	 */
 	function DefaultCommandObserver (provider:ObjectProvider, methodName:String, kind:MessageReceiverKind, 
-			selector:* = undefined, messageType:ClassInfo = null, order:int = int.MAX_VALUE, supportsResult:Boolean = true) {
+			selector:* = undefined, messageType:ClassInfo = null, order:int = int.MAX_VALUE, supportsResult:Boolean = true,
+			supportsNestedCommands:Boolean = false) {
 		super(provider, methodName, 
 				getMessageType(provider, methodName, messageType, supportsResult), 
 				getSelector(provider, methodName, selector, supportsResult), 
@@ -63,6 +65,7 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 				? Parameter(targetMethod.parameters[targetMethod.parameters.length - 1])
 						.type.isType(MessageProcessor)
 				: false;
+		this.supportsNestedCommands = supportsNestedCommands;
 	}
 
 	private function getMessageType (provider:ObjectProvider, methodName:String, 
@@ -115,6 +118,8 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	 * @inheritDoc
 	 */
 	public function observeCommand (processor:CommandObserverProcessor) : void {
+		if (!processor.root && !supportsNestedCommands) return;
+		
 		var paramTypes:Array = targetMethod.parameters;
 		var params:Array = new Array();
 		if (paramTypes.length >= 1 && maxParams == 4) {
@@ -165,10 +170,11 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	 * @return a new factory that creates DefaultCommandObserver instance
 	 */
 	public static function newFactory (methodName:String, kind:MessageReceiverKind, selector:* = undefined, 
-			messageType:ClassInfo = null, order:int = int.MAX_VALUE, supportsResult:Boolean = true) : MessageReceiverFactory {
+			messageType:ClassInfo = null, order:int = int.MAX_VALUE, 
+			supportsResult:Boolean = true, supportsNestedCommands:Boolean = false) : MessageReceiverFactory {
 				
 		return MessageReceiverFactories.newFactory(DefaultCommandObserver, 
-				[methodName, kind, selector, messageType, order, supportsResult]);
+				[methodName, kind, selector, messageType, order, supportsResult, supportsNestedCommands]);
 	}
 	
 	

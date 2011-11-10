@@ -83,6 +83,7 @@ public class CommandStatusFlag extends AbstractObjectProviderReceiver implements
 	 * @inheritDoc
 	 */
 	public function observeCommand (processor:CommandObserverProcessor) : void {
+		if (!processor.root) return;
 		property.setValue(provider.instance, manager.hasActiveCommandsForTrigger(type, selector));
 	}
 	
