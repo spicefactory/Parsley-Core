@@ -75,6 +75,10 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 		return _status;
 	}
 	
+	public function get root () : Boolean {
+		return observable.root;
+	}
+	
 	public function changeResult (result:Object, error:Boolean = false) : void {
 		if (status == CommandStatus.EXECUTE) {
 			throw new IllegalStateError("Cannot set the result while command is still executing");

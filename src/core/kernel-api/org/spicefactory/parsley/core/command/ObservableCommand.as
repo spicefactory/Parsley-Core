@@ -37,6 +37,8 @@ public interface ObservableCommand {
 	
 	function get status () : CommandStatus;
 	
+	function get root () : Boolean;
+	
 	function observe (callback:Function) : void;
 	
 	

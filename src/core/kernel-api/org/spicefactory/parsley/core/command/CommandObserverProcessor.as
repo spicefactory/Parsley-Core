@@ -29,6 +29,8 @@ public interface CommandObserverProcessor extends MessageProcessor {
 	
 	function get status () : CommandStatus;
 	
+	function get root () : Boolean;
+	
 	function changeResult (result:Object, error:Boolean = false) : void;
 	
 }

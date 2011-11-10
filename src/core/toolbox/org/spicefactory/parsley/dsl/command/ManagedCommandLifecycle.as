@@ -16,10 +16,11 @@
 
 package org.spicefactory.parsley.dsl.command {
 
-import org.spicefactory.lib.command.CommandExecutor;
 import org.spicefactory.lib.command.CommandResult;
+import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.command.data.CommandData;
 import org.spicefactory.lib.command.lifecycle.DefaultCommandLifecycle;
+import org.spicefactory.lib.command.proxy.CommandProxy;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.command.ObservableCommand;
@@ -38,8 +39,10 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	
 	private var context:Context;
 	
-	private var nextTrigger:Message;
+	private var trigger:Message;
 	private var nextId:String;
+	
+	private var root:Boolean = true;
 	
 	private var observables:Dictionary = new Dictionary();
 	
@@ -47,12 +50,12 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	function ManagedCommandLifecycle (context:Context, root:ManagedCommandProxy, trigger:Message = null) {
 		this.context = context;
 		this.nextId = root.id;
-		this.nextTrigger = trigger;
+		this.trigger = trigger;
 	}
 	
 	
 	public override function beforeExecution (command:Object, data:CommandData) : void {
-		if (isManagedTarget(command)) {
+		if (isObservableTarget(command)) {
 			var dynamicObject:DynamicObject;
 			if (!GlobalState.objects.isManaged(command)) {
 				dynamicObject = context.addDynamicObject(command);
@@ -71,13 +74,14 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 		}
 	}
 	
-	private function isManagedTarget (command:Object) : Boolean {
-		return (!(command is CommandExecutor)); // TODO - decide on best approach (this excludes groups and flows, too)
+	private function isObservableTarget (command:Object) : Boolean {
+		return (!(command is CommandAdapter) && !(command is CommandProxy));
 	}
 	
 	private function createObservableCommand (command:Object, dynamicObject:DynamicObject) : ObservableCommand {
 		var type:ClassInfo = ClassInfo.forInstance(command, context.domain);
-		var observable:ObservableCommand = new ObservableCommandImpl(command, type, dynamicObject, nextId, nextTrigger);
+		var observable:ObservableCommand = new ObservableCommandImpl(command, type, dynamicObject, nextId, trigger, root);
+		root = false;
 		nextId = null;
 		observables[command] = observable;
 		return observable;
@@ -104,17 +108,19 @@ class ObservableCommandImpl implements ObservableCommand {
 	private var _id:String;
 	private var _status:CommandStatus;
 	private var _result:Object;
+	private var _root:Boolean;
 	
 	private var callbacks:Array = [];
 	
 
 	function ObservableCommandImpl (command:Object, type:ClassInfo, dynamicObject:DynamicObject = null, 
-			id:String = null, trigger:Message = null) {
+			id:String = null, trigger:Message = null, root:Boolean = false) {
 		this.dynamicObject = dynamicObject;
 		_command = command;
 		_type = type;
 		_id = id;
 		_trigger = trigger;
+		_root = root;
 		_status = CommandStatus.EXECUTE;
 	}
 
@@ -141,6 +147,10 @@ class ObservableCommandImpl implements ObservableCommand {
 
 	public function get status () : CommandStatus {
 		return _status;
+	}
+	
+	public function get root () : Boolean {
+		return _root;
 	}
 
 	public function observe (callback:Function) : void {
