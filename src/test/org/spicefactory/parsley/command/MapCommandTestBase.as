@@ -1,5 +1,7 @@
 package org.spicefactory.parsley.command {
 
+import org.spicefactory.lib.command.data.CommandData;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.flexunit.assertThat;
 import org.hamcrest.collection.array;
 import org.hamcrest.collection.arrayWithSize;
@@ -40,7 +42,7 @@ public class MapCommandTestBase {
 		observers = context.getObjectByType(CommandObservers) as CommandObservers;
 	}
 	
-	[Test][Ignore]
+	[Test]
 	public function noMatchingCommand () : void {
 
 		configure(singleCommandConfig);		
@@ -52,7 +54,7 @@ public class MapCommandTestBase {
 
 	}
 	
-	[Test][Ignore]
+	[Test]
 	public function singleCommand () : void {
 		
 		configure(singleCommandConfig);
@@ -103,13 +105,71 @@ public class MapCommandTestBase {
 		
 	}
 	
+	[Test]
+	public function parallelCommands () : void {
+		
+		configure(parallelCommandsConfig);
+		
+		validateManager(0);
+		
+		dispatch(new TriggerA());
+		
+		validateManager(2);
+		validateStatus(true);
+		validateResults();
+		
+		complete(0);
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults("1");
+		validateLifecycle();
+
+		complete(0);
+		
+		validateManager(0);
+		validateStatus(false);
+		validateResults("1", "2");
+		validateLifecycle();
+		
+	}
+	
+	[Test]
+	public function commandFlow () : void {
+		
+		configure(commandFlowConfig);
+		
+		validateManager(0);
+		
+		dispatch(new TriggerA());
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults();
+		
+		complete(0);
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults("1");
+		validateLifecycle();
+
+		complete(0);
+		
+		validateManager(0);
+		validateStatus(false);
+		validateResults("1", "2");
+		validateLifecycle();
+		
+	}
+	
 	
 	private function dispatch (msg: Object): void {
 		context.scopeManager.dispatchMessage(msg); 
 	}
 	
 	private function complete (index: uint, result: Object = null): void {
-		var commands:Array = manager.getActiveCommandsByTrigger(TriggerA);
+		var commands:Array = getActiveCommands(Trigger, AsyncCommand);
 		assertThat(commands.length, greaterThanOrEqualTo(index + 1));
 		lastCommand = commands[index].command as AsyncCommand;
 		if (result) lastCommand.result = result;
@@ -117,12 +177,21 @@ public class MapCommandTestBase {
 	}
 	
 	private function validateManager (cnt: uint): void {
-		var commands:Array = manager.getActiveCommandsByTrigger(Trigger);
+		var commands:Array = getActiveCommands(Trigger, AsyncCommand);
 		assertThat(commands, arrayWithSize(cnt));
-		commands = manager.getActiveCommandsByTrigger(TriggerA);
+		commands = getActiveCommands(TriggerA, AsyncCommand);
 		assertThat(commands, arrayWithSize(cnt));
-		commands = manager.getActiveCommandsByTrigger(TriggerB);
+		commands = getActiveCommands(TriggerB, AsyncCommand);
 		assertThat(commands, arrayWithSize(0));
+	}
+	
+	private function getActiveCommands (trigger: Class, command: Class): Array {
+		var commands:Array = manager.getActiveCommandsByTrigger(trigger);
+		var result:Array = new Array();
+		for each (var com:ObservableCommand in commands) {
+			if (com.command is command) result.push(com);
+		}
+		return result;
 	}
 	
 	private function validateStatus (active: Boolean, result: Object = null, error: Object = null): void {
@@ -132,9 +201,18 @@ public class MapCommandTestBase {
 	}
 	
 	private function validateResults (...results): void {
-		assertThat(observers.results, array(results));
-		assertThat(observers.resultsA, array(results));
-		assertThat(observers.resultsB, arrayWithSize(0));
+		assertThat(removeExecutorResults(observers.results), array(results));
+		assertThat(removeExecutorResults(observers.resultsA), array(results));
+		assertThat(removeExecutorResults(observers.resultsB), arrayWithSize(0));
+	}
+	
+	private function removeExecutorResults (results: Array) : Array {
+		var filtered:Array = [];
+		for each (var result:Object in results) {
+			if (result is CommandData) continue;
+			filtered.push(result);
+		}
+		return filtered;
 	}
 	
 	private function validateError (error: Object): void {	
@@ -153,6 +231,14 @@ public class MapCommandTestBase {
 
 	
 	public function get commandSequenceConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	public function get parallelCommandsConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	public function get commandFlowConfig () : ConfigurationProcessor {
 		throw new AbstractMethodError();
 	}
 	
