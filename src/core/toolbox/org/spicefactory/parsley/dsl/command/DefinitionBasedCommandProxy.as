@@ -69,6 +69,22 @@ public class DefinitionBasedCommandProxy extends DefaultCommandProxy implements 
 		super.commandComplete(result);
 		dynamicObject.remove();
 	}
+	
+	/**
+	 * @private
+	 */
+	public override function cancel () : void {
+		super.cancel();
+		dynamicObject.remove();
+	}
+	
+	/**
+	 * @private
+	 */
+	protected override function error (cause: Object = null): void {
+		super.error(cause);
+		dynamicObject.remove();
+	}
 
 	
 }
