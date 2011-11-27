@@ -39,7 +39,7 @@ import flash.events.EventDispatcher;
 public class CustomEventLifecycle extends EventDispatcher implements ViewLifecycle {
 	
 	
-	private static const log:Logger = LogContext.getLogger(AutoremoveLifecycle);
+	private static const log:Logger = LogContext.getLogger(CustomEventLifecycle);
 	
 	private static const REMOVE_VIEW:String = "removeView";
 	private static const CONFIGURE_VIEW:String = "configureView";
