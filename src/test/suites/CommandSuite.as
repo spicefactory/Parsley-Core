@@ -1,12 +1,13 @@
 package suites {
 
+import org.spicefactory.parsley.command.MapCommandDslTest;
 import org.spicefactory.parsley.command.MapCommandMxmlTagTest;
-import org.spicefactory.parsley.command.MapCommandXmlTagTest;
 [Suite]
 [RunWith("org.flexunit.runners.Suite")]
 public class CommandSuite {
 
 	public var mapCommandMxml:MapCommandMxmlTagTest;
+	public var mapCommandDsl:MapCommandDslTest;
 	/*
 	public var mapCommandXml:MapCommandXmlTagTest;
 	

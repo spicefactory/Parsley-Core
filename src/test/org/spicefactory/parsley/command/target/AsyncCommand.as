@@ -29,6 +29,11 @@ public class AsyncCommand {
 	public var result: Object;
 	
 	
+	function AsyncCommand (result: Object = null) {
+		this.result = result;
+	}
+	
+	
 	public function execute (event:TriggerA, callback:Function) : void {
 		this.callback = callback;
 	}
