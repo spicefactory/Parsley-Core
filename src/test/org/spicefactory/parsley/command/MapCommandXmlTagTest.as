@@ -7,7 +7,7 @@ import org.spicefactory.parsley.xml.XmlConfig;
 /**
  * @author Jens Halm
  */
-public class MapCommandXmlTagTest extends MapCommandTestBase {
+public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 	
 	
 	[BeforeClass]

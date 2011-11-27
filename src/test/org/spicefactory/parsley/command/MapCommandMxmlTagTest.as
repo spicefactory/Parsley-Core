@@ -11,7 +11,7 @@ import org.spicefactory.parsley.flex.FlexConfig;
 /**
  * @author Jens Halm
  */
-public class MapCommandMxmlTagTest extends MapCommandTestBase {
+public class MapCommandMxmlTagTest extends MapCommandTagTestBase {
 	
 	
 	public override function get commandSequenceConfig () : ConfigurationProcessor {

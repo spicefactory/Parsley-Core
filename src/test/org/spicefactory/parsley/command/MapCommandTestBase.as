@@ -15,12 +15,10 @@ import org.spicefactory.parsley.command.target.AsyncCommand;
 import org.spicefactory.parsley.command.trigger.Trigger;
 import org.spicefactory.parsley.command.trigger.TriggerA;
 import org.spicefactory.parsley.command.trigger.TriggerB;
-import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.scope.ScopeName;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 
 /**
  * @author Jens Halm
@@ -37,8 +35,8 @@ public class MapCommandTestBase {
 	private var lastCommand: AsyncCommand;
 	
 	
-	private function configure (mapCommandConfig: ConfigurationProcessor) : void {
-		context = ContextBuilder.newBuilder().config(mapCommandConfig).config(observerConfig).build();
+	protected function setContext (value: Context): void {
+		context = value;
 		manager = context.scopeManager.getScope(ScopeName.GLOBAL).commandManager;
 		status = context.getObjectByType(CommandStatusFlags) as CommandStatusFlags;
 		observers = context.getObjectByType(CommandObservers) as CommandObservers;
@@ -47,7 +45,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function noMatchingCommand () : void {
 
-		configure(singleCommandConfig);		
+		configureSingleCommand();		
 		
 		validateManager(0);
 		
@@ -59,7 +57,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function singleCommand () : void {
 		
-		configure(singleCommandConfig);
+		configureSingleCommand();
 		
 		validateManager(0);
 		
@@ -81,7 +79,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function commandSequence () : void {
 		
-		configure(commandSequenceConfig);
+		configureCommandSequence();
 		
 		validateManager(0);
 		
@@ -110,7 +108,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function parallelCommands () : void {
 		
-		configure(parallelCommandsConfig);
+		configureParallelCommands();
 		
 		validateManager(0);
 		
@@ -139,7 +137,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function commandFlow () : void {
 		
-		configure(commandFlowConfig);
+		configureCommandFlow();
 		
 		validateManager(0);
 		
@@ -168,7 +166,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function cancelSequence () : void {
 		
-		configure(commandSequenceConfig);
+		configureCommandSequence();
 		
 		validateManager(0);
 		
@@ -197,7 +195,7 @@ public class MapCommandTestBase {
 	[Test]
 	public function errorInSequence () : void {
 		
-		configure(commandSequenceConfig);
+		configureCommandSequence();
 		
 		validateManager(0);
 		
@@ -309,24 +307,19 @@ public class MapCommandTestBase {
 		assertThat(lastCommand.destroyCount, equalTo(1));
 	}
 
-	
-	public function get commandSequenceConfig () : ConfigurationProcessor {
+	protected function configureSingleCommand (): void {
 		throw new AbstractMethodError();
 	}
 	
-	public function get parallelCommandsConfig () : ConfigurationProcessor {
+	protected function configureCommandSequence (): void {
 		throw new AbstractMethodError();
 	}
 	
-	public function get commandFlowConfig () : ConfigurationProcessor {
+	protected function configureParallelCommands (): void {
 		throw new AbstractMethodError();
 	}
 	
-	public function get singleCommandConfig () : ConfigurationProcessor {
-		throw new AbstractMethodError();
-	}
-	
-	public function get observerConfig () : ConfigurationProcessor {
+	protected function configureCommandFlow (): void {
 		throw new AbstractMethodError();
 	}
 	
