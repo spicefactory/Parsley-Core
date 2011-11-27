@@ -37,6 +37,10 @@ public class AsyncCommand {
 		callback(result);
 	}
 	
+	public function cancel (): void {
+		callback();
+	}
+	
 	[Destroy]
 	public function destroy (): void {
 		destroyCount++;

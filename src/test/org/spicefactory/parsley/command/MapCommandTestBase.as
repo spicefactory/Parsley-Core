@@ -1,13 +1,14 @@
 package org.spicefactory.parsley.command {
 
-import org.spicefactory.lib.command.data.CommandData;
-import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.flexunit.assertThat;
 import org.hamcrest.collection.array;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.number.greaterThanOrEqualTo;
 import org.hamcrest.object.equalTo;
+import org.spicefactory.lib.command.data.CommandData;
+import org.spicefactory.lib.command.events.CommandFailure;
 import org.spicefactory.lib.errors.AbstractMethodError;
+import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.command.observer.CommandObservers;
 import org.spicefactory.parsley.command.observer.CommandStatusFlags;
 import org.spicefactory.parsley.command.target.AsyncCommand;
@@ -16,6 +17,7 @@ import org.spicefactory.parsley.command.trigger.TriggerA;
 import org.spicefactory.parsley.command.trigger.TriggerB;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.command.CommandManager;
+import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.dsl.context.ContextBuilder;
@@ -163,17 +165,86 @@ public class MapCommandTestBase {
 		
 	}
 	
+	[Test]
+	public function cancelSequence () : void {
+		
+		configure(commandSequenceConfig);
+		
+		validateManager(0);
+		
+		dispatch(new TriggerA());
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults();
+		
+		complete(0);
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults("1");
+		validateLifecycle();
+
+		cancel(0);
+		
+		validateManager(0);
+		validateStatus(false);
+		validateResults("1");
+		validateLifecycle();
+		
+	}
+	
+	[Test]
+	public function errorInSequence () : void {
+		
+		configure(commandSequenceConfig);
+		
+		validateManager(0);
+		
+		dispatch(new TriggerA());
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults();
+		
+		complete(0);
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults("1");
+		validateLifecycle();
+
+		var e:Object = new IllegalStateError();
+		complete(0, e);
+		
+		validateManager(0);
+		validateStatus(false);
+		validateResults("1");
+		validateError(e);
+		validateLifecycle();
+		
+	}
+	
 	
 	private function dispatch (msg: Object): void {
 		context.scopeManager.dispatchMessage(msg); 
 	}
 	
 	private function complete (index: uint, result: Object = null): void {
+		setLastCommand(index);
+		if (result) lastCommand.result = result;
+		lastCommand.invokeCallback();
+	}
+	
+	private function cancel (index: uint, result: Object = null): void {
+		setLastCommand(index);
+		lastCommand.cancel();
+	}
+	
+	private function setLastCommand (index: uint): void {
 		var commands:Array = getActiveCommands(Trigger, AsyncCommand);
 		assertThat(commands.length, greaterThanOrEqualTo(index + 1));
 		lastCommand = commands[index].command as AsyncCommand;
-		if (result) lastCommand.result = result;
-		lastCommand.invokeCallback();
 	}
 	
 	private function validateManager (cnt: uint): void {
@@ -218,10 +289,19 @@ public class MapCommandTestBase {
 	private function validateError (error: Object): void {	
 		if (error) {
 			assertThat(observers.errors, arrayWithSize(1));
-			assertThat(observers.errors[0], equalTo(error));
+			assertThat(rootCause(observers.errors[0]), equalTo(error));
 		}
 		else {
 			assertThat(observers.errors, arrayWithSize(0));
+		}
+	}
+	
+	private function rootCause (error: Object): Object {
+		if (error is CommandFailure) {
+			return rootCause(CommandFailure(error).cause);
+		}
+		else {
+			return error;
 		}
 	}
 	
