@@ -31,7 +31,7 @@ public class AbstractCommandTag {
 	[ArrayElementType("org.spicefactory.parsley.tag.command.link.LinkTag")]
 	[ChoiceType("org.spicefactory.parsley.tag.command.link.LinkTag")]
 	public function set links (value:Array) : void {
-		_links = links;
+		_links = value;
 	}
 	
 	
