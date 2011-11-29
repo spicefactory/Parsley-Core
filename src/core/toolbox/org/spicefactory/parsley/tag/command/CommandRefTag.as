@@ -19,7 +19,8 @@ package org.spicefactory.parsley.tag.command {
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-	
+
+[XmlMapping(elementName="command-ref")]	
 [DefaultProperty("links")]
 /**
  * @author Jens Halm
@@ -58,6 +59,16 @@ class Factory implements ManagedCommandFactory {
 	}
 
 	public function newInstance () : ManagedCommandProxy {
+		ensureHasFactory();
+		return factory.newInstance();
+	}
+
+	public function get type () : ClassInfo {
+		ensureHasFactory();
+		return factory.type;
+	}
+	
+	private function ensureHasFactory (): void {
 		if (!factory) {
 			factory = context.getObject(id) as ManagedCommandFactory;
 			if (!factory) {
@@ -65,11 +76,6 @@ class Factory implements ManagedCommandFactory {
 						+ id + " does not implement ManagedCommandFactory");
 			}
 		}
-		return factory.newInstance();
-	}
-
-	public function get type () : ClassInfo {
-		return context.findDefinition(id).type;
 	}
 	
 	
