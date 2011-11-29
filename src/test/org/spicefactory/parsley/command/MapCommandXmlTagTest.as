@@ -26,10 +26,10 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 			
 			<map-command message-type="org.spicefactory.parsley.command.trigger.TriggerA">
 				<command-sequence>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="1"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="2"/>
 					</command>
 				</command-sequence>
@@ -45,10 +45,10 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 			
 			<map-command message-type="org.spicefactory.parsley.command.trigger.TriggerA">
 				<parallel-commands>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="1"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="2"/>
 					</command>
 				</parallel-commands>
@@ -64,11 +64,11 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 			
 			<map-command message-type="org.spicefactory.parsley.command.trigger.TriggerA">
 				<command-flow>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="1"/>
 						<!--<link-result-value value="1" to="{second}"/> TODO -->
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="2"/>
 					</command>
 				</command-flow>
@@ -83,7 +83,7 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 			xmlns="http://www.spicefactory.org/parsley">
 			
 			<map-command 
-				type="org.spicefactory.parsley.command.target.AsyncCommand" 
+				type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger" 
 			/>
 			
 		</objects>;	

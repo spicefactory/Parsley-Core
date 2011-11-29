@@ -15,17 +15,18 @@
  */
 package org.spicefactory.parsley.command.target {
 
+import org.spicefactory.parsley.command.trigger.TriggerA;
 /**
  * @author Jens Halm
  */
-public class AsyncCommand extends CommandBase {
+public class AsyncCommandWithTrigger extends CommandBase {
 	
 	
-	function AsyncCommand (result: Object = null) {
+	function AsyncCommandWithTrigger (result: Object = null) {
 		super(result);
 	}
 	
-	public function execute (callback:Function) : void {
+	public function execute (event:TriggerA, callback:Function) : void {
 		this.callback = callback;
 	}
 	

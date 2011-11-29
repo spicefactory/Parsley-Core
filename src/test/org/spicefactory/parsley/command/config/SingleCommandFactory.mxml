@@ -7,13 +7,13 @@
 	<mx:Script>
 		<![CDATA[
 
-			import org.spicefactory.parsley.command.target.AsyncCommandWithTrigger;
+			import org.spicefactory.parsley.command.target.AsyncCommand;
 
 		]]>
 	</mx:Script>
 	
-	
-	<com:MapCommandTag type="{AsyncCommandWithTrigger}"/>
-
+	<com:CommandFactoryTag>
+	   <com:CommandTag type="{AsyncCommand}"/>
+	</com:CommandFactoryTag>
 
 </mx:Object>

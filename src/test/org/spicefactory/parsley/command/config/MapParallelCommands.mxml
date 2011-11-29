@@ -7,7 +7,7 @@
 	<mx:Script>
 		<![CDATA[
 
-			import org.spicefactory.parsley.command.target.AsyncCommand;
+			import org.spicefactory.parsley.command.target.AsyncCommandWithTrigger;
 			import org.spicefactory.parsley.command.trigger.TriggerA;
 
 		]]>
@@ -16,12 +16,12 @@
 	
 	<com:MapCommandTag messageType="{TriggerA}">
 		<com:ParallelCommandsTag>
-			<com:CommandTag type="{AsyncCommand}">
+			<com:CommandTag type="{AsyncCommandWithTrigger}">
 				<com:config>
 					<flextag:PropertyTag name="result" value="1"/>
 				</com:config>
 			</com:CommandTag>
-			<com:CommandTag type="{AsyncCommand}">
+			<com:CommandTag type="{AsyncCommandWithTrigger}">
 				<com:config>
 					<flextag:PropertyTag name="result" value="2"/>
 				</com:config>

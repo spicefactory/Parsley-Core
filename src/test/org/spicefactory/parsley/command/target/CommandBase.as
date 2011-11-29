@@ -18,15 +18,32 @@ package org.spicefactory.parsley.command.target {
 /**
  * @author Jens Halm
  */
-public class AsyncCommand extends CommandBase {
+public class CommandBase {
 	
 	
-	function AsyncCommand (result: Object = null) {
-		super(result);
+	protected var callback: Function;
+	
+	public var destroyCount: uint;
+	
+	public var result: Object;
+	
+	
+	function CommandBase (result: Object = null) {
+		this.result = result;
 	}
 	
-	public function execute (callback:Function) : void {
-		this.callback = callback;
+	
+	public function invokeCallback (): void {
+		callback(result);
+	}
+	
+	public function cancel (): void {
+		callback();
+	}
+	
+	[Destroy]
+	public function destroy (): void {
+		destroyCount++;
 	}
 	
 	

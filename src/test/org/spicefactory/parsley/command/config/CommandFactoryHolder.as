@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spicefactory.parsley.command.target {
+package org.spicefactory.parsley.command.config {
 
+import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 /**
  * @author Jens Halm
  */
-public class AsyncCommand extends CommandBase {
+public class CommandFactoryHolder {
 	
 	
-	function AsyncCommand (result: Object = null) {
-		super(result);
-	}
-	
-	public function execute (callback:Function) : void {
-		this.callback = callback;
-	}
+	[Inject]
+	public var factory: ManagedCommandFactory;
 	
 	
 }

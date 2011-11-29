@@ -11,12 +11,11 @@ import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.command.observer.CommandObservers;
 import org.spicefactory.parsley.command.observer.CommandStatusFlags;
-import org.spicefactory.parsley.command.target.AsyncCommand;
+import org.spicefactory.parsley.command.target.CommandBase;
 import org.spicefactory.parsley.command.trigger.Trigger;
 import org.spicefactory.parsley.command.trigger.TriggerA;
 import org.spicefactory.parsley.command.trigger.TriggerB;
 import org.spicefactory.parsley.core.command.CommandManager;
-import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.scope.ScopeName;
 
@@ -27,19 +26,23 @@ public class CommandTestBase {
 	
 	
 	private var context: Context;
-	private var manager: CommandManager;
+	private var _manager: CommandManager;
 	
 	private var status: CommandStatusFlags;
 	private var observers: CommandObservers;
 	
-	private var lastCommand: AsyncCommand;
+	private var lastCommand: CommandBase;
 	
 	
 	protected function setContext (value: Context): void {
 		context = value;
-		manager = context.scopeManager.getScope(ScopeName.GLOBAL).commandManager;
+		_manager = context.scopeManager.getScope(ScopeName.GLOBAL).commandManager;
 		status = context.getObjectByType(CommandStatusFlags) as CommandStatusFlags;
 		observers = context.getObjectByType(CommandObservers) as CommandObservers;
+	}
+	
+	protected function get manager (): CommandManager {
+		return _manager;
 	}
 	
 	
@@ -233,27 +236,22 @@ public class CommandTestBase {
 	}
 	
 	private function setLastCommand (index: uint): void {
-		var commands:Array = getActiveCommands(Trigger, AsyncCommand);
+		var commands:Array = getActiveCommands(Trigger);
 		assertThat(commands.length, greaterThanOrEqualTo(index + 1));
-		lastCommand = commands[index].command as AsyncCommand;
+		lastCommand = commands[index].command as CommandBase;
 	}
 	
 	protected function validateManager (cnt: uint): void {
-		var commands:Array = getActiveCommands(Trigger, AsyncCommand);
+		var commands:Array = getActiveCommands(Trigger);
 		assertThat(commands, arrayWithSize(cnt));
-		commands = getActiveCommands(TriggerA, AsyncCommand);
+		commands = getActiveCommands(TriggerA);
 		assertThat(commands, arrayWithSize(cnt));
-		commands = getActiveCommands(TriggerB, AsyncCommand);
+		commands = getActiveCommands(TriggerB);
 		assertThat(commands, arrayWithSize(0));
 	}
 	
-	private function getActiveCommands (trigger: Class, command: Class): Array {
-		var commands:Array = manager.getActiveCommandsByTrigger(trigger);
-		var result:Array = new Array();
-		for each (var com:ObservableCommand in commands) {
-			if (com.command is command) result.push(com);
-		}
-		return result;
+	protected function getActiveCommands (type: Class): Array {
+		throw new AbstractMethodError();
 	}
 	
 	protected function validateStatus (active: Boolean, result: Object = null, error: Object = null): void {

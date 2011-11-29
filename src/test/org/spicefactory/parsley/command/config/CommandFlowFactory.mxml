@@ -8,28 +8,27 @@
 	<mx:Script>
 		<![CDATA[
 
-			import org.spicefactory.parsley.command.target.AsyncCommandWithTrigger;
-			import org.spicefactory.parsley.command.trigger.TriggerA;
+			import org.spicefactory.parsley.command.target.AsyncCommand;
 
 		]]>
 	</mx:Script>
 	
 	
-	<com:MapCommandTag messageType="{TriggerA}">
+	<com:CommandFactoryTag>
 		<com:CommandFlowTag>
-			<com:CommandTag type="{AsyncCommandWithTrigger}">
+			<com:CommandTag type="{AsyncCommand}">
 				<com:config>
 					<flextag:PropertyTag name="result" value="1"/>
 				</com:config>
 				<link:LinkResultValueTag value="1" to="{second}"/>
 			</com:CommandTag>
-			<com:CommandTag type="{AsyncCommandWithTrigger}" id="second">
+			<com:CommandTag type="{AsyncCommand}" id="second">
 				<com:config>
 					<flextag:PropertyTag name="result" value="2"/>
 				</com:config>
 			</com:CommandTag>
 		</com:CommandFlowTag>
-	</com:MapCommandTag>
+	</com:CommandFactoryTag>
 
 
 </mx:Object>

@@ -8,7 +8,7 @@ import org.spicefactory.lib.command.group.CommandSequence;
 import org.spicefactory.lib.command.group.ParallelCommands;
 import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.parsley.command.config.CommandObserverConfig;
-import org.spicefactory.parsley.command.target.AsyncCommand;
+import org.spicefactory.parsley.command.target.AsyncCommandWithTrigger;
 import org.spicefactory.parsley.command.trigger.TriggerA;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.context.Context;
@@ -25,7 +25,7 @@ public class MapCommandDslTest extends MapCommandTestBase {
 	
 	protected override function configureSingleCommand (): void {
 		var context: Context = buildContext();
-		MappedCommands.create(AsyncCommand).register(context);
+		MappedCommands.create(AsyncCommandWithTrigger).register(context);
 	}
 	
 	protected override function configureCommandSequence (): void {
@@ -39,8 +39,8 @@ public class MapCommandDslTest extends MapCommandTestBase {
 	private function createCommandSequence (): Command {
 		return Commands
 			.asSequence()
-			.add(new AsyncCommand("1"))
-			.add(new AsyncCommand("2"))
+			.add(new AsyncCommandWithTrigger("1"))
+			.add(new AsyncCommandWithTrigger("2"))
 			.build();
 	}
 	
@@ -55,8 +55,8 @@ public class MapCommandDslTest extends MapCommandTestBase {
 	private function createParallelCommands (): Command {
 		return Commands
 			.inParallel()
-			.add(new AsyncCommand("1"))
-			.add(new AsyncCommand("2"))
+			.add(new AsyncCommandWithTrigger("1"))
+			.add(new AsyncCommandWithTrigger("2"))
 			.build();
 	}
 	
@@ -72,9 +72,9 @@ public class MapCommandDslTest extends MapCommandTestBase {
 		var builder: CommandFlowBuilder = Commands.asFlow();
 		
 		builder
-			.add(new AsyncCommand("1"))
+			.add(new AsyncCommandWithTrigger("1"))
 			.linkResultValue("1")
-			.toCommandInstance(new AsyncCommand("2"));
+			.toCommandInstance(new AsyncCommandWithTrigger("2"));
 			
 		return builder.build();
 	}
