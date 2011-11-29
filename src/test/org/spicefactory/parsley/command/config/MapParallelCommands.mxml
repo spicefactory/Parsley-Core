@@ -12,15 +12,18 @@
 
 		]]>
 	</mx:Script>
-	
+
+	<com:MxmlCommandFactoryTag id="ref">
+		<com:CommandTag type="{AsyncCommandWithTrigger}">
+			<com:config>
+				<flextag:PropertyTag name="result" value="1"/>
+			</com:config>
+		</com:CommandTag>
+	</com:MxmlCommandFactoryTag>
 	
 	<com:MapCommandTag messageType="{TriggerA}">
 		<com:ParallelCommandsTag>
-			<com:CommandTag type="{AsyncCommandWithTrigger}">
-				<com:config>
-					<flextag:PropertyTag name="result" value="1"/>
-				</com:config>
-			</com:CommandTag>
+		    <com:CommandRefTag idRef="ref"/>
 			<com:CommandTag type="{AsyncCommandWithTrigger}">
 				<com:config>
 					<flextag:PropertyTag name="result" value="2"/>

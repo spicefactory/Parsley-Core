@@ -43,11 +43,15 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 		var config: XML = <objects 
 			xmlns="http://www.spicefactory.org/parsley">
 			
+			<command-factory id="ref">
+				<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
+					<property name="result" value="1"/>
+				</command>
+			</command-factory>
+			
 			<map-command message-type="org.spicefactory.parsley.command.trigger.TriggerA">
 				<parallel-commands>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
-						<property name="result" value="1"/>
-					</command>
+					<command-ref id-ref="ref"/>
 					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="2"/>
 					</command>

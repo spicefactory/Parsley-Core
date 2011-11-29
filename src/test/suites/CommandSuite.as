@@ -18,10 +18,6 @@ public class CommandSuite {
 	public var commandFactoryDsl:CommandFactoryDslTest;
 	public var commandFactoryXml:CommandFactoryXmlTagTest;
 	
-	/*
-	public var order:MapCommandScopeAndOrderTest;
-	public var commandSync:SynchronousCommandTest;
-	 */
 	 
 }
 }
