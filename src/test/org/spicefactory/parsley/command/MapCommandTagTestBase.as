@@ -27,6 +27,18 @@ public class MapCommandTagTestBase extends MapCommandTestBase {
 		buildContext(commandFlowConfig);
 	}
 	
+	protected override function configureLocalScope (): void {
+		buildContext(localScopeConfig);
+	}
+	
+	protected override function configureOrder (): void {
+		buildContext(orderConfig);
+	}
+	
+	protected override function configureSelector (): void {
+		buildContext(selectorConfig);
+	}
+	
 	private function buildContext (mapCommandConfig: ConfigurationProcessor) : void {
 		var context: Context = ContextBuilder.newBuilder().config(mapCommandConfig).config(observerConfig).build();
 		setContext(context);
@@ -45,6 +57,18 @@ public class MapCommandTagTestBase extends MapCommandTestBase {
 	}
 	
 	public function get commandFlowConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	public function get localScopeConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	public function get orderConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	public function get selectorConfig () : ConfigurationProcessor {
 		throw new AbstractMethodError();
 	}
 	

@@ -1,5 +1,7 @@
 package org.spicefactory.parsley.command {
 
+import org.spicefactory.parsley.command.target.SyncCommand;
+import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.lib.command.Command;
 import org.spicefactory.lib.command.builder.CommandFlowBuilder;
 import org.spicefactory.lib.command.builder.Commands;
@@ -26,6 +28,30 @@ public class MapCommandDslTest extends MapCommandTestBase {
 	protected override function configureSingleCommand (): void {
 		var context: Context = buildContext();
 		MappedCommands.create(AsyncCommandWithTrigger).register(context);
+	}
+	
+	protected override function configureSelector (): void {
+		var context: Context = buildContext();
+		MappedCommands.create(AsyncCommandWithTrigger).selector("selector").register(context);
+	}
+	
+	protected override function configureLocalScope (): void {
+		var context: Context = buildContext();
+		MappedCommands.create(AsyncCommandWithTrigger).scope(ScopeName.LOCAL).register(context);
+	}
+	
+	protected override function configureOrder (): void {
+		var context: Context = buildContext();
+		MappedCommands
+			.factoryFunction(function():Object{return new SyncCommand("2");}, SyncCommand)
+			.messageType(TriggerA)
+			.order(2)
+			.register(context);
+		MappedCommands
+			.factoryFunction(function():Object{return new SyncCommand("1");}, SyncCommand)
+			.messageType(TriggerA)
+			.order(1)
+			.register(context);
 	}
 	
 	protected override function configureCommandSequence (): void {

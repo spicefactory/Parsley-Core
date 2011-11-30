@@ -93,6 +93,50 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 		</objects>;	
 		return XmlConfig.forInstance(config);
 	}
+	
+	public override function get selectorConfig () : ConfigurationProcessor {
+		var config: XML = <objects 
+			xmlns="http://www.spicefactory.org/parsley">
+			
+			<map-command 
+				type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger" selector="selector"
+			/>
+			
+		</objects>;	
+		return XmlConfig.forInstance(config);
+	}
+	
+	public override function get localScopeConfig () : ConfigurationProcessor {
+		var config: XML = <objects 
+			xmlns="http://www.spicefactory.org/parsley">
+			
+			<map-command 
+				type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger" scope="local"
+			/>
+			
+		</objects>;	
+		return XmlConfig.forInstance(config);
+	}
+	
+	public override function get orderConfig () : ConfigurationProcessor {
+		var config: XML = <objects 
+			xmlns="http://www.spicefactory.org/parsley">
+			
+			<map-command message-type="org.spicefactory.parsley.command.trigger.TriggerA" order="2">
+				<command type="org.spicefactory.parsley.command.target.SyncCommand">
+					<property name="result" value="2"/>
+				</command>
+			</map-command>
+			
+			<map-command message-type="org.spicefactory.parsley.command.trigger.TriggerA" order="1">
+				<command type="org.spicefactory.parsley.command.target.SyncCommand">
+					<property name="result" value="1"/>
+				</command>
+			</map-command>
+			
+		</objects>;	
+		return XmlConfig.forInstance(config);
+	}
 			
 	public override function get observerConfig () : ConfigurationProcessor {
 		var config: XML = <objects 
