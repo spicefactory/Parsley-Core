@@ -220,8 +220,9 @@ public class CommandTestBase {
 		throw new AbstractMethodError();
 	}
 	
-	protected function dispatchMessage (msg: Object): void {
-		context.scopeManager.dispatchMessage(msg); 
+	protected function dispatchMessage (msg: Object, scope: String = null, selector: * = undefined): void {
+		if (!scope) context.scopeManager.dispatchMessage(msg, selector);
+		else context.scopeManager.getScope(scope).dispatchMessage(msg, selector); 
 	}
 	
 	protected function complete (index: uint, result: Object = null): void {

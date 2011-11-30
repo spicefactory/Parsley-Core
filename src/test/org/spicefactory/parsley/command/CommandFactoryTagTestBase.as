@@ -14,6 +14,54 @@ public class CommandFactoryTagTestBase extends CommandFactoryTestBase {
 	
 	private var factoryHolder:CommandFactoryHolder = new CommandFactoryHolder();
 	
+		
+	[Test]
+	public function linkResultType () : void {
+
+		buildContext(linkResultTypeConfig);
+		executeSequence();
+	}
+	
+	[Test]
+	public function linkResultProperty () : void {
+
+		buildContext(linkResultPropertyConfig);
+		executeSequence();
+	}
+	
+	[Test]
+	public function linkAllResults () : void {
+
+		buildContext(linkAllResultsConfig);
+		executeSequence();
+	}
+	
+	private function executeSequence () : void {
+		
+		
+		validateManager(0);
+		
+		execute();
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults();
+		
+		complete(0);
+		
+		validateManager(1);
+		validateStatus(true);
+		validateResults("1");
+		validateLifecycle();
+
+		complete(0);
+		
+		validateManager(0);
+		validateStatus(false);
+		validateResults("1", "2");
+		validateLifecycle();
+		
+	}
 	
 	protected override function configureSingleCommand (): void {
 		buildContext(singleCommandConfig);
@@ -30,6 +78,7 @@ public class CommandFactoryTagTestBase extends CommandFactoryTestBase {
 	protected override function configureCommandFlow (): void {
 		buildContext(commandFlowConfig);
 	}
+	
 	
 	private function buildContext (mapCommandConfig: ConfigurationProcessor) : void {
 		try {
@@ -60,6 +109,18 @@ public class CommandFactoryTagTestBase extends CommandFactoryTestBase {
 	}
 	
 	public function get commandFlowConfig () : ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	protected function get linkResultTypeConfig (): ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	protected function get linkResultPropertyConfig (): ConfigurationProcessor {
+		throw new AbstractMethodError();
+	}
+	
+	protected function get linkAllResultsConfig (): ConfigurationProcessor {
 		throw new AbstractMethodError();
 	}
 	

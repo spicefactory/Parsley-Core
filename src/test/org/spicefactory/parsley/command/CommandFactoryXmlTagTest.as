@@ -20,6 +20,21 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
 	}
 	
+	[Test]
+	public override function linkResultType () : void {
+		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
+	}
+	
+	[Test]
+	public override function linkResultProperty () : void {
+		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
+	}
+	
+	[Test]
+	public override function linkAllResults () : void {
+		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
+	}
+	
 	public override function get commandSequenceConfig () : ConfigurationProcessor {
 		var config: XML = <objects 
 			xmlns="http://www.spicefactory.org/parsley">
@@ -67,6 +82,66 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="1"/>
 						<!--<link-result-value value="1" to="{second}"/> TODO -->
+					</command>
+					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+						<property name="result" value="2"/>
+					</command>
+				</command-flow>
+			</command-factory>
+			
+		</objects>;	
+		return XmlConfig.forInstance(config);
+	}
+	
+	protected override function get linkResultTypeConfig () : ConfigurationProcessor {
+		var config: XML = <objects 
+			xmlns="http://www.spicefactory.org/parsley">
+			
+			<command-factory>
+				<command-flow>
+					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+						<property name="result" value="1"/>
+						<!--<link-result-type type="String" to="{second}"/> TODO -->
+					</command>
+					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+						<property name="result" value="2"/>
+					</command>
+				</command-flow>
+			</command-factory>
+			
+		</objects>;	
+		return XmlConfig.forInstance(config);
+	}
+	
+	protected override function get linkResultPropertyConfig () : ConfigurationProcessor {
+		var config: XML = <objects 
+			xmlns="http://www.spicefactory.org/parsley">
+			
+			<command-factory>
+				<command-flow>
+					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+						<property name="result" value="1"/>
+						<!--<link-result-property name="property" value="1" to="{second}"/> TODO -->
+					</command>
+					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+						<property name="result" value="2"/>
+					</command>
+				</command-flow>
+			</command-factory>
+			
+		</objects>;	
+		return XmlConfig.forInstance(config);
+	}
+	
+	protected override function get linkAllResultsConfig () : ConfigurationProcessor {
+		var config: XML = <objects 
+			xmlns="http://www.spicefactory.org/parsley">
+			
+			<command-factory>
+				<command-flow>
+					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+						<property name="result" value="1"/>
+						<!--<link-all-results to="{second}"/> TODO -->
 					</command>
 					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="2"/>
