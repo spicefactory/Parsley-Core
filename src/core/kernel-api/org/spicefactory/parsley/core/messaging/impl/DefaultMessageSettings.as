@@ -44,7 +44,7 @@ public class DefaultMessageSettings implements MessageSettings {
 	 * @param a parent settings instance
 	 */
 	public function addParent (parent:MessageSettings) : void {
-		_parents.push();
+		_parents.push(parent);
 	}
 	
 	/**
