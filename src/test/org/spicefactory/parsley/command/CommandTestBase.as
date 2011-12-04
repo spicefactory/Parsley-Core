@@ -236,7 +236,7 @@ public class CommandTestBase {
 		lastCommand.cancel();
 	}
 	
-	private function setLastCommand (index: uint): void {
+	protected function setLastCommand (index: uint): void {
 		var commands:Array = getActiveCommands(Trigger);
 		assertThat(commands.length, greaterThanOrEqualTo(index + 1));
 		lastCommand = commands[index].command as CommandBase;
@@ -276,7 +276,7 @@ public class CommandTestBase {
 		return filtered;
 	}
 	
-	protected function validateError (error: Object): void {	
+	protected function validateError (error: Object = null): void {	
 		if (error) {
 			assertThat(observers.errors, arrayWithSize(1));
 			assertThat(rootCause(observers.errors[0]), equalTo(error));

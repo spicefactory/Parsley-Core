@@ -15,11 +15,18 @@
  */
 
 package org.spicefactory.parsley.flex {
+
+import org.spicefactory.lib.command.light.LightCommandAdapter;
+import org.spicefactory.lib.command.result.ResultProcessors;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.logging.flex.FlexLogFactory;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
+import org.spicefactory.parsley.flex.command.AsyncTokenResultProcessor;
 import org.spicefactory.parsley.flex.modules.FlexApplicationDomainProvider;
+
+import mx.rpc.AsyncToken;
+import mx.rpc.Fault;
 
 /**
  * Initializes all Flex specific features which are not built into the Parsley Core, like the support for Modules,
@@ -45,8 +52,13 @@ public class FlexSupport {
 	 */
 	public static function initialize () : void {
 		if (initialized) return;
+		
 		log.info("Initialize Flex Support");
 		initialized = true;
+		
+		ResultProcessors.forResultType(AsyncToken).processorType(AsyncTokenResultProcessor);
+		LightCommandAdapter.addErrorType(Fault);
+		
 		if (LogContext.factory == null) LogContext.factory = new FlexLogFactory();
 		BootstrapDefaults.config.domainProvider = new FlexApplicationDomainProvider();
 	}

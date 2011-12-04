@@ -36,7 +36,7 @@ public class CommandFactoryTestBase extends CommandTestBase {
 		/* TODO - 3.0.M2 - observers must get enhanced to match by command type or id first */
 	}
 	
-	protected override function validateError (error: Object): void {	
+	protected override function validateError (error: Object = null): void {	
 		/* TODO - 3.0.M2 - observers must get enhanced to match by command type or id first */
 	}
 	
