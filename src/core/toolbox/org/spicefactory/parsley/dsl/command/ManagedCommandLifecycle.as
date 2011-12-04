@@ -75,7 +75,7 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	}
 	
 	private function isObservableTarget (command:Object) : Boolean {
-		return (!(command is CommandAdapter) && !(command is CommandProxy));
+		return (!(command is CommandProxy));
 	}
 	
 	private function createObservableCommand (command:Object, dynamicObject:DynamicObject) : ObservableCommand {

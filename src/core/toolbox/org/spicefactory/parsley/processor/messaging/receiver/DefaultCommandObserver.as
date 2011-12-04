@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.processor.messaging.receiver {
 
+import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Parameter;
@@ -118,7 +119,8 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 	 * @inheritDoc
 	 */
 	public function observeCommand (processor:CommandObserverProcessor) : void {
-		if (!processor.root && !supportsNestedCommands) return;
+		if ((!processor.root && !supportsNestedCommands) 
+			|| (processor.command is CommandAdapter) && supportsNestedCommands) return;
 		
 		var paramTypes:Array = targetMethod.parameters;
 		var params:Array = new Array();
