@@ -38,7 +38,7 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	
 	private var context:Context;
 	
-	private var trigger:Message;
+	private var _trigger:Message;
 	private var nextId:String;
 	
 	private var root:Boolean = true;
@@ -49,9 +49,12 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	function ManagedCommandLifecycle (context:Context, root:ManagedCommandProxy, trigger:Message = null) {
 		this.context = context;
 		this.nextId = root.id;
-		this.trigger = trigger;
+		this._trigger = trigger;
 	}
 	
+	public function get trigger (): Message {
+		return _trigger;
+	}
 	
 	public override function beforeExecution (command:Object, data:CommandData) : void {
 		if (isObservableTarget(command)) {
