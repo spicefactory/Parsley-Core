@@ -15,6 +15,7 @@
  */
  
 package org.spicefactory.parsley.binding.decorator {
+import flash.events.Event;
 import org.spicefactory.parsley.binding.processor.PersistentPublisherProcessor;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.lib.reflect.Property;
@@ -52,6 +53,13 @@ public class PublishSubscribeDecorator implements ObjectDefinitionDecorator {
 	public var property:String;
 	
 	/**
+	 * The event that signals that the property value has changed.
+	 * This property does not have any effect in Flex applications
+	 * where the Flex Binding mechanism is used instead.
+	 */
+	public var changeEvent:String = Event.CHANGE; 
+
+	/**
 	 * Indicates whether the value published by this property should be 
 	 * added to the Context (turned into a managed object) while being
 	 * published. 
@@ -74,7 +82,7 @@ public class PublishSubscribeDecorator implements ObjectDefinitionDecorator {
 			var s:Scope = builder.config.context.scopeManager.getScope(scope);
 			builder.lifecycle().processorFactory(PersistentPublisherProcessor.newFactory(p, s, objectId));
 		}
-		builder.lifecycle().processorFactory(PublisherProcessor.newFactory(p, scope, objectId, managed, true));
+		builder.lifecycle().processorFactory(PublisherProcessor.newFactory(p, scope, objectId, managed, true, changeEvent));
 	}
 	
 

@@ -15,18 +15,17 @@
  */
  
 package org.spicefactory.parsley.binding.impl {
+
+import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
+import org.spicefactory.parsley.binding.PropertyWatcher;
 import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.core.context.Context;
 
-import mx.binding.utils.BindingUtils;
-import mx.binding.utils.ChangeWatcher;
-
 /**
  * A Publisher that observes the value of a single property and uses its value
- * as the published value. This implementation relies on the Flex Binding facility.
- * For Flash applications you can use the <code>FlashPropertyPublisher</code> implementation.
+ * as the published value.
  * 
  * @author Jens Halm
  */
@@ -34,10 +33,30 @@ public class PropertyPublisher extends AbstractPublisher implements Publisher {
 	
 	
 	private var target:Object;
-	private var propertyName:String;
+	private var property:Property;
 	
+	private var changeEvent:String;
 	private var _currentValue:*;
-	private var changeWatcher:ChangeWatcher;
+	
+	private var propertyWatcher: PropertyWatcher;
+	
+	
+	private static var _propertyWatcherType: Class;
+	
+	/**
+	 * The type of the property watcher implementation all PropertyPublishers should use.
+	 * The specified class must implement the PropertyWatcher interface.
+	 * The default implementation relies on the target dispatching change events.
+	 * Parsley's Flex support will install an alternative that uses Flex Bindings
+	 * instead when the application runs inside Flex.
+	 */
+	static public function get propertyWatcherType (): Class {
+		return _propertyWatcherType || DefaultPropertyWatcher;
+	}
+
+	static public function set propertyWatcherType (value: Class): void {
+		_propertyWatcherType = value;
+	}
 	
 	
 	/**
@@ -48,19 +67,28 @@ public class PropertyPublisher extends AbstractPublisher implements Publisher {
 	 * @param type the type of the published value
 	 * @param id the id the value is published with
 	 * @param context the corresponding Context in case the published object should be managed
+	 * @param changeEvent the event type that signals that the property value has changed (has no effect in Flex applications)
 	 */
 	function PropertyPublisher (target:Object, property:Property, type:ClassInfo = null, id:String = null,
-			context:Context = null) {
+			context:Context = null, changeEvent:String = null) {
 		super(type ? type : property.type, id, false, context);
 		this.target = target;
-		this.propertyName = property.name;
+		this.property = property;
+		this.changeEvent = changeEvent;
 	}
-
+	
+	
 	/**
 	 * @inheritDoc
 	 */
 	public function init () : void {
-		changeWatcher = BindingUtils.bindSetter(propertyChanged, target, propertyName);
+		propertyWatcher = new propertyWatcherType() as PropertyWatcher;
+		if (!propertyWatcher) {
+			throw new IllegalStateError("Registered property watcher type " + propertyWatcherType 
+					+ " does not implement the PropertyWatcher interface");
+		}
+		
+		propertyWatcher.watch(target, property, changeEvent, propertyChanged);
 	}
 	
 	private function propertyChanged (value:*) : void {
@@ -72,8 +100,8 @@ public class PropertyPublisher extends AbstractPublisher implements Publisher {
 	 * @inheritDoc
 	 */
 	public function dispose () : void {
-		changeWatcher.unwatch();
-		changeWatcher = null;
+		propertyWatcher.unwatch();
+		propertyWatcher = null;
 		enabled = false;
 		publish(null);
 	}
@@ -90,10 +118,10 @@ public class PropertyPublisher extends AbstractPublisher implements Publisher {
 	 * @private
 	 */
 	public override function toString () : String {
-		return "[Publisher(property=" + propertyName + ",type=" + type.name 
+		return "[Publisher(property=" + property.name + ",type=" + type.name 
 				+ ((id) ? ",id=" + id : "") + ")]";
 	}
-	
+
 	
 }
 }

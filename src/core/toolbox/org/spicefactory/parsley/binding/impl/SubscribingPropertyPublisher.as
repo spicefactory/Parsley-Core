@@ -24,9 +24,6 @@ import org.spicefactory.parsley.core.context.Context;
  * A publisher that observes the value of a single property and uses its value
  * as the published value and subscribes to the values of other matching publishers at the same time. 
  * 
- * <p>This implementation relies on the Flex Binding facility.
- * For Flash applications you can use the <code>FlashPropertyPublisher</code> implementation.</p>
- * 
  * @author Jens Halm
  */
 public class SubscribingPropertyPublisher extends PropertyPublisher implements Subscriber {
@@ -43,10 +40,11 @@ public class SubscribingPropertyPublisher extends PropertyPublisher implements S
 	 * @param type the type of the published value
 	 * @param id the id the value is published with
 	 * @param context the corresponding Context in case the published object should be managed
+	 * @param changeEvent the event type that signals that the property value has changed (has no effect in Flex applications)
 	 */
 	function SubscribingPropertyPublisher (target:Object, property:Property, 
-			type:ClassInfo = null, id:String = null, context:Context = null) {
-		super(target, property, type, id, context);
+			type:ClassInfo = null, id:String = null, context:Context = null, changeEvent:String = null) {
+		super(target, property, type, id, context, changeEvent);
 		this.subscriber = new PropertySubscriber(target, property, type, id);
 	}
 

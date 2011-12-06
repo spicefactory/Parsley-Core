@@ -51,14 +51,15 @@ public class PublisherProcessor implements ObjectProcessor {
 	 * @param id the id the value is published with
 	 * @param managed whether the published object should be added to the Context while being published
 	 * @param subscribe whether the publisher should also act as a subscriber
+	 * @param changeEvent the event type that signals that the property value has changed (has no effect in Flex applications)
 	 */
 	function PublisherProcessor (target:ManagedObject, property:Property, scope:String, id:String = null,
-			managed:Boolean = false, subscribe:Boolean = false) {
+			managed:Boolean = false, subscribe:Boolean = false, changeEvent:String = null) {
 		this.target = target;
 		var context:Context = (managed) ? target.context : null;
 		this.publisher = (subscribe)
-				? new SubscribingPropertyPublisher(target.instance, property, property.type, id, context)
-				: new PropertyPublisher(target.instance, property, property.type, id, context);
+				? new SubscribingPropertyPublisher(target.instance, property, property.type, id, context, changeEvent)
+				: new PropertyPublisher(target.instance, property, property.type, id, context, changeEvent);
 		this.manager = target.context.scopeManager.getScope(scope)
 				.extensions.forType(BindingManager) as BindingManager;
 	}
@@ -87,11 +88,12 @@ public class PublisherProcessor implements ObjectProcessor {
 	 * @param id the id the value is published with
 	 * @param managed whether the published object should be added to the Context while being published
 	 * @param subscribe whether the publisher should also act as a subscriber
+	 * @param changeEvent the event that signals that the property value has changed (has no effect in Flex applications)
 	 * @return a new processor factory 
 	 */
 	public static function newFactory (property:Property, scope:String, id:String = null, 
-			managed:Boolean = false, subscribe:Boolean = false) : ObjectProcessorFactory {
-		return ObjectProcessorFactories.newFactory(PublisherProcessor, [property, scope, id, managed, subscribe]);
+			managed:Boolean = false, subscribe:Boolean = false, changeEvent:String = null) : ObjectProcessorFactory {
+		return ObjectProcessorFactories.newFactory(PublisherProcessor, [property, scope, id, managed, subscribe, changeEvent]);
 	}
 	
 	/**

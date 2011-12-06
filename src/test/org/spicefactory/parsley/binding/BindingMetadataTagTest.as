@@ -1,5 +1,7 @@
 package org.spicefactory.parsley.binding {
 
+import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
+import org.spicefactory.parsley.binding.impl.PropertyPublisher;
 import org.flexunit.assertThat;
 import org.hamcrest.collection.array;
 import org.hamcrest.object.equalTo;
@@ -32,6 +34,11 @@ import org.spicefactory.parsley.runtime.RuntimeContextBuilder;
  */
 public class BindingMetadataTagTest {
 	
+	
+	[BeforeClass]
+	public static function setPropertyWatcherType (): void {
+		PropertyPublisher.propertyWatcherType = FlexPropertyWatcher;
+	}
 	
 	[Test]
 	public function publish () : void {

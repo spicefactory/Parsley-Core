@@ -1,6 +1,9 @@
 package org.spicefactory.parsley.binding {
+
+import org.spicefactory.parsley.binding.impl.PropertyPublisher;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
 import org.spicefactory.parsley.util.XmlContextUtil;
 import org.spicefactory.parsley.xml.XmlConfig;
 
@@ -9,6 +12,11 @@ import org.spicefactory.parsley.xml.XmlConfig;
  */
 public class BindingXmlTagTest extends BindingTestBase {
 	
+	
+	[BeforeClass]
+	public static function setPropertyWatcherType (): void {
+		PropertyPublisher.propertyWatcherType = FlexPropertyWatcher;
+	}
 	
 	protected override function get bindingContext () : Context {
 		return XmlContextUtil.newContext(config);

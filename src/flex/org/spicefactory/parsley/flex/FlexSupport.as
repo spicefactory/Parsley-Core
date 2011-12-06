@@ -21,7 +21,9 @@ import org.spicefactory.lib.command.result.ResultProcessors;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.logging.flex.FlexLogFactory;
+import org.spicefactory.parsley.binding.impl.PropertyPublisher;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
+import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
 import org.spicefactory.parsley.flex.command.AsyncTokenResultProcessor;
 import org.spicefactory.parsley.flex.modules.FlexApplicationDomainProvider;
 
@@ -61,6 +63,7 @@ public class FlexSupport {
 		
 		if (LogContext.factory == null) LogContext.factory = new FlexLogFactory();
 		BootstrapDefaults.config.domainProvider = new FlexApplicationDomainProvider();
+		PropertyPublisher.propertyWatcherType = FlexPropertyWatcher;
 	}
 	
 	
