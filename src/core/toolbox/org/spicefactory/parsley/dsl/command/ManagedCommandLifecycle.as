@@ -17,7 +17,6 @@
 package org.spicefactory.parsley.dsl.command {
 
 import org.spicefactory.lib.command.CommandResult;
-import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.command.data.CommandData;
 import org.spicefactory.lib.command.lifecycle.DefaultCommandLifecycle;
 import org.spicefactory.lib.command.proxy.CommandProxy;
@@ -60,7 +59,8 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 			if (!GlobalState.objects.isManaged(command)) {
 				dynamicObject = context.addDynamicObject(command);
 			}
-			context.scopeManager.observeCommand(createObservableCommand(command, dynamicObject));
+			var targetContext: Context = (trigger) ? trigger.senderContext : context;
+			targetContext.scopeManager.observeCommand(createObservableCommand(command, dynamicObject));
 		}
 		else if (command is ManagedCommandProxy) {
 			nextId = ManagedCommandProxy(command).id;
