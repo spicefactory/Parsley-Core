@@ -17,17 +17,30 @@ package org.spicefactory.parsley.tag.command.link {
 
 import org.spicefactory.lib.command.flow.LinkConditions;
 import org.spicefactory.lib.command.flow.LinkCondition;
+
 /**
+ * Links results that contain the specified property value
+ * to the the target command specified by this tag.
+ * 
  * @author Jens Halm
  */
 public class LinkResultPropertyTag extends AbstractLinkTag {
 	
 	
+	/**
+	 * The name of the property.
+	 */
 	public var name:String;
 	
+	/**
+	 * The value of the property.
+	 */
 	public var value:*;
 	
 	
+	/**
+	 * @private
+	 */
 	protected override function get condition () : LinkCondition {
 		return LinkConditions.forResultProperty(name, value);
 	}

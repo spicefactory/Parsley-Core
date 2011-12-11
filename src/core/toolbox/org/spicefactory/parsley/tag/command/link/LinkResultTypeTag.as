@@ -17,15 +17,25 @@ package org.spicefactory.parsley.tag.command.link {
 
 import org.spicefactory.lib.command.flow.LinkConditions;
 import org.spicefactory.lib.command.flow.LinkCondition;
+
 /**
+ * Links results of a specific type (class)
+ * to the the target command specified by this tag.
+ * 
  * @author Jens Halm
  */
 public class LinkResultTypeTag extends AbstractLinkTag {
 	
 	
+	/**
+	 * The expected type of the result.
+	 */
 	public var type:Class;
 	
 	
+	/**
+	 * @private
+	 */
 	protected override function get condition () : LinkCondition {
 		return LinkConditions.forResultType(type);
 	}

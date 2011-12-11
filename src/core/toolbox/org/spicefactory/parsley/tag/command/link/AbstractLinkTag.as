@@ -23,15 +23,25 @@ import org.spicefactory.lib.command.flow.LinkCondition;
 import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.tag.command.NestedCommandTag;
+
 /**
+ * Base class for tags that represent command links.
+ * 
  * @author Jens Halm
  */
 public class AbstractLinkTag implements LinkTag {
 	
 	
+	/**
+	 * The target command to execute in case the condition
+	 * specified by this tag is met.
+	 */
 	public var to:NestedCommandTag;
 	
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function build (commands:Map) : CommandLink {
 		if (!to) {
 			throw IllegalStateError("No target has been specified for this link");
@@ -43,6 +53,9 @@ public class AbstractLinkTag implements LinkTag {
 		return new DefaultCommandLink(condition, new ExecuteCommandAction(command));
 	}
 	
+	/**
+	 * The condition to apply to the links produced by this tag.
+	 */
 	protected function get condition () : LinkCondition {
 		throw new AbstractMethodError();
 	}

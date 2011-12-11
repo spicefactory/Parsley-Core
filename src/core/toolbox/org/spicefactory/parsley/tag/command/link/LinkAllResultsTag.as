@@ -17,12 +17,18 @@ package org.spicefactory.parsley.tag.command.link {
 
 import org.spicefactory.lib.command.flow.LinkCondition;
 import org.spicefactory.lib.command.flow.LinkConditions;
+
 /**
+ * Links all results to the the target command specified by this tag.
+ * 
  * @author Jens Halm
  */
 public class LinkAllResultsTag extends AbstractLinkTag {
 	
 	
+	/**
+	 * @private
+	 */
 	protected override function get condition () : LinkCondition {
 		return LinkConditions.forAllResults();
 	}

@@ -17,12 +17,20 @@ package org.spicefactory.parsley.tag.command.link {
 
 import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.command.flow.CommandLink;
+
 /**
+ * Interface to be implemented by all tags that represent command links.
+ * 
  * @author Jens Halm
  */
 public interface LinkTag {
 	
-	
+	/**
+	 * Builds a new command link instance based on the configuration
+	 * of this tag.
+	 * 
+	 * @return a new command link instance
+	 */
 	function build (commands:Map) : CommandLink;
 	
 }
