@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<componentPackage>
+	<component id="XmlConfig" class="org.spicefactory.parsley.xml.tag.XmlConfigTag"/>
+</componentPackage>

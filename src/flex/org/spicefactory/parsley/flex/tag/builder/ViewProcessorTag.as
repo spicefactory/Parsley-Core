@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.flex.tag.builder {
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
+import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
 
 /**
  * MXML tag for declaring a custom view processor to be used by the corresponding

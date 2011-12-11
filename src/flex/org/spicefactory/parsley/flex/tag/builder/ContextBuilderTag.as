@@ -16,10 +16,16 @@
 
 package org.spicefactory.parsley.flex.tag.builder {
 
+import flash.display.DisplayObject;
+import flash.events.ErrorEvent;
+import flash.events.Event;
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
+import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.context.Context;
@@ -36,11 +42,6 @@ import org.spicefactory.parsley.flex.resources.FlexResourceBindingAdapter;
 import org.spicefactory.parsley.flex.tag.ConfigurationTagBase;
 import org.spicefactory.parsley.processor.resources.ResourceBindingProcessor;
 
-import flash.display.DisplayObject;
-import flash.events.ErrorEvent;
-import flash.events.Event;
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
 
 /**
  * Dispatched when the Context built by this tag was fully initialized.
@@ -127,7 +128,7 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 	 */
 	public var description:String;
 	
-	[ArrayElementType("org.spicefactory.parsley.flex.tag.builder.BootstrapConfigProcessor")]
+	[ArrayElementType("org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor")]
 	/**
 	 * The individual configuration artifacts for this ContextBuilder.
 	 */

@@ -21,6 +21,7 @@ import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
+import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.flex.tag.builder {
-import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
+package org.spicefactory.parsley.core.bootstrap {
 
 /**
- * Interface to be implemented by child tags of the ContextBuilder MXML tag.
- * Child tags can be used for adding configuration artifacts, declaring custom scopes 
- * or initializing extensions.
+ * Interface to be implemented by classes that participate in the Context bootstrap sequence.
+ * Implementations can be used for adding configuration artifacts, declaring custom scopes 
+ * or initializing extensions. Usually only used for implementing tag libraries, but added
+ * to the core to avoid bidirectional dependencies between optional modules.
  * 
  * @author Jens Halm
  */

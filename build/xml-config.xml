@@ -20,15 +20,26 @@
 			<path-element>${release}/parsley-core-${version}.swc</path-element>
 		</external-library-path>
 		
+		<namespaces>
+	      	<namespace>
+	        	<uri>http://www.spicefactory.org/parsley</uri>
+	        	<manifest>${project}/build/xml-manifest.xml</manifest>
+	      	</namespace>
+	    </namespaces>
+		
 		<warn-no-constructor>false</warn-no-constructor>
 	    <verbose-stacktraces>true</verbose-stacktraces>
 	    <debug>true</debug>
 	    
 	</compiler>
 	
-  	<include-sources>
-  		<path-element>${project}/src/xml</path-element>
-  	</include-sources>
+	<include-namespaces>
+    	<uri>http://www.spicefactory.org/parsley</uri>
+  	</include-namespaces>
+	
+	<include-classes>
+	    <class>XmlSupportClasses</class>
+  	</include-classes>
   	
   	<output>${release}/parsley-xml-${version}.swc</output>
 	    

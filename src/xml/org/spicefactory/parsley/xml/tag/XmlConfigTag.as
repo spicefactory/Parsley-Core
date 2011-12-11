@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.flex.tag.builder {
+package org.spicefactory.parsley.xml.tag {
+
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
+import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
+import org.spicefactory.parsley.xml.processor.XmlConfigurationProcessor;
 
 /**
  * MXML tag for adding an XML configuration file to a ContextBuilder.
@@ -42,8 +45,7 @@ public class XmlConfigTag implements BootstrapConfigProcessor {
 	 * @private
 	 */
 	public function processConfig (config:BootstrapConfig) : void {
-		// TODO - bidirectional dependency between 2 optional modules
-		//config.addProcessor(new XmlConfigurationProcessor([file]));
+		config.addProcessor(new XmlConfigurationProcessor([file]));
 	}
 	
 	
