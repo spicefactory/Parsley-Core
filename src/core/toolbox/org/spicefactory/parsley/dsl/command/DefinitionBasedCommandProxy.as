@@ -26,6 +26,9 @@ import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 
 /**
+ * ManagedCommandProxy implementation that knows how to create command
+ * from an ObjectDefinition.
+ * 
  * @author Jens Halm
  */
 public class DefinitionBasedCommandProxy extends DefaultCommandProxy implements ManagedCommandProxy {
@@ -35,15 +38,26 @@ public class DefinitionBasedCommandProxy extends DefaultCommandProxy implements 
 	
 	private var dynamicObject:DynamicObject;
 
-
+	
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param target the definition of the target command
+	 */
 	function DefinitionBasedCommandProxy (target:DynamicObjectDefinition) {
 		definition = target;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get id () : String {
 		return definition.id;
 	}
 	
+	/**
+	 * @private
+	 */
 	protected override function createLifecycle () : CommandLifecycle {
 		return new ManagedCommandLifecycle(definition.registry.context, this);
 	}

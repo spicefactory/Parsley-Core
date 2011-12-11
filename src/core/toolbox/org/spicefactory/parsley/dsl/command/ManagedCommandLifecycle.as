@@ -31,6 +31,10 @@ import org.spicefactory.parsley.core.state.GlobalState;
 import flash.utils.Dictionary;
 	
 /**
+ * Extension of the standalone CommandLifecycle from Spicelib that deals with
+ * adding and removing commands to/from the Context during execution and passing
+ * them to the CommandManager.
+ * 
  * @author Jens Halm
  */
 public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
@@ -46,16 +50,30 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	private var observables:Dictionary = new Dictionary();
 	
 	
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param context the Context all commands should be added to during execution
+	 * @param root the root command this lifecycle gets applied to
+	 * @param trigger the message that triggered the command (if any)
+	 */
 	function ManagedCommandLifecycle (context:Context, root:ManagedCommandProxy, trigger:Message = null) {
 		this.context = context;
 		this.nextId = root.id;
 		this._trigger = trigger;
 	}
 	
+	/**
+	 * The message that triggered the command.
+	 * This property is null when the command was started programmatically.
+	 */
 	public function get trigger (): Message {
 		return _trigger;
 	}
 	
+	/**
+	 * @private
+	 */
 	public override function beforeExecution (command:Object, data:CommandData) : void {
 		if (isObservableTarget(command)) {
 			var dynamicObject:DynamicObject;
@@ -70,6 +88,9 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 		}
 	}
 
+	/**
+	 * @private
+	 */
 	public override function afterCompletion (command:Object, result:CommandResult) : void {
 		if (observables[command]) {
 			var observable:ObservableCommandImpl = observables[command];

@@ -21,11 +21,19 @@ import org.spicefactory.lib.reflect.FunctionBase;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Parameter;
 /**
+ * Default implementation of the CommandTriggerProvider interface that
+ * determines the trigger for a command based on the first parameter type
+ * of the execute method or (if the execute method does not have parameters)
+ * based on the first parameter type of the constructor.
+ * 
  * @author Jens Halm
  */
 public class DefaultCommandTriggerProvider implements CommandTriggerProvider {
 
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getTriggerType (commandType:ClassInfo) : ClassInfo {
 		var execute:Method = commandType.getMethod("execute");
 		if (!execute) {

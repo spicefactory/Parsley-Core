@@ -22,6 +22,8 @@ import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.Context;
 
 /**
+ * Default implementation of the ManagedCommandProxy interface.
+ * 
  * @author Jens Halm
  */
 public class DefaultManagedCommandProxy extends DefaultCommandProxy implements ManagedCommandProxy {
@@ -29,16 +31,29 @@ public class DefaultManagedCommandProxy extends DefaultCommandProxy implements M
 	private var _context:Context;
 	private var _id:String;
 	
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param context the Context the command belongs to
+	 * @param target the target command to be executed by this proxy
+	 * @param id the id the command is registered with in the Context
+	 */
 	function DefaultManagedCommandProxy (context:Context = null, target:Command = null, id:String = null) {
 		_context = context;
 		this.target = target;
 		_id = id;
 	}
 
+	/**
+	 * @private
+	 */
 	protected override function createLifecycle () : CommandLifecycle {
 		return new ManagedCommandLifecycle(_context, this);
 	}
 	
+	/**
+	 * The Context the command belongs to.
+	 */
 	public function set context (value:Context) : void {
 		_context = value;
 	}
@@ -47,6 +62,9 @@ public class DefaultManagedCommandProxy extends DefaultCommandProxy implements M
 		_id = id;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function get id () : String {
 		return _id;
 	}

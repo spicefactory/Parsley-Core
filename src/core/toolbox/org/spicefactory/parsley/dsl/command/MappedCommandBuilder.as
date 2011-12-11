@@ -23,6 +23,11 @@ import org.spicefactory.parsley.core.events.ContextEvent;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
 	
 /**
+ * A builder DSL for mapping commands to messages.
+ * This API adds on top of the standalone Spicelib Commands builder APIs the ability
+ * to let commands get managed by a Parsley Context during execution and to trigger execution
+ * based on a message.
+ * 
  * @author Jens Halm
  */
 public class MappedCommandBuilder {
@@ -69,21 +74,48 @@ public class MappedCommandBuilder {
 	}
 	
 	
+	/**
+	 * The type of message (including subtypes) that should trigger
+	 * command execution.
+	 * 
+	 * @param type the type of message that should trigger command execution
+	 * @return this builder instance for method chaining
+	 */
 	public function messageType (type:Class) : MappedCommandBuilder {
 		_messageType = type;
 		return this;
 	}
 	
+	/**
+	 * The optional selector for mapping matching messages.
+	 * 
+	 * @param selector the selector to use for matching messages
+	 * @return this builder instance for method chaining
+	 */
 	public function selector (selector:*) : MappedCommandBuilder {
 		_selector = selector;
 		return this;
 	}
 	
+	/**
+	 * The execution order in relation to other message receivers.
+	 * This order attribute affects all types of message receivers,
+	 * not only those that execute commands.
+	 * 
+	 * @param order the execution order in relation to other message receivers
+	 * @return this builder instance for method chaining
+	 */
 	public function order (order:int) : MappedCommandBuilder {
 		_order = order;
 		return this;
 	}
 	
+	/**
+	 * The name of the scope in which to listen for messages.
+	 * 
+	 * @param scope the name of the scope in which to listen for messages
+	 * @return this builder instance for method chaining
+	 */
 	public function scope (scope:String) : MappedCommandBuilder {
 		_scope = scope;
 		return this;
@@ -91,7 +123,9 @@ public class MappedCommandBuilder {
 	
 	
 	/**
-	 * Builds and registers the dynamic command.
+	 * Registers this mapping with the specified Context.
+	 * 
+	 * @param context the Context this mapping is applied to
 	 */
 	public function register (context:Context) : void {
 		

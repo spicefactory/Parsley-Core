@@ -15,6 +15,9 @@
  */
 package org.spicefactory.parsley.dsl.command {
 /**
+ * Global registry for providers that can determine the trigger messages
+ * for commands.
+ * 
  * @author Jens Halm
  */
 public class CommandTriggerProviders {
@@ -22,7 +25,9 @@ public class CommandTriggerProviders {
 	
 	private static var _defaultProvider:CommandTriggerProvider;
 
-
+	/**
+	 * The default provider to use for all commands.
+	 */
 	static public function get defaultProvider () : CommandTriggerProvider {
 		if (!_defaultProvider) {
 			_defaultProvider = new DefaultCommandTriggerProvider();

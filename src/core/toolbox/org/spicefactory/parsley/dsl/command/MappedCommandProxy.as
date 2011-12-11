@@ -24,6 +24,9 @@ import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
 import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageReceiver;
 
 /**
+ * Parsley message target that executes a command when a message is
+ * received.
+ * 
  * @author Jens Halm
  */
 public class MappedCommandProxy extends AbstractMessageReceiver implements MessageTarget {
@@ -33,13 +36,25 @@ public class MappedCommandProxy extends AbstractMessageReceiver implements Messa
 	private var context:Context;
 
 
-	public function MappedCommandProxy (factory:ManagedCommandFactory, context:Context,
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param factory the factory to use for creating new commands
+	 * @param context the Context that should manage all commands executed by this proxy
+	 * @param messageType the type of message that should trigger command execution
+	 * @param selector the optional selector to match messages
+	 * @param order the execution order for this receiver compared to other handlers for the same message
+	 */
+	function MappedCommandProxy (factory:ManagedCommandFactory, context:Context,
 			messageType:Class = null, selector:* = undefined, order:int = int.MAX_VALUE) {
 		super(messageType, selector, order);
 		this.factory = factory;
 		this.context = context;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function handleMessage (processor:MessageProcessor) : void {
 		var command:ManagedCommandProxy = factory.newInstance();
 		var data:DefaultCommandData = new DefaultCommandData();

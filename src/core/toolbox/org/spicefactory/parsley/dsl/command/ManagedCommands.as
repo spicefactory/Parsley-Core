@@ -17,15 +17,27 @@
 package org.spicefactory.parsley.dsl.command {
 	
 /**
+ * API for creating container managed commands programmatically.
+ * 
  * @author Jens Halm
  */
 public class ManagedCommands {
 	
 	
+	/**
+	 * Creates a builder for the specified command instance.
+	 * 
+	 * @return a new builder for the specified command instance
+	 */
 	public static function wrap (command:Object) : ManagedCommandBuilder {
 		return new ManagedCommandBuilder(command);
 	}
 	
+	/**
+	 * Creates a builder for the specified command type.
+	 * 
+	 * @return a new builder for the specified command type
+	 */
 	public static function create (commandType:Class) : ManagedCommandBuilder {
 		return new ManagedCommandBuilder(commandType);
 	}
