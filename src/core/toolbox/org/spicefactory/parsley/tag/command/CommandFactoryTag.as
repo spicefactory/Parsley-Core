@@ -23,8 +23,9 @@ import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
 [DefaultProperty("command")]
 [XmlMapping(elementName="command-factory")]
+
 /**
- * Represents the root tag for an dynamic object definition in MXML or XML configuration.
+ * Represents a factory for a managed command in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
@@ -32,7 +33,7 @@ public class CommandFactoryTag implements RootConfigurationElement {
 	
 	
 	/**
-	 * @copy org.spicefactory.parsley.asconfig.metadata.ObjectDefinitionMetadata#id
+	 * The id the command should be registered with in the Context.
 	 */
 	public var id:String;
 	

@@ -17,8 +17,7 @@ package org.spicefactory.parsley.tag.command {
 import mx.core.IMXMLObject;
 
 /**
- * Extension of the default object definition tag that handles ids set in MXML.
- * To be used for root MXML object defintions only.
+ * Extension of the default command factory tag that handles ids set in MXML.
  * 
  * @author Jens Halm
  */

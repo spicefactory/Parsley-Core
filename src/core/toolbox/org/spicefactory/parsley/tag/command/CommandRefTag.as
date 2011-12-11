@@ -22,15 +22,24 @@ import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
 [XmlMapping(elementName="command-ref")]	
 [DefaultProperty("links")]
+
 /**
+ * Tag representing a reference to another command declared in MXML or XML configuration.
+ * 
  * @author Jens Halm
  */
 public class CommandRefTag extends AbstractCommandTag implements NestedCommandTag {
 
 
+	/**
+	 * The id of the referenced command. 
+	 */
 	public var idRef:String;
 
 
+	/**
+	 * @inheritDoc
+	 */
 	public function resolve (config:Configuration) : ManagedCommandFactory {
 		if (!idRef) throw IllegalStateError("idRef must be set");
 		

@@ -18,12 +18,18 @@ package org.spicefactory.parsley.tag.command {
 import org.spicefactory.lib.command.group.CommandSequence;
 	
 [XmlMapping(elementName="command-sequence")]
+
 /**
+ * Tag for command sequences declared in MXML or XML configuration.
+ * 
  * @author Jens Halm
  */
 public class CommandSequenceTag extends AbstractCommandGroupTag {
 	
 	
+	/**
+	 * @private
+	 */
 	function CommandSequenceTag () {
 		super(CommandSequence);
 	}

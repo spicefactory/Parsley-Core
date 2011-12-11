@@ -20,8 +20,9 @@ import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
 [DefaultProperty("commands")]
+
 /**
- * Represents the root tag for an dynamic object definition in MXML or XML configuration.
+ * Base tag for command groups declared in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
@@ -31,16 +32,22 @@ public class AbstractCommandGroupTag extends AbstractCommandTag implements Neste
 	[ArrayElementType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
 	[ChoiceType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
 	/**
-	 * The ObjectDefinitionDecorator instances added to this definition.
+	 * The commands to be added to this command group.
 	 */
 	public var commands:Array = new Array();
 	
 	private var type:Class;
 
+	/**
+	 * @private
+	 */
 	function AbstractCommandGroupTag (type:Class) {
 		this.type = type;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function resolve (config:Configuration) : ManagedCommandFactory {
 		var factories:Array = [];
 		for each (var tag:NestedCommandTag in commands) {

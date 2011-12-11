@@ -19,12 +19,18 @@ package org.spicefactory.parsley.tag.command {
 import org.spicefactory.lib.command.group.ParallelCommands;
 	
 [XmlMapping(elementName="parallel-commands")]
+
 /**
+ * Tag for parallel commands declared in MXML or XML configuration.
+ * 
  * @author Jens Halm
  */
 public class ParallelCommandsTag extends AbstractCommandGroupTag {
 	
 	
+	/**
+	 * @private
+	 */
 	function ParallelCommandsTag () {
 		super(ParallelCommands);
 	}

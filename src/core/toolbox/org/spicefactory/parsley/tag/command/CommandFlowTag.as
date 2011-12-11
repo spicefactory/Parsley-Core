@@ -22,8 +22,9 @@ import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
 [DefaultProperty("commands")]
 [XmlMapping(elementName="command-flow")]
+
 /**
- * Represents the root tag for an dynamic object definition in MXML or XML configuration.
+ * Tag for command flows declared in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
@@ -33,11 +34,14 @@ public class CommandFlowTag extends AbstractCommandTag implements NestedCommandT
 	[ArrayElementType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
 	[ChoiceType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
 	/**
-	 * The ObjectDefinitionDecorator instances added to this definition.
+	 * The commands to be added to this command flow.
 	 */
 	public var commands:Array = new Array();
 
-
+	
+	/**
+	 * @inheritDoc
+	 */
 	public function resolve (config:Configuration) : ManagedCommandFactory {
 		var map:Map = new Map();
 		for each (var tag:NestedCommandTag in commands) {

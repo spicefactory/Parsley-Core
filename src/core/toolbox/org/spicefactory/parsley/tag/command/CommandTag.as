@@ -23,8 +23,9 @@ import org.spicefactory.parsley.dsl.command.DefaultManagedCommandFactory;
 
 [DefaultProperty("links")]
 [XmlMapping(elementName="command")]
+
 /**
- * Represents the root tag for an dynamic object definition in MXML or XML configuration.
+ * Tag for a single command declared in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
@@ -32,7 +33,7 @@ public class CommandTag extends AbstractCommandTag implements NestedCommandTag {
 	
 	
 	/**
-	 * The type of the object configured by this definition.
+	 * The type of the command configured by this definition.
 	 */
 	public var type:Class = Object;
 	

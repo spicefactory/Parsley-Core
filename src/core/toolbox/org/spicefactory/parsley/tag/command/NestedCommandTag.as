@@ -20,13 +20,26 @@ import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 	
 /**
+ * Represents a tag that produces a command and can be nested
+ * inside other command tags.
+ * 
  * @author Jens Halm
  */
 public interface NestedCommandTag {
 	
 	
+	/**
+	 * Creates a new command factory based on the configuration of this tag.
+	 * 
+	 * @config the configuration this tag is associated with
+	 * @return a new command factory based on the configuration of this tag
+	 */
 	function resolve (config:Configuration) : ManagedCommandFactory;
 	
+	/**
+	 * The links of this command tag in case it represents a command
+	 * in a flow.
+	 */
 	function get links () : Array;
 	
 	

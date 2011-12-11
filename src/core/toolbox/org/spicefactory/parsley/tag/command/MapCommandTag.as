@@ -23,7 +23,11 @@ import org.spicefactory.parsley.dsl.command.MappedCommandBuilder;
 	
 [DefaultProperty("command")]
 [XmlMapping(elementName="map-command")]
+
 /**
+ * Represents a mapping in MXML or XML configuration for a managed command 
+ * that gets executed when a matching message is dispatched in the Context.
+ * 
  * @author Jens Halm
  */
 public class MapCommandTag implements RootConfigurationElement {
@@ -41,24 +45,27 @@ public class MapCommandTag implements RootConfigurationElement {
 	public var type:Class;
 	
 	/**
-	 * @copy org.spicefactory.parsley.tag.lifecycle.AbstractSynchronizedProviderDecorator#scope
-	 */
+	 * The name of the scope in which to listen for messages.
+	 */ 
 	public var scope:String;
 
 	/**
-	 * @copy org.spicefactory.parsley.tag.messaging.AbstractMessageReceiverDecorator#type
-	 */
+	 * The type of message (including subtypes) that should trigger
+	 * command execution.
+	 */ 
 	public var messageType:Class;
 
 	[Attribute]
 	/**
-	 * @copy org.spicefactory.parsley.tag.messaging.AbstractMessageReceiverDecorator#selector
-	 */
+	 * The optional selector for mapping matching messages.
+	 */ 
 	public var selector:*;
 	
 	/**
-	 * @copy org.spicefactory.parsley.tag.messaging.AbstractMessageReceiverDecorator#order
-	 */
+	 * The execution order in relation to other message receivers.
+	 * This order attribute affects all types of message receivers,
+	 * not only those that execute commands.
+	 */ 
 	public var order:int = int.MAX_VALUE;
 
 	/**

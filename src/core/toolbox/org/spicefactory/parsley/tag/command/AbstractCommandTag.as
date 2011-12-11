@@ -17,6 +17,8 @@
 package org.spicefactory.parsley.tag.command {
 	
 /**
+ * Base tag for commands declared in MXML or XML configuration.
+ * 
  * @author Jens Halm
  */
 public class AbstractCommandTag {
@@ -24,6 +26,10 @@ public class AbstractCommandTag {
 	
 	private var _links:Array = new Array();
 	
+	/**
+	 * The links of this command tag in case it represents a command
+	 * in a flow.
+	 */
 	public function get links () : Array {
 		return _links;
 	}
