@@ -1,7 +1,6 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:msg="org.spicefactory.parsley.tag.messaging.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:msg="org.spicefactory.parsley.tag.messaging.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -15,7 +14,7 @@
 	</mx:Script>
 	
 	
-	<flextag:MxmlRootObjectTag id="commandObservers" type="{CommandObservers}">
+	<core:MxmlRootObjectTag id="commandObservers" type="{CommandObservers}">
 		<msg:CommandCompleteDecorator method="completeA"/>
 		<msg:CommandCompleteDecorator method="completeB"/>
 		<msg:CommandCompleteDecorator method="complete"/>
@@ -23,13 +22,13 @@
 		<msg:CommandResultDecorator method="resultB"/>
 		<msg:CommandResultDecorator method="result"/>
 		<msg:CommandErrorDecorator method="error"/>
-	</flextag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
-	<flextag:MxmlRootObjectTag id="commandStatusFlags" type="{CommandStatusFlags}">
+	<core:MxmlRootObjectTag id="commandStatusFlags" type="{CommandStatusFlags}">
 		<msg:CommandStatusDecorator property="trigger" type="{Trigger}"/>
 		<msg:CommandStatusDecorator property="triggerA" type="{TriggerA}"/>
 		<msg:CommandStatusDecorator property="triggerB" type="{TriggerB}"/>
-	</flextag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
 	
 </mx:Object>

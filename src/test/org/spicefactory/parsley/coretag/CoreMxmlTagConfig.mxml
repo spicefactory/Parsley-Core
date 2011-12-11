@@ -2,7 +2,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:tag="org.spicefactory.parsley.tag.core.*"
-	xmlns:model="org.spicefactory.parsley.coretag.inject.model.*">
+	xmlns:model="org.spicefactory.parsley.coretag.inject.model.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -15,7 +15,7 @@
 	<model:InjectedDependency id="dependency"/>
 	
 	
-	<tag:MxmlRootObjectTag id="object" type="{CoreModel}">
+	<core:MxmlRootObjectTag id="object" type="{CoreModel}">
 		<tag:ConstructorTag>
 			<mx:String>foo</mx:String>
 			<mx:Number>7</mx:Number>
@@ -31,7 +31,7 @@
 				<tag:NestedObjectTag type="{ArrayElement}"/>
 			</tag:ArrayTag>
 		</tag:PropertyTag>
-	</tag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
 	
 </mx:Object> 

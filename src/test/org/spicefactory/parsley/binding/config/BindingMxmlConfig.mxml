@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Object xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:binding="org.spicefactory.parsley.binding.decorator.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:binding="org.spicefactory.parsley.binding.decorator.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
 	<mx:Script>
 		<![CDATA[
 			import org.spicefactory.parsley.binding.model.StringHolder;
@@ -10,44 +9,44 @@
 		]]>
 	</mx:Script>
 
-	<flextag:MxmlDynamicObjectTag id="publish" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="publish" type="{CatHolder}">
 		<binding:PublishDecorator property="value"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="publishId" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="publishId" type="{CatHolder}">
 		<binding:PublishDecorator property="value" objectId="cat"/>
-	</flextag:MxmlDynamicObjectTag>
+	</core:MxmlDynamicObjectTag>
 	
-	<flextag:MxmlDynamicObjectTag id="publishLocal" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="publishLocal" type="{CatHolder}">
 		<binding:PublishDecorator property="value" scope="local"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="publishManaged" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="publishManaged" type="{CatHolder}">
 		<binding:PublishDecorator property="value" managed="true" scope="local"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="publishPersistent" type="{StringHolder}">
+	<core:MxmlDynamicObjectTag id="publishPersistent" type="{StringHolder}">
 		<binding:PublishSubscribeDecorator persistent="true" property="value" scope="local" objectId="test"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="subscribe" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="subscribe" type="{CatHolder}">
 		<binding:SubscribeDecorator property="value"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="subscribeId" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="subscribeId" type="{CatHolder}">
 		<binding:SubscribeDecorator property="value" objectId="cat"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="subscribeLocal" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="subscribeLocal" type="{CatHolder}">
 		<binding:SubscribeDecorator property="value" scope="local"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="animalSubscribe" type="{AnimalHolder}">
+	<core:MxmlDynamicObjectTag id="animalSubscribe" type="{AnimalHolder}">
 		<binding:SubscribeDecorator property="value"/>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="pubsub" type="{CatHolder}">
+	<core:MxmlDynamicObjectTag id="pubsub" type="{CatHolder}">
 		<binding:PublishSubscribeDecorator property="value"/>
-	</flextag:MxmlDynamicObjectTag>
+	</core:MxmlDynamicObjectTag>
 	
 </mx:Object>

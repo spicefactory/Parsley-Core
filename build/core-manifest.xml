@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <componentPackage>
-    <component id="Objects" class="org.spicefactory.parsley.tag.core.MxmlObjectsTag"/>
-    <component id="Object" class="org.spicefactory.parsley.tag.core.MxmlRootObjectTag"/>
-    <component id="View" class="org.spicefactory.parsley.tag.core.MxmlViewTag"/>
-    <component id="DynamicObject" class="org.spicefactory.parsley.tag.core.MxmlDynamicObjectTag"/>
     <component id="NestedObject" class="org.spicefactory.parsley.tag.core.NestedObjectTag"/>
     
     <component id="ConstructorArgs" class="org.spicefactory.parsley.tag.core.ConstructorTag"/>
@@ -25,8 +21,6 @@
     <component id="MessageError" class="org.spicefactory.parsley.tag.messaging.MessageErrorDecorator"/>
 
 	<component id="MapCommand" class="org.spicefactory.parsley.tag.command.MapCommandTag"/>
-	<component id="CommandFactory" class="org.spicefactory.parsley.tag.command.MxmlCommandFactoryTag"/>
-
 	<component id="CommandRef" class="org.spicefactory.parsley.tag.command.CommandRefTag"/>
 	
 	<component id="LinkResultType" class="org.spicefactory.parsley.tag.command.link.LinkResultTypeTag"/>

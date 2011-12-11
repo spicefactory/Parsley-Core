@@ -2,7 +2,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:tag="org.spicefactory.parsley.tag.core.*"
-	xmlns:model="org.spicefactory.parsley.coretag.inject.model.*">
+	xmlns:model="org.spicefactory.parsley.coretag.inject.model.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -14,7 +14,7 @@
 	
 	<model:InjectedDependency id="dependency"/>
 	
-	<tag:MxmlRootObjectTag id="object" type="{Dictionary}">
+	<core:MxmlRootObjectTag id="object" type="{Dictionary}">
 		<tag:DynamicPropertyTag name="stringProp" value="foo"/>
 		<tag:DynamicPropertyTag name="intProp" value="7"/>
 		<tag:DynamicPropertyTag name="booleanProp" value="true"/>
@@ -28,6 +28,6 @@
 				<tag:NestedObjectTag type="{ArrayElement}"/>
 			</tag:ArrayTag>
 		</tag:DynamicPropertyTag>
-	</tag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
 </mx:Object> 

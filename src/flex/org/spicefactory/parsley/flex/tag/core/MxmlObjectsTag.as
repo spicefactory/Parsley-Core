@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.tag.core {
+package org.spicefactory.parsley.flex.tag.core {
 import org.spicefactory.parsley.asconfig.ConfigurationBase;
 
 import mx.utils.ObjectProxy;

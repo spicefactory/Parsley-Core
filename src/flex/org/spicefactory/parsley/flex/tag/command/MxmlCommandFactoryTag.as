@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.spicefactory.parsley.tag.core {
+package org.spicefactory.parsley.flex.tag.command {
 import mx.core.IMXMLObject;
+import org.spicefactory.parsley.tag.command.CommandFactoryTag;
 
 /**
- * Extension of the default object definition tag that handles ids set in MXML.
- * To be used for root MXML object defintions only.
+ * Extension of the default command factory tag that handles ids set in MXML.
  * 
  * @author Jens Halm
  */
-public class MxmlRootObjectTag extends RootObjectTag implements IMXMLObject {
+public class MxmlCommandFactoryTag extends CommandFactoryTag implements IMXMLObject {
 
 
 	/**

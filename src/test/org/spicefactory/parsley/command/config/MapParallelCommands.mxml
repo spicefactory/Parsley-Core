@@ -14,11 +14,11 @@
 		]]>
 	</mx:Script>
 
-	<com:MxmlCommandFactoryTag id="ref">
+	<flexcom:MxmlCommandFactoryTag id="ref">
 		<flexcom:MxmlCommandTag type="{AsyncCommandWithTrigger}">
 			<flextag:PropertyTag name="result" value="1"/>
 		</flexcom:MxmlCommandTag>
-	</com:MxmlCommandFactoryTag>
+	</flexcom:MxmlCommandFactoryTag>
 	
 	<com:MapCommandTag messageType="{TriggerA}">
 		<flexcom:MxmlParallelCommandsTag>

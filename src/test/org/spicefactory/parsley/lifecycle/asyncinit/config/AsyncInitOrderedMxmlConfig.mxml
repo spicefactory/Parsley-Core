@@ -1,7 +1,6 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:dec="org.spicefactory.parsley.tag.lifecycle.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:dec="org.spicefactory.parsley.tag.lifecycle.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -11,19 +10,19 @@
 	</mx:Script>
 	
 	
-	<flextag:MxmlRootObjectTag id="asyncInitModel1" type="{AsyncInitModel}" order="1">
+	<core:MxmlRootObjectTag id="asyncInitModel1" type="{AsyncInitModel}" order="1">
 		<dec:AsyncInitDecorator/>
-	</flextag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
-	<flextag:MxmlRootObjectTag id="asyncInitModel2" type="{AsyncInitModel}" order="2">
+	<core:MxmlRootObjectTag id="asyncInitModel2" type="{AsyncInitModel}" order="2">
 		<dec:AsyncInitDecorator completeEvent="customComplete" errorEvent="customError"/>
-	</flextag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
-	<flextag:MxmlRootObjectTag id="asyncInitModel3" type="{AsyncInitModel}">
+	<core:MxmlRootObjectTag id="asyncInitModel3" type="{AsyncInitModel}">
 		<dec:AsyncInitDecorator/>
-	</flextag:MxmlRootObjectTag> 
+	</core:MxmlRootObjectTag> 
 	
-	<flextag:MxmlRootObjectTag id="syncModel" type="{SyncModel}"/>
+	<core:MxmlRootObjectTag id="syncModel" type="{SyncModel}"/>
 	
 	
 </mx:Object> 

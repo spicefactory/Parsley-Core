@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.tag.core {
+package org.spicefactory.parsley.flex.tag.core {
 import mx.core.IMXMLObject;
+import org.spicefactory.parsley.tag.core.ViewTag;
 
 /**
- * Extension of the default dynamic object tag that handles ids set in MXML.
+ * Extension of the default view definition tag that handles ids set in MXML.
  * 
  * @author Jens Halm
  */
-public class MxmlDynamicObjectTag extends DynamicObjectTag implements IMXMLObject {
+public class MxmlViewTag extends ViewTag implements IMXMLObject {
 
 	
 	/**

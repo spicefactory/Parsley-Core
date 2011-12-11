@@ -16,10 +16,8 @@
 
 package {
 
-import org.spicefactory.parsley.tag.command.CommandTag;
-import org.spicefactory.parsley.tag.command.CommandFlowTag;
-import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
-import org.spicefactory.parsley.tag.command.CommandSequenceTag;
+import org.spicefactory.parsley.tag.command.CommandFactoryTag;
+import org.spicefactory.parsley.tag.core.DynamicObjectTag;
 import org.spicefactory.parsley.asconfig.ActionScriptConfig;
 import org.spicefactory.parsley.asconfig.ActionScriptContextBuilder;
 import org.spicefactory.parsley.asconfig.processor.ActionScriptConfigurationProcessor;
@@ -30,6 +28,12 @@ import org.spicefactory.parsley.metadata.MetadataDecoratorAssembler;
 import org.spicefactory.parsley.properties.Properties;
 import org.spicefactory.parsley.runtime.RuntimeContextBuilder;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
+import org.spicefactory.parsley.tag.command.CommandFlowTag;
+import org.spicefactory.parsley.tag.command.CommandSequenceTag;
+import org.spicefactory.parsley.tag.command.CommandTag;
+import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
+import org.spicefactory.parsley.tag.core.RootObjectTag;
+import org.spicefactory.parsley.tag.core.ViewTag;
 
 /**
  * @private 
@@ -54,6 +58,11 @@ public class ConfigurationClasses {
 	Configure;
 	FastInject;
 	
+	RootObjectTag,
+	ViewTag,
+	DynamicObjectTag,
+	
+	CommandFactoryTag,
 	CommandSequenceTag,
 	ParallelCommandsTag,
 	CommandFlowTag,

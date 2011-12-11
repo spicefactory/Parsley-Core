@@ -1,7 +1,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:dec="org.spicefactory.parsley.tag.lifecycle.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:flextag="org.spicefactory.parsley.tag.core.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -12,15 +12,15 @@
 	</mx:Script>
 	
 	
-	<flextag:MxmlDynamicObjectTag id="testObject" type="{AnnotatedDynamicTestObject}">
+	<core:MxmlDynamicObjectTag id="testObject" type="{AnnotatedDynamicTestObject}">
 		<flextag:PropertyTag name="dependency">
 			<flextag:NestedObjectTag type="{DynamicTestDependency}"/>
 		</flextag:PropertyTag>
-	</flextag:MxmlDynamicObjectTag> 
+	</core:MxmlDynamicObjectTag> 
 	
-	<flextag:MxmlDynamicObjectTag id="testObjectWithRootRef" type="{SimpleDynamicTestObject}"/>
+	<core:MxmlDynamicObjectTag id="testObjectWithRootRef" type="{SimpleDynamicTestObject}"/>
 	
-	<flextag:MxmlDynamicObjectTag id="ref" type="{DynamicTestDependency}"/>
+	<core:MxmlDynamicObjectTag id="ref" type="{DynamicTestDependency}"/>
 	
 	
 </mx:Object> 
