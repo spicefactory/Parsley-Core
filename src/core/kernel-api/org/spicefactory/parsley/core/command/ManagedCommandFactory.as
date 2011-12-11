@@ -19,13 +19,24 @@ package org.spicefactory.parsley.core.command {
 import org.spicefactory.lib.reflect.ClassInfo;
 	
 /**
+ * Factory responsible for creating instances of command proxies
+ * that are managed by the container.
+ * 
  * @author Jens Halm
  */
 public interface ManagedCommandFactory {
 	
 	
+	/**
+	 * The type of the command this factory produces.
+	 */
 	function get type () : ClassInfo;
 	
+	/**
+	 * Creates a new command proxy instance.
+	 * 
+	 * @return a new command proxy instance
+	 */
 	function newInstance () : ManagedCommandProxy;
 	
 	

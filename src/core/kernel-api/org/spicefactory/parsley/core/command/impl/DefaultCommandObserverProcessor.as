@@ -45,11 +45,10 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	/**
 	 * Creates a new instance.
 	 * 
-	 * @param command the command to handle observers for
-	 * @param cache the receiver selection cache corresponding to the messageType
+	 * @param observable the command to handle observers for
+	 * @param typeCache the receiver selection cache corresponding to the command type
+	 * @param triggerCache the receiver selection cache corresponding to the type of the trigger message
 	 * @param settings the settings for this processor
-	 * @param result the result of the command
-	 * @param status the status to handle the matching observers for
 	 */
 	function DefaultCommandObserverProcessor (observable:ObservableCommand, typeCache:MessageReceiverCache, 
 			triggerCache:MessageReceiverCache, settings:MessageSettings) {
@@ -67,18 +66,30 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 		return observable.command;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function get result () : Object {
 		return _result;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function get status () : CommandStatus {
 		return _status;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function get root () : Boolean {
 		return observable.root;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function changeResult (result:Object, error:Boolean = false) : void {
 		if (status == CommandStatus.EXECUTE) {
 			throw new IllegalStateError("Cannot set the result while command is still executing");

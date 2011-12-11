@@ -17,12 +17,18 @@
 package org.spicefactory.parsley.core.command {
 	
 import org.spicefactory.lib.command.proxy.CommandProxy;
+
 /**
+ * Represent a single command proxy managed by the container.
+ * 
  * @author Jens Halm
  */
 public interface ManagedCommandProxy extends CommandProxy {
 	
 	
+	/**
+	 * The id the command is registered with in the Context.
+	 */
 	function get id () : String;
 	
 	

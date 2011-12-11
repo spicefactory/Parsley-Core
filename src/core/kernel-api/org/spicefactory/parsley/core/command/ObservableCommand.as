@@ -20,25 +20,60 @@ import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.messaging.Message;
 	
 /**
+ * Represents a single command and holds all the information needed
+ * for command observers to process this command and its result.
+ * 
  * @author Jens Halm
  */
 public interface ObservableCommand {
 	
 	
+	/**
+	 * The message that triggered the command.
+	 * This property is null when the command was started programmatically.
+	 */
 	function get trigger () : Message;
 	
+	/**
+	 * The actual command instance.
+	 */
+	function get command () : Object;
+
+	/**
+	 * The id the command is registered with in the Context.
+	 */
 	function get id () : String;
 	
-	function get command () : Object;
-	
+	/**
+	 * The type of the command.
+	 */
 	function get type () : ClassInfo;
 	
+	/**
+	 * The result produced by the command.
+	 */
 	function get result () : Object;
 	
+	/**
+	 * The status of the command.
+	 */
 	function get status () : CommandStatus;
 	
+	/**
+	 * Indicates whether this command is a root command or a nested command.
+	 * This property is true if the command is a simple standalone command or the root
+	 * command of a sequence or flow. It is flow if it is a command nested in a sequence
+	 * or flow. 
+	 */
 	function get root () : Boolean;
 	
+	/**
+	 * Observes the completion of this command, no matter whether it successfully completes, 
+	 * aborts with an error or gets cancelled. The callback function must accept an argument
+	 * of type ObservableCommand.
+	 * 
+	 * @param callback the callback to invoke when the command completes  
+	 */
 	function observe (callback:Function) : void;
 	
 	
