@@ -13,27 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spicefactory.parsley.tag.command.link {
-
-import org.spicefactory.parsley.tag.command.CommandConfiguration;
-import org.spicefactory.lib.collection.Map;
-import org.spicefactory.lib.command.flow.CommandLink;
-import org.spicefactory.parsley.config.ObjectConfiguration;
+package org.spicefactory.parsley.tag.command {
 
 /**
- * Interface to be implemented by all tags that represent command links.
+ * Generic marker interface for anything that is responsible for configuring a command.
+ * Usually used for implementations that can be used in declarative configuration
+ * mechanisms as a child tag of tags that create commands in MXML or XML.
  * 
  * @author Jens Halm
  */
-public interface LinkTag extends ObjectConfiguration, CommandConfiguration {
-	
-	/**
-	 * Builds a new command link instance based on the configuration
-	 * of this tag.
-	 * 
-	 * @return a new command link instance
-	 */
-	function build (commands:Map) : CommandLink;
-	
+public interface CommandConfiguration {
 }
 }

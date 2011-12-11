@@ -13,35 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.spicefactory.parsley.tag.command {
 
+import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-	
+
+[DefaultProperty("commands")]
 /**
- * Represents a tag that produces a command and can be nested
- * inside other command tags.
+ * Base class for any kind of tag that accepts an Array of command tags
+ * as children.
  * 
  * @author Jens Halm
  */
-public interface NestedCommandTag extends CommandConfiguration {
+public class AbstractCommandParentTag extends AbstractCommandTag {
 	
 	
+	[ArrayElementType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
+	[ChoiceType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
 	/**
-	 * Creates a new command factory based on the configuration of this tag.
-	 * 
-	 * @config the configuration this tag is associated with
-	 * @return a new command factory based on the configuration of this tag
+	 * The commands to be added to this command group or flow.
 	 */
-	function resolve (config:Configuration) : ManagedCommandFactory;
+	public var commands:Array = new Array();
 	
-	/**
-	 * The links of this command tag in case it represents a command
-	 * in a flow.
-	 */
-	function get links () : Array;
 	
+	public function resolve (config:Configuration) : ManagedCommandFactory {
+		throw new AbstractMethodError();
+	}
 	
 }
 }

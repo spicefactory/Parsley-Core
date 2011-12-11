@@ -1,6 +1,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:com="org.spicefactory.parsley.tag.command.*"
+	xmlns:flexcom="org.spicefactory.parsley.flex.tag.command.*"
 	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*"
 	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
 	
@@ -13,7 +14,7 @@
 	</mx:Script>
 	
 	<com:CommandFactoryTag>
-	   <com:CommandTag type="{AsyncCommand}"/>
+	   <flexcom:MxmlCommandTag type="{AsyncCommand}"/>
 	</com:CommandFactoryTag>
 
 </mx:Object>

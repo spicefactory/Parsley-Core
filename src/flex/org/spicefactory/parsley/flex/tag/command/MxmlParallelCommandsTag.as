@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spicefactory.parsley.tag.command.link {
+package org.spicefactory.parsley.flex.tag.command {
 
-import org.spicefactory.parsley.tag.command.CommandConfiguration;
-import org.spicefactory.lib.collection.Map;
-import org.spicefactory.lib.command.flow.CommandLink;
-import org.spicefactory.parsley.config.ObjectConfiguration;
+import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
 
 /**
- * Interface to be implemented by all tags that represent command links.
+ * Tag for parallel commands declared in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
-public interface LinkTag extends ObjectConfiguration, CommandConfiguration {
+public class MxmlParallelCommandsTag extends AbstractMxmlCommandParentTag {
 	
 	/**
-	 * Builds a new command link instance based on the configuration
-	 * of this tag.
-	 * 
-	 * @return a new command link instance
+	 * @private
 	 */
-	function build (commands:Map) : CommandLink;
+	function MxmlParallelCommandsTag () {
+		super(new ParallelCommandsTag());
+	}
 	
 }
 }

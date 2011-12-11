@@ -20,7 +20,6 @@ import org.spicefactory.lib.collection.Map;
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
-[DefaultProperty("commands")]
 [XmlMapping(elementName="command-flow")]
 
 /**
@@ -28,21 +27,13 @@ import org.spicefactory.parsley.core.command.ManagedCommandFactory;
  * 
  * @author Jens Halm
  */
-public class CommandFlowTag extends AbstractCommandTag implements NestedCommandTag {
+public class CommandFlowTag extends AbstractCommandParentTag implements NestedCommandTag {
 	
-	
-	[ArrayElementType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
-	[ChoiceType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
-	/**
-	 * The commands to be added to this command flow.
-	 */
-	public var commands:Array = new Array();
-
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function resolve (config:Configuration) : ManagedCommandFactory {
+	public override function resolve (config:Configuration) : ManagedCommandFactory {
 		var map:Map = new Map();
 		for each (var tag:NestedCommandTag in commands) {
 			map.put(tag, tag.resolve(config));

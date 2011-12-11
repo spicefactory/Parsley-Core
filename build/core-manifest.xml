@@ -25,14 +25,10 @@
     <component id="MessageError" class="org.spicefactory.parsley.tag.messaging.MessageErrorDecorator"/>
 
 	<component id="MapCommand" class="org.spicefactory.parsley.tag.command.MapCommandTag"/>
-	<component id="CommandFactory" class="org.spicefactory.parsley.tag.command.CommandFactoryTag"/>
+	<component id="CommandFactory" class="org.spicefactory.parsley.tag.command.MxmlCommandFactoryTag"/>
 
-	<component id="Command" class="org.spicefactory.parsley.tag.command.CommandTag"/>
 	<component id="CommandRef" class="org.spicefactory.parsley.tag.command.CommandRefTag"/>
-	<component id="CommandSequence" class="org.spicefactory.parsley.tag.command.CommandSequenceTag"/>
-	<component id="ParallelCommands" class="org.spicefactory.parsley.tag.command.ParallelCommandsTag"/>
-	<component id="CommandFlow" class="org.spicefactory.parsley.tag.command.CommandFlowTag"/>
-
+	
 	<component id="LinkResultType" class="org.spicefactory.parsley.tag.command.link.LinkResultTypeTag"/>
 	<component id="LinkResultValue" class="org.spicefactory.parsley.tag.command.link.LinkResultValueTag"/>
 	<component id="LinkResultProperty" class="org.spicefactory.parsley.tag.command.link.LinkResultPropertyTag"/>

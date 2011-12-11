@@ -19,22 +19,13 @@ package org.spicefactory.parsley.tag.command {
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 
-[DefaultProperty("commands")]
-
 /**
  * Base tag for command groups declared in MXML or XML configuration.
  * 
  * @author Jens Halm
  */
-public class AbstractCommandGroupTag extends AbstractCommandTag implements NestedCommandTag {
+public class AbstractCommandGroupTag extends AbstractCommandParentTag implements NestedCommandTag {
 	
-	
-	[ArrayElementType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
-	[ChoiceType("org.spicefactory.parsley.tag.command.NestedCommandTag")]
-	/**
-	 * The commands to be added to this command group.
-	 */
-	public var commands:Array = new Array();
 	
 	private var type:Class;
 
@@ -48,7 +39,7 @@ public class AbstractCommandGroupTag extends AbstractCommandTag implements Neste
 	/**
 	 * @inheritDoc
 	 */
-	public function resolve (config:Configuration) : ManagedCommandFactory {
+	public override function resolve (config:Configuration) : ManagedCommandFactory {
 		var factories:Array = [];
 		for each (var tag:NestedCommandTag in commands) {
 			factories.push(tag.resolve(config));

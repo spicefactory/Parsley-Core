@@ -1,6 +1,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:com="org.spicefactory.parsley.tag.command.*"
+	xmlns:flexcom="org.spicefactory.parsley.flex.tag.command.*"
 	xmlns:link="org.spicefactory.parsley.tag.command.link.*"
 	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*"
 	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
@@ -15,19 +16,18 @@
 	
 	
 	<com:CommandFactoryTag>
-		<com:CommandFlowTag>
-			<com:CommandTag type="{AsyncCommand}">
-				<com:config>
-					<flextag:PropertyTag name="result" value="1"/>
-				</com:config>
+		<flexcom:MxmlCommandFlowTag>
+		
+			<flexcom:MxmlCommandTag type="{AsyncCommand}">
+				<flextag:PropertyTag name="result" value="1"/>
 				<link:LinkResultValueTag value="1" to="{second}"/>
-			</com:CommandTag>
-			<com:CommandTag type="{AsyncCommand}" id="second">
-				<com:config>
-					<flextag:PropertyTag name="result" value="2"/>
-				</com:config>
-			</com:CommandTag>
-		</com:CommandFlowTag>
+			</flexcom:MxmlCommandTag>
+			
+			<flexcom:MxmlCommandTag type="{AsyncCommand}" id="second">
+				<flextag:PropertyTag name="result" value="2"/>
+			</flexcom:MxmlCommandTag>
+			
+		</flexcom:MxmlCommandFlowTag>
 	</com:CommandFactoryTag>
 
 

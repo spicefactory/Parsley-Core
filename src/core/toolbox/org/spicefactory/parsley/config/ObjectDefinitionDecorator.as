@@ -32,7 +32,7 @@ import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
  * 
  * @author Jens Halm
  */
-public interface ObjectDefinitionDecorator {
+public interface ObjectDefinitionDecorator extends ObjectConfiguration {
 	
 	/**
 	 * Method to be invoked by the container for each configuration tag it encounters for an object 

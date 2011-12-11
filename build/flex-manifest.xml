@@ -23,5 +23,10 @@
 	<component id="PropertiesString" class="org.spicefactory.parsley.flex.tag.builder.PropertiesStringTag"/>
 	<component id="PropertiesObject" class="org.spicefactory.parsley.flex.tag.builder.PropertiesObjectTag"/>
 	
+	<component id="Command" class="org.spicefactory.parsley.flex.tag.command.MxmlCommandTag"/>
+	<component id="CommandSequence" class="org.spicefactory.parsley.flex.tag.command.MxmlCommandSequenceTag"/>
+	<component id="ParallelCommands" class="org.spicefactory.parsley.flex.tag.command.MxmlParallelCommandsTag"/>
+	<component id="CommandFlow" class="org.spicefactory.parsley.flex.tag.command.MxmlCommandFlowTag"/>
+	
 	<component id="MessageConfirmation" class="org.spicefactory.parsley.flex.util.MessageConfirmationTag"/>
 </componentPackage>

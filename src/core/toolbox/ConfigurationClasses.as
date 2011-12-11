@@ -16,6 +16,10 @@
 
 package {
 
+import org.spicefactory.parsley.tag.command.CommandTag;
+import org.spicefactory.parsley.tag.command.CommandFlowTag;
+import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
+import org.spicefactory.parsley.tag.command.CommandSequenceTag;
 import org.spicefactory.parsley.asconfig.ActionScriptConfig;
 import org.spicefactory.parsley.asconfig.ActionScriptContextBuilder;
 import org.spicefactory.parsley.asconfig.processor.ActionScriptConfigurationProcessor;
@@ -49,6 +53,11 @@ public class ConfigurationClasses {
 	ContextBuilder;
 	Configure;
 	FastInject;
+	
+	CommandSequenceTag,
+	ParallelCommandsTag,
+	CommandFlowTag,
+	CommandTag,
 	
 	Properties;
 }
