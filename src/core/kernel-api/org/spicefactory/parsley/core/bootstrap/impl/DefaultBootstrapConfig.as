@@ -278,7 +278,7 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 			}
 		}
 		else {
-			handleParentConfig(BootstrapDefaults.config); // TODO - 2.4 - maybe set even when there are parents
+			handleParentConfig(BootstrapDefaults.config);
 		}
 		
 		if (viewParent) {
@@ -317,13 +317,11 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 			uuid = GlobalState.scopes.nextUuidForName(name);
 		}
 		return new ScopeDefinition(name, inherited, uuid);
-		//var extensions:Dictionary = _scopeExtensions.getAll();
-		//return new ScopeDefinition(name, inherited, uuid, services, extensions, stateManager.domains);
 	}
 
 	private function prepareBootstrapInfo () : BootstrapInfo {
 		if (description == null) {
-			description = processors.join(","); // TODO - ignores processors added later
+			description = processors.join(","); // TODO - 3.1 - ignores processors added later
 		}
 		var allParentScopes:Array = new Array();
 		var parentScopes:Array;
