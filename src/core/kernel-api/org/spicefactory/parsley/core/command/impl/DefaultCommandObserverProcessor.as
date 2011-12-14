@@ -76,7 +76,7 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	/**
 	 * @inheritDoc
 	 */
-	public function get status () : CommandStatus {
+	public function get commandStatus () : CommandStatus {
 		return _status;
 	}
 	
@@ -91,7 +91,7 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @inheritDoc
 	 */
 	public function changeResult (result:Object, error:Boolean = false) : void {
-		if (status == CommandStatus.EXECUTE) {
+		if (commandStatus == CommandStatus.EXECUTE) {
 			throw new IllegalStateError("Cannot set the result while command is still executing");
 		}
 		_result = result;
@@ -103,13 +103,13 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 */
 	protected override function getLogString (action:String, receiverCount:int) : String {
 		return LogUtil.buildLogMessage("{0} message '{1}' for command status '{2}' to {3} observer(s)", 
-				[action, message, status, receiverCount]);
+				[action, message, commandStatus, receiverCount]);
 	}
 	
 	private function invokeObserver (observer:CommandObserver) : void {
-		var oldStatus:CommandStatus = status;
+		var oldStatus:CommandStatus = commandStatus;
 		observer.observeCommand(this);
-		if (oldStatus != status && oldStatus != CommandStatus.EXECUTE) {
+		if (oldStatus != commandStatus && oldStatus != CommandStatus.EXECUTE) {
 			rewind();
 		}
 	}
@@ -118,9 +118,9 @@ public class DefaultCommandObserverProcessor extends DefaultMessageProcessor imp
 	 * @private
 	 */
 	protected override function fetchReceivers () : Array {	
-		var receivers:Array = typeCache.getReceivers(MessageReceiverKind.forCommandStatus(status, false), observable.id);
+		var receivers:Array = typeCache.getReceivers(MessageReceiverKind.forCommandStatus(commandStatus, false), observable.id);
 		return (observable.trigger) ?
-			receivers.concat(cache.getReceivers(MessageReceiverKind.forCommandStatus(status, true), 
+			receivers.concat(cache.getReceivers(MessageReceiverKind.forCommandStatus(commandStatus, true), 
 					observable.trigger.selector))
 			: receivers;
 	}

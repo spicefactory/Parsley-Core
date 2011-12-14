@@ -39,10 +39,10 @@ public interface CommandObserverProcessor extends MessageProcessor {
 	/**
 	 * The status of the command.
 	 */
-	function get status () : CommandStatus;
+	function get commandStatus () : CommandStatus;
 	
 	/**
-	 * Indicates whether this command is a root command or a nested command.
+	 * Indicates whether this processor handles a root command or a nested command.
 	 * This property is true if the command is a simple standalone command or the root
 	 * command of a sequence or flow. It is flow if it is a command nested in a sequence
 	 * or flow. 
