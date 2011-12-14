@@ -16,11 +16,6 @@
 
 package org.spicefactory.parsley.flex.tag.builder {
 
-import flash.display.DisplayObject;
-import flash.events.ErrorEvent;
-import flash.events.Event;
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
 import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
@@ -38,9 +33,13 @@ import org.spicefactory.parsley.core.view.ViewAutowireFilter;
 import org.spicefactory.parsley.core.view.handler.AutowirePrefilterCache;
 import org.spicefactory.parsley.flex.FlexSupport;
 import org.spicefactory.parsley.flex.processor.FlexConfigurationProcessor;
-import org.spicefactory.parsley.flex.resources.FlexResourceBindingAdapter;
 import org.spicefactory.parsley.flex.tag.ConfigurationTagBase;
-import org.spicefactory.parsley.processor.resources.ResourceBindingProcessor;
+
+import flash.display.DisplayObject;
+import flash.events.ErrorEvent;
+import flash.events.Event;
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 
 
 /**
@@ -80,9 +79,6 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 
 
 	private static const log:Logger = LogContext.getLogger(ContextBuilderTag);
-	
-
-	ResourceBindingProcessor.adapterClass = FlexResourceBindingAdapter;
 	
 
 	/**

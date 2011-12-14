@@ -20,8 +20,6 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.flex.processor.FlexConfigurationProcessor;
-import org.spicefactory.parsley.flex.resources.FlexResourceBindingAdapter;
-import org.spicefactory.parsley.processor.resources.ResourceBindingProcessor;
 
 import flash.display.DisplayObject;
 
@@ -36,9 +34,6 @@ import flash.display.DisplayObject;
  */
 public class FlexContextBuilder {
 	
-	// TODO - this should move to FlexSupport.initialize
-	ResourceBindingProcessor.adapterClass = FlexResourceBindingAdapter;
-
 
 	/**
 	 * Builds a Context from the specified MXML configuration class.

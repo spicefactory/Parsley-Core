@@ -26,6 +26,8 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
 import org.spicefactory.parsley.flex.command.AsyncTokenResultProcessor;
 import org.spicefactory.parsley.flex.modules.FlexApplicationDomainProvider;
+import org.spicefactory.parsley.flex.resources.FlexResourceBindingAdapter;
+import org.spicefactory.parsley.processor.resources.ResourceBindingProcessor;
 
 import mx.rpc.AsyncToken;
 import mx.rpc.Fault;
@@ -62,6 +64,8 @@ public class FlexSupport {
 		LightCommandAdapter.addErrorType(Fault);
 		
 		if (LogContext.factory == null) LogContext.factory = new FlexLogFactory();
+		ResourceBindingProcessor.adapterClass = FlexResourceBindingAdapter;
+		
 		BootstrapDefaults.config.domainProvider = new FlexApplicationDomainProvider();
 		PropertyPublisher.propertyWatcherType = FlexPropertyWatcher;
 	}
