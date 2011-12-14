@@ -18,8 +18,8 @@ package org.spicefactory.parsley.dsl.command {
 import org.spicefactory.lib.command.Command;
 import org.spicefactory.lib.command.CommandResult;
 import org.spicefactory.lib.command.adapter.CommandAdapters;
-import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.command.lifecycle.CommandLifecycle;
+import org.spicefactory.lib.command.light.LightCommandAdapterFactory;
 import org.spicefactory.lib.command.proxy.DefaultCommandProxy;
 import org.spicefactory.parsley.core.command.ManagedCommandProxy;
 import org.spicefactory.parsley.core.context.DynamicObject;
@@ -68,7 +68,7 @@ public class DefinitionBasedCommandProxy extends DefaultCommandProxy implements 
 	protected override function doExecute () : void {
 		dynamicObject = definition.registry.context.addDynamicDefinition(definition);
 		if (!(dynamicObject.instance is Command)) {
-			Commands.create(Object).build(); // TODO - 3.0.M1 - temporary hack to trigger LightCommandAdapter registration
+			LightCommandAdapterFactory.register();
 		}
 		target =  (dynamicObject.instance is Command) 
 				? dynamicObject.instance as Command
