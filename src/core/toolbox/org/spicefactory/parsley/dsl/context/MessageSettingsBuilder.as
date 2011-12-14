@@ -90,7 +90,7 @@ public class MessageSettingsBuilder implements SetupPart {
 			config.messageSettings.unhandledError = errorPolicy;
 		}
 		if (errorHandler != null) {
-			config.messageSettings.addErrorHandler(new GlobalMessageErrorHandler(globalErrorHandler));
+			config.messageSettings.addErrorHandler(new GlobalMessageErrorHandler(errorHandler));
 		}
 		if (_defaultReceiverScope != null) {
 			config.messageSettings.defaultReceiverScope = _defaultReceiverScope;
@@ -106,8 +106,6 @@ import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageRece
 class GlobalMessageErrorHandler extends AbstractMessageReceiver implements MessageErrorHandler {
 
 
-	// TODO - move this helper class to new MessagingSettings class in factory package
-	
 	private var handler:Function;
 
 
