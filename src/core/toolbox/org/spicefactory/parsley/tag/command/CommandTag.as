@@ -19,7 +19,6 @@ package org.spicefactory.parsley.tag.command {
 import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
-import org.spicefactory.parsley.dsl.command.DefaultManagedCommandFactory;
 
 [DefaultProperty("links")]
 [XmlMapping(elementName="command")]
@@ -56,9 +55,36 @@ public class CommandTag extends AbstractCommandTag implements NestedCommandTag {
 					.decorators(this.config)
 					.build();
 					
-		return new DefaultManagedCommandFactory(def);
+		return new Factory(def);
 	}
 	
 	
 }
+}
+
+import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.command.ManagedCommandProxy;
+import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
+import org.spicefactory.parsley.dsl.command.DefinitionBasedCommandProxy;
+
+class Factory implements ManagedCommandFactory {
+
+
+	private var target:DynamicObjectDefinition;
+	
+	
+	function Factory (target:DynamicObjectDefinition) {
+		this.target = target;
+	}
+	
+	public function get type () : ClassInfo {
+		return target.type;
+	}
+	
+	public function newInstance () : ManagedCommandProxy {
+		return new DefinitionBasedCommandProxy(target);
+	}
+	
+	
 }
