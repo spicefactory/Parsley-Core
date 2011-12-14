@@ -16,9 +16,6 @@
 
 package org.spicefactory.parsley.core.command {
 
-import org.spicefactory.lib.command.events.CommandResultEvent;
-import org.spicefactory.lib.command.CancellableCommand;
-import org.spicefactory.lib.command.events.CommandEvent;
 
 /**
  * Enumeration for the current status of a command.
@@ -71,42 +68,6 @@ public class CommandStatus {
 	public function toString () : String {
 		return _key;
 	}	
-	
-	/**
-	 * Observes the completion of the specified command.
-	 * This method serves as a shortcut, as Parsley-internal
-	 * classes often need to get notified when a command stops
-	 * executing no matter what type of event caused the status
-	 * change.
-	 * 
-	 * <p>The callback must have the following signature:</p>
-	 * <code><pre>(command:CancellableCommand, result:Object, status:CommandStatus, data:Object) : void</pre></code>
-	 * 
-	 * @param command the command to observe
-	 * @param callback the callback to invoke when the command stops executing
-	 * @param data optional object to be passed through to the callback
-	 */
-	public static function observe (command:CancellableCommand, callback:Function, data:Object = null) : void {
-		// TODO - this method could get removed
-		var f:Function = function (event:CommandEvent) : void {
-			var result:Object = (event is CommandResultEvent)
-				? CommandResultEvent(event).value
-				: null;
-			var status:CommandStatus;
-			switch (event.type) {
-				case CommandResultEvent.COMPLETE: status = CommandStatus.COMPLETE; break;
-				case CommandResultEvent.ERROR: status = CommandStatus.ERROR; break;
-				default: status = CommandStatus.CANCEL;
-			}
-			command.removeEventListener(CommandResultEvent.COMPLETE, arguments.callee);
-			command.removeEventListener(CommandResultEvent.ERROR, arguments.callee);
-			command.removeEventListener(CommandEvent.CANCEL, arguments.callee);
-			callback(command, result, status, data);
-		};
-		command.addEventListener(CommandResultEvent.COMPLETE, f);
-		command.addEventListener(CommandResultEvent.ERROR, f);
-		command.addEventListener(CommandEvent.CANCEL, f);
-	}
 	
 	
 }
