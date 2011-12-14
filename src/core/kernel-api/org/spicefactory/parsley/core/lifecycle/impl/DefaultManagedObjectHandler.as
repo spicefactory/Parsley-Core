@@ -133,7 +133,6 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 			log.info("Destroy managed object with {0}", target.definition);
 		}
 		
-		// TODO - addHandler and removeHandler in manager could handle managing the global state
 		manager.globalObjectManager.removeManagedObject(target);
 		
 		try {

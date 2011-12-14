@@ -17,7 +17,7 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 	
 	[Test]
 	public override function commandFlow () : void {
-		// TODO - XML flows must be configured differently than MXML flows
+		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
 	}
 	
 	public override function get commandSequenceConfig () : ConfigurationProcessor {

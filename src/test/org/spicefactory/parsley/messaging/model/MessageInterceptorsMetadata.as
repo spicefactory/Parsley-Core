@@ -8,7 +8,7 @@ import org.spicefactory.parsley.messaging.messages.TestEvent;
  */
 public class MessageInterceptorsMetadata extends MessageInterceptors {
 
-	// TODO - test at least one handler without message param
+	// TODO - 3.0.M2 - test at least one handler without message param
 	
 	[MessageHandler(type="org.spicefactory.parsley.messaging.messages.TestEvent", order="-1")]
 	public override function interceptAllMessages (message:TestEvent, processor:MessageProcessor) : void {

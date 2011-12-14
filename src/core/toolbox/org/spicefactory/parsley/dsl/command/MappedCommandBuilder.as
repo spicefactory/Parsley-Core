@@ -35,7 +35,7 @@ public class MappedCommandBuilder {
 	
 	private var factory:ManagedCommandFactory;
 	
-	// TODO - check where to set the defaults
+	// TODO - 3.0.M1 - check where to set the defaults
 	private var _messageType:Class;
 	private var _selector:*;
 	private var _scope:String;

@@ -227,7 +227,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 		command.observe(function (command:ObservableCommand) : void {
 			handleCommand(command, typeCache, triggerCache);
 		});
-		handleCommand(command, typeCache, triggerCache); // TODO - prevent suspension in CommandStatus.EXECUTE
+		handleCommand(command, typeCache, triggerCache); // TODO - 3.1 - prevent suspension in CommandStatus.EXECUTE
 	}
 	
 	private function handleCommand (command:ObservableCommand, 

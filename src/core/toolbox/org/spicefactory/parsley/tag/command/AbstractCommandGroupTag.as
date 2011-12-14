@@ -75,7 +75,7 @@ class Factory implements ManagedCommandFactory {
 		for each (var factory:ManagedCommandFactory in factories) {
 			group.addCommand(factory.newInstance());
 		}
-		// TODO - handle id ?
+		// TODO - 3.0.M2 - handle id
 		return new DefaultManagedCommandProxy(context, group);
 	}
 

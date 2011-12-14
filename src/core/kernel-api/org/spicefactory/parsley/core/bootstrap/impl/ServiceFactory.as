@@ -28,7 +28,7 @@ import flash.utils.getQualifiedClassName;
  */
 public class ServiceFactory {
 	
-	// TODO - this class might live behing an interface, too
+	// TODO - 3.1 - this class might live behing an interface, too
 	
 	private var requiredInterface:Class;
 	private var _implementation:Class;

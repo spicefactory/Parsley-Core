@@ -83,7 +83,7 @@ class Factory implements ManagedCommandFactory {
 			}
 		}
 		flow.setDefaultLink(new DefaultLink());
-		// TODO - handle id ?
+		// TODO - 3.0.M2 - handle id
 		return new DefaultManagedCommandProxy(context, flow);
 	}
 

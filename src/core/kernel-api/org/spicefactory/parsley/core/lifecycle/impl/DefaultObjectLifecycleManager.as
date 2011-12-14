@@ -87,7 +87,7 @@ public class DefaultObjectLifecycleManager implements ObjectLifecycleManager, In
 	 */	
 	internal function processObservers (target:ManagedObject, event:ObjectLifecycle) : void {
 		/*
-		 * TODO - 3.0 - observers should be an ObjectProcessor
+		 * TODO - 3.0.M2 - observers should be an ObjectProcessor
 		 */
 		var typeMessage:Message = new DefaultMessage(target.instance, target.definition.type, event.key);
 		var idMessage:Message = (target.definition.id != null) ?

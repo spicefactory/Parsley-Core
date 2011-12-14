@@ -48,7 +48,7 @@ public class DefaultBindingManager implements BindingManager {
 	
 	private function doAddPublisher (publisher:Publisher, checkSubsriber:Boolean) : void {
 		/*
-		 * TODO - this is probably a bit too much black magic - for the persistent publisher
+		 * TODO - 3.1 - this is probably a bit too much black magic - for the persistent publisher
 		 * the publisher must be added before the subscriber, for a regular publisher it's the other way
 		 * round. Probably it should be left to the processor to add subscribers and publishers separately,
 		 * even if the same instance is implementing both interfaces. This way all implementations can decide

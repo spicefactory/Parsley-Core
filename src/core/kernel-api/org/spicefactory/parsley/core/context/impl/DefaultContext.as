@@ -362,7 +362,7 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	public function addDynamicObject (instance:Object, definition:DynamicObjectDefinition = null) : DynamicObject {
 		checkState(false);
 		if (definition == null) {
-			// TODO - IOC Kernel should not depend on config DSL
+			// TODO - 3.0.M2 - IOC Kernel should not depend on config DSL
 			definition = Configurations.forRegistry(registry)
 				.builders	
 					.forClass(ClassInfo.forInstance(instance, registry.domain).getClass())

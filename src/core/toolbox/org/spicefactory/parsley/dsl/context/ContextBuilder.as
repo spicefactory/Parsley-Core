@@ -86,7 +86,6 @@ public class ContextBuilder {
 	 */
 	function ContextBuilder (processor:BootstrapProcessor) {
 		this.processor = processor;
-		//FlexSupport.initialize(); TODO - move this to the flex source folder
 	}
 	
 	/**

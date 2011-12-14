@@ -72,7 +72,7 @@ public class ConfigureTag extends ConfigurationTagBase {
 	public var configId:String;
 	
 	
-	private var _reuse:Boolean = true; // TODO - change default to false in version 3.0
+	private var _reuse:Boolean = true; // TODO - 3.0.M2 - change default to false in version 3.0
 	
 	/**
 	 * Indicates whether the wiring should happen repeatedly after the wired

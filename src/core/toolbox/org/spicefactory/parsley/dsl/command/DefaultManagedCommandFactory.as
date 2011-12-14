@@ -26,7 +26,7 @@ import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
  */
 public class DefaultManagedCommandFactory implements ManagedCommandFactory {
 
-	// TODO - maybe move to CommandTag
+	// TODO - 3.0.M1 - maybe move to CommandTag
 
 	private var target:DynamicObjectDefinition;
 	

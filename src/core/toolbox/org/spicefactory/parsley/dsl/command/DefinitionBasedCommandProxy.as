@@ -68,7 +68,7 @@ public class DefinitionBasedCommandProxy extends DefaultCommandProxy implements 
 	protected override function doExecute () : void {
 		dynamicObject = definition.registry.context.addDynamicDefinition(definition);
 		if (!(dynamicObject.instance is Command)) {
-			Commands.create(Object).build(); // TODO - temporary hack to trigger LightCommandAdapter registration
+			Commands.create(Object).build(); // TODO - 3.0.M1 - temporary hack to trigger LightCommandAdapter registration
 		}
 		target =  (dynamicObject.instance is Command) 
 				? dynamicObject.instance as Command

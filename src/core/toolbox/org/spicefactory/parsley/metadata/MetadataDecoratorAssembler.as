@@ -82,7 +82,7 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 		Selector,
 		Target,
 		
-		InternalProperty, // TODO - move to ActionScriptContextBuilder
+		InternalProperty, // TODO - 3.0.M2 - move to ActionScriptContextBuilder
 		ObjectDefinitionMetadata,
 		DynamicObjectDefinitionMetadata
 		
