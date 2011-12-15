@@ -63,9 +63,6 @@ public class MessageHandler extends AbstractMessageHandler implements MessageTar
 		if (super.order != int.MAX_VALUE) {
 			return super.order;
 		}
-		if (usesMessageProperties) {
-			return int.MAX_VALUE;
-		}
 		return (isInterceptor) ? int.MIN_VALUE : int.MAX_VALUE;
 	}
 

@@ -74,7 +74,8 @@ public class AbstractMessageHandler extends AbstractMethodReceiver {
 			throw new ContextError("Target " + targetMethod  
 				+ ": At most " + maxParams + " parameter(s) allowed for this type of message handler.");
 		}
-		if (params >= 1) {
+		if (params > 1
+			|| (params == 1 && !targetMethod.parameters[0].type.isType(MessageProcessor))) {
 			return getMessageTypeFromParameter(targetMethod, 0, explicitType);
 		}
 		else if (explicitType != null) {
@@ -141,7 +142,13 @@ public class AbstractMessageHandler extends AbstractMethodReceiver {
 		if (messageProperties == null) {
 			var cnt:int = targetMethod.parameters.length;
 			if (cnt >= 1) {
-				params.push(processor.message.instance);
+				var param0:Parameter = targetMethod.parameters[0];
+				if (param0.type.isType(MessageProcessor)) {
+					params.push(processor);
+				}
+				else {
+					params.push(processor.message.instance);
+				}
 			}
 			if (cnt >= 2) {
 				var param:Parameter = targetMethod.parameters[1];
