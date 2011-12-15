@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.view.handler {
+
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -23,6 +24,7 @@ import org.spicefactory.lib.util.Flag;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ViewConfigurationEvent;
 import org.spicefactory.parsley.core.events.ViewLifecycleEvent;
+import org.spicefactory.parsley.core.state.GlobalState;
 import org.spicefactory.parsley.core.view.ViewAutowireMode;
 import org.spicefactory.parsley.core.view.ViewConfiguration;
 import org.spicefactory.parsley.core.view.ViewLifecycle;
@@ -113,7 +115,7 @@ public class ViewConfigurationHandler implements ViewRootHandler {
 	private function prefilterView (event:Event) : void {
 		if (!AutowirePrefilterCache.addEvent(event)) return;
 		var view:DisplayObject = event.target as DisplayObject;
-		if (settings.autowireFilter.prefilter(view)) {
+		if (settings.autowireFilter.prefilter(view) && !GlobalState.objects.isManaged(view)) {
 			view.dispatchEvent(ViewConfigurationEvent.forAutowiring(view));
 		}
 	}
