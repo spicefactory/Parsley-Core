@@ -126,6 +126,7 @@ public class DefaultBindingManager implements BindingManager {
 		if (collection != null) {
 			collection.removeSubscriber(subscriber);
 			if (collection.empty) {
+				collection.dispose();
 				delete subscribers[subscriber.type.getClass()];
 			}
 		}

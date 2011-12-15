@@ -39,7 +39,7 @@ public class SubscriberCollection {
 	private static const log:Logger = LogContext.getLogger(SubscriberCollection);
 	
 	
-	private var _type:ClassInfo;
+	private var _type:Class;
 	
 	private var subscribers:MultiMap = new MultiMap();
 	private var publishers:MultiMap = new MultiMap();
@@ -52,14 +52,14 @@ public class SubscriberCollection {
 	 * @param type the type the elements of this collection subscribe to
 	 */
 	function SubscriberCollection (type:ClassInfo) {
-		_type = type;
+		_type = type.getClass();
 	}
 	
 	
 	/**
 	 * The type the elements of this collection subscribe to.
 	 */
-	public function get type () : ClassInfo {
+	public function get type () : Class {
 		return _type;
 	}
 	
@@ -78,7 +78,7 @@ public class SubscriberCollection {
 	 * @return true if the specified publisher would affect the subscribers of this collection
 	 */
 	public function isMatchingType (publisher:Publisher) : Boolean {
-		return publisher.type.isType(type.getClass());
+		return publisher.type.isType(type);
 	}
 	
 	/**
@@ -121,11 +121,11 @@ public class SubscriberCollection {
 			trace("NO");
 		}
 		if (p1.type.getClass() != p2.type.getClass()) {
-			throw new IllegalArgumentError("Ambiguous publishers for subscribers of type " + type.name + idMsg 
+			throw new IllegalArgumentError("Ambiguous publishers for subscribers of type " + _type + "/" + idMsg 
 					+ ": " + p1 + " and " + p2 + " - all publishers must publish exactly the same type in this case");
 		}
 		if (!(p1 is Subscriber) || !(p2 is Subscriber)) {
-			throw new IllegalArgumentError("Multiple publishers for suscribers of type " + type.name + idMsg
+			throw new IllegalArgumentError("Multiple publishers for suscribers of type " + _type + "/" + idMsg
 					+ ": all publishers must also be subscribers in this case");
 		}
 	}
@@ -164,6 +164,20 @@ public class SubscriberCollection {
 	public function removeSubscriber (subscriber:Subscriber) : void {
 		subscribers.remove(subscriber.id, subscriber);
 		subscriber.update(undefined);
+	}
+	
+	/**
+	* Disposes this collection, clearing all publishers and stopping to
+	* listen to their events.
+	*/
+	public function dispose () : void {
+		for each (var key:String in publishers.keys) {
+			var pubs:List = publishers.getAll(key);
+			for each (var publisher:Publisher in pubs) {
+				publisher.removeEventListener(Event.CHANGE, publisherChanged);
+			}
+		}
+		publishers = new MultiMap();
 	}
 	
 	
