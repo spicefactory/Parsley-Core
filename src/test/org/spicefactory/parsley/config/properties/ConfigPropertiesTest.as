@@ -82,12 +82,27 @@ public class ConfigPropertiesTest {
 		validateContext(context);
 	}
 	
+	[Test]
+	public function twoEqualChars () : void {
+		var parent:Context = ContextBuilder
+			.newBuilder()
+			.config(Properties.forString("someValue = foo=bar"))
+			.build();
+		var context:Context = ContextBuilder
+			.newSetup()
+			.parent(parent)
+			.newBuilder()
+			.config(FlexConfig.forClass(PropertiesMxmlConfig))
+			.build();
+		validateContext(context, "foo=bar");
+	}
 	
-	private function validateContext (context:Context) : void {
+	
+	private function validateContext (context:Context, expected:String = "foo") : void {
 		assertThat(context, contextInState());
 		var obj:StringHolder 
 				= ContextTestUtil.getAndCheckObject(context, "object", StringHolder) as StringHolder;
-		assertThat(obj.stringProp, equalTo("foo"));
+		assertThat(obj.stringProp, equalTo(expected));
 	}
 	
 	

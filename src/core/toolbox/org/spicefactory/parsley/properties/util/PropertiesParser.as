@@ -57,10 +57,10 @@ public class PropertiesParser {
             	currentValue += "\n";
             }
             else if (line.length && !isComment(line)) {
-            	var split:Array = line.split("=", 2);
-            	currentName = trim(split[0]);
+            	var split:Array = line.split("=");
+				currentName = trim(split.shift());
             	if (!currentName.length) continue;
-            	line = (split.length == 2) ? trim(split[1]) : "";
+            	line = trim(split.join("="));
             	currentValue = "";
             }
             else {
