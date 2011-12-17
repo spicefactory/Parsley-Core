@@ -15,10 +15,6 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 		ClassInfo.cache.purgeAll();
 	}
 	
-	[Test]
-	public override function commandFlow () : void {
-		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
-	}
 	
 	public override function get commandSequenceConfig () : ConfigurationProcessor {
 		var config: XML = <objects 
@@ -70,9 +66,9 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 				<command-flow>
 					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="1"/>
-						<!--<link-result-value value="1" to="{second}"/> TODO -->
+						<link-result-value value="1" to="second"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
+					<command id="second" type="org.spicefactory.parsley.command.target.AsyncCommandWithTrigger">
 						<property name="result" value="2"/>
 					</command>
 				</command-flow>

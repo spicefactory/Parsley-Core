@@ -32,6 +32,7 @@ import org.spicefactory.parsley.tag.command.NestedCommandTag;
 public class AbstractLinkTag implements LinkTag {
 	
 	
+	[Ignore]
 	/**
 	 * The target command to execute in case the condition
 	 * specified by this tag is met.
@@ -43,13 +44,13 @@ public class AbstractLinkTag implements LinkTag {
 	 * @inheritDoc
 	 */
 	public function build (commands:Map) : CommandLink {
-		if (!to) {
+		if (!targetKey) {
 			throw IllegalStateError("No target has been specified for this link");
 		}
-		if (!commands.containsKey(to)) {
-			throw new IllegalStateError("Target of link does not point to a command of the same flow " + to);
+		if (!commands.containsKey(targetKey)) {
+			throw new IllegalStateError("Target of link does not point to a command of the same flow: " + targetKey);
 		}
-		var command:Command = commands.get(to) as Command;
+		var command:Command = commands.get(targetKey) as Command;
 		return new DefaultCommandLink(condition, new ExecuteCommandAction(command));
 	}
 	
@@ -58,6 +59,14 @@ public class AbstractLinkTag implements LinkTag {
 	 */
 	protected function get condition () : LinkCondition {
 		throw new AbstractMethodError();
+	}
+	
+	/**
+	 * The key to look up the target command with 
+	 * in the map passed to the build method.
+	 */
+	protected function get targetKey () : Object {
+		return to;
 	}
 	
 	

@@ -27,6 +27,7 @@ import org.spicefactory.lib.command.flow.LinkCondition;
 public class LinkResultValueTag extends AbstractLinkTag {
 	
 	
+	[Attribute]
 	/**
 	 * The expected result value.
 	 */

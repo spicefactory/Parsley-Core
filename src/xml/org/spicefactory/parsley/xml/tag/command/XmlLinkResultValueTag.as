@@ -13,37 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spicefactory.parsley.tag.command.link {
+package org.spicefactory.parsley.xml.tag.command {
 
-import org.spicefactory.lib.command.flow.LinkConditions;
-import org.spicefactory.lib.command.flow.LinkCondition;
+import org.spicefactory.parsley.tag.command.link.LinkResultValueTag;
 
+[XmlMapping(elementName="link-result-value")]
 /**
- * Links results that contain the specified property value
+ * Links a specific result value
  * to the the target command specified by this tag.
  * 
  * @author Jens Halm
  */
-public class LinkResultPropertyTag extends AbstractLinkTag {
+public class XmlLinkResultValueTag extends LinkResultValueTag {
 	
 	
+	[Attribute("to")]
 	/**
-	 * The name of the property.
+	 * The id of the command to execute in case the condition
+	 * specified by this tag is met.
 	 */
-	public var name:String;
-	
-	[Attribute]
-	/**
-	 * The value of the property.
-	 */
-	public var value:*;
+	public var toId:String;
 	
 	
 	/**
 	 * @private
 	 */
-	protected override function get condition () : LinkCondition {
-		return LinkConditions.forResultProperty(name, value);
+	protected override function get targetKey () : Object {
+		return toId;
 	}
 	
 	

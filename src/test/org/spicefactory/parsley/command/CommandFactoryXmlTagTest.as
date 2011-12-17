@@ -15,25 +15,6 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 		ClassInfo.cache.purgeAll();
 	}
 	
-	[Test]
-	public override function commandFlow () : void {
-		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
-	}
-	
-	[Test]
-	public override function linkResultType () : void {
-		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
-	}
-	
-	[Test]
-	public override function linkResultProperty () : void {
-		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
-	}
-	
-	[Test]
-	public override function linkAllResults () : void {
-		// TODO - 3.0.M1 - XML flows must be configured differently than MXML flows
-	}
 	
 	public override function get commandSequenceConfig () : ConfigurationProcessor {
 		var config: XML = <objects 
@@ -81,9 +62,9 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 				<command-flow>
 					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="1"/>
-						<!--<link-result-value value="1" to="{second}"/> TODO -->
+						<link-result-value value="1" to="second"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command id="second" type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="2"/>
 					</command>
 				</command-flow>
@@ -100,10 +81,10 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 			<command-factory>
 				<command-flow>
 					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
-						<property name="result" value="1"/>
-						<!--<link-result-type type="String" to="{second}"/> TODO -->
+						<property name="result" value="foo"/>
+						<link-result-type type="String" to="second"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command id="second" type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="2"/>
 					</command>
 				</command-flow>
@@ -119,11 +100,11 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 			
 			<command-factory>
 				<command-flow>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command type="org.spicefactory.parsley.command.target.AsyncCommandWithWrappedResult">
 						<property name="result" value="1"/>
-						<!--<link-result-property name="property" value="1" to="{second}"/> TODO -->
+						<link-result-property name="property" value="1" to="second"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command id="second" type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="2"/>
 					</command>
 				</command-flow>
@@ -140,10 +121,10 @@ public class CommandFactoryXmlTagTest extends CommandFactoryTagTestBase {
 			<command-factory>
 				<command-flow>
 					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
-						<property name="result" value="1"/>
-						<!--<link-all-results to="{second}"/> TODO -->
+						<property name="result" value="irrelevant"/>
+						<link-all-results to="second"/>
 					</command>
-					<command type="org.spicefactory.parsley.command.target.AsyncCommand">
+					<command id="second" type="org.spicefactory.parsley.command.target.AsyncCommand">
 						<property name="result" value="2"/>
 					</command>
 				</command-flow>

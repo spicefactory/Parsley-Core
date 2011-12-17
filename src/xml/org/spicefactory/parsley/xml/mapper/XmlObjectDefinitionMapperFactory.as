@@ -32,10 +32,6 @@ import org.spicefactory.parsley.tag.command.CommandSequenceTag;
 import org.spicefactory.parsley.tag.command.CommandTag;
 import org.spicefactory.parsley.tag.command.MapCommandTag;
 import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
-import org.spicefactory.parsley.tag.command.link.LinkAllResultsTag;
-import org.spicefactory.parsley.tag.command.link.LinkResultPropertyTag;
-import org.spicefactory.parsley.tag.command.link.LinkResultTypeTag;
-import org.spicefactory.parsley.tag.command.link.LinkResultValueTag;
 import org.spicefactory.parsley.tag.core.ArrayTag;
 import org.spicefactory.parsley.tag.core.ConstructorTag;
 import org.spicefactory.parsley.tag.core.DynamicObjectTag;
@@ -61,6 +57,10 @@ import org.spicefactory.parsley.tag.resources.ResourceBindingDecorator;
 import org.spicefactory.parsley.xml.tag.ManagedEventsDecoratorTag;
 import org.spicefactory.parsley.xml.tag.MessageHandlerDecoratorTag;
 import org.spicefactory.parsley.xml.tag.ObjectsTag;
+import org.spicefactory.parsley.xml.tag.command.XmlLinkAllResultsTag;
+import org.spicefactory.parsley.xml.tag.command.XmlLinkResultPropertyTag;
+import org.spicefactory.parsley.xml.tag.command.XmlLinkResultTypeTag;
+import org.spicefactory.parsley.xml.tag.command.XmlLinkResultValueTag;
 
 import flash.system.ApplicationDomain;
 
@@ -135,8 +135,8 @@ public class XmlObjectDefinitionMapperFactory {
 				    .choiceId(CHOICE_ID_ROOT_ELEMENTS, RootObjectTag, DynamicObjectTag, ViewTag, CommandFactoryTag, MapCommandTag)
 				    .choiceId(CHOICE_ID_NESTED_ELEMENTS, ArrayTag, ObjectReferenceTag, NestedObjectTag,
 				    								CommandTag, CommandFlowTag, CommandSequenceTag, ParallelCommandsTag,
-				    								LinkResultTypeTag, LinkResultValueTag, LinkResultPropertyTag,
-				    								LinkAllResultsTag, CommandRefTag, 
+				    								XmlLinkResultTypeTag, XmlLinkResultValueTag, XmlLinkResultPropertyTag,
+				    								XmlLinkAllResultsTag, CommandRefTag, 
 				    								Void, Any, Boolean, Number, int, uint, String, Date, Class);
 		
 		addCustomConfigurationNamespaces(mappings);

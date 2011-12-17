@@ -75,9 +75,13 @@ class Factory implements ManagedCommandFactory {
 		var flow:CommandFlow = new DefaultCommandFlow();
 		for each (var tag:NestedCommandTag in map.keys) {
 			var factory:ManagedCommandFactory = map.get(tag);
-			map.put(tag, factory.newInstance());
+			var com:ManagedCommandProxy = factory.newInstance();
+			map.put(tag, com);
+			map.put(com.id, com);
 		}
-		for each (var resolvedTag:NestedCommandTag in map.keys) {
+		for each (var key:Object in map.keys) {
+			var resolvedTag:NestedCommandTag = key as NestedCommandTag;
+			if (!resolvedTag) continue;
 			var command:ManagedCommandProxy = map.get(resolvedTag);
 			for each (var linkTag:LinkTag in resolvedTag.links) {
 				var link:CommandLink = linkTag.build(map);
