@@ -44,7 +44,7 @@ public class AbstractCommandGroupTag extends AbstractCommandParentTag implements
 		for each (var tag:NestedCommandTag in commands) {
 			factories.push(tag.resolve(config));
 		}
-		return new Factory(type, factories, config.context);
+		return new Factory(type, id, factories, config.context);
 	}
 	
 	
@@ -60,12 +60,14 @@ import org.spicefactory.parsley.dsl.command.DefaultManagedCommandProxy;
 
 class Factory implements ManagedCommandFactory {
 	
+	private var id:String;
 	private var _type:Class;
 	private var factories:Array;
 	private var context:Context;
 	
-	function Factory (type:Class, factories:Array, context:Context) {
+	function Factory (type:Class, id:String, factories:Array, context:Context) {
 		this._type = type;
+		this.id = id;
 		this.factories = factories;
 		this.context = context;
 	}
@@ -75,8 +77,7 @@ class Factory implements ManagedCommandFactory {
 		for each (var factory:ManagedCommandFactory in factories) {
 			group.addCommand(factory.newInstance());
 		}
-		// TODO - 3.0.M2 - handle id
-		return new DefaultManagedCommandProxy(context, group);
+		return new DefaultManagedCommandProxy(context, group, id);
 	}
 
 	public function get type () : ClassInfo {

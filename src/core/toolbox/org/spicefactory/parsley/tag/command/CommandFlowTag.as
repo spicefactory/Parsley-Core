@@ -38,7 +38,7 @@ public class CommandFlowTag extends AbstractCommandParentTag implements NestedCo
 		for each (var tag:NestedCommandTag in commands) {
 			map.put(tag, tag.resolve(config));
 		}
-		return new Factory(map, config.context);
+		return new Factory(id, map, config.context);
 	}
 	
 	
@@ -61,10 +61,12 @@ import org.spicefactory.parsley.tag.command.link.LinkTag;
 
 class Factory implements ManagedCommandFactory {
 	
+	private var id:String;
 	private var map:Map;
 	private var context:Context;
 	
-	function Factory (map:Map, context:Context) {
+	function Factory (id:String, map:Map, context:Context) {
+		this.id = id;
 		this.map = map;
 		this.context = context;
 	}
@@ -83,8 +85,7 @@ class Factory implements ManagedCommandFactory {
 			}
 		}
 		flow.setDefaultLink(new DefaultLink());
-		// TODO - 3.0.M2 - handle id
-		return new DefaultManagedCommandProxy(context, flow);
+		return new DefaultManagedCommandProxy(context, flow, id);
 	}
 
 	public function get type () : ClassInfo {

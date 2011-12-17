@@ -53,6 +53,7 @@ public class CommandTag extends AbstractCommandTag implements NestedCommandTag {
 			.forClass(type)
 				.asDynamicObject()
 					.decorators(this.config)
+					.id(id)
 					.build();
 					
 		return new Factory(def);

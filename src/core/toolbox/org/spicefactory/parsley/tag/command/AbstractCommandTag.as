@@ -24,6 +24,14 @@ package org.spicefactory.parsley.tag.command {
 public class AbstractCommandTag {
 	
 	
+	/**
+	 * The id of the command.
+	 * May be used to identify a command in a flow declared in XML
+	 * (not necessary in MXML) or for matching CommandResult handlers.
+	 */
+	public var id:String;
+	
+	
 	private var _links:Array = new Array();
 	
 	/**
