@@ -35,6 +35,15 @@ public class CommandResultDecorator extends MessageReceiverDecoratorBase impleme
 	 */
 	public var method:String;
 	
+	/**
+	 * Indicates whether the result should be processed immediately
+	 * after the command finished executing (when set to true) or after the entire
+	 * sequence or flow finished (when set to false - the default).
+	 * Has no effect on the execution of a single command that is not part of
+	 * a sequence or flow.
+	 */
+	public var immediate:Boolean;
+	
 	
 	public function decorate (builder:ObjectDefinitionBuilder) : void {
 		builder
@@ -43,7 +52,8 @@ public class CommandResultDecorator extends MessageReceiverDecoratorBase impleme
 					.scope(scope)
 					.type(type)
 					.selector(selector)
-					.order(order);
+					.order(order)
+					.immediate(immediate);
 	}
 	
 }

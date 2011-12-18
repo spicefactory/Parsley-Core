@@ -18,9 +18,9 @@
 		<msg:CommandCompleteDecorator method="completeA"/>
 		<msg:CommandCompleteDecorator method="completeB"/>
 		<msg:CommandCompleteDecorator method="complete"/>
-		<msg:CommandResultDecorator method="resultA"/>
-		<msg:CommandResultDecorator method="resultB"/>
-		<msg:CommandResultDecorator method="result"/>
+		<msg:CommandResultDecorator method="resultA" immediate="true"/>
+		<msg:CommandResultDecorator method="resultB" immediate="true"/>
+		<msg:CommandResultDecorator method="result" immediate="true"/>
 		<msg:CommandErrorDecorator method="error"/>
 	</core:MxmlRootObjectTag> 
 	

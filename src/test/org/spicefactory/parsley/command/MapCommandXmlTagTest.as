@@ -142,9 +142,9 @@ public class MapCommandXmlTagTest extends MapCommandTagTestBase {
 				<command-complete method="completeA"/>
 				<command-complete method="completeB"/>
 				<command-complete method="complete"/>
-				<command-result method="resultA"/>
-				<command-result method="resultB"/>
-				<command-result method="result"/>
+				<command-result method="resultA" immediate="true"/>
+				<command-result method="resultB" immediate="true"/>
+				<command-result method="result" immediate="true"/>
 				<command-error method="error"/>
 			</object> 
 			

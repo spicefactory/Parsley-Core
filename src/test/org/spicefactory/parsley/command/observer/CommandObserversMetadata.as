@@ -25,22 +25,22 @@ public class CommandObserversMetadata extends CommandObservers {
 		super.complete(trigger);
 	}
 	
-	[CommandResult]
+	[CommandResult(immediate="true")]
 	public override function resultA (result: String, trigger: TriggerA) : void {
 		super.resultA(result, trigger);
 	}
 	
-	[CommandResult]
+	[CommandResult(immediate="true")]
 	public override function resultB (result: String, trigger: TriggerB) : void {
 		super.resultB(result, trigger);
 	}
 	
-	[CommandResult]
+	[CommandResult(immediate="true")]
 	public override function result (result: String, trigger: Trigger) : void {
 		super.result(result, trigger);
 	}
 	
-	[CommandError]
+	[CommandError(immediate="true")]
 	public override function error (result:String, trigger: Trigger) : void {
 		super.error(result, trigger);
 	}

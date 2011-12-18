@@ -1,5 +1,6 @@
 package suites {
 
+import org.spicefactory.parsley.command.CommandResultTest;
 import org.spicefactory.parsley.command.CommandFactoryDslTest;
 import org.spicefactory.parsley.command.CommandFactoryMxmlTagTest;
 import org.spicefactory.parsley.command.CommandFactoryXmlTagTest;
@@ -17,6 +18,8 @@ public class CommandSuite {
 	public var commandFactoryMxml:CommandFactoryMxmlTagTest;
 	public var commandFactoryDsl:CommandFactoryDslTest;
 	public var commandFactoryXml:CommandFactoryXmlTagTest;
+	
+	public var results:CommandResultTest;
 	
 	 
 }

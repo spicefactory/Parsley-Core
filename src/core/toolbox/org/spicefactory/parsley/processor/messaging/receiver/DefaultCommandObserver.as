@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.processor.messaging.receiver {
 
+import org.spicefactory.lib.command.data.CommandData;
 import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
@@ -125,7 +126,7 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 		var paramTypes:Array = targetMethod.parameters;
 		var params:Array = new Array();
 		if (paramTypes.length >= 1 && maxParams == 4) {
-			params.push(processor.result);
+			if (!addResult(params, processor.result)) return;
 		}
 		if (paramTypes.length >= maxParams - 2) {
 			params.push(processor.message.instance);
@@ -148,6 +149,26 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 			}
 		}
 		targetMethod.invoke(provider.instance, params);
+	}
+	
+	private function addResult (params: Array, result: Object): Boolean {
+		if (result == null) {
+			params.push(null);
+			return true;
+		}
+		var param:Parameter = targetMethod.parameters[0];
+		if (result is param.type.getClass()) {
+			 params.push(result);
+			 return true;
+		}
+		if (result is CommandData) {
+			result = CommandData(result).getObject(param.type.getClass());
+			if (result) {
+				params.push(result);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

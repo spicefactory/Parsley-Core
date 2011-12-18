@@ -49,8 +49,16 @@ public class MessageReceiverInfo {
 	 */
 	public var order:int = int.MAX_VALUE;
 	
+	/**
+	 * Indicates whether the result should be processed immediately
+	 * after the command finished executing (when set to true) or after the entire
+	 * sequence or flow finished (when set to false - the default).
+	 */
+	public var immediate: Boolean;
 	
-	private var _config:Configuration;
+
+	private var _config: Configuration;
+	
 	
 	
 	/**

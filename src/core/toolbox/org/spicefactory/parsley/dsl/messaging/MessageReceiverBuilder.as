@@ -56,7 +56,19 @@ public interface MessageReceiverBuilder {
 	 * @param value the execution order for this message receiver
 	 * @return this builder instance for method chaining
 	 */
-	function order (value:int) : MessageReceiverBuilder;
+	function order (value: int): MessageReceiverBuilder;
+
+	/**
+	 * Indicates whether the result should be processed immediately
+	 * after the command finished executing (when set to true) or after the entire
+	 * sequence or flow finished (when set to false - the default).
+	 * Has no effect on the execution of a single command that is not
+	 * a sequence or flow.
+	 * 
+	 * @param value indicates whether the result should be processed immediately
+	 * @return this builder instance for method chaining
+	 */
+	function immediate (value: Boolean): MessageReceiverBuilder;
 	
 	
 }

@@ -77,6 +77,11 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 		return this;
 	}
 	
+	public function immediate (value: Boolean): MessageReceiverBuilder {
+		info.immediate = value;
+		return this;
+	}
+	
 	/**
 	 * @inheritDoc
 	 */
@@ -139,7 +144,7 @@ public class DefaultMessageReceiverBuilder implements MessageReceiverBuilder, Ob
 				= new CommandResultBuilderPart(target, MessageReceiverKind.COMMAND_COMPLETE_BY_TRIGGER, info, false);
 		return new DefaultMessageReceiverBuilder(builderPart, info);
 	}
-	
+
 	
 }
 }
@@ -180,7 +185,8 @@ class CommandResultBuilderPart implements ObjectDefinitionBuilderPart {
 	public function apply (target:ObjectDefinition) : void {
 		var messageType:ClassInfo = (info.type != null) ? ClassInfo.forClass(info.type, info.config.domain) : null;
 		var factory:MessageReceiverFactory = DefaultCommandObserver
-				.newFactory(method.name, kind, info.selector, messageType, info.order, supportsResult, supportsNestedCommands);
+				.newFactory(method.name, kind, info.selector, messageType, 
+				info.order, supportsResult, supportsNestedCommands && info.immediate);
 		target.addProcessorFactory(new MessageReceiverProcessorFactory(target, factory, info.config.context, info.scope));
 	}
 	
