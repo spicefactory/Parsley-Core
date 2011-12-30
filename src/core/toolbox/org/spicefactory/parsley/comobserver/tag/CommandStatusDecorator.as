@@ -15,10 +15,10 @@
  */
 
 package org.spicefactory.parsley.comobserver.tag {
+
 import org.spicefactory.parsley.comobserver.CommandStatus;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageReceiverDecoratorBase;
 
 [Metadata(name="CommandStatus", types="property", multiple="false")]
 [XmlMapping(elementName="command-status")]
@@ -29,8 +29,27 @@ import org.spicefactory.parsley.messaging.tag.MessageReceiverDecoratorBase;
  * 
  * @author Jens Halm
  */
-public class CommandStatusDecorator extends MessageReceiverDecoratorBase implements ObjectDefinitionDecorator {
+public class CommandStatusDecorator implements ObjectDefinitionDecorator {
 	
+	
+	
+	/**
+	 * The name of the scope this tag should be applied to.
+	 */
+	public var scope:String;
+	
+	/**
+	 * The type of the messages the receiver wants to handle.
+	 */
+	public var type:Class;
+
+	[Attribute]
+	/**
+	 * An optional selector value to be used in addition to selecting messages by type.
+	 * Will be checked against the value of the property in the message marked with <code>[Selector]</code>
+	 * or against the event type if the message is an event and does not have a selector property specified explicitly.
+	 */
+	public var selector:*;
 	
 	[Target]
 	/**
@@ -48,8 +67,9 @@ public class CommandStatusDecorator extends MessageReceiverDecoratorBase impleme
 				.type(type)
 				.selector(selector)
 				.scope(scope)
-				.order(order)
 					.apply(builder);
 	}
+	
+	
 }
 }

@@ -47,6 +47,7 @@ public class CommandStatusFlag extends AbstractPropertyReceiver implements Comma
 				
 		super(info);
 		
+		info.order = int.MIN_VALUE;
 		_kind = kind;
 		this.manager = manager;
 	}

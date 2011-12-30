@@ -82,17 +82,6 @@ public class CommandStatus {
 		return this;
 	}
 	
-	/**
-	 * Sets the execution order for this message receiver. Will be processed in ascending order. 
-	 * The default is <code>int.MAX_VALUE</code>.
-	 * 
-	 * @param value the execution order for this message receiver
-	 * @return this builder instance for method chaining
-	 */
-	public function order (value:int) : CommandStatus {
-		info.order = value;
-		return this;
-	}
 	
 	/**
 	 * Applies this configuration to the specified definition builder.
