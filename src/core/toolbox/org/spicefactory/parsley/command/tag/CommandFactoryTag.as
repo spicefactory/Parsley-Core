@@ -16,6 +16,7 @@
  
 package org.spicefactory.parsley.command.tag {
 
+import org.spicefactory.parsley.instantiator.ObjectWrapperInstantiator;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
@@ -53,12 +54,14 @@ public class CommandFactoryTag implements RootConfigurationElement {
 		}
 		
 		var factory:ManagedCommandFactory = command.resolve(registry);
-					
+			
 		registry.builders
-			.forInstance(factory)
+			.forClass(ManagedCommandFactory)
+			.instantiate(new ObjectWrapperInstantiator(factory))
 			.asSingleton()
 				.id(id)
-				.register();	
+				.register();
+			
 	}
 	
 	
