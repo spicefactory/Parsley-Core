@@ -28,14 +28,14 @@ import flash.events.Event;
 public class PersistentPublisher extends AbstractPublisher implements Publisher, Subscriber {
 	
 	private var manager:PersistenceManager;
-	private var scopeId:String;
+	private var key:Object;
 	private var subscriber:Subscriber;
 	
-	public function PersistentPublisher (manager:PersistenceManager, scopeId:String, type:ClassInfo, id:String = null) {
+	function PersistentPublisher (manager:PersistenceManager, type:ClassInfo, id:String = null, persistentKey:Object = null) {
 		super(type, id, true);
 		this.manager = manager;
-		this.scopeId = scopeId;
-		this.subscriber = new PersistentSubscriber(manager, scopeId, type, id);
+		this.key = persistentKey || id;
+		this.subscriber = new PersistentSubscriber(manager, type, id, persistentKey);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class PersistentPublisher extends AbstractPublisher implements Publisher,
 	 * @inheritDoc
 	 */
 	public function get currentValue () : * {
-		return manager.getValue(scopeId, type.getClass(), id);
+		return manager.getValue(key);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class PersistentPublisher extends AbstractPublisher implements Publisher,
 	 * @private
 	 */
 	public override function toString () : String {
-		return "[PersistentPublishSubscribe(scopeUuid=" + scopeId + ",type=" + type.name 
+		return "[PersistentPublishSubscribe(key=" + key + ",type=" + type.name 
 				+ ((id) ? ",id=" + id : "") + ")]";
 	}
 

@@ -15,22 +15,27 @@
  */
  
 package org.spicefactory.parsley.binding.impl {
+
+import org.spicefactory.parsley.core.scope.InitializingExtension;
+import org.spicefactory.parsley.binding.PersistenceManager;
+import org.spicefactory.parsley.core.scope.Scope;
+
+import flash.events.EventDispatcher;
 import flash.events.TimerEvent;
-import flash.utils.getQualifiedClassName;
 import flash.net.SharedObject;
 import flash.utils.Timer;
-import flash.events.EventDispatcher;
-import org.spicefactory.parsley.binding.PersistenceManager;
 
 /**
  * Default implementation of the PersistenceManager interface that persists to a local SharedObject.
  * 
  * @author Jens Halm
  */
-public class LocalPersistenceManager extends EventDispatcher implements PersistenceManager {
+public class LocalPersistenceManager extends EventDispatcher implements PersistenceManager, InitializingExtension {
 	
 	private var timer:Timer;
 	private var lso:SharedObject;
+	
+	private var scopeUuid:String;
 	
 	function LocalPersistenceManager (name:String = "parsley_persistence") {
 		lso = SharedObject.getLocal(name);
@@ -39,8 +44,15 @@ public class LocalPersistenceManager extends EventDispatcher implements Persiste
 	/**
 	 * @inheritDoc
 	 */
-	public function saveValue (scopeId:String, baseType:Class, id:String, value:Object) : void {
-		var uuid:String = getUuid(scopeId, baseType, id);
+	public function init (scope: Scope): void {
+		this.scopeUuid = scope.uuid;
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function saveValue (key:Object, value:Object) : void {
+		var uuid:String = getUuid(key);
 		if (lso.data[uuid] !== value) {
 			lso.data[uuid] = value;
 			checkTimer();
@@ -50,22 +62,21 @@ public class LocalPersistenceManager extends EventDispatcher implements Persiste
 	/**
 	 * @inheritDoc
 	 */
-	public function deleteValue (scopeId:String, baseType:Class, id:String) : void {
-		var uuid:String = getUuid(scopeId, baseType, id);
-		delete lso.data[uuid];		
+	public function deleteValue (key:Object) : void {
+		delete lso.data[getUuid(key)];		
 		checkTimer();
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function getValue (scopeId:String, baseType:Class, id:String) : Object {
-		var uuid:String = getUuid(scopeId, baseType, id);
+	public function getValue (key:Object) : Object {
+		var uuid:String = getUuid(key);
 		return lso.data[uuid];
 	}
 	
-	private function getUuid (scopeId:String, baseType:Class, id:String) : String {
-		return scopeId + "_" + getQualifiedClassName(baseType) + "_" + id;
+	private function getUuid (key:Object) : String {
+		return scopeUuid + "_" + key;
  	}
 	
 	private function checkTimer () : void {

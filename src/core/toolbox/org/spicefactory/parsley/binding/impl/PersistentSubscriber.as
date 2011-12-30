@@ -15,8 +15,9 @@
  */
  
 package org.spicefactory.parsley.binding.impl {
-import org.spicefactory.parsley.binding.PersistenceManager;
+
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.binding.PersistenceManager;
 import org.spicefactory.parsley.binding.Subscriber;
 
 /**
@@ -25,16 +26,16 @@ import org.spicefactory.parsley.binding.Subscriber;
 public class PersistentSubscriber extends AbstractSubscriber implements Subscriber {
 	
 	private var manager:PersistenceManager;
-	private var scopeId:String;
+	private var key:Object;
 	
-	public function PersistentSubscriber (manager:PersistenceManager, scopeId:String, type:ClassInfo, id:String = null) {
+	function PersistentSubscriber (manager:PersistenceManager, type:ClassInfo, id:String = null, persistentKey:Object = null) {
 		super(type, id, true);
 		this.manager = manager;
-		this.scopeId = scopeId;
+		this.key = persistentKey || id;
 	}
 
 	public function update (newValue : *) : void {
-		manager.saveValue(scopeId, type.getClass(), id, newValue);
+		manager.saveValue(key, newValue);
 	}
 	
 

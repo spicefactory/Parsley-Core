@@ -156,7 +156,7 @@ public class BindingTestBase {
 		var reg:Object = GlobalState.scopes;
 		reg.reset();
 		DictionaryPersistenceService.reset();
-		DictionaryPersistenceService.putStoredValue("local0", String, "test", "A");
+		DictionaryPersistenceService.putStoredValue("local0", "test", "A");
 		
 		var manager:BootstrapManager = new DefaultBootstrapManager();
 		manager.config.scopeExtensions.forType(PersistenceManager).setImplementation(DictionaryPersistenceService);
@@ -165,14 +165,14 @@ public class BindingTestBase {
 		
 		var pub1:StringHolder = context.getObject("publishPersistent") as StringHolder;
 		var pub2:StringHolder = context.getObject("publishPersistent") as StringHolder;
-		assertThat(DictionaryPersistenceService.getStoredValue("local0", String, "test"), equalTo("A"));
+		assertThat(DictionaryPersistenceService.getStoredValue("local0", "test"), equalTo("A"));
 		pub1.value = "B";
 		assertThat(pub2.value, equalTo("B"));
 		assertThat(DictionaryPersistenceService.changeCount, equalTo(1));
-		assertThat(DictionaryPersistenceService.getStoredValue("local0", String, "test"), equalTo("B"));
+		assertThat(DictionaryPersistenceService.getStoredValue("local0", "test"), equalTo("B"));
 		context.destroy();
 		assertThat(DictionaryPersistenceService.changeCount, equalTo(1));
-		assertThat(DictionaryPersistenceService.getStoredValue("local0", String, "test"), equalTo("B"));
+		assertThat(DictionaryPersistenceService.getStoredValue("local0", "test"), equalTo("B"));
 	}
 	
 	

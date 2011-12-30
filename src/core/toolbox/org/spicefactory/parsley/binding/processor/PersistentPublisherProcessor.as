@@ -38,6 +38,7 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 
 	private var scope: String;
 	private var id: String;
+	private var persistentKey:Object;
 	
 	private var publisher:PersistentPublisher;
 	
@@ -45,14 +46,14 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	/**
 	 * Creates a new instance.
 	 * 
-	 * @param target the managed target object
-	 * @param property the target property that holds the published value
 	 * @param scope the scope the property value is published to
-	 * @param id the id the value is published with
+	 * @param id the id the value is published with to the BindingManager
+	 * @param persistentKey the key the value is passed with to the PersistenceManager
 	 */
-	function PersistentPublisherProcessor (scope:String, id:String = null) {
+	function PersistentPublisherProcessor (scope:String, id:String = null, persistentKey:Object = null) {
 		this.scope = scope;
 		this.id = id;		
+		this.persistentKey = persistentKey;
 	}
 	
 	
@@ -70,7 +71,7 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	 */
 	public function init (target:ManagedObject) : void {
 		var scopeRef:Scope = target.context.scopeManager.getScope(scope);
-		this.publisher = new PersistentPublisher(getPersistenceManager(scopeRef), scopeRef.uuid, property.type, id); 
+		this.publisher = new PersistentPublisher(getPersistenceManager(scopeRef), property.type, id, persistentKey); 
 		getManager(target).addPublisher(publisher);
 	}
 	
@@ -101,7 +102,7 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	 * @inheritDoc
 	 */
 	public function clone (): StatefulProcessor {
-		return new PersistentPublisherProcessor(scope, id);
+		return new PersistentPublisherProcessor(scope, id, persistentKey);
 	}
 	
 	/**

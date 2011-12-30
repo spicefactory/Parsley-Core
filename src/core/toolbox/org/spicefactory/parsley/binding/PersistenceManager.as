@@ -35,32 +35,27 @@ import flash.events.IEventDispatcher;
 public interface PersistenceManager extends IEventDispatcher {
 	
 	/**
-	 * Saves the specified value. The baseType can be used for creating unique identifiers
-	 * and matches the type property of the persistent publisher. The actual value must be
-	 * of the same type or a subtype.
+	 * Saves the specified value.
 	 * 
-	 * @param baseType the baseType the value was published for
-	 * @param id the id of the published value
+	 * @param key the key of the value to save
 	 * @param value the value to save
 	 */
-	function saveValue (scopeId:String, baseType:Class, id:String, value:Object) : void;
+	function saveValue (key:Object, value:Object) : void;
 	
 	/**
-	 * Deletes the value mapping to the specified type and id.
+	 * Deletes the value mapping to the specified key.
 	 * 
-	 * @param baseType the baseType the value was published for
-	 * @param id the id of the published value
+	 * @param key the key of the value to delete
 	 */
-	function deleteValue (scopeId:String, baseType:Class, id:String) : void;
+	function deleteValue (key:Object) : void;
 	
 	/**
 	 * Returns the value mapping to the specified type and id.
 	 * 
-	 * @param baseType the baseType the value was published for
-	 * @param id the id of the published value
-	 * @return the value mapping to the specified type and id
+	 * @param key the key of the value to retrieve
+	 * @return the value mapping to the specified key
 	 */
-	function getValue (scopeId:String, baseType:Class, id:String) : Object;
+	function getValue (key:Object) : Object;
 	
 }
 }

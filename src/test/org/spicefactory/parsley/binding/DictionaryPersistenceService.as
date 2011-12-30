@@ -1,55 +1,64 @@
 package org.spicefactory.parsley.binding {
-import flash.utils.Dictionary;
+
+import org.spicefactory.parsley.core.scope.InitializingExtension;
+import org.spicefactory.parsley.core.scope.Scope;
+
 import flash.events.EventDispatcher;
-import flash.utils.getQualifiedClassName;
+import flash.utils.Dictionary;
 
 /**
  * @author Jens Halm
  */
-public class DictionaryPersistenceService extends EventDispatcher implements PersistenceManager {
+public class DictionaryPersistenceService extends EventDispatcher implements PersistenceManager, InitializingExtension {
 	
 	private static var data:Dictionary = new Dictionary();
 	public static var changeCount:int;
 	
-	public function saveValue (scopeId:String, baseType:Class, id:String, value:Object) : void {
-		var uuid:String = getUuid(scopeId, baseType, id);
+	private var scopeUuid:String;
+	
+	public function init (scope: Scope): void {
+		this.scopeUuid = scope.uuid;
+	}
+	
+	public function saveValue (key:Object, value:Object) : void {
+		var uuid:String = getUuid(key);
 		if (data[uuid] !== value) {
 			changeCount++;
 			data[uuid] = value;
 		}
 	}
 	
-	public function deleteValue (scopeId:String, baseType:Class, id:String) : void {
+	public function deleteValue (key:Object) : void {
 		changeCount++;
-		delete data[getUuid(scopeId, baseType, id)];
+		delete data[getUuid(key)];
 	}
 	
-	public function getValue (scopeId:String, baseType:Class, id:String) : Object {
-		return data[getUuid(scopeId, baseType, id)];
+	public function getValue (key:Object) : Object {
+		return data[getUuid(key)];
 	}
 	
-	private static function getUuid (scopeId:String, baseType:Class, id:String) : String {
-		return scopeId + "_" + getQualifiedClassName(baseType) + "_" + id;
+	private function getUuid (key:Object) : String {
+		return scopeUuid + "_" + key;
  	}
  	
  	
- 	public static function getStoredValue (scopeId:String, baseType:Class, id:String) : Object {
-		return data[getUuid(scopeId, baseType, id)];
+ 	public static function getStoredValue (scopeUuid:String, key:Object) : Object {
+		return data[scopeUuid + "_" + key];
 	}
 	
-	public static function hasStoredValue (scopeId:String, baseType:Class, id:String) : Object {
-		return (data[getUuid(scopeId, baseType, id)] != undefined);
+	public static function hasStoredValue (scopeUuid:String, key:Object) : Object {
+		return (data[scopeUuid + "_" + key] != undefined);
 	}
 	
-	public static function putStoredValue (scopeId:String, baseType:Class, id:String, value:Object) : void {
-		data[getUuid(scopeId, baseType, id)] = value;
+	public static function putStoredValue (scopeUuid:String, key:Object, value:Object) : void {
+		data[scopeUuid + "_" + key] = value;
 	}
 	
 	public static function reset () : void {
 		data = new Dictionary();
 		changeCount = 0;
 	}
-	
+
 	
 }
 }

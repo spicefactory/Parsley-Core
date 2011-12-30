@@ -214,7 +214,7 @@ public class BindingMetadataTagTest {
 		var reg:Object = GlobalState.scopes;
 		reg.reset();
 		DictionaryPersistenceService.reset();
-		DictionaryPersistenceService.putStoredValue("local0", String, "test", "A");
+		DictionaryPersistenceService.putStoredValue("local0", "test", "A");
 		
 		var pub1:StringPublishPersistentMetadata = new StringPublishPersistentMetadata();
 		var pub2:StringPublishPersistentMetadata = new StringPublishPersistentMetadata();
@@ -229,14 +229,14 @@ public class BindingMetadataTagTest {
 					.object(pub2)
 					.build();
 		
-		assertThat(DictionaryPersistenceService.getStoredValue("local0", String, "test"), equalTo("A"));
+		assertThat(DictionaryPersistenceService.getStoredValue("local0", "test"), equalTo("A"));
 		pub1.value = "B";
 		assertThat(pub2.value, equalTo("B"));
 		assertThat(DictionaryPersistenceService.changeCount, equalTo(1));
-		assertThat(DictionaryPersistenceService.getStoredValue("local0", String, "test"), equalTo("B"));
+		assertThat(DictionaryPersistenceService.getStoredValue("local0", "test"), equalTo("B"));
 		context.destroy();
 		assertThat(DictionaryPersistenceService.changeCount, equalTo(1));
-		assertThat(DictionaryPersistenceService.getStoredValue("local0", String, "test"), equalTo("B"));
+		assertThat(DictionaryPersistenceService.getStoredValue("local0", "test"), equalTo("B"));
 	}
 }
 }
