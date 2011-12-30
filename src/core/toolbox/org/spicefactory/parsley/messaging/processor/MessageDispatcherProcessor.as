@@ -20,7 +20,7 @@ import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.messaging.impl.MessageDispatcher;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 
 /**
  * Processor that injects a message dispatcher function into the target object for 
@@ -28,7 +28,7 @@ import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
  * 
  * @author Jens Halm
  */
-public class MessageDispatcherProcessor implements PropertyProcessor, StatefulObjectProcessor {
+public class MessageDispatcherProcessor implements PropertyProcessor, StatefulProcessor {
 	
 	
 	private var scope:String;
@@ -76,7 +76,7 @@ public class MessageDispatcherProcessor implements PropertyProcessor, StatefulOb
 	/**
 	 * @inheritDoc
 	 */
-	public function clone () : StatefulObjectProcessor {
+	public function clone () : StatefulProcessor {
 		return new MessageDispatcherProcessor(scope);
 	}
 	

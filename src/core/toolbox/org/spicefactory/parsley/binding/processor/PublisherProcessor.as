@@ -22,7 +22,7 @@ import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 
 /**
  * Processes a single property holding a a value that
@@ -32,7 +32,7 @@ import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
  * 
  * @author Jens Halm
  */
-public class PublisherProcessor implements PropertyProcessor, StatefulObjectProcessor {
+public class PublisherProcessor implements PropertyProcessor, StatefulProcessor {
 
 
 	private var scope: String;
@@ -101,7 +101,7 @@ public class PublisherProcessor implements PropertyProcessor, StatefulObjectProc
 	/**
 	 * @inheritDoc
 	 */
-	public function clone (): StatefulObjectProcessor {
+	public function clone (): StatefulProcessor {
 		return new PublisherProcessor(publisherType, scope, id, managed, changeEvent);
 	}
 	

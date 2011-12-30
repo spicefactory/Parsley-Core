@@ -25,7 +25,7 @@ import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.processor.MethodProcessor;
 import org.spicefactory.parsley.core.processor.SingletonPreProcessor;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.lifecycle.observer.DefaultLifecycleObserver;
@@ -36,7 +36,7 @@ import org.spicefactory.parsley.lifecycle.observer.DefaultLifecycleObserver;
  * 
  * @author Jens Halm
  */
-public class ObserveMethodProcessor implements MethodProcessor, StatefulObjectProcessor, SingletonPreProcessor {
+public class ObserveMethodProcessor implements MethodProcessor, StatefulProcessor, SingletonPreProcessor {
 
 
 	private var method:Method;
@@ -101,7 +101,7 @@ public class ObserveMethodProcessor implements MethodProcessor, StatefulObjectPr
 	/**
 	 * @inheritDoc
 	 */
-	public function clone (): StatefulObjectProcessor {
+	public function clone (): StatefulProcessor {
 		return new ObserveMethodProcessor(phase, objectId, scopeName);
 	}
 

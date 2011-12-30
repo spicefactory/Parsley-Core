@@ -18,7 +18,7 @@ package org.spicefactory.parsley.messaging.processor {
 
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.messaging.impl.MessageDispatcher;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 
 import flash.events.IEventDispatcher;
 
@@ -29,7 +29,7 @@ import flash.events.IEventDispatcher;
  * 
  * @author Jens Halm
  */
-public class ManagedEventsProcessor implements StatefulObjectProcessor {
+public class ManagedEventsProcessor implements StatefulProcessor {
 	
 	
 	private var names:Array;
@@ -73,7 +73,7 @@ public class ManagedEventsProcessor implements StatefulObjectProcessor {
 	/**
 	 * @inheritDoc
 	 */
-	public function clone () : StatefulObjectProcessor {
+	public function clone () : StatefulProcessor {
 		return new ManagedEventsProcessor(names, scope);
 	}
 	

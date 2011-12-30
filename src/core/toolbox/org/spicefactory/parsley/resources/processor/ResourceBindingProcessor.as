@@ -20,7 +20,7 @@ import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.errors.ObjectDefinitionBuilderError;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 
 import flash.utils.getQualifiedClassName;
 
@@ -32,7 +32,7 @@ import flash.utils.getQualifiedClassName;
  * 
  * @author Jens Halm
  */
-public class ResourceBindingProcessor implements PropertyProcessor, StatefulObjectProcessor {
+public class ResourceBindingProcessor implements PropertyProcessor, StatefulProcessor {
 
 
 	/**
@@ -117,7 +117,7 @@ public class ResourceBindingProcessor implements PropertyProcessor, StatefulObje
 	/**
 	 * @inheritDoc
 	 */
-	public function clone (): StatefulObjectProcessor {
+	public function clone (): StatefulProcessor {
 		return new ResourceBindingProcessor(key, bundle);
 	}
 	

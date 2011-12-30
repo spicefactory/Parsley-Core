@@ -22,7 +22,7 @@ import org.spicefactory.parsley.binding.BindingManager;
 import org.spicefactory.parsley.binding.PersistenceManager;
 import org.spicefactory.parsley.binding.impl.PersistentPublisher;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeName;
 
@@ -33,7 +33,7 @@ import org.spicefactory.parsley.core.scope.ScopeName;
  * 
  * @author Jens Halm
  */
-public class PersistentPublisherProcessor implements PropertyProcessor, StatefulObjectProcessor {
+public class PersistentPublisherProcessor implements PropertyProcessor, StatefulProcessor {
 
 
 	private var scope: String;
@@ -100,7 +100,7 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	/**
 	 * @inheritDoc
 	 */
-	public function clone (): StatefulObjectProcessor {
+	public function clone (): StatefulProcessor {
 		return new PersistentPublisherProcessor(scope, id);
 	}
 	

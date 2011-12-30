@@ -19,7 +19,7 @@ import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.messaging.receiver.PropertyReceiver;
 
 /**
@@ -61,7 +61,7 @@ public class PropertyReceiverProcessor extends MessageReceiverProcessor implemen
 	/**
 	 * @private
 	 */
-	public override function clone (): StatefulObjectProcessor {
+	public override function clone (): StatefulProcessor {
 		return new PropertyReceiverProcessor(receiverFactory, scopeName);
 	}
 	

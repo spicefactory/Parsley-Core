@@ -15,7 +15,7 @@
  */
 package org.spicefactory.parsley.core.processor.impl {
 
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.processor.ObjectProcessor;
 import org.spicefactory.parsley.core.processor.InitPhase;
 import org.spicefactory.parsley.core.processor.DestroyPhase;
@@ -69,7 +69,7 @@ public class DefaultObjectProcessorConfig implements ObjectProcessorConfig {
 	
 	
 	private function get cloneRequired (): Boolean {
-		return !singleton && (processor is StatefulObjectProcessor);
+		return !singleton && (processor is StatefulProcessor);
 	}
 	
 	
@@ -78,7 +78,7 @@ public class DefaultObjectProcessorConfig implements ObjectProcessorConfig {
 	 */
 	public function prepareForNextTarget (): ObjectProcessorConfig {
 		if (cloneRequired) {
-			var newProcessor: ObjectProcessor = StatefulObjectProcessor(processor).clone();
+			var newProcessor: ObjectProcessor = StatefulProcessor(processor).clone();
 			initialize(newProcessor);
 			return new DefaultObjectProcessorConfig(newProcessor, initPhase, destroyPhase, target, singleton, initializer);
 		}

@@ -24,7 +24,7 @@ package org.spicefactory.parsley.core.processor {
  * 
  * @author Jens Halm
  */
-public interface StatefulObjectProcessor extends ObjectProcessor {
+public interface StatefulProcessor extends ObjectProcessor {
 	
 	
 	/**
@@ -33,7 +33,7 @@ public interface StatefulObjectProcessor extends ObjectProcessor {
 	 * 
 	 * @return a clone of this processor
 	 */
-	function clone (): StatefulObjectProcessor;
+	function clone (): StatefulProcessor;
 	
 	
 }

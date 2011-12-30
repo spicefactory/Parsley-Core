@@ -27,7 +27,7 @@ import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
 import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
 import org.spicefactory.parsley.core.processor.SingletonPreProcessor;
-import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
+import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 import org.spicefactory.parsley.core.scope.Scope;
 
@@ -38,7 +38,7 @@ import flash.utils.getQualifiedClassName;
  * 
  * @author Jens Halm
  */
-public class MessageReceiverProcessor implements StatefulObjectProcessor, SingletonPreProcessor {
+public class MessageReceiverProcessor implements StatefulProcessor, SingletonPreProcessor {
 
 
 	/**
@@ -100,7 +100,7 @@ public class MessageReceiverProcessor implements StatefulObjectProcessor, Single
 	/**
 	 * @inheritDoc
 	 */
-	public function clone (): StatefulObjectProcessor {
+	public function clone (): StatefulProcessor {
 		throw new AbstractMethodError();
 	}
 
