@@ -109,7 +109,7 @@ public class PublisherProcessor implements PropertyProcessor, StatefulProcessor 
 	 * @private
 	 */
 	public function toString () : String {
-		return (publisher as Object).toString();
+		return "[Publish(property=" + property + ((id) ? ",id=" + id : "") + ")]";
 	}
 
 	

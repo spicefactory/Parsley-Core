@@ -93,7 +93,7 @@ public class SubscriberProcessor implements PropertyProcessor, StatefulProcessor
 	 * @private
 	 */
 	public function toString () : String {
-		return (subscriber as Object).toString();
+		return "[Subscribe(property=" + property + ((id) ? ",id=" + id : "") + ")]";
 	}
 	
 
