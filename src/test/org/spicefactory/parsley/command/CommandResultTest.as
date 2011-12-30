@@ -25,9 +25,8 @@ import org.spicefactory.parsley.command.observer.CommandObserversNonImmediate;
 import org.spicefactory.parsley.command.target.SimpleCommand;
 import org.spicefactory.parsley.command.trigger.Trigger;
 import org.spicefactory.parsley.command.trigger.TriggerA;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.command.MappedCommands;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 
 /**
  * @author Jens Halm

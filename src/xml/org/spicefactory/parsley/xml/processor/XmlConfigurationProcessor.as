@@ -25,8 +25,6 @@ import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.lib.xml.XmlObjectMapper;
 import org.spicefactory.lib.xml.XmlProcessorContext;
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.core.bootstrap.AsyncConfigurationProcessor;
 import org.spicefactory.parsley.core.errors.ConfigurationUnitError;
@@ -56,7 +54,7 @@ public class XmlConfigurationProcessor extends EventDispatcher implements AsyncC
 	private var _loader:XmlConfigurationLoader;
 	private var loadedFiles:Array = new Array();
 	private var expressionContext:ExpressionContext;
-	private var config:Configuration;
+	private var registry:ObjectDefinitionRegistry;
 
 	
 	/**
@@ -92,8 +90,8 @@ public class XmlConfigurationProcessor extends EventDispatcher implements AsyncC
 	 * @inheritDoc
 	 */
 	public function processConfiguration (registry:ObjectDefinitionRegistry) : void {
+		this.registry = registry;
 		expressionContext.addVariableResolver(new PropertiesResolver(registry.properties));
-		this.config = Configurations.forRegistry(registry);
 		var mapperFactory:XmlObjectDefinitionMapperFactory = new XmlObjectDefinitionMapperFactory(registry.domain);
 		mapper = mapperFactory.createObjectDefinitionMapper();
 		_loader.addEventListener(Event.COMPLETE, loaderComplete);
@@ -128,7 +126,7 @@ public class XmlConfigurationProcessor extends EventDispatcher implements AsyncC
 	}
 	
 	private function processFile (file:XmlFile) : void {
-		var context:XmlProcessorContext = new XmlProcessorContext(expressionContext, config.domain);
+		var context:XmlProcessorContext = new XmlProcessorContext(expressionContext, registry.domain);
 		var errors:Array;
 		var container:ObjectsTag 
 				= mapper.mapToObject(file.rootElement, context) as ObjectsTag;
@@ -154,7 +152,7 @@ public class XmlConfigurationProcessor extends EventDispatcher implements AsyncC
 	private function processObject (obj:Object) : void {
 		try {
 			if (obj is RootConfigurationElement) {
-				RootConfigurationElement(obj).process(config);
+				RootConfigurationElement(obj).process(registry);
 			}
 			else {
 				createDefinition(obj);
@@ -167,9 +165,9 @@ public class XmlConfigurationProcessor extends EventDispatcher implements AsyncC
 	}
 	
 	private function createDefinition (obj:Object) : void {
-		var idProp:Property = ClassInfo.forInstance(obj, config.domain).getProperty("id");
+		var idProp:Property = ClassInfo.forInstance(obj, registry.domain).getProperty("id");
 				
-		config.builders
+		registry.builders
 			.forInstance(obj)
 				.asSingleton()
 					.id((idProp == null) ? null : idProp.getValue(obj))

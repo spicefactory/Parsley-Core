@@ -1,11 +1,15 @@
 package org.spicefactory.parsley.coretag.inject {
+
 import org.hamcrest.assertThat;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.collection.everyItem;
 import org.hamcrest.core.isA;
-import org.hamcrest.object.*;
+import org.hamcrest.object.equalTo;
+import org.hamcrest.object.notNullValue;
+import org.hamcrest.object.nullValue;
+import org.hamcrest.object.sameInstance;
 import org.spicefactory.parsley.asconfig.ActionScriptContextBuilder;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.coretag.inject.model.ArrayPropertyInjection;
 import org.spicefactory.parsley.coretag.inject.model.InjectedDependency;

@@ -16,24 +16,47 @@
 
 package org.spicefactory.parsley.metadata {
 
-import org.spicefactory.parsley.config.ObjectDefinitionDecorator;
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.lib.reflect.*;
+import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.lib.reflect.Converters;
+import org.spicefactory.lib.reflect.Member;
+import org.spicefactory.lib.reflect.Metadata;
+import org.spicefactory.lib.reflect.MetadataAware;
+import org.spicefactory.lib.reflect.Method;
+import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.lib.reflect.converter.EnumerationConverter;
 import org.spicefactory.lib.reflect.metadata.Target;
-import org.spicefactory.parsley.asconfig.metadata.*;
-import org.spicefactory.parsley.config.DecoratorAssembler;
+import org.spicefactory.parsley.asconfig.metadata.DynamicObjectDefinitionMetadata;
+import org.spicefactory.parsley.asconfig.metadata.InternalProperty;
+import org.spicefactory.parsley.asconfig.metadata.ObjectDefinitionMetadata;
+import org.spicefactory.parsley.comobserver.tag.CommandCompleteDecorator;
+import org.spicefactory.parsley.comobserver.tag.CommandErrorDecorator;
+import org.spicefactory.parsley.comobserver.tag.CommandResultDecorator;
+import org.spicefactory.parsley.comobserver.tag.CommandStatusDecorator;
+import org.spicefactory.parsley.core.builder.DecoratorAssembler;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.messaging.impl.Selector;
 import org.spicefactory.parsley.core.view.metadata.Autoremove;
-import org.spicefactory.parsley.tag.inject.*;
-import org.spicefactory.parsley.tag.lifecycle.*;
-import org.spicefactory.parsley.tag.messaging.*;
-import org.spicefactory.parsley.tag.resources.ResourceBindingDecorator;
+import org.spicefactory.parsley.inject.tag.InjectConstructorDecorator;
+import org.spicefactory.parsley.inject.tag.InjectMethodDecorator;
+import org.spicefactory.parsley.inject.tag.InjectPropertyDecorator;
+import org.spicefactory.parsley.lifecycle.tag.AsyncInitDecorator;
+import org.spicefactory.parsley.lifecycle.tag.DestroyMethodDecorator;
+import org.spicefactory.parsley.lifecycle.tag.FactoryMethodDecorator;
+import org.spicefactory.parsley.lifecycle.tag.InitMethodDecorator;
+import org.spicefactory.parsley.lifecycle.tag.ObserveMethodDecorator;
+import org.spicefactory.parsley.messaging.tag.ManagedEventsDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageBindingDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageDispatcherDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageErrorDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageHandlerDecorator;
+import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
 
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
+
 
 /**
  * DecoratorAssembler implementation that can be used by all object definition builders that wish to process

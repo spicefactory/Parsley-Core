@@ -1,19 +1,19 @@
 package org.spicefactory.parsley.context.inheritance {
-import org.hamcrest.object.isTrue;
+import flash.display.Sprite;
 import flash.events.Event;
-import org.hamcrest.object.isFalse;
-import org.spicefactory.parsley.lifecycle.asyncinit.model.AsyncInitModelMetadata;
-import org.spicefactory.parsley.core.scope.ScopeName;
-import org.spicefactory.parsley.context.inheritance.model.InjectionTarget;
+import flash.geom.Rectangle;
 import org.hamcrest.assertThat;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.object.equalTo;
+import org.hamcrest.object.isFalse;
+import org.hamcrest.object.isTrue;
+import org.spicefactory.parsley.context.ContextBuilder;
+import org.spicefactory.parsley.context.inheritance.model.InjectionTarget;
 import org.spicefactory.parsley.context.inheritance.model.StringHolder;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
+import org.spicefactory.parsley.core.scope.ScopeName;
+import org.spicefactory.parsley.lifecycle.asyncinit.model.AsyncInitModelMetadata;
 
-import flash.display.Sprite;
-import flash.geom.Rectangle;
 
 /**
  * @author Jens Halm
@@ -111,9 +111,10 @@ public class MultipleInheritanceTest {
 	public function asyncInit () : void {
 		var asyncA:AsyncInitModelMetadata = new AsyncInitModelMetadata();
 		var asyncB:AsyncInitModelMetadata = new AsyncInitModelMetadata();
-		var parentA:Context = ContextBuilder.newBuilder().object(asyncA).build();
-		var parentB:Context = ContextBuilder.newBuilder().object(asyncB).build();
-		var parentSync:Context = ContextBuilder.newBuilder().build();
+		var root:Context = ContextBuilder.newBuilder().build();
+		var parentA:Context = ContextBuilder.newSetup().parent(root).newBuilder().object(asyncA).build();
+		var parentB:Context = ContextBuilder.newSetup().parent(root).newBuilder().object(asyncB).build();
+		var parentSync:Context = ContextBuilder.newSetup().parent(root).newBuilder().build();
 		var context:Context = ContextBuilder.newSetup()
 				.parent(parentA)
 				.parent(parentSync)

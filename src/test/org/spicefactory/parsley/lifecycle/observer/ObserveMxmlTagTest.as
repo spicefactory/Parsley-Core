@@ -1,6 +1,6 @@
 package org.spicefactory.parsley.lifecycle.observer {
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.asconfig.ActionScriptConfig;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.flex.FlexContextBuilder;
 import org.spicefactory.parsley.lifecycle.observer.config.ObserveCounterMxmlConfig;

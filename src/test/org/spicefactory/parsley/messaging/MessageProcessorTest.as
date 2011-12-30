@@ -2,11 +2,11 @@ package org.spicefactory.parsley.messaging {
 import org.hamcrest.assertThat;
 import org.hamcrest.object.equalTo;
 import org.hamcrest.object.notNullValue;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.context.scope.model.OrderedMixedScopeReceivers;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
 import org.spicefactory.parsley.core.messaging.MessageState;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.messaging.model.OrderedMixedScopeInterceptors;
 import org.spicefactory.parsley.messaging.model.ResponseSender;
 

@@ -15,7 +15,7 @@
  */
 package org.spicefactory.parsley.flex.tag.command {
 
-import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
+import org.spicefactory.parsley.command.tag.ParallelCommandsTag;
 
 /**
  * Tag for parallel commands declared in MXML or XML configuration.

@@ -16,7 +16,7 @@
 
 package org.spicefactory.parsley.flex.tag.core {
 import mx.core.IMXMLObject;
-import org.spicefactory.parsley.tag.core.RootObjectTag;
+import org.spicefactory.parsley.object.RootObjectTag;
 
 /**
  * Extension of the default object definition tag that handles ids set in MXML.

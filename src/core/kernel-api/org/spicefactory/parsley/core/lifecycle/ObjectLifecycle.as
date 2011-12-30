@@ -25,12 +25,6 @@ public class ObjectLifecycle {
 	
 	
 	/**
-	 * Lifecycle phase immediately after an object has been instantiated, but before any dependency injection
-	 * or other configuration has been performed on the object.
-	 */
-	public static const PRE_CONFIGURE:ObjectLifecycle = new ObjectLifecycle("preConfigure");
-
-	/**
 	 * Lifecycle phase after all injections and other configuration tasks have been performed
 	 * for an object, but immediately before the init method of that object (if existent) is invoked.
 	 */

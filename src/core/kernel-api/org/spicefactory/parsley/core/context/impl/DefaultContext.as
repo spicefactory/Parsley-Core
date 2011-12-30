@@ -22,7 +22,6 @@ import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
@@ -362,12 +361,10 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	public function addDynamicObject (instance:Object, definition:DynamicObjectDefinition = null) : DynamicObject {
 		checkState(false);
 		if (definition == null) {
-			// TODO - 3.0.M2 - IOC Kernel should not depend on config DSL
-			definition = Configurations.forRegistry(registry)
-				.builders	
-					.forClass(ClassInfo.forInstance(instance, registry.domain).getClass())
-						.asDynamicObject()
-							.build();
+			definition = registry.builders	
+				.forClass(ClassInfo.forInstance(instance, registry.domain).getClass())
+					.asDynamicObject()
+						.build();
 		}
 		return new DefaultDynamicObject(this, definition, instance);
 	}

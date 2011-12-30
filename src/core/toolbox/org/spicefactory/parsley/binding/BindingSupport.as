@@ -16,11 +16,11 @@
  
 package org.spicefactory.parsley.binding {
 import org.spicefactory.lib.reflect.Metadata;
-import org.spicefactory.parsley.binding.decorator.PublishDecorator;
-import org.spicefactory.parsley.binding.decorator.PublishSubscribeDecorator;
-import org.spicefactory.parsley.binding.decorator.SubscribeDecorator;
 import org.spicefactory.parsley.binding.impl.DefaultBindingManager;
 import org.spicefactory.parsley.binding.impl.LocalPersistenceManager;
+import org.spicefactory.parsley.binding.tag.PublishDecorator;
+import org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator;
+import org.spicefactory.parsley.binding.tag.SubscribeDecorator;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.Service;
 import org.spicefactory.parsley.core.scope.ScopeExtensionRegistry;

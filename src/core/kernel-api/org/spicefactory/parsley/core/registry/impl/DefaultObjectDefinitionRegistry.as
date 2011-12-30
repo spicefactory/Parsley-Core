@@ -16,22 +16,23 @@
 
 package org.spicefactory.parsley.core.registry.impl {
 
+import flash.events.EventDispatcher;
+import flash.system.ApplicationDomain;
+import flash.utils.getQualifiedClassName;
 import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilderFactory;
+import org.spicefactory.parsley.core.builder.impl.DefaultObjectDefinitionBuilderFactory;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ObjectDefinitionRegistryEvent;
 import org.spicefactory.parsley.core.registry.ConfigurationProperties;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.scope.ScopeManager;
-import org.spicefactory.parsley.dsl.ObjectDefinitionBuilderFactory;
 
-import flash.events.EventDispatcher;
-import flash.system.ApplicationDomain;
-import flash.utils.getQualifiedClassName;
 
 /**
  * Default implementation of the ObjectDefinitionRegistry interface.
@@ -42,7 +43,6 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	
 	
 	private var _domain:ApplicationDomain;
-	private var _decoratorAssemblers:Array;
 	private var _context:Context;
 	
 	private var _properties:ConfigurationProperties;
@@ -68,7 +68,7 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 		_domain = info.domain;
 		_context = info.context;
 		_properties = info.properties;
-		_decoratorAssemblers = [];
+		_builders = new DefaultObjectDefinitionBuilderFactory(this, info.decoratorAssemblers);
 	}
 	
 	/**
@@ -88,8 +88,8 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 	/**
 	 * @inheritDoc
 	 */
-	public function get decoratorAssemblers () : Array {
-		return _decoratorAssemblers.concat();
+	public function get builders () : ObjectDefinitionBuilderFactory {
+		return _builders;
 	}
 
 	/**
@@ -143,13 +143,6 @@ public class DefaultObjectDefinitionRegistry extends EventDispatcher implements 
 			}
 			definitions.remove(definition.id);
 		}
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get builders () : ObjectDefinitionBuilderFactory {
-		return _builders;
 	}
 	
 	/**

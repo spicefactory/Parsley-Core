@@ -1,6 +1,5 @@
 <mx:Object 
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:dec="org.spicefactory.parsley.tag.lifecycle.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:core="org.spicefactory.parsley.flex.tag.core.*" xmlns:tag="org.spicefactory.parsley.lifecycle.tag.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -11,17 +10,17 @@
 	
 	
 	<core:MxmlRootObjectTag type="{LifecycleEventCounter}">
-		<dec:ObserveMethodDecorator method="globalListener"/>
-		<dec:ObserveMethodDecorator method="globalVListener"/>
-		<dec:ObserveMethodDecorator method="globalHListener"/>
-		<dec:ObserveMethodDecorator method="localListener" scope="local"/>
-		<dec:ObserveMethodDecorator method="localVListener" scope="local"/>
-		<dec:ObserveMethodDecorator method="localHListener" scope="local"/>
-		<dec:ObserveMethodDecorator method="customListener" scope="custom"/>
-		<dec:ObserveMethodDecorator method="customVListener" scope="custom"/>
-		<dec:ObserveMethodDecorator method="customHListener" scope="custom"/>
-		<dec:ObserveMethodDecorator method="globalIdListener" objectId="text"/>
-		<dec:ObserveMethodDecorator method="globalDestroyListener" phase="{ObjectLifecycle.PRE_DESTROY}"/>
+		<tag:ObserveMethodDecorator method="globalListener"/>
+		<tag:ObserveMethodDecorator method="globalVListener"/>
+		<tag:ObserveMethodDecorator method="globalHListener"/>
+		<tag:ObserveMethodDecorator method="localListener" scope="local"/>
+		<tag:ObserveMethodDecorator method="localVListener" scope="local"/>
+		<tag:ObserveMethodDecorator method="localHListener" scope="local"/>
+		<tag:ObserveMethodDecorator method="customListener" scope="custom"/>
+		<tag:ObserveMethodDecorator method="customVListener" scope="custom"/>
+		<tag:ObserveMethodDecorator method="customHListener" scope="custom"/>
+		<tag:ObserveMethodDecorator method="globalIdListener" objectId="text"/>
+		<tag:ObserveMethodDecorator method="globalDestroyListener" phase="{ObjectLifecycle.PRE_DESTROY}"/>
 	</core:MxmlRootObjectTag>
 	
 	

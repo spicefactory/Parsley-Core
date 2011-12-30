@@ -1,43 +1,44 @@
 <?xml version="1.0"?>
 <componentPackage>
-    <component id="NestedObject" class="org.spicefactory.parsley.tag.core.NestedObjectTag"/>
+    <component id="NestedObject" class="org.spicefactory.parsley.object.NestedObjectTag"/>
+    <component id="Array" class="org.spicefactory.parsley.object.ArrayTag"/>
+    <component id="ObjectRef" class="org.spicefactory.parsley.object.ObjectReferenceTag"/>
     
-    <component id="ConstructorArgs" class="org.spicefactory.parsley.tag.core.ConstructorTag"/>
-    <component id="Property" class="org.spicefactory.parsley.tag.core.PropertyTag"/>
-    <component id="DynamicProperty" class="org.spicefactory.parsley.tag.core.DynamicPropertyTag"/>
-    <component id="Array" class="org.spicefactory.parsley.tag.core.ArrayTag"/>
-    <component id="ObjectRef" class="org.spicefactory.parsley.tag.core.ObjectReferenceTag"/>
+    <component id="ConstructorArgs" class="org.spicefactory.parsley.inject.tag.ConstructorTag"/>
+    <component id="Property" class="org.spicefactory.parsley.inject.tag.PropertyTag"/>
+    <component id="DynamicProperty" class="org.spicefactory.parsley.inject.tag.DynamicPropertyTag"/>
     
-    <component id="AsyncInit" class="org.spicefactory.parsley.tag.lifecycle.AsyncInitDecorator"/>
-    <component id="Factory" class="org.spicefactory.parsley.tag.lifecycle.FactoryMethodDecorator"/>
-    <component id="Init" class="org.spicefactory.parsley.tag.lifecycle.InitMethodDecorator"/>
-    <component id="Destroy" class="org.spicefactory.parsley.tag.lifecycle.DestroyMethodDecorator"/>
-    <component id="Observe" class="org.spicefactory.parsley.tag.lifecycle.ObserveMethodDecorator"/>
     
-    <component id="ManagedEvents" class="org.spicefactory.parsley.tag.messaging.ManagedEventsDecorator"/>
-    <component id="MessageDispatcher" class="org.spicefactory.parsley.tag.messaging.MessageDispatcherDecorator"/>
-    <component id="MessageHandler" class="org.spicefactory.parsley.tag.messaging.MessageHandlerDecorator"/>
-    <component id="MessageBinding" class="org.spicefactory.parsley.tag.messaging.MessageBindingDecorator"/>
-    <component id="MessageError" class="org.spicefactory.parsley.tag.messaging.MessageErrorDecorator"/>
+    <component id="AsyncInit" class="org.spicefactory.parsley.lifecycle.tag.AsyncInitDecorator"/>
+    <component id="Factory" class="org.spicefactory.parsley.lifecycle.tag.FactoryMethodDecorator"/>
+    <component id="Init" class="org.spicefactory.parsley.lifecycle.tag.InitMethodDecorator"/>
+    <component id="Destroy" class="org.spicefactory.parsley.lifecycle.tag.DestroyMethodDecorator"/>
+    <component id="Observe" class="org.spicefactory.parsley.lifecycle.tag.ObserveMethodDecorator"/>
+    
+    <component id="ManagedEvents" class="org.spicefactory.parsley.messaging.tag.ManagedEventsDecorator"/>
+    <component id="MessageDispatcher" class="org.spicefactory.parsley.messaging.tag.MessageDispatcherDecorator"/>
+    <component id="MessageHandler" class="org.spicefactory.parsley.messaging.tag.MessageHandlerDecorator"/>
+    <component id="MessageBinding" class="org.spicefactory.parsley.messaging.tag.MessageBindingDecorator"/>
+    <component id="MessageError" class="org.spicefactory.parsley.messaging.tag.MessageErrorDecorator"/>
 
-	<component id="MapCommand" class="org.spicefactory.parsley.tag.command.MapCommandTag"/>
-	<component id="CommandRef" class="org.spicefactory.parsley.tag.command.CommandRefTag"/>
+	<component id="MapCommand" class="org.spicefactory.parsley.command.tag.MapCommandTag"/>
+	<component id="CommandRef" class="org.spicefactory.parsley.command.tag.CommandRefTag"/>
 	
-	<component id="LinkResultType" class="org.spicefactory.parsley.tag.command.link.LinkResultTypeTag"/>
-	<component id="LinkResultValue" class="org.spicefactory.parsley.tag.command.link.LinkResultValueTag"/>
-	<component id="LinkResultProperty" class="org.spicefactory.parsley.tag.command.link.LinkResultPropertyTag"/>
-	<component id="LinkAllResults" class="org.spicefactory.parsley.tag.command.link.LinkAllResultsTag"/>
+	<component id="LinkResultType" class="org.spicefactory.parsley.command.tag.link.LinkResultTypeTag"/>
+	<component id="LinkResultValue" class="org.spicefactory.parsley.command.tag.link.LinkResultValueTag"/>
+	<component id="LinkResultProperty" class="org.spicefactory.parsley.command.tag.link.LinkResultPropertyTag"/>
+	<component id="LinkAllResults" class="org.spicefactory.parsley.command.tag.link.LinkAllResultsTag"/>
     
-    <component id="CommandComplete" class="org.spicefactory.parsley.tag.messaging.CommandCompleteDecorator"/>
-    <component id="CommandResult" class="org.spicefactory.parsley.tag.messaging.CommandResultDecorator"/>
-    <component id="CommandError" class="org.spicefactory.parsley.tag.messaging.CommandErrorDecorator"/>
-    <component id="CommandStatus" class="org.spicefactory.parsley.tag.messaging.CommandStatusDecorator"/>
+    <component id="CommandComplete" class="org.spicefactory.parsley.comobserver.tag.CommandCompleteDecorator"/>
+    <component id="CommandResult" class="org.spicefactory.parsley.comobserver.tag.CommandResultDecorator"/>
+    <component id="CommandError" class="org.spicefactory.parsley.comobserver.tag.CommandErrorDecorator"/>
+    <component id="CommandStatus" class="org.spicefactory.parsley.comobserver.tag.CommandStatusDecorator"/>
 
-    <component id="Publish" class="org.spicefactory.parsley.binding.decorator.PublishDecorator"/>
-    <component id="Subscribe" class="org.spicefactory.parsley.binding.decorator.SubscribeDecorator"/>
-    <component id="PublishSubscribe" class="org.spicefactory.parsley.binding.decorator.PublishSubscribeDecorator"/>
+    <component id="Publish" class="org.spicefactory.parsley.binding.tag.PublishDecorator"/>
+    <component id="Subscribe" class="org.spicefactory.parsley.binding.tag.SubscribeDecorator"/>
+    <component id="PublishSubscribe" class="org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator"/>
 
-    <component id="ResourceBinding" class="org.spicefactory.parsley.tag.resources.ResourceBindingDecorator"/>
+    <component id="ResourceBinding" class="org.spicefactory.parsley.resources.tag.ResourceBindingDecorator"/>
 </componentPackage>
 
 

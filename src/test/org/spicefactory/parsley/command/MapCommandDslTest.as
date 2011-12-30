@@ -1,7 +1,5 @@
 package org.spicefactory.parsley.command {
 
-import org.spicefactory.parsley.command.target.SyncCommand;
-import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.lib.command.Command;
 import org.spicefactory.lib.command.builder.CommandFlowBuilder;
 import org.spicefactory.lib.command.builder.Commands;
@@ -11,11 +9,12 @@ import org.spicefactory.lib.command.group.ParallelCommands;
 import org.spicefactory.lib.errors.AbstractMethodError;
 import org.spicefactory.parsley.command.config.CommandObserverConfig;
 import org.spicefactory.parsley.command.target.AsyncCommandWithTrigger;
+import org.spicefactory.parsley.command.target.SyncCommand;
 import org.spicefactory.parsley.command.trigger.TriggerA;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.command.MappedCommands;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
+import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.flex.FlexConfig;
 
 /**

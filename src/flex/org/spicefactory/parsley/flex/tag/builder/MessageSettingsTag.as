@@ -73,9 +73,10 @@ public class MessageSettingsTag implements BootstrapConfigProcessor {
 }
 }
 
+import org.spicefactory.parsley.messaging.receiver.MessageReceiverInfo;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
-import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageReceiver;
+import org.spicefactory.parsley.messaging.receiver.AbstractMessageReceiver;
 
 class GlobalMessageErrorHandler extends AbstractMessageReceiver implements MessageErrorHandler {
 
@@ -84,7 +85,7 @@ class GlobalMessageErrorHandler extends AbstractMessageReceiver implements Messa
 
 
 	function GlobalMessageErrorHandler (handler:Function) {
-		super();
+		super(new MessageReceiverInfo());
 		this.handler = handler;
 	}
 

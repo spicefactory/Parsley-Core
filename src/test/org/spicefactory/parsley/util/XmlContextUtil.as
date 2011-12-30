@@ -1,7 +1,7 @@
 package org.spicefactory.parsley.util {
+import org.spicefactory.parsley.context.ContextBuilder;
+import org.spicefactory.parsley.context.ContextBuilderSetup;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
-import org.spicefactory.parsley.dsl.context.ContextBuilderSetup;
 import org.spicefactory.parsley.xml.XmlConfig;
 
 /**

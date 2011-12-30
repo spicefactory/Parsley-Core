@@ -15,15 +15,15 @@
  */
 package org.spicefactory.parsley.flex.tag.command {
 
-import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.core.command.ManagedCommandFactory;
-import org.spicefactory.parsley.tag.command.AbstractCommandParentTag;
-import org.spicefactory.parsley.tag.command.CommandConfiguration;
-import org.spicefactory.parsley.tag.command.NestedCommandTag;
-import org.spicefactory.parsley.tag.command.link.LinkTag;
-
 import flash.utils.getQualifiedClassName;
+import org.spicefactory.lib.errors.IllegalStateError;
+import org.spicefactory.parsley.command.tag.AbstractCommandParentTag;
+import org.spicefactory.parsley.command.tag.CommandConfiguration;
+import org.spicefactory.parsley.command.tag.NestedCommandTag;
+import org.spicefactory.parsley.command.tag.link.LinkTag;
+import org.spicefactory.parsley.core.command.ManagedCommandFactory;
+import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
+
 
 [DefaultProperty("config")]
 /**
@@ -41,7 +41,7 @@ public class AbstractMxmlCommandParentTag implements NestedCommandTag {
 		this.delegate = delegate;
 	}
 	
-	[ArrayElementType("org.spicefactory.parsley.tag.command.CommandConfiguration")]
+	[ArrayElementType("org.spicefactory.parsley.command.tag.CommandConfiguration")]
 	/**
 	 * The command configuration or flow links for this command definition.
 	 */
@@ -59,10 +59,10 @@ public class AbstractMxmlCommandParentTag implements NestedCommandTag {
 	/**
 	 * @inheritDoc
 	 */
-	public function resolve (config: Configuration): ManagedCommandFactory {
+	public function resolve (registry: ObjectDefinitionRegistry): ManagedCommandFactory {
 		delegate.links = links;
 		delegate.commands = _commands;
-		return delegate.resolve(config);
+		return delegate.resolve(registry);
 	}
 
 	/**

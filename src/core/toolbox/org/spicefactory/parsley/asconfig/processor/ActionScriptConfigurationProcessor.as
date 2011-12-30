@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.asconfig.processor {
 
-import org.spicefactory.parsley.config.NestedConfigurationElement;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -26,15 +25,14 @@ import org.spicefactory.parsley.asconfig.ConfigurationBase;
 import org.spicefactory.parsley.asconfig.metadata.DynamicObjectDefinitionMetadata;
 import org.spicefactory.parsley.asconfig.metadata.InternalProperty;
 import org.spicefactory.parsley.asconfig.metadata.ObjectDefinitionMetadata;
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.config.Configurations;
-import org.spicefactory.parsley.config.ObjectDefinitionDecorator;
+import org.spicefactory.parsley.config.NestedConfigurationElement;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.core.errors.ConfigurationProcessorError;
 import org.spicefactory.parsley.core.errors.ConfigurationUnitError;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
 
 /**
  * ConfigurationProcessor implementation that processes ActionScript configuration classes.
@@ -65,12 +63,11 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 	 * @inheritDoc
 	 */
 	public function processConfiguration (registry:ObjectDefinitionRegistry) : void {
-		var config:Configuration = Configurations.forRegistry(registry);
 		var errors:Array = new Array();
 		for each (var configClass:Class in configClasses) {
 			try {
 				
-				processClass(configClass, config);
+				processClass(configClass, registry);
 				
 			}
 			catch (e:Error) {
@@ -89,12 +86,12 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 	 * @param configClass the configuration class to process
 	 * @param config the configuration associated with this processor
 	 */
-	protected function processClass (configClass:Class, config:Configuration) : void {
-		var ci:ClassInfo = ClassInfo.forClass(configClass, config.domain);
+	protected function processClass (configClass:Class, registry:ObjectDefinitionRegistry) : void {
+		var ci:ClassInfo = ClassInfo.forClass(configClass, registry.domain);
 		var configInstance:Object = new configClass();
 		
 		if (configInstance is ConfigurationBase) {
-			ConfigurationBase(configInstance).init(config.registry.properties);
+			ConfigurationBase(configInstance).init(registry.properties);
 		}
 
 		var errors:Array = new Array();
@@ -102,7 +99,7 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 			try {
 				if (isValidRootConfig(property)) {
 							
-					processProperty(property, configInstance, config);
+					processProperty(property, configInstance, registry);
 					
 				} 
 			}
@@ -115,13 +112,13 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 		}
 	}
 	
-	private function processProperty (property:Property, configClass:Object, config:Configuration) : void {
+	private function processProperty (property:Property, configClass:Object, registry:ObjectDefinitionRegistry) : void {
 		try {
 			if (property.type.isType(RootConfigurationElement)) {
-				RootConfigurationElement(property.getValue(configClass)).process(config);
+				RootConfigurationElement(property.getValue(configClass)).process(registry);
 			}
 			else {
-				createDefinition(property, configClass, config);
+				createDefinition(property, configClass, registry);
 			}
 		}
 		catch (e:Error) {
@@ -130,17 +127,15 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 		}
 	}
 	
-	private function createDefinition (property:Property, configClass:Object, config:Configuration) : void {
+	private function createDefinition (property:Property, configClass:Object, registry:ObjectDefinitionRegistry) : void {
 		var metadata:Object = getMetadata(property);
 		var id:String = (metadata.id != null) ? metadata.id : property.name;
 		if (metadata is ObjectDefinitionMetadata) {
 			var singleton:ObjectDefinitionMetadata = ObjectDefinitionMetadata(metadata);
 			
-			var builder:ObjectDefinitionBuilder = config.builders.forClass(property.type.getClass());
+			var builder:ObjectDefinitionBuilder = registry.builders.forClass(property.type.getClass());
 			
-			builder
-				.lifecycle()
-					.instantiator(new ConfigClassPropertyInstantiator(configClass, property));
+			builder.instantiate(new ConfigClassPropertyInstantiator(configClass, property));
 			
 			builder
 				.asSingleton()
@@ -150,11 +145,9 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 					.register();
 		}
 		else {
-			var dynBuilder:ObjectDefinitionBuilder = config.builders.forClass(property.type.getClass());
+			var dynBuilder:ObjectDefinitionBuilder = registry.builders.forClass(property.type.getClass());
 			
-			dynBuilder
-				.lifecycle()
-					.instantiator(new ConfigClassPropertyInstantiator(configClass, property));
+			dynBuilder.instantiate(new ConfigClassPropertyInstantiator(configClass, property));
 			
 			dynBuilder
 				.asDynamicObject()

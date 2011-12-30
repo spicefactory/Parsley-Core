@@ -15,16 +15,16 @@
  */
  
 package org.spicefactory.parsley.binding.processor {
+
+import org.spicefactory.parsley.core.processor.PropertyProcessor;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.binding.BindingManager;
 import org.spicefactory.parsley.binding.PersistenceManager;
 import org.spicefactory.parsley.binding.impl.PersistentPublisher;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.registry.ObjectProcessor;
-import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
+import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeName;
-import org.spicefactory.parsley.processor.util.ObjectProcessorFactories;
 
 /**
  * Processes the persistence aspect of a published value.
@@ -33,13 +33,14 @@ import org.spicefactory.parsley.processor.util.ObjectProcessorFactories;
  * 
  * @author Jens Halm
  */
-public class PersistentPublisherProcessor implements ObjectProcessor {
+public class PersistentPublisherProcessor implements PropertyProcessor, StatefulObjectProcessor {
 
 
-	private var target:ManagedObject;
+	private var scope: String;
+	private var id: String;
+	
 	private var publisher:PersistentPublisher;
-	private var manager:BindingManager;
-
+	
 	
 	/**
 	 * Creates a new instance.
@@ -49,10 +50,28 @@ public class PersistentPublisherProcessor implements ObjectProcessor {
 	 * @param scope the scope the property value is published to
 	 * @param id the id the value is published with
 	 */
-	function PersistentPublisherProcessor (target:ManagedObject, property:Property, scope:Scope, id:String = null) {
-		this.target = target;
-		this.publisher = new PersistentPublisher(getPersistenceManager(scope), scope.uuid, property.type, id); 
-		this.manager = scope.extensions.forType(BindingManager) as BindingManager;
+	function PersistentPublisherProcessor (scope:String, id:String = null) {
+		this.scope = scope;
+		this.id = id;		
+	}
+	
+	
+	private var property: Property;
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function targetProperty (property: Property): void {
+		this.property = property;
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function init (target:ManagedObject) : void {
+		var scopeRef:Scope = target.context.scopeManager.getScope(scope);
+		this.publisher = new PersistentPublisher(getPersistenceManager(scopeRef), scopeRef.uuid, property.type, id); 
+		getManager(target).addPublisher(publisher);
 	}
 	
 	private function getPersistenceManager (scope:Scope) : PersistenceManager {
@@ -65,20 +84,24 @@ public class PersistentPublisherProcessor implements ObjectProcessor {
 		}
 	}
 	
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function preInit () : void {
-		manager.addPublisher(publisher);
+	private function getManager (target: ManagedObject): BindingManager {
+		return target.context.scopeManager.getScope(scope)
+			.extensions.forType(BindingManager) as BindingManager;
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function postDestroy () : void {
+	public function destroy (target:ManagedObject) : void {
 		publisher.disableSubscriber();
-		manager.removePublisher(publisher);
+		getManager(target).removePublisher(publisher);
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function clone (): StatefulObjectProcessor {
+		return new PersistentPublisherProcessor(scope, id);
 	}
 	
 	/**
@@ -86,19 +109,6 @@ public class PersistentPublisherProcessor implements ObjectProcessor {
 	 */
 	public function toString () : String {
 		return publisher.toString();
-	}
-	
-	
-	/**
-	 * Creates a new processor factory.
-	 * 
-	 * @param property the target property that holds the published value
-	 * @param scope the scope the property value is published to
-	 * @param id the id the value is published with
-	 * @return a new processor factory 
-	 */
-	public static function newFactory (property:Property, scope:Scope, id:String = null) : ObjectProcessorFactory {
-		return ObjectProcessorFactories.newFactory(PersistentPublisherProcessor, [property, scope, id]);
 	}
 	
 	

@@ -17,11 +17,11 @@
 package org.spicefactory.parsley.core.registry.impl {
 
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.processor.ObjectProcessorConfig;
 import org.spicefactory.parsley.core.registry.AsyncInitConfig;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.ObjectInstantiator;
-import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
 /**
@@ -34,7 +34,6 @@ public class SingletonObjectDefinitionWrapper implements SingletonObjectDefiniti
 
 	private var _id:String;
 	private var _lazy:Boolean;
-	private var _singleton:Boolean;
 	private var _order:int;
 	private var _asyncInit:AsyncInitConfig;
 	private var wrappedDefinition:ObjectDefinition;
@@ -51,11 +50,10 @@ public class SingletonObjectDefinitionWrapper implements SingletonObjectDefiniti
 	 * @param asyncInit the configuration for an asynchronously initializing object
 	 */
 	function SingletonObjectDefinitionWrapper (wrappedDefinition:ObjectDefinition, id:String = null, 
-			lazy:Boolean = false, singleton:Boolean = true, order:int = int.MAX_VALUE, asyncInit:AsyncInitConfig = null) : void {
+			lazy:Boolean = false, order:int = int.MAX_VALUE, asyncInit:AsyncInitConfig = null) : void {
 		this.wrappedDefinition = wrappedDefinition;
 		_id = (id != null) ? id : IdGenerator.nextObjectId;
 		_lazy = lazy;
-		_singleton = singleton;
 		_order = order;
 		_asyncInit = asyncInit;
 	}
@@ -85,15 +83,22 @@ public class SingletonObjectDefinitionWrapper implements SingletonObjectDefiniti
 	/**
 	 * @inheritDoc
 	 */
-	public function get singleton () : Boolean {
-		return _singleton;
+	public function get order () : int {
+		return _order;
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function get order () : int {
-		return _order;
+	public function getAttribute (key: Object): Object {
+		return wrappedDefinition.getAttribute(key);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setAttribute (key: Object, value: Object): void {
+		wrappedDefinition.setAttribute(key, value);
 	}
 	
 	/**
@@ -141,15 +146,15 @@ public class SingletonObjectDefinitionWrapper implements SingletonObjectDefiniti
 	/**
 	 * @inheritDoc
 	 */
-	public function addProcessorFactory (factory:ObjectProcessorFactory) : void {
-		wrappedDefinition.addProcessorFactory(factory);
+	public function addProcessor (processor:ObjectProcessorConfig) : void {
+		wrappedDefinition.addProcessor(processor);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function get processorFactories () : Array {
-		return wrappedDefinition.processorFactories;
+	public function get processors () : Array {
+		return wrappedDefinition.processors;
 	}
 
 	/**
@@ -158,35 +163,7 @@ public class SingletonObjectDefinitionWrapper implements SingletonObjectDefiniti
 	public function set asyncInitConfig (config:AsyncInitConfig) : void {
 		_asyncInit = config;
 	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get initMethod () : String {
-		return wrappedDefinition.initMethod;
-	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function set initMethod (name:String) : void {
-		wrappedDefinition.initMethod = name;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function get destroyMethod () : String {
-		return wrappedDefinition.destroyMethod;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function set destroyMethod (name:String) : void {
-		wrappedDefinition.destroyMethod = name;
-	}
-	
 
 }
 }

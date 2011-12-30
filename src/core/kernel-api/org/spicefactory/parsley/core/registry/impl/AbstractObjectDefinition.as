@@ -16,14 +16,14 @@
 
 package org.spicefactory.parsley.core.registry.impl {
 
-import org.spicefactory.lib.errors.IllegalArgumentError;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.processor.ObjectProcessorConfig;
 import org.spicefactory.parsley.core.registry.ContainerObjectInstantiator;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.ObjectInstantiator;
-import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
 
 /** 
  * Abstract base class for all ObjectDefinition implementations.
@@ -36,15 +36,14 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	private var _type:ClassInfo;
 	private var _id:String;
 	
+	private var attributes:Dictionary = new Dictionary();
+	
 	private var _registry:ObjectDefinitionRegistry;
 	private var _parent:ObjectDefinition;
 	
 	private var _instantiator:ObjectInstantiator;
-    private var _processorFactories:Array = new Array();	
+    private var _processors:Array = new Array();	
 	
-	private var _initMethod:String;
-	private var _destroyMethod:String;
-
 	private var _frozen:Boolean;
 
 	
@@ -82,6 +81,20 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	/**
 	 * @inheritDoc
 	 */
+	public function getAttribute (key: Object): Object {
+		return attributes[key];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setAttribute (key: Object, value: Object): void {
+		attributes[key] = value;
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	public function get registry () : ObjectDefinitionRegistry {
 		return _registry;
 	}
@@ -96,15 +109,15 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	/**
 	 * @inheritDoc
 	 */
-	public function addProcessorFactory (factory:ObjectProcessorFactory) : void {
-		_processorFactories.push(factory);
+	public function addProcessor (processor:ObjectProcessorConfig) : void {
+		_processors.push(processor);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function get processorFactories () : Array {
-		return (_parent) ? _parent.processorFactories.concat(_processorFactories) : _processorFactories.concat();
+	public function get processors () : Array {
+		return (_parent) ? _parent.processors.concat(_processors) : _processors.concat();
 	}
 
 	/**
@@ -116,45 +129,6 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 			throw new IllegalStateError("Instantiator has been set by the container and cannot be overwritten");
 		}
 		_instantiator = value;
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get initMethod () : String {
-		return (_initMethod) ? _initMethod : ((_parent) ? _parent.initMethod : null);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function set initMethod (name:String) : void {
-		checkState();
-		checkMethodName(name);
-		_initMethod = name;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function get destroyMethod () : String {
-		return (_destroyMethod) ? _destroyMethod : ((_parent) ? _parent.destroyMethod : null);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function set destroyMethod (name:String) : void {
-		checkState();
-		checkMethodName(name);
-		_destroyMethod = name;
-	}
-
-	private function checkMethodName (name:String) : void {
-		if (type.getMethod(name) == null) {
-			throw new IllegalArgumentError("Class " + type.name 
-					+ " does not contain a method with name " + name);
-		}
 	}
 	
 	private function checkState () : void {
@@ -183,15 +157,9 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	 * @param source the definition to copy all configuration artifacts from
 	 */
 	public function populateFrom (source:ObjectDefinition) : void {
-		if (source.initMethod != null) {
-			initMethod = source.initMethod;
-		}
-		if (source.destroyMethod != null) {
-			destroyMethod = source.destroyMethod;
-		}
 		instantiator = source.instantiator;
-		for each (var factory:ObjectProcessorFactory in source.processorFactories) {
-			addProcessorFactory(factory);
+		for each (var config:ObjectProcessorConfig in source.processors) {
+			addProcessor(config);
 		}
 	}
 	
@@ -202,7 +170,7 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	public function toString () : String {
 		return "[ObjectDefinition(type = " + _type.name + ", id = " + _id + ")]";
 	}
-	
+
 	
 }
 }

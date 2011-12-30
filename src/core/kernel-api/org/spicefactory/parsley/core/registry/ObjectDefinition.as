@@ -17,6 +17,7 @@
 package org.spicefactory.parsley.core.registry {
 
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.processor.ObjectProcessorConfig;
 
 /**
  * Represents the configuration for a single object definition.
@@ -38,6 +39,27 @@ public interface ObjectDefinition {
 	function get type () : ClassInfo;
 	
 	/**
+	 * Returns the attribute for the specified key or null if no such attribute exists.
+	 * 
+	 * @param key the key to return the value for
+	 * @return the attribute for the specified key or null if no such attribute exists
+	 */
+	function getAttribute (key:Object) : Object;
+    
+    /**
+     * Sets the attribute for the specified key and value.
+     * This hook might be used in rare cases where one ObjectProcessor might set values
+     * another processor might need to access to perform its task. Most processors
+     * should only have self-contained logic.
+     * It is recommended to use Class instances as keys and not Strings to avoid
+     * naming conflicts.
+     * 
+     * @param key the key of the attribute
+     * @param value the value of the attribute
+     */
+    function setAttribute (key:Object, value:Object) : void;
+    
+	/**
 	 * The registry this definition is associated with.
 	 */
 	function get registry () : ObjectDefinitionRegistry;
@@ -51,35 +73,20 @@ public interface ObjectDefinition {
 	function set instantiator (value:ObjectInstantiator) : void;
 
 	/**
-	 * Adds the specified processor factory to this definition.
-	 * The factory will be invoked for each new instance created from this definition,
-	 * so that each processor instance created by that factory manages the configuration
-	 * and state of a single instance only.
+	 * Adds the specified processor to this definition.
+	 * The processor will get invoked for each new instance created from this definition.
 	 * 
-	 * @param factory the factory to add to this definition
+	 * @param processor the configuration for the processor to add to this definition
 	 */
-	function addProcessorFactory (factory:ObjectProcessorFactory) : void;
+	function addProcessor (processor:ObjectProcessorConfig) : void;
 	
 	/**
 	 * Returns all processor factories added to this instance.
 	 * Modifications on the returned Array are not reflected within the definition.
-	 * The Array will contain instances of <code>ObjectProcessorFactory</code>.
+	 * The Array will contain instances of <code>ObjectProcessorConfig</code>.
 	 */
-	function get processorFactories () : Array;
+	function get processors () : Array;
 
-	/**
-	 * The method to invoke on the configured object after it has been fully initialized.
-	 */
-	function get initMethod () : String;
-
-	function set initMethod (name:String) : void;
-
-	/**
-	 * The method to invoke on the configured object before it gets destroyed and removed from the Context.
-	 */
-	function get destroyMethod () : String;
-
-	function set destroyMethod (name:String) : void;
 
 	/**
 	 * Freezes this object definition. After calling this method any attempt to modify this definition will
@@ -97,3 +104,4 @@ public interface ObjectDefinition {
 }
 
 }
+

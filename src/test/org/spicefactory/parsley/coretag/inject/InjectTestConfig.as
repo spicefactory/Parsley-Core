@@ -15,7 +15,7 @@ import org.spicefactory.parsley.coretag.inject.model.RequiredConstructorInjectio
 import org.spicefactory.parsley.coretag.inject.model.RequiredMethodInjection;
 import org.spicefactory.parsley.coretag.inject.model.RequiredPropertyIdInjection;
 import org.spicefactory.parsley.coretag.inject.model.RequiredPropertyInjection;
-import org.spicefactory.parsley.tag.core.RootObjectTag;
+import org.spicefactory.parsley.object.RootObjectTag;
 
 /**
  * @author Jens Halm

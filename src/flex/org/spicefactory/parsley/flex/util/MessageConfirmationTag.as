@@ -15,9 +15,10 @@
  */
 
 package org.spicefactory.parsley.flex.util {
-import org.spicefactory.parsley.config.Configuration;
 import org.spicefactory.parsley.config.RootConfigurationElement;
-import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
+import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
+import org.spicefactory.parsley.messaging.MessageHandler;
 
 /**
  * Utility tag for convenient declaration of a confirmation dialog that opens
@@ -56,22 +57,20 @@ public class MessageConfirmationTag implements RootConfigurationElement {
 	/**
 	 * @inheritDoc
 	 */
-	public function process (config:Configuration) : void {
+	public function process (registry:ObjectDefinitionRegistry) : void {
 		
 		var builder:ObjectDefinitionBuilder 
-				= config.builders.forClass(MessageConfirmation);
+				= registry.builders.forClass(MessageConfirmation);
 		
 		builder
-			.constructorArgs()
-				.value(title)
-				.value(text);
-				
-		builder
-			.method("showAlert")
-				.messageHandler()
-					.type(type)
-					.selector(selector)
-					.scope(scope);
+			.constructorArgs(title, text);
+		
+		MessageHandler
+			.forMethod("showAlert")	
+				.type(type)
+				.selector(selector)
+				.scope(scope)
+					.apply(builder);
 		
 		builder
 			.asSingleton()

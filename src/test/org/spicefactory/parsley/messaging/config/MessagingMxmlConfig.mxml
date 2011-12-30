@@ -1,6 +1,5 @@
 <mx:Object 
-	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:msg="org.spicefactory.parsley.tag.messaging.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:core="org.spicefactory.parsley.flex.tag.core.*" xmlns:tag="org.spicefactory.parsley.messaging.tag.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -22,63 +21,63 @@
 	
 	
 	<core:MxmlDynamicObjectTag id="eventSource" type="{EventSource}">
-		<msg:ManagedEventsDecorator names="['test1','test2','foo']"/>
+		<tag:ManagedEventsDecorator names="['test1','test2','foo']"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="eventSource2" type="{EventSource}">
-		<msg:ManagedEventsDecorator names="['test1','test2','foo']"/>
+		<tag:ManagedEventsDecorator names="['test1','test2','foo']"/>
 	</core:MxmlDynamicObjectTag>
 	
 	<core:MxmlDynamicObjectTag id="testDispatcher" type="{TestMessageDispatcher}">
-		<msg:MessageDispatcherDecorator property="dispatcher"/>
+		<tag:MessageDispatcherDecorator property="dispatcher"/>
 	</core:MxmlDynamicObjectTag> 
 
 	<core:MxmlDynamicObjectTag id="testMessageHandlers" type="{TestMessageHandlers}">
-		<msg:MessageHandlerDecorator method="allTestMessages" type="{TestMessage}"/>
-		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestMessage}"/>
-		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestMessage}"/>
+		<tag:MessageHandlerDecorator method="allTestMessages" type="{TestMessage}"/>
+		<tag:MessageHandlerDecorator method="event1" selector="test1" type="{TestMessage}"/>
+		<tag:MessageHandlerDecorator method="event2" selector="test2" type="{TestMessage}"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="selectorMessageHandlers" type="{SelectorMessageHandlers}">
-		<msg:MessageHandlerDecorator method="allTestMessages" type="{TestMessage}"/>
-		<msg:MessageHandlerDecorator method="event1" type="{TestMessage}"/>
-		<msg:MessageHandlerDecorator method="event2" type="{TestMessage}"/>
+		<tag:MessageHandlerDecorator method="allTestMessages" type="{TestMessage}"/>
+		<tag:MessageHandlerDecorator method="event1" type="{TestMessage}"/>
+		<tag:MessageHandlerDecorator method="event2" type="{TestMessage}"/>
 	</core:MxmlDynamicObjectTag> 
 
 	<core:MxmlDynamicObjectTag id="messageHandlers" type="{MessageHandlers}">
-		<msg:MessageHandlerDecorator method="allTestEvents" type="{TestEvent}" order="3"/>
-		<msg:MessageHandlerDecorator method="allEvents" type="{Event}" order="2"/>
-		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}" order="1"/>
-		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}" order="1"/>
-		<msg:MessageHandlerDecorator method="mappedProperties" messageProperties="['stringProp','intProp']" type="{TestEvent}"/>
+		<tag:MessageHandlerDecorator method="allTestEvents" type="{TestEvent}" order="3"/>
+		<tag:MessageHandlerDecorator method="allEvents" type="{Event}" order="2"/>
+		<tag:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}" order="1"/>
+		<tag:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}" order="1"/>
+		<tag:MessageHandlerDecorator method="mappedProperties" messageProperties="['stringProp','intProp']" type="{TestEvent}"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="faultyHandlers" type="{FaultyMessageHandlers}">
-		<msg:MessageHandlerDecorator method="allTestEvents" type="{TestEvent}"/>
-		<msg:MessageHandlerDecorator method="allEvents" type="{Event}"/>
-		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}"/>
-		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}"/>
+		<tag:MessageHandlerDecorator method="allTestEvents" type="{TestEvent}"/>
+		<tag:MessageHandlerDecorator method="allEvents" type="{Event}"/>
+		<tag:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}"/>
+		<tag:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlRootObjectTag id="errorHandlers" type="{ErrorHandlers}">
-		<msg:MessageErrorDecorator method="allTestEvents" type="{TestEvent}"/>
-		<msg:MessageErrorDecorator method="allEvents" type="{Event}"/>
-		<msg:MessageErrorDecorator method="event1" selector="test1" type="{TestEvent}" errorType="{ContextError}"/>
-		<msg:MessageErrorDecorator method="event2" selector="test2" type="{TestEvent}" errorType="{ContextError}"/>
+		<tag:MessageErrorDecorator method="allTestEvents" type="{TestEvent}"/>
+		<tag:MessageErrorDecorator method="allEvents" type="{Event}"/>
+		<tag:MessageErrorDecorator method="event1" selector="test1" type="{TestEvent}" errorType="{ContextError}"/>
+		<tag:MessageErrorDecorator method="event2" selector="test2" type="{TestEvent}" errorType="{ContextError}"/>
 	</core:MxmlRootObjectTag> 
 	
 	
 	<core:MxmlDynamicObjectTag id="messageBindings" type="{MessageBindingsBlank}">
-		<msg:MessageBindingDecorator targetProperty="stringProp" messageProperty="stringProp" type="{TestEvent}"/>
-		<msg:MessageBindingDecorator targetProperty="intProp1" messageProperty="intProp" selector="test1" type="{TestEvent}"/>
-		<msg:MessageBindingDecorator targetProperty="intProp2" messageProperty="intProp" selector="test2" type="{TestEvent}"/>
+		<tag:MessageBindingDecorator targetProperty="stringProp" messageProperty="stringProp" type="{TestEvent}"/>
+		<tag:MessageBindingDecorator targetProperty="intProp1" messageProperty="intProp" selector="test1" type="{TestEvent}"/>
+		<tag:MessageBindingDecorator targetProperty="intProp2" messageProperty="intProp" selector="test2" type="{TestEvent}"/>
 	</core:MxmlDynamicObjectTag> 
 
 	<core:MxmlDynamicObjectTag id="messageInterceptors" type="{MessageInterceptors}">
-		<msg:MessageHandlerDecorator method="interceptAllMessages" type="{TestEvent}" order="-1"/>
-		<msg:MessageHandlerDecorator method="allEvents" order="-1"/>
-		<msg:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}"/>
-		<msg:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}"/>
+		<tag:MessageHandlerDecorator method="interceptAllMessages" type="{TestEvent}" order="-1"/>
+		<tag:MessageHandlerDecorator method="allEvents" order="-1"/>
+		<tag:MessageHandlerDecorator method="event1" selector="test1" type="{TestEvent}"/>
+		<tag:MessageHandlerDecorator method="event2" selector="test2" type="{TestEvent}"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	

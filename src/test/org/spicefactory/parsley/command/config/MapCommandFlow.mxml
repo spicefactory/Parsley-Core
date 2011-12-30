@@ -1,10 +1,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:com="org.spicefactory.parsley.tag.command.*"
 	xmlns:flexcom="org.spicefactory.parsley.flex.tag.command.*"
-	xmlns:link="org.spicefactory.parsley.tag.command.link.*"
-	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*" xmlns:tag="org.spicefactory.parsley.command.tag.*" xmlns:link="org.spicefactory.parsley.command.tag.link.*" xmlns:tag1="org.spicefactory.parsley.inject.tag.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -16,17 +13,17 @@
 	</mx:Script>
 	
 	
-	<com:MapCommandTag messageType="{TriggerA}">
+	<tag:MapCommandTag messageType="{TriggerA}">
 		<flexcom:MxmlCommandFlowTag>
 			<flexcom:MxmlCommandTag type="{AsyncCommandWithTrigger}">
-				<flextag:PropertyTag name="result" value="1"/>
+				<tag1:PropertyTag name="result" value="1"/>
 				<link:LinkResultValueTag value="1" to="{second}"/>
 			</flexcom:MxmlCommandTag>
 			<flexcom:MxmlCommandTag type="{AsyncCommandWithTrigger}" id="second">
-				<flextag:PropertyTag name="result" value="2"/>
+				<tag1:PropertyTag name="result" value="2"/>
 			</flexcom:MxmlCommandTag>
 		</flexcom:MxmlCommandFlowTag>
-	</com:MapCommandTag>
+	</tag:MapCommandTag>
 
 
 </mx:Object>

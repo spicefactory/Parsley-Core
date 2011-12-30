@@ -16,10 +16,11 @@
 
 package org.spicefactory.parsley.core.registry {
 
-import org.spicefactory.parsley.core.context.Context;
-
 import flash.events.IEventDispatcher;
 import flash.system.ApplicationDomain;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilderFactory;
+import org.spicefactory.parsley.core.context.Context;
+
 
 /**
  * Dispatched when configuration for this registry has been frozen.
@@ -45,6 +46,26 @@ public interface ObjectDefinitionRegistry extends IEventDispatcher {
 	 */
 	function get domain () : ApplicationDomain;
 
+	/**
+	 * Properties that may be used to build or process ObjectDefinitions.
+	 */
+	function get properties () : ConfigurationProperties;
+	
+	/**
+	 * The Context associated with this registry.
+	 * During processing of ObjectDefinitions the <code>configured</code> property of the Context
+	 * is still false and any attempt to fetch objects from the Context will lead
+	 * to an Error. It is primarily exposed in case an extension wants to keep
+	 * a reference to the Context for later use.
+	 */
+	function get context () : Context;
+	
+	/**
+	 * A factory for obtaining builders for object definitions.
+	 */
+	function get builders () : ObjectDefinitionBuilderFactory;
+	
+	
 	/**
 	 * Returns the number of definitions in this registry that match the specified type.
 	 * If the type parameter is omitted the number of all definitions in this registry will be returned.
@@ -127,19 +148,7 @@ public interface ObjectDefinitionRegistry extends IEventDispatcher {
 	 */	
 	function get frozen () : Boolean;
 	
-	/**
-	 * The Context associated with this registry.
-	 * During processing of ObjectDefinitions the <code>configured</code> property of the Context
-	 * is still false and any attempt to fetch objects from the Context will lead
-	 * to an Error. It is primarily exposed in case an extension wants to keep
-	 * a reference to the Context for later use.
-	 */
-	function get context () : Context;
-	
-	/**
-	 * Properties that may be used to build or process ObjectDefinitions.
-	 */
-	function get properties () : ConfigurationProperties;
+
 	
 	
 }

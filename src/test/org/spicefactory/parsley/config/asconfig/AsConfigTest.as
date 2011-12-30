@@ -1,6 +1,4 @@
 package org.spicefactory.parsley.config.asconfig {
-import org.spicefactory.parsley.asconfig.ActionScriptConfig;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.flexunit.assertThat;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.collection.everyItem;
@@ -8,7 +6,9 @@ import org.hamcrest.core.isA;
 import org.hamcrest.core.not;
 import org.hamcrest.object.equalTo;
 import org.hamcrest.object.sameInstance;
+import org.spicefactory.parsley.asconfig.ActionScriptConfig;
 import org.spicefactory.parsley.asconfig.ActionScriptContextBuilder;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.testmodel.ClassWithSimpleProperties;
 import org.spicefactory.parsley.testmodel.LazyTestClass;

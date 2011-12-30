@@ -16,7 +16,7 @@
 
 package org.spicefactory.parsley.flex.tag.core {
 import mx.core.IMXMLObject;
-import org.spicefactory.parsley.tag.core.ViewTag;
+import org.spicefactory.parsley.object.ViewTag;
 
 /**
  * Extension of the default view definition tag that handles ids set in MXML.

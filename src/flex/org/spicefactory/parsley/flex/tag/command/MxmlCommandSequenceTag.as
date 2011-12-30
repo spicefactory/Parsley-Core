@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package org.spicefactory.parsley.flex.tag.command {
-import org.spicefactory.parsley.tag.command.CommandSequenceTag;
+import org.spicefactory.parsley.command.tag.CommandSequenceTag;
 
 /**
  * Tag for command sequences declared in MXML or XML configuration.

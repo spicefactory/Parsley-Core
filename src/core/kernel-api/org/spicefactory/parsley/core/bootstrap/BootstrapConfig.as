@@ -15,14 +15,17 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap {
+
+import flash.display.DisplayObject;
+import flash.system.ApplicationDomain;
+import org.spicefactory.parsley.core.builder.DecoratorAssembler;
 import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.core.context.LookupStatus;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
 import org.spicefactory.parsley.core.registry.ConfigurationProperties;
 import org.spicefactory.parsley.core.scope.ScopeExtensionRegistry;
 import org.spicefactory.parsley.core.view.ViewSettings;
 
-import flash.display.DisplayObject;
-import flash.system.ApplicationDomain;
 
 /**
  * Represents the configuration to be used to create a new Context.
@@ -73,6 +76,24 @@ public interface BootstrapConfig {
 	function get domainProvider () : ApplicationDomainProvider;
 	
 	function set domainProvider (value:ApplicationDomainProvider) : void;
+	
+	/**
+	 * Adds an assembler for ObjectDefinitionDecorators that should
+	 * get applied for each managed object.
+	 * 
+	 * @param assembler the decorator assembler to add
+	 */
+	function addDecoratorAssembler (assembler: DecoratorAssembler) : void;
+	
+	/**
+	 * Returns all decorator assemblers to apply to object definitions,
+	 * including the ones added to this instance explicitly and those 
+	 * inherited from parent Contexts.
+	 * 
+	 * @param status optional paramater to avoid duplicate lookups, for internal use only 
+	 * @return all decorator assemblers to apply to object definitions
+	 */
+	function getDecoratorAssemblers (status:LookupStatus = null) : Array;
 	
 	/**
 	 * All parent Contexts that the new Context should inherit from.

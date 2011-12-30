@@ -15,6 +15,11 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap.impl {
+
+import flash.display.DisplayObject;
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
+import org.spicefactory.lib.collection.Set;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
@@ -26,7 +31,10 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.BootstrapProcessor;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.bootstrap.ServiceRegistry;
+import org.spicefactory.parsley.core.builder.DecoratorAssembler;
 import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.core.context.LookupStatus;
+import org.spicefactory.parsley.core.context.impl.DefaultLookupStatus;
 import org.spicefactory.parsley.core.events.ContextConfigurationEvent;
 import org.spicefactory.parsley.core.events.ContextCreationEvent;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
@@ -34,6 +42,7 @@ import org.spicefactory.parsley.core.messaging.impl.DefaultMessageSettings;
 import org.spicefactory.parsley.core.registry.ConfigurationProperties;
 import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeExtensionRegistry;
+import org.spicefactory.parsley.core.scope.ScopeInfo;
 import org.spicefactory.parsley.core.scope.ScopeInfoRegistry;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.core.scope.impl.DefaultScopeExtensionRegistry;
@@ -43,8 +52,6 @@ import org.spicefactory.parsley.core.state.manager.GlobalStateManager;
 import org.spicefactory.parsley.core.view.ViewSettings;
 import org.spicefactory.parsley.core.view.impl.DefaultViewSettings;
 
-import flash.display.DisplayObject;
-import flash.system.ApplicationDomain;
 
 /**
  * Default implementation of the BootstrapConfig interface.
@@ -60,6 +67,7 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 	private var newScopes:Array = new Array();
 	private var processors:Array = new Array();
 	private var parentConfigs:Array = new Array();
+	private var decoratorAssemblers:Array = new Array();
 	
 	private var stateManager:GlobalStateManager = GlobalStateAccessor.stateManager;
 	
@@ -147,6 +155,33 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 		_domainProvider = value;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
+	public function addDecoratorAssembler (assembler: DecoratorAssembler): void {
+		decoratorAssemblers.push(assembler);
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function getDecoratorAssemblers (status:LookupStatus = null) : Array {
+		var assemblers:Array = decoratorAssemblers;
+		var parentAssemblers:Array;
+		for each (var parent:BootstrapConfig in parentConfigs) {
+			if (!status) {
+				status = new DefaultLookupStatus(this);
+			}
+			if (status.addInstance(parent)) {
+				parentAssemblers = parent.getDecoratorAssemblers(status);
+				if (parentAssemblers.length) {
+					assemblers = assemblers.concat(parentAssemblers);
+				}
+			}
+			
+		}
+		return assemblers;
+	}
 
 	private var _parents:Array = new Array();
 	
@@ -244,7 +279,6 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 	 * @private
 	 */
 	internal function createProcessor () : BootstrapProcessor {
-		//new FlexApplicationDomainProvider();
 		BindingSupport.initialize();
 		findParent();
 		var info:BootstrapInfo = prepareBootstrapInfo();
@@ -312,27 +346,34 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 		return scopes;
 	}
 	
+	private function assembleParentScopes () : Array {
+		var allParentScopes:Set = new Set();
+		var parentScopes:Array;
+		for each (var parent:Context in parents) {
+			parentScopes = stateManager.contexts.getInheritedScopes(parent);
+			for each (var scope:ScopeInfo in parentScopes) {
+				allParentScopes.add(scope);
+			}
+		}
+		return allParentScopes.toArray();
+	}
+	
 	private function createScopeDefinition (name:String, inherited:Boolean, uuid:String = null) : ScopeDefinition {
 		if (!uuid) {
 			uuid = GlobalState.scopes.nextUuidForName(name);
 		}
 		return new ScopeDefinition(name, inherited, uuid);
 	}
-
+	
 	private function prepareBootstrapInfo () : BootstrapInfo {
 		if (description == null) {
 			description = processors.join(","); // TODO - 3.1 - ignores processors added later
 		}
-		var allParentScopes:Array = new Array();
-		var parentScopes:Array;
-		for each (var parent:Context in parents) {
-			parentScopes = stateManager.contexts.getInheritedScopes(parent);
-			if (parentScopes.length) {
-				allParentScopes = allParentScopes.concat(parentScopes);
-			}
-		}
-		var scopes:ScopeInfoRegistry = new DefaultScopeInfoRegistry(assembleNewScopes(), parentScopes);
-		var info:BootstrapInfo = new DefaultBootstrapInfo(this, scopes, _scopeExtensions.getAll(), stateManager);
+		
+		var scopes:ScopeInfoRegistry = new DefaultScopeInfoRegistry(assembleNewScopes(), assembleParentScopes());
+		var ext:Dictionary = _scopeExtensions.getAll();
+		var assemblers:Array = getDecoratorAssemblers();
+		var info:BootstrapInfo = new DefaultBootstrapInfo(this, scopes, ext, stateManager, assemblers);
 		var context:Context = info.context;
 		if (log.isInfoEnabled()) {
 			log.info("Creating Context " + context + 
@@ -344,6 +385,8 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 		}
 		return info;
 	}
+
+	
 }
 }
 

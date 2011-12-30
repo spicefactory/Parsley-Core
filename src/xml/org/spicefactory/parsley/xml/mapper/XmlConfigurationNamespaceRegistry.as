@@ -67,15 +67,15 @@ public class XmlConfigurationNamespaceRegistry {
 }
 }
 
-import org.spicefactory.parsley.config.ObjectDefinitionDecorator;
+import flash.system.ApplicationDomain;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.xml.XmlObjectMapper;
 import org.spicefactory.lib.xml.mapper.XmlObjectMappings;
 import org.spicefactory.parsley.config.NestedConfigurationElement;
 import org.spicefactory.parsley.config.RootConfigurationElement;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.xml.mapper.XmlObjectDefinitionMapperFactory;
 
-import flash.system.ApplicationDomain;
 
 class CustomNamespaceMappings extends XmlObjectMappings {
 

@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.config {
 
+import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 /**
  * Represent a root configuration element in MXML or XML configuration files.
  * 
@@ -26,9 +27,9 @@ public interface RootConfigurationElement {
 	/**
 	 * Processes this configuration tag, possilbly creating and registering object definitions.
 	 * 
-	 * @param config the configuration associated with this element
+	 * @param registry the registry associated with this element
 	 */
-	function process (config:Configuration) : void;
+	function process (registry: ObjectDefinitionRegistry): void;
 	
 }
 }

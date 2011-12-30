@@ -16,8 +16,6 @@
 
 package org.spicefactory.parsley.runtime.processor {
 
-import org.spicefactory.parsley.config.Configuration;
-import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 
@@ -77,14 +75,13 @@ public class RuntimeConfigurationProcessor implements ConfigurationProcessor {
 	 * @inheritDoc
 	 */
 	public function processConfiguration (registry:ObjectDefinitionRegistry) : void {
-		var config:Configuration = Configurations.forRegistry(registry);
-		processInstances(config);
-		processClasses(config);
+		processInstances(registry);
+		processClasses(registry);
 	}
 	
-	private function processInstances (config:Configuration) : void {
+	private function processInstances (registry:ObjectDefinitionRegistry) : void {
 		for each (var instanceDef:InstanceDefinition in instances) {
-			config.builders
+			registry.builders
 				.forInstance(instanceDef.instance)
 					.asSingleton()
 						.id(instanceDef.id)
@@ -92,10 +89,10 @@ public class RuntimeConfigurationProcessor implements ConfigurationProcessor {
 		}
 	}
 	
-	private function processClasses (config:Configuration) : void {
+	private function processClasses (registry:ObjectDefinitionRegistry) : void {
 		for each (var classDef:ClassDefinition in classes) {
 			if (classDef.singleton) {
-				config.builders
+				registry.builders
 					.forClass(classDef.type)
 						.asSingleton()
 							.id(classDef.id)
@@ -104,7 +101,7 @@ public class RuntimeConfigurationProcessor implements ConfigurationProcessor {
 							.register();
 			}
 			else {
-				config.builders
+				registry.builders
 					.forClass(classDef.type)
 						.asDynamicObject()
 							.id(classDef.id)

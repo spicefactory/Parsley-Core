@@ -1,5 +1,10 @@
 package org.spicefactory.parsley.command {
 
+import mx.core.mx_internal;
+import mx.rpc.AsyncToken;
+import mx.rpc.Fault;
+import mx.rpc.events.FaultEvent;
+import mx.rpc.events.ResultEvent;
 import org.flexunit.assertThat;
 import org.hamcrest.collection.arrayWithSize;
 import org.spicefactory.lib.command.adapter.CommandAdapter;
@@ -15,18 +20,13 @@ import org.spicefactory.parsley.command.config.MapSingleCommand;
 import org.spicefactory.parsley.command.config.OrderConfig;
 import org.spicefactory.parsley.command.config.SelectorConfig;
 import org.spicefactory.parsley.command.target.AsyncTokenCommand;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.flex.FlexConfig;
 import org.spicefactory.parsley.flex.command.AsyncTokenResultProcessor;
 
-import mx.core.mx_internal;
-import mx.rpc.AsyncToken;
-import mx.rpc.Fault;
-import mx.rpc.events.FaultEvent;
-import mx.rpc.events.ResultEvent;
 
 /**
  * @author Jens Halm

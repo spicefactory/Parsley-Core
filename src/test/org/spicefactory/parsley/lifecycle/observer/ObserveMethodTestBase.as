@@ -6,9 +6,9 @@ import mx.controls.Text;
 import org.flexunit.assertThat;
 import org.hamcrest.object.equalTo;
 import org.spicefactory.lib.errors.AbstractMethodError;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.DynamicObject;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.lifecycle.observer.model.LifecycleEventCounter;
 
 

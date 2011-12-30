@@ -1,9 +1,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:com="org.spicefactory.parsley.tag.command.*"
 	xmlns:flexcom="org.spicefactory.parsley.flex.tag.command.*"
-	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*" xmlns:tag="org.spicefactory.parsley.command.tag.*" xmlns:tag1="org.spicefactory.parsley.inject.tag.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -16,18 +14,18 @@
 
 	<flexcom:MxmlCommandFactoryTag id="ref">
 		<flexcom:MxmlCommandTag type="{AsyncCommandWithTrigger}">
-			<flextag:PropertyTag name="result" value="1"/>
+			<tag1:PropertyTag name="result" value="1"/>
 		</flexcom:MxmlCommandTag>
 	</flexcom:MxmlCommandFactoryTag>
 	
-	<com:MapCommandTag messageType="{TriggerA}">
+	<tag:MapCommandTag messageType="{TriggerA}">
 		<flexcom:MxmlParallelCommandsTag>
-		    <com:CommandRefTag idRef="ref"/>
+		    <tag:CommandRefTag idRef="ref"/>
 			<flexcom:MxmlCommandTag type="{AsyncCommandWithTrigger}">
-				<flextag:PropertyTag name="result" value="2"/>
+				<tag1:PropertyTag name="result" value="2"/>
 			</flexcom:MxmlCommandTag>
 		</flexcom:MxmlParallelCommandsTag>
-	</com:MapCommandTag>
+	</tag:MapCommandTag>
 
 
 </mx:Object>

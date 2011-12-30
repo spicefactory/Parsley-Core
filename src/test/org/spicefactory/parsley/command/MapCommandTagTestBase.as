@@ -1,9 +1,9 @@
 package org.spicefactory.parsley.command {
 
 import org.spicefactory.lib.errors.AbstractMethodError;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 
 /**
  * @author Jens Halm

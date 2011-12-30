@@ -1,5 +1,10 @@
 package org.spicefactory.parsley.context.scope {
 
+import flash.events.Event;
+import flash.events.EventDispatcher;
+import mx.containers.Box;
+import mx.containers.HBox;
+import mx.containers.VBox;
 import org.hamcrest.assertThat;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.core.not;
@@ -9,6 +14,7 @@ import org.hamcrest.object.nullValue;
 import org.hamcrest.object.sameInstance;
 import org.spicefactory.parsley.asconfig.ActionScriptConfig;
 import org.spicefactory.parsley.asconfig.ActionScriptContextBuilder;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.context.scope.model.CustomScopeReceiver;
 import org.spicefactory.parsley.context.scope.model.LocalReceiver;
 import org.spicefactory.parsley.context.scope.model.OrderedMixedScopeReceivers;
@@ -19,16 +25,10 @@ import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.core.state.GlobalScopeState;
 import org.spicefactory.parsley.core.state.GlobalState;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.lifecycle.observer.model.LifecycleObserverDelegate;
 import org.spicefactory.parsley.util.XmlContextUtil;
 
-import mx.containers.Box;
-import mx.containers.HBox;
-import mx.containers.VBox;
 
-import flash.events.Event;
-import flash.events.EventDispatcher;
 
 /**
  * @author Jens Halm

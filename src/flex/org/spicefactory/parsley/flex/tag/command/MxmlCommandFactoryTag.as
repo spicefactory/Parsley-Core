@@ -15,7 +15,7 @@
  */
 package org.spicefactory.parsley.flex.tag.command {
 import mx.core.IMXMLObject;
-import org.spicefactory.parsley.tag.command.CommandFactoryTag;
+import org.spicefactory.parsley.command.tag.CommandFactoryTag;
 
 /**
  * Extension of the default command factory tag that handles ids set in MXML.

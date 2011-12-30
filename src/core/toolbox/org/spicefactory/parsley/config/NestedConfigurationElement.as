@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.config {
+import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 
 /**
  * Represents a nested configuration element that needs to be resolved before being passed to 
@@ -31,10 +32,10 @@ public interface NestedConfigurationElement {
 	/**
 	 * Returns the resolved value represented by this element.
 	 * 
-	 * @param config the configuration associated with this element
+	 * @param registry the registry associated with this element
 	 * @return the resolved value represented by this element
 	 */
-	function resolve (config:Configuration) : Object;
+	function resolve (registry: ObjectDefinitionRegistry): Object;
 	
 	
 }

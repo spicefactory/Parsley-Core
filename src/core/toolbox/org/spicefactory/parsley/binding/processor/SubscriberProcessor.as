@@ -15,14 +15,14 @@
  */
  
 package org.spicefactory.parsley.binding.processor {
+
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.binding.BindingManager;
 import org.spicefactory.parsley.binding.Subscriber;
 import org.spicefactory.parsley.binding.impl.PropertySubscriber;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.registry.ObjectProcessor;
-import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
-import org.spicefactory.parsley.processor.util.ObjectProcessorFactories;
+import org.spicefactory.parsley.core.processor.PropertyProcessor;
+import org.spicefactory.parsley.core.processor.StatefulObjectProcessor;
 
 /**
  * Processes a single property holding a a value that
@@ -32,53 +32,61 @@ import org.spicefactory.parsley.processor.util.ObjectProcessorFactories;
  * 
  * @author Jens Halm
  */
-public class SubscriberProcessor implements ObjectProcessor {
+public class SubscriberProcessor implements PropertyProcessor, StatefulObjectProcessor {
 
 
-	private var target:ManagedObject;
+	private var scope:String;
+	private var id:String;
+
 	private var subscriber:Subscriber;
-	private var manager:BindingManager;
 
 	/**
 	 * Creates a new instance.
 	 * 
-	 * @param target the managed target object
-	 * @param property the target property that binds to the source value
 	 * @param scope the scope the binding listens to
 	 * @param id the id the source is published with
 	 */
-	function SubscriberProcessor (target:ManagedObject, property:Property, scope:String, id:String = null) {
-		this.target = target;
+	function SubscriberProcessor (scope:String, id:String = null) {
+		this.scope = scope;
+		this.id = id;
+	}
+
+
+	private var property: Property;
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function targetProperty (property: Property): void {
+		this.property = property;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function init (target: ManagedObject): void {
 		this.subscriber = new PropertySubscriber(target.instance, property, property.type, id);
-		this.manager = target.context.scopeManager.getScope(scope)
-				.extensions.forType(BindingManager) as BindingManager;
+		getManager(target).addSubscriber(subscriber);
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function preInit () : void {
-		manager.addSubscriber(subscriber);
+	public function destroy (target: ManagedObject): void {
+		getManager(target).removeSubscriber(subscriber);
+	}
+	
+	private function getManager (target: ManagedObject): BindingManager {
+		return target.context.scopeManager.getScope(scope)
+			.extensions.forType(BindingManager) as BindingManager;
 	}
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function postDestroy () : void {
-		manager.removeSubscriber(subscriber);
-	}
-	
-	
-	/**
-	 * Creates a new processor factory.
-	 * 
-	 * @param property the target property that binds to the source value
-	 * @param scope the scope the binding listens to
-	 * @param id the id the source is published with
-	 * @return a new processor factory 
-	 */
-	public static function newFactory (property:Property, scope:String, id:String = null) : ObjectProcessorFactory {
-		return ObjectProcessorFactories.newFactory(SubscriberProcessor, [property, scope, id]);
+	public function clone (): StatefulObjectProcessor {
+		return new SubscriberProcessor(scope, id);
 	}
 	
 	/**
@@ -88,6 +96,6 @@ public class SubscriberProcessor implements ObjectProcessor {
 		return (subscriber as Object).toString();
 	}
 	
-	
+
 }
 }

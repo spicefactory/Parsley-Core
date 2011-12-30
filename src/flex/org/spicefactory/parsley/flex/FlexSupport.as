@@ -16,6 +16,8 @@
 
 package org.spicefactory.parsley.flex {
 
+import mx.rpc.AsyncToken;
+import mx.rpc.Fault;
 import org.spicefactory.lib.command.light.LightCommandAdapter;
 import org.spicefactory.lib.command.result.ResultProcessors;
 import org.spicefactory.lib.logging.LogContext;
@@ -27,10 +29,8 @@ import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
 import org.spicefactory.parsley.flex.command.AsyncTokenResultProcessor;
 import org.spicefactory.parsley.flex.modules.FlexApplicationDomainProvider;
 import org.spicefactory.parsley.flex.resources.FlexResourceBindingAdapter;
-import org.spicefactory.parsley.processor.resources.ResourceBindingProcessor;
+import org.spicefactory.parsley.resources.processor.ResourceBindingProcessor;
 
-import mx.rpc.AsyncToken;
-import mx.rpc.Fault;
 
 /**
  * Initializes all Flex specific features which are not built into the Parsley Core, like the support for Modules,

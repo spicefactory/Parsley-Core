@@ -15,10 +15,11 @@
  */
 
 package org.spicefactory.parsley.core.lifecycle.impl {
+
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserver;
+import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
-import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 
 import flash.utils.Dictionary;
 
@@ -69,18 +70,30 @@ public class DefaultLifecycleObserverRegistry implements LifecycleObserverRegist
 }
 }
 
-import org.spicefactory.parsley.core.messaging.MessageProcessor;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserver;
+import org.spicefactory.parsley.core.messaging.MessageProcessor;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
-import org.spicefactory.parsley.processor.messaging.receiver.AbstractMessageReceiver;
 
-class ObjectLifecycleTarget extends AbstractMessageReceiver implements MessageTarget {
+class ObjectLifecycleTarget implements MessageTarget {
 	
 	private var observer:LifecycleObserver;
+	private var _selector:String;
 	
 	function ObjectLifecycleTarget (observer:LifecycleObserver, selector:String) {
-		super(observer.observedType, selector);
 		this.observer = observer;
+		_selector = selector;
+	}
+
+	public function get type (): Class {
+		return observer.observedType;
+	}
+
+	public function get selector (): * {
+		return _selector;
+	}
+
+	public function get order (): int {
+		return int.MAX_VALUE;
 	}
 	
 	public function handleMessage (processor:MessageProcessor) : void {

@@ -15,7 +15,7 @@
  */
 package org.spicefactory.parsley.flex.tag.command {
 
-import org.spicefactory.parsley.tag.command.CommandFlowTag;
+import org.spicefactory.parsley.command.tag.CommandFlowTag;
 
 /**
  * Tag for command flows declared in MXML or XML configuration.

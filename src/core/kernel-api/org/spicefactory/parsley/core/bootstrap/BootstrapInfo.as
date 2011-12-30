@@ -81,6 +81,12 @@ public interface BootstrapInfo {
 	 * The manager for the global state of all existing Contexts
 	 */
 	function get globalState () : GlobalStateManager;
+	
+	/**
+	 * All decorator assemblers to apply to object definitions,
+	 * including those inherited from parent Contexts.
+	 */
+	function get decoratorAssemblers () : Array;
 
 	
 	/**

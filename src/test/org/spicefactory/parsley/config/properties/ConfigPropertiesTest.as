@@ -2,8 +2,8 @@ package org.spicefactory.parsley.config.properties {
 import org.hamcrest.assertThat;
 import org.hamcrest.object.equalTo;
 import org.spicefactory.parsley.asconfig.ActionScriptConfig;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.flex.FlexConfig;
 import org.spicefactory.parsley.properties.Properties;
 import org.spicefactory.parsley.util.ContextTestUtil;

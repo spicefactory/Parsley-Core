@@ -23,9 +23,8 @@ import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.lifecycle.ManagedObjectHandler;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.ObjectProcessorConfig;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
-import org.spicefactory.parsley.core.registry.ObjectProcessor;
-import org.spicefactory.parsley.core.registry.ObjectProcessorFactory;
 
 /**
  * Default implementation of the ManagedObjectHandler interface.
@@ -91,7 +90,6 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 			 _target.instance = target.definition.instantiator.instantiate(target);
 		}
 		else {
-			// TODO - 3.0.M2 - implicit injection by type in case of no-arg constructors
 			_target.instance = target.definition.type.newInstance([]);
 		}
 	}
@@ -105,20 +103,15 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		
 		if (log.isInfoEnabled()) {
 			log.info("Configure managed object with {0} and {1} processor(s)", 
-					target.definition, target.definition.processorFactories.length);
+					target.definition, target.definition.processors.length);
 		}
 		
 		manager.globalObjectManager.addManagedObject(target);
 
 	 	createProcessors();
 
-		processLifecycle(ObjectLifecycle.PRE_CONFIGURE);
-		
-	 	invokePreInitMethods();
 		processLifecycle(ObjectLifecycle.PRE_INIT);
-		if (target.definition.initMethod != null) {
-			target.definition.type.getMethod(target.definition.initMethod).invoke(target.instance, []);
-		}
+	 	invokePreInitMethods();
 		processLifecycle(ObjectLifecycle.POST_INIT);
 	}
 	
@@ -137,9 +130,6 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		
 		try {
 			processLifecycle(ObjectLifecycle.PRE_DESTROY);
-			if (target.definition.destroyMethod != null) {
-				target.definition.type.getMethod(target.definition.destroyMethod).invoke(target.instance, []);
-			}
 		 	invokePostDestroyMethods();
 			processLifecycle(ObjectLifecycle.POST_DESTROY);
 		}
@@ -153,11 +143,17 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	 * Invokes the preInit methods on all processor for the specified target instance.
 	 */
 	protected function invokePreInitMethods () : void {
-		for each (var processor:ObjectProcessor in processors) {
+		
+		var sort:Function = function (config1: ObjectProcessorConfig, config2: ObjectProcessorConfig): int {
+			return config1.initPhase.compareTo(config2.initPhase);
+		};
+		processors.sort(sort);
+		
+		for each (var config:ObjectProcessorConfig in processors) {
 			if (log.isDebugEnabled()) {
-				log.debug("Applying {0} to managed object with {1}", processor, target.definition);
+				log.debug("Applying {0} to managed object with {1}", config.processor, target.definition);
 			}
-			processor.preInit();
+			config.processor.init(target);
 		}
 	}
 	
@@ -165,8 +161,14 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	 * Invokes the postDestroy methods on all processor for the specified target instance.
 	 */
 	protected function invokePostDestroyMethods () : void {
-		for each (var processor:ObjectProcessor in processors) {
-			processor.postDestroy();
+		
+		var sort:Function = function (config1: ObjectProcessorConfig, config2: ObjectProcessorConfig): int {
+			return config1.destroyPhase.compareTo(config2.destroyPhase);
+		};
+		processors.sort(sort);
+
+		for each (var config:ObjectProcessorConfig in processors) {
+			config.processor.destroy(target);
 		}
 	}
 	
@@ -175,8 +177,8 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	 * the target instance.
 	 */
 	protected function createProcessors () : void {
-		for each (var factory:ObjectProcessorFactory in target.definition.processorFactories) {
-			processors.push(factory.createInstance(target));
+		for each (var config:ObjectProcessorConfig in target.definition.processors) {
+			processors.push(config.prepareForNextTarget());
 		}
 	}
 	

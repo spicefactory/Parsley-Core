@@ -5,11 +5,12 @@ import org.hamcrest.core.isA;
 import org.hamcrest.core.not;
 import org.hamcrest.object.equalTo;
 import org.hamcrest.object.sameInstance;
+import org.spicefactory.parsley.context.ContextBuilder;
+import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.coretag.inject.model.InjectedDependency;
-import org.spicefactory.parsley.dsl.ObjectDefinitionBuilder;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
+import org.spicefactory.parsley.inject.Inject;
 import org.spicefactory.parsley.messaging.model.SimpleMessageHandlersMetadata;
 import org.spicefactory.parsley.testmodel.SimpleInjectionTarget;
 
@@ -44,9 +45,9 @@ public class DslConfigTest {
 				.asDynamicObject()
 					.build();
 					
-		target.constructorArgs().injectFromDefinition(dependency);
-		target.property("fromProperty").injectFromDefinition(dependency);
-		target.method("init").injectFromDefinition(dependency);
+		target.constructorArgs(Inject.fromDefinition(dependency));
+		target.property("fromProperty").value(Inject.fromDefinition(dependency));
+		target.method("init").invoke(Inject.fromDefinition(dependency));
 		
 		target.asSingleton().register();
 		

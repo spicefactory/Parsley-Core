@@ -15,7 +15,7 @@
  */
 package org.spicefactory.parsley.xml.tag.command {
 
-import org.spicefactory.parsley.tag.command.link.LinkResultTypeTag;
+import org.spicefactory.parsley.command.tag.link.LinkResultTypeTag;
 
 [XmlMapping(elementName="link-result-type")]
 /**

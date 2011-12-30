@@ -2,9 +2,9 @@ package org.spicefactory.parsley.messaging {
 import org.flexunit.asserts.fail;
 import org.hamcrest.assertThat;
 import org.hamcrest.object.equalTo;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.messaging.ErrorPolicy;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
 import org.spicefactory.parsley.messaging.messages.TestMessage;
 import org.spicefactory.parsley.messaging.model.ErrorPolicyHandlers;
 

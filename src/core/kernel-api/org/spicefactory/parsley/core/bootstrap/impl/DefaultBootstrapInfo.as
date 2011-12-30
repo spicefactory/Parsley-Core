@@ -56,11 +56,13 @@ public class DefaultBootstrapInfo implements BootstrapInfo {
 	 * @param scopeExtensions the extensions to be created by each scope mapped by type (Class)
 	 * @param globalState the global internal state of the container
 	 */
-	function DefaultBootstrapInfo (config:BootstrapConfig, scopes:ScopeInfoRegistry, scopeExtensions:Dictionary, globalState:GlobalStateManager) {
+	function DefaultBootstrapInfo (config:BootstrapConfig, scopes:ScopeInfoRegistry, scopeExtensions:Dictionary, 
+			globalState:GlobalStateManager, decoratorAssemblers:Array) {
 		this.config = config;
 		this._scopeInfoRegistry = scopes;
 		this._scopeExtensions = scopeExtensions;
 		this._globalState = globalState;
+		this._decoratorAssemblers = decoratorAssemblers;
 	}
 
 	
@@ -113,6 +115,15 @@ public class DefaultBootstrapInfo implements BootstrapInfo {
 	 */
 	public function get globalState () : GlobalStateManager {
 		return _globalState;
+	}
+	
+	private var _decoratorAssemblers:Array;
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function get decoratorAssemblers (): Array {
+		return _decoratorAssemblers;
 	}
 
 	/**
@@ -250,28 +261,4 @@ public class DefaultBootstrapInfo implements BootstrapInfo {
 
 
 }
-}
-
-import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
-import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapInfo;
-import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.scope.ScopeInfoRegistry;
-import org.spicefactory.parsley.core.state.manager.GlobalStateManager;
-
-import flash.utils.Dictionary;
-
-class DynamicBootstrapInfo extends DefaultBootstrapInfo {
-	
-	function DynamicBootstrapInfo (config:BootstrapConfig, scopes:ScopeInfoRegistry, scopeExtensions:Dictionary, 
-			globalState:GlobalStateManager, parent:Context) {
-		super(config, scopes, scopeExtensions, globalState);
-		_parent = parent;
-	}
-	
-	private var _parent:Context;
-	
-	public override function get parents () : Array {
-		return [_parent];
-	}
-	
 }

@@ -1,9 +1,9 @@
 package org.spicefactory.parsley.messaging {
-import org.hamcrest.object.equalTo;
 import org.hamcrest.assertThat;
-import org.spicefactory.parsley.messaging.messages.TestEvent;
+import org.hamcrest.object.equalTo;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
+import org.spicefactory.parsley.messaging.messages.TestEvent;
 import org.spicefactory.parsley.messaging.model.MessageInterceptor;
 
 /**

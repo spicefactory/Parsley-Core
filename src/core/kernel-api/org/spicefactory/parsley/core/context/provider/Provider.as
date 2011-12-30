@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.core.context.provider {
 
-import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
 import flash.system.ApplicationDomain;
@@ -53,8 +52,8 @@ public class Provider {
 	 * @param context the Context to use to retrieve the actual instance
 	 * @return a new ObjectProvider for the specified singleton definition 
 	 */
-	public static function forDefinition (definition:SingletonObjectDefinition, context:Context) : ObjectProvider {
-		return new ContextObjectProvider(definition, context);
+	public static function forDefinition (definition:SingletonObjectDefinition) : ObjectProvider {
+		return new ContextObjectProvider(definition);
 	}
 	
 	
@@ -62,7 +61,6 @@ public class Provider {
 }
 
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
@@ -95,20 +93,18 @@ class SimpleInstanceProvider implements ObjectProvider {
 class ContextObjectProvider implements ObjectProvider {
 
 	private var definition:SingletonObjectDefinition;
-	private var context:Context;
 	private var _instance:Object;
 
-	function ContextObjectProvider (definition:SingletonObjectDefinition, context:Context) {
-		this.context = context;
+	function ContextObjectProvider (definition:SingletonObjectDefinition) {
 		this.definition = definition;
 	}
 
 	public function get instance () : Object {
 		if (_instance == null) {
-			if (!context.containsObject(definition.id)) {
+			if (!definition.registry.context.containsObject(definition.id)) {
 				throw new ContextError("Invalid ObjectProvider: Context does not contain an object with id " + definition.id);
 			}
-			_instance = context.getObject(definition.id);
+			_instance = definition.registry.context.getObject(definition.id);
 		}
 		return _instance;
 	}

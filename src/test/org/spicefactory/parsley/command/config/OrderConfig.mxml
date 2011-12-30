@@ -1,9 +1,7 @@
 <mx:Object 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:com="org.spicefactory.parsley.tag.command.*"
 	xmlns:flexcom="org.spicefactory.parsley.flex.tag.command.*"
-	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*"
-	xmlns:flextag="org.spicefactory.parsley.tag.core.*">
+	xmlns:lc="org.spicefactory.parsley.tag.lifecycle.*" xmlns:tag="org.spicefactory.parsley.command.tag.*" xmlns:tag1="org.spicefactory.parsley.inject.tag.*">
 	
 	<mx:Script>
 		<![CDATA[
@@ -15,17 +13,17 @@
 	</mx:Script>
 	
 	
-	<com:MapCommandTag messageType="{TriggerA}" order="2">
+	<tag:MapCommandTag messageType="{TriggerA}" order="2">
 		<flexcom:MxmlCommandTag type="{SyncCommand}">
-			<flextag:PropertyTag name="result" value="2"/>
+			<tag1:PropertyTag name="result" value="2"/>
 		</flexcom:MxmlCommandTag>
-	</com:MapCommandTag>
+	</tag:MapCommandTag>
 	
-	<com:MapCommandTag messageType="{TriggerA}" order="1">
+	<tag:MapCommandTag messageType="{TriggerA}" order="1">
 		<flexcom:MxmlCommandTag type="{SyncCommand}">
-			<flextag:PropertyTag name="result" value="1"/>
+			<tag1:PropertyTag name="result" value="1"/>
 		</flexcom:MxmlCommandTag>
-	</com:MapCommandTag>
+	</tag:MapCommandTag>
 
 
 </mx:Object>

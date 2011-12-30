@@ -16,44 +16,45 @@
 
 package org.spicefactory.parsley.xml.mapper {
 
+import flash.system.ApplicationDomain;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.types.Any;
 import org.spicefactory.lib.reflect.types.Void;
 import org.spicefactory.lib.xml.XmlObjectMapper;
 import org.spicefactory.lib.xml.mapper.SimpleValueMapper;
 import org.spicefactory.lib.xml.mapper.XmlObjectMappings;
-import org.spicefactory.parsley.binding.decorator.PublishDecorator;
-import org.spicefactory.parsley.binding.decorator.PublishSubscribeDecorator;
-import org.spicefactory.parsley.binding.decorator.SubscribeDecorator;
-import org.spicefactory.parsley.tag.command.CommandFactoryTag;
-import org.spicefactory.parsley.tag.command.CommandFlowTag;
-import org.spicefactory.parsley.tag.command.CommandRefTag;
-import org.spicefactory.parsley.tag.command.CommandSequenceTag;
-import org.spicefactory.parsley.tag.command.CommandTag;
-import org.spicefactory.parsley.tag.command.MapCommandTag;
-import org.spicefactory.parsley.tag.command.ParallelCommandsTag;
-import org.spicefactory.parsley.tag.core.ArrayTag;
-import org.spicefactory.parsley.tag.core.ConstructorTag;
-import org.spicefactory.parsley.tag.core.DynamicObjectTag;
-import org.spicefactory.parsley.tag.core.DynamicPropertyTag;
-import org.spicefactory.parsley.tag.core.NestedObjectTag;
-import org.spicefactory.parsley.tag.core.ObjectReferenceTag;
-import org.spicefactory.parsley.tag.core.PropertyTag;
-import org.spicefactory.parsley.tag.core.RootObjectTag;
-import org.spicefactory.parsley.tag.core.ViewTag;
-import org.spicefactory.parsley.tag.lifecycle.AsyncInitDecorator;
-import org.spicefactory.parsley.tag.lifecycle.DestroyMethodDecorator;
-import org.spicefactory.parsley.tag.lifecycle.FactoryMethodDecorator;
-import org.spicefactory.parsley.tag.lifecycle.InitMethodDecorator;
-import org.spicefactory.parsley.tag.lifecycle.ObserveMethodDecorator;
-import org.spicefactory.parsley.tag.messaging.CommandCompleteDecorator;
-import org.spicefactory.parsley.tag.messaging.CommandErrorDecorator;
-import org.spicefactory.parsley.tag.messaging.CommandResultDecorator;
-import org.spicefactory.parsley.tag.messaging.CommandStatusDecorator;
-import org.spicefactory.parsley.tag.messaging.MessageBindingDecorator;
-import org.spicefactory.parsley.tag.messaging.MessageDispatcherDecorator;
-import org.spicefactory.parsley.tag.messaging.MessageErrorDecorator;
-import org.spicefactory.parsley.tag.resources.ResourceBindingDecorator;
+import org.spicefactory.parsley.binding.tag.PublishDecorator;
+import org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator;
+import org.spicefactory.parsley.binding.tag.SubscribeDecorator;
+import org.spicefactory.parsley.command.tag.CommandFactoryTag;
+import org.spicefactory.parsley.command.tag.CommandFlowTag;
+import org.spicefactory.parsley.command.tag.CommandRefTag;
+import org.spicefactory.parsley.command.tag.CommandSequenceTag;
+import org.spicefactory.parsley.command.tag.CommandTag;
+import org.spicefactory.parsley.command.tag.MapCommandTag;
+import org.spicefactory.parsley.command.tag.ParallelCommandsTag;
+import org.spicefactory.parsley.comobserver.tag.CommandCompleteDecorator;
+import org.spicefactory.parsley.comobserver.tag.CommandErrorDecorator;
+import org.spicefactory.parsley.comobserver.tag.CommandResultDecorator;
+import org.spicefactory.parsley.comobserver.tag.CommandStatusDecorator;
+import org.spicefactory.parsley.inject.tag.ConstructorTag;
+import org.spicefactory.parsley.inject.tag.DynamicPropertyTag;
+import org.spicefactory.parsley.inject.tag.PropertyTag;
+import org.spicefactory.parsley.lifecycle.tag.AsyncInitDecorator;
+import org.spicefactory.parsley.lifecycle.tag.DestroyMethodDecorator;
+import org.spicefactory.parsley.lifecycle.tag.FactoryMethodDecorator;
+import org.spicefactory.parsley.lifecycle.tag.InitMethodDecorator;
+import org.spicefactory.parsley.lifecycle.tag.ObserveMethodDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageBindingDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageDispatcherDecorator;
+import org.spicefactory.parsley.messaging.tag.MessageErrorDecorator;
+import org.spicefactory.parsley.object.ArrayTag;
+import org.spicefactory.parsley.object.DynamicObjectTag;
+import org.spicefactory.parsley.object.NestedObjectTag;
+import org.spicefactory.parsley.object.ObjectReferenceTag;
+import org.spicefactory.parsley.object.RootObjectTag;
+import org.spicefactory.parsley.object.ViewTag;
+import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
 import org.spicefactory.parsley.xml.tag.ManagedEventsDecoratorTag;
 import org.spicefactory.parsley.xml.tag.MessageHandlerDecoratorTag;
 import org.spicefactory.parsley.xml.tag.ObjectsTag;
@@ -62,7 +63,6 @@ import org.spicefactory.parsley.xml.tag.command.XmlLinkResultPropertyTag;
 import org.spicefactory.parsley.xml.tag.command.XmlLinkResultTypeTag;
 import org.spicefactory.parsley.xml.tag.command.XmlLinkResultValueTag;
 
-import flash.system.ApplicationDomain;
 
 /**
  * Factory that builds the XML-to-Object mappers for the Parsley XML configuration format.

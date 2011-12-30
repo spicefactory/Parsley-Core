@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap {
+import org.spicefactory.parsley.metadata.MetadataDecoratorAssembler;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultApplicationDomainProvider;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;
@@ -63,6 +64,8 @@ public class BootstrapDefaults {
 			defaults.viewSettings.viewProcessor.setImplementation(DefaultViewProcessor);
 			
 			defaults.domainProvider = new DefaultApplicationDomainProvider();
+			
+			defaults.addDecoratorAssembler(new MetadataDecoratorAssembler());
 		}
 		return defaults;
 	}

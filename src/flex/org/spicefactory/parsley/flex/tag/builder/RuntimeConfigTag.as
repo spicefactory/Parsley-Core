@@ -18,7 +18,6 @@ package org.spicefactory.parsley.flex.tag.builder {
 
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
-import org.spicefactory.parsley.config.Configurations;
 import org.spicefactory.parsley.config.RootConfigurationElement;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
@@ -75,7 +74,7 @@ public class RuntimeConfigTag implements BootstrapConfigProcessor, Configuration
 				runtimeProcessor.addInstance(tag.instance, tag.id);
 			}
 			else if (instance is RootConfigurationElement) {
-				RootConfigurationElement(instance).process(Configurations.forRegistry(registry));
+				RootConfigurationElement(instance).process(registry);
 			}
 			else {
 				var ci:ClassInfo = ClassInfo.forInstance(instance, registry.domain);

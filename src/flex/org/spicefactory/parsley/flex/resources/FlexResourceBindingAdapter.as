@@ -15,13 +15,13 @@
  */
 
 package org.spicefactory.parsley.flex.resources {
-import org.spicefactory.parsley.tag.resources.ResourceBindingAdapter;
-import org.spicefactory.parsley.tag.resources.ResourceBindingEvent;
-
-import mx.resources.ResourceManager;
-
 import flash.events.Event;
 import flash.events.EventDispatcher;
+import mx.resources.ResourceManager;
+import org.spicefactory.parsley.resources.processor.ResourceBindingAdapter;
+import org.spicefactory.parsley.resources.processor.ResourceBindingEvent;
+
+
 
 /**
  * Adapts the ResourceBinding facility to the Flex ResourceManager.

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Object xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:binding="org.spicefactory.parsley.binding.decorator.*" xmlns:core="org.spicefactory.parsley.flex.tag.core.*">
+<mx:Object xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:core="org.spicefactory.parsley.flex.tag.core.*" xmlns:tag="org.spicefactory.parsley.binding.tag.*">
 	<mx:Script>
 		<![CDATA[
 			import org.spicefactory.parsley.binding.model.StringHolder;
@@ -10,43 +9,43 @@
 	</mx:Script>
 
 	<core:MxmlDynamicObjectTag id="publish" type="{CatHolder}">
-		<binding:PublishDecorator property="value"/>
+		<tag:PublishDecorator property="value"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="publishId" type="{CatHolder}">
-		<binding:PublishDecorator property="value" objectId="cat"/>
+		<tag:PublishDecorator property="value" objectId="cat"/>
 	</core:MxmlDynamicObjectTag>
 	
 	<core:MxmlDynamicObjectTag id="publishLocal" type="{CatHolder}">
-		<binding:PublishDecorator property="value" scope="local"/>
+		<tag:PublishDecorator property="value" scope="local"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="publishManaged" type="{CatHolder}">
-		<binding:PublishDecorator property="value" managed="true" scope="local"/>
+		<tag:PublishDecorator property="value" managed="true" scope="local"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="publishPersistent" type="{StringHolder}">
-		<binding:PublishSubscribeDecorator persistent="true" property="value" scope="local" objectId="test"/>
+		<tag:PublishSubscribeDecorator persistent="true" property="value" scope="local" objectId="test"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="subscribe" type="{CatHolder}">
-		<binding:SubscribeDecorator property="value"/>
+		<tag:SubscribeDecorator property="value"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="subscribeId" type="{CatHolder}">
-		<binding:SubscribeDecorator property="value" objectId="cat"/>
+		<tag:SubscribeDecorator property="value" objectId="cat"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="subscribeLocal" type="{CatHolder}">
-		<binding:SubscribeDecorator property="value" scope="local"/>
+		<tag:SubscribeDecorator property="value" scope="local"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="animalSubscribe" type="{AnimalHolder}">
-		<binding:SubscribeDecorator property="value"/>
+		<tag:SubscribeDecorator property="value"/>
 	</core:MxmlDynamicObjectTag> 
 	
 	<core:MxmlDynamicObjectTag id="pubsub" type="{CatHolder}">
-		<binding:PublishSubscribeDecorator property="value"/>
+		<tag:PublishSubscribeDecorator property="value"/>
 	</core:MxmlDynamicObjectTag>
 	
 </mx:Object>

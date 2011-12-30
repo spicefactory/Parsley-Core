@@ -1,12 +1,11 @@
 package org.spicefactory.parsley.binding {
 
-import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
-import org.spicefactory.parsley.binding.impl.PropertyPublisher;
 import org.flexunit.assertThat;
 import org.hamcrest.collection.array;
 import org.hamcrest.object.equalTo;
 import org.hamcrest.object.nullValue;
 import org.hamcrest.object.sameInstance;
+import org.spicefactory.parsley.binding.impl.PropertyPublisher;
 import org.spicefactory.parsley.binding.model.AnimalSubscribeMetadata;
 import org.spicefactory.parsley.binding.model.Cat;
 import org.spicefactory.parsley.binding.model.CatPubSubMetadata;
@@ -20,12 +19,13 @@ import org.spicefactory.parsley.binding.model.CatSubscribeIdMetadata;
 import org.spicefactory.parsley.binding.model.CatSubscribeLocalMetadata;
 import org.spicefactory.parsley.binding.model.CatSubscribeMetadata;
 import org.spicefactory.parsley.binding.model.StringPublishPersistentMetadata;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.core.state.GlobalState;
-import org.spicefactory.parsley.dsl.context.ContextBuilder;
+import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
 import org.spicefactory.parsley.lifecycle.observer.model.LifecycleObserverDelegate;
 import org.spicefactory.parsley.runtime.RuntimeContextBuilder;
 
