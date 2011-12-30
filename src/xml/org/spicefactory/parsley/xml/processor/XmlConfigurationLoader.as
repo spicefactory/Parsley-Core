@@ -168,7 +168,6 @@ public class XmlConfigurationLoader extends EventDispatcher {
 		try {
 			preprocess(xml);
 		} catch (e:Error) {
-			trace(e.getStackTrace());
 			handleError("Error preprocessing XML context definition", e);
 			return;
 		}
