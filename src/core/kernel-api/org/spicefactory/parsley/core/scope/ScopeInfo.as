@@ -21,6 +21,7 @@ import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
+import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 
@@ -86,14 +87,14 @@ public interface ScopeInfo {
 	function get lifecycleObservers () : LifecycleObserverRegistry; 
 	
 	/**
-	 * Returns the cache of lifecycle observers for the specified object type.
-	 * If no cache for that type exists yet, implementations should create and return a new
-	 * cache instance.
+	 * Returns all matching observers for the specified target type, id and lifecycle phase.
 	 * 
-	 * @param type the object type to return the observer cache for
-	 * @return the cache of lifecycle observers for the specified object type
+	 * @param type the object type to return the observers for
+	 * @param lifecycle the lifecycle phase of the observed object
+	 * @param id the id of the observerd object
+	 * @return all matching observers
 	 */
-	function getLifecycleObserverCache (type:ClassInfo) : MessageReceiverCache;
+	function selectLifecycleObservers (type:ClassInfo, lifecycle:ObjectLifecycle, id:String = null) : Array
 
 	/**
 	 * The extensions registered for this scope.

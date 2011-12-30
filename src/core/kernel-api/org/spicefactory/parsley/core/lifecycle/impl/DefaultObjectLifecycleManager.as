@@ -15,22 +15,17 @@
  */
 
 package org.spicefactory.parsley.core.lifecycle.impl {
+
 import org.spicefactory.lib.util.ArrayUtil;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.lifecycle.ManagedObjectHandler;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycleManager;
-import org.spicefactory.parsley.core.messaging.Message;
-import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
-import org.spicefactory.parsley.core.messaging.MessageRouter;
-import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
-import org.spicefactory.parsley.core.scope.ScopeInfoRegistry;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
+import org.spicefactory.parsley.core.scope.ScopeInfoRegistry;
 import org.spicefactory.parsley.core.state.manager.GlobalObjectManager;
 
 import flash.system.ApplicationDomain;
@@ -48,7 +43,6 @@ public class DefaultObjectLifecycleManager implements ObjectLifecycleManager, In
 
 	private var domain:ApplicationDomain;
 	private var scopes:ScopeInfoRegistry;
-	private var messageRouter:MessageRouter;
 	
 	/**
 	 * @private
@@ -69,7 +63,6 @@ public class DefaultObjectLifecycleManager implements ObjectLifecycleManager, In
 	public function init (info:BootstrapInfo) : void {
 		this.domain = info.domain;
 		this.scopes = info.scopeInfoRegistry;
-		this.messageRouter = info.messageRouter;
 		this.globalObjectManager = info.globalState.objects;
 	}
 
@@ -85,27 +78,14 @@ public class DefaultObjectLifecycleManager implements ObjectLifecycleManager, In
 	/**
 	 * @private
 	 */	
-	internal function processObservers (target:ManagedObject, event:ObjectLifecycle) : void {
-		/*
-		 * TODO - 3.0.M2 - observers should be an ObjectProcessor
-		 */
-		var typeMessage:Message = new DefaultMessage(target.instance, target.definition.type, event.key);
-		var idMessage:Message = (target.definition.id != null) ?
-				new DefaultMessage(target.instance, target.definition.type, event.key + ":" + target.definition.id) : null;
+	internal function getObservers (definition:ObjectDefinition, lifecycle:ObjectLifecycle) : Array {
+		var observers:Array = new Array();
 		for each (var info:ScopeInfo in scopes.activeScopes) {
-			dispatchLifecycleMessage(info, typeMessage, idMessage);
+			var scopeObservers: Array = info.selectLifecycleObservers(definition.type, lifecycle, definition.id);
+			if (scopeObservers.length) observers = observers.concat(scopeObservers);
 		}
+		return observers;
 	}
-	
-	private function dispatchLifecycleMessage (info:ScopeInfo, typeMessage:Message, idMessage:Message = null) : void {
-		var cache:MessageReceiverCache = info.getLifecycleObserverCache(typeMessage.type);
-		if (cache.getReceivers(MessageReceiverKind.TARGET, typeMessage.selector).length > 0) {
-			messageRouter.dispatchMessage(typeMessage, cache);
-		}
-		if (idMessage && cache.getReceivers(MessageReceiverKind.TARGET, idMessage.selector).length > 0) {
-			messageRouter.dispatchMessage(idMessage, cache);
-		}
-	}	
 	
 	/**
 	 * @private

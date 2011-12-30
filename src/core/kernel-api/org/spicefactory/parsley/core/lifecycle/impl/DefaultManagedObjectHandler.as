@@ -109,10 +109,11 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		manager.globalObjectManager.addManagedObject(target);
 
 	 	createProcessors();
+	 	
+	 	fetchObservers(ObjectLifecycle.PRE_INIT);
+	 	fetchObservers(ObjectLifecycle.POST_INIT);
 
-		processLifecycle(ObjectLifecycle.PRE_INIT);
-	 	invokePreInitMethods();
-		processLifecycle(ObjectLifecycle.POST_INIT);
+	 	invokeInitMethods();
 	}
 	
 	/**
@@ -129,9 +130,10 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		manager.globalObjectManager.removeManagedObject(target);
 		
 		try {
-			processLifecycle(ObjectLifecycle.PRE_DESTROY);
-		 	invokePostDestroyMethods();
-			processLifecycle(ObjectLifecycle.POST_DESTROY);
+			fetchObservers(ObjectLifecycle.PRE_DESTROY);
+	 		fetchObservers(ObjectLifecycle.POST_DESTROY);
+	 	
+		 	invokeDestroyMethods();
 		}
 		finally {
 			_target.removeSynchronizedObjects();
@@ -142,7 +144,7 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	/**
 	 * Invokes the preInit methods on all processor for the specified target instance.
 	 */
-	protected function invokePreInitMethods () : void {
+	protected function invokeInitMethods () : void {
 		
 		var sort:Function = function (config1: ObjectProcessorConfig, config2: ObjectProcessorConfig): int {
 			return config1.initPhase.compareTo(config2.initPhase);
@@ -160,7 +162,7 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 	/**
 	 * Invokes the postDestroy methods on all processor for the specified target instance.
 	 */
-	protected function invokePostDestroyMethods () : void {
+	protected function invokeDestroyMethods () : void {
 		
 		var sort:Function = function (config1: ObjectProcessorConfig, config2: ObjectProcessorConfig): int {
 			return config1.destroyPhase.compareTo(config2.destroyPhase);
@@ -182,13 +184,11 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		}
 	}
 	
-	/**
-	 * Processes the lifecycle listeners for the specified instance.
-	 * 
-	 * @param event the lifecycle event type
-	 */
-	protected function processLifecycle (event:ObjectLifecycle) : void {
-		manager.processObservers(target, event);
+	private function fetchObservers (lifecycle:ObjectLifecycle) : void {
+		var observers:Array = manager.getObservers(target.definition, lifecycle);
+		if (observers.length) {
+			_processors = _processors.concat(observers);
+		}
 	}
 	
 	private function checkState (expected:String) : void {

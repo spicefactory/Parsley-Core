@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
+import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
@@ -27,6 +28,7 @@ import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageReceiverRegistry;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
 import org.spicefactory.parsley.core.scope.InitializingExtension;
 import org.spicefactory.parsley.core.scope.Scope;
@@ -160,8 +162,17 @@ public class DefaultScopeInfo implements ScopeInfo {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLifecycleObserverCache (type:ClassInfo) : MessageReceiverCache {
-		return _lifecycleRegistry.getSelectionCache(type);
+	public function selectLifecycleObservers (type:ClassInfo, lifecycle:ObjectLifecycle, id:String = null) : Array {
+		var allObservers:Array = [];
+		var cache:MessageReceiverCache = _lifecycleRegistry.getSelectionCache(type);
+		allObservers = concatLifecycleObservers(cache, lifecycle.key, allObservers);
+		allObservers = concatLifecycleObservers(cache, lifecycle.key + ":" + id, allObservers);
+		return allObservers;
+	}
+	
+	private function concatLifecycleObservers (cache:MessageReceiverCache, selector:String, allObservers:Array) : Array {
+		var observers:Array = cache.getReceivers(MessageReceiverKind.TARGET, selector);
+		return (observers.length) ? allObservers.concat(observers) : allObservers;
 	}
 
 	/**
