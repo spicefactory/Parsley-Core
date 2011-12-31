@@ -9,7 +9,7 @@ public class ErrorHandler extends MessageCounter {
 	
 	
 	[MessageError]
-	public function handleMessage (processor:MessageProcessor, e:Error) : void {
+	public function handleMessage (e:Error, processor:MessageProcessor) : void {
 		addMessage(processor.message);
 	}
 	

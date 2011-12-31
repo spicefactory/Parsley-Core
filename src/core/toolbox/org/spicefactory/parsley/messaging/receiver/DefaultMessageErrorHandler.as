@@ -60,42 +60,51 @@ public class DefaultMessageErrorHandler extends AbstractMethodReceiver implement
 		super.init(provider, method);	
 		
 		var params:Array = targetMethod.parameters;
-		if (params.length < 1 || params.length > 2) {
+		if (params.length > 4 || params.length < 1) {
 			throw new ContextError("Target " + targetMethod 
-				+ ": Method must have one or two parameters.");
-		}
-		if (Parameter(params[0]).type.getClass() != MessageProcessor) {
-			throw new ContextError("Target " + targetMethod 
-				+ ": First parameter must be of type org.spicefactory.parsley.core.messaging.MessageProcessor.");
-			
+				+ ": An error handler must have a minimum of 1 and a maximum of 4 parameters:"
+				+ " (error, [message, [selector]], [MessageProcessor].");
 		}
 
-		deduceErrorType(params);
+		deduceErrorType();
+		if (deduceMessageType()) deduceSelector();
 	}
 	
-	private function deduceErrorType (params:Array): void {
+	private function deduceMessageType () : Boolean {
+		var params:Array = targetMethod.parameters;
+		if (params.length >= 2 && !targetMethod.parameters[1].type.isType(MessageProcessor)) {
+			deduceMessageTypeFromParameter(targetMethod, 1);
+			return true;
+		}
+		return false;
+	}
+	
+	private function deduceSelector () : void {
+		var params:Array = targetMethod.parameters;
+		if (params.length >= 3 && !targetMethod.parameters[2].type.isType(MessageProcessor)) {
+			info.selector = targetMethod.parameters[2].type.getClass();
+		}
+	}
+	
+	private function deduceErrorType (): void {
+		var params:Array = targetMethod.parameters;
 		var explicitType: ClassInfo = _errorType;
-		if (params.length == 2) {
-			var paramType:ClassInfo = Parameter(params[1]).type;
-			if (!paramType.isType(Error)) {
-				throw new ContextError("Target " + targetMethod 
-					+ ": Second parameter must be of type Error or a subtype");
-			}
-			if (!explicitType) {
-				_errorType = paramType;
-			}
-			else if (!explicitType.isType(paramType.getClass())) {
-				throw new ContextError("Target " + targetMethod
-					+ ": Method parameter of type " + paramType.name
-					+ " is not applicable to error type " + explicitType.name);
-			}
-			else {
-				_errorType = explicitType;
-			}
+		var paramType:ClassInfo = Parameter(params[0]).type;
+		if (!paramType.isType(Error)) {
+			throw new ContextError("Target " + targetMethod 
+				+ ": First Parameter must be of type Error or a subtype");
+		}
+		if (!explicitType) {
+			_errorType = paramType;
+		}
+		else if (!explicitType.isType(paramType.getClass())) {
+			throw new ContextError("Target " + targetMethod
+				+ ": Method parameter of type " + paramType.name
+				+ " is not applicable to error type " + explicitType.name);
 		}
 		else {
-			_errorType = explicitType || ClassInfo.forClass(Error);
-		}			
+			_errorType = explicitType;
+		}
 	}
 
 
@@ -110,8 +119,35 @@ public class DefaultMessageErrorHandler extends AbstractMethodReceiver implement
 	 * @inheritDoc
 	 */
 	public function handleError (processor:MessageProcessor, error:Error) : void {
-		//processor.suspend();
-		var params:Array = (targetMethod.parameters.length == 2) ? [processor, error] : [processor];
+		var params:Array = new Array();
+		params.push(error);
+
+		var cnt:int = targetMethod.parameters.length;
+
+		if (cnt >= 2) {
+			var param1:Parameter = targetMethod.parameters[1];
+			if (param1.type.isType(MessageProcessor)) {
+				params.push(processor);
+			}
+			else {
+				params.push(processor.message.instance);
+			}
+			if (cnt >= 3) {
+				var param2:Parameter = targetMethod.parameters[2];
+				if (param2.type.isType(MessageProcessor)) {
+					params.push(processor);
+				}
+				else if (processor.message.selector is Class) {
+					params.push(null);
+				}
+				else {
+					params.push(processor.message.selector);
+				}
+				if (cnt >= 4) {
+					params.push(processor);
+				}
+			}
+		}
 		targetMethod.invoke(provider.instance, params);
 	}
 	

@@ -9,19 +9,19 @@ import org.spicefactory.parsley.util.MessageCounter;
 public class ErrorHandlers extends MessageCounter {
 
 	
-	public function allTestEvents (processor:MessageProcessor, error:Error) : void {
+	public function allTestEvents (error:Error, processor:MessageProcessor) : void {
 		addMessage(processor.message.instance);
 	}
 	
-	public function allEvents (processor:MessageProcessor, error:Error) : void {
+	public function allEvents (error:Error, processor:MessageProcessor) : void {
 		addMessage(processor.message.instance);
 	}
 	
-	public function event1 (processor:MessageProcessor, error:ContextError) : void {
+	public function event1 (error:ContextError, processor:MessageProcessor) : void {
 		addMessage(processor.message.instance, "test1");
 	}
 	
-	public function event2 (processor:MessageProcessor, error:ContextError) : void {
+	public function event2 (error:ContextError, processor:MessageProcessor) : void {
 		addMessage(processor.message.instance, "test2");
 	}
 	

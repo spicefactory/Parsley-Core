@@ -9,23 +9,23 @@ public class ErrorHandlersMetadata extends ErrorHandlers {
 
 	
 	[MessageError(type="org.spicefactory.parsley.messaging.messages.TestEvent")]
-	public override function allTestEvents (processor:MessageProcessor, error:Error) : void {
-		super.allTestEvents(processor, error);
+	public override function allTestEvents (error:Error, processor:MessageProcessor) : void {
+		super.allTestEvents(error, processor);
 	}
 	
 	[MessageError]
-	public override function allEvents (processor:MessageProcessor, error:Error) : void {
-		super.allEvents(processor, error);
+	public override function allEvents (error:Error, processor:MessageProcessor) : void {
+		super.allEvents(error, processor);
 	}
 	
 	[MessageError(type="org.spicefactory.parsley.messaging.messages.TestEvent", selector="test1")]
-	public override function event1 (processor:MessageProcessor, error:ContextError) : void {
-		super.event1(processor, error);
+	public override function event1 (error:ContextError, processor:MessageProcessor) : void {
+		super.event1(error, processor);
 	}
 	
 	[MessageError(type="org.spicefactory.parsley.messaging.messages.TestEvent", selector="test2")]
-	public override function event2 (processor:MessageProcessor, error:ContextError) : void {
-		super.event2(processor, error);
+	public override function event2 (error:ContextError, processor:MessageProcessor) : void {
+		super.event2(error, processor);
 	}
 	
 
