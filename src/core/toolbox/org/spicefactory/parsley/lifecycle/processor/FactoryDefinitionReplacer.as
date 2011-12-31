@@ -73,6 +73,7 @@ public class FactoryDefinitionReplacer implements ObjectDefinitionReplacer {
 		else {
 			return builder
 				.asDynamicObject()
+					.id(definition.id)
 					.build();
 		}
 	}
