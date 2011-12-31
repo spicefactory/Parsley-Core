@@ -372,7 +372,7 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 	/**
 	 * @private
 	 */
-	internal function getInstance (def:ObjectDefinition) : Object {
+	internal function getInstance (def:ObjectDefinition, isQueuedAsyncInit:Boolean = false) : Object {
 		var id:String = def.id;
 		
 		if (def is SingletonObjectDefinition && singletonCache.containsKey(id)) {
@@ -390,7 +390,7 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 			var handler:ManagedObjectHandler = _lifecycleManager.createHandler(def, this);
 			handler.createObject();
 			if (def is SingletonObjectDefinition) {
-				handleSingleton(handler);
+				handleSingleton(handler, isQueuedAsyncInit);
 			}
 			handler.configureObject();
 		}
@@ -400,11 +400,11 @@ public class DefaultContext extends EventDispatcher implements Context, Initiali
 		return handler.target.instance;
 	}
 	
-	private function handleSingleton (handler:ManagedObjectHandler) : void {
+	private function handleSingleton (handler:ManagedObjectHandler, isQueuedAsyncInit:Boolean) : void {
 		var singleton:SingletonObjectDefinition = SingletonObjectDefinition(handler.target.definition);
 		singletonCache.put(singleton.id, handler.target.instance);
 		if (!initialized && singleton.asyncInitConfig != null && initSequence != null) {
-			initSequence.addInstance(handler.target);
+			initSequence.handleAsyncInit(handler.target, isQueuedAsyncInit);
 		}
 	}
 	

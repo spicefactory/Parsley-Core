@@ -1,6 +1,8 @@
 package suites {
+
 import org.spicefactory.parsley.lifecycle.asyncinit.AsyncInitMetadataTagTest;
 import org.spicefactory.parsley.lifecycle.asyncinit.AsyncInitMxmlTagTest;
+import org.spicefactory.parsley.lifecycle.asyncinit.AsyncInitOrderTest;
 import org.spicefactory.parsley.lifecycle.asyncinit.AsyncInitXmlTagTest;
 import org.spicefactory.parsley.lifecycle.factory.FactoryMetadataTagTest;
 import org.spicefactory.parsley.lifecycle.factory.FactoryMxmlTagTest;
@@ -19,6 +21,7 @@ public class LifecycleSuite {
 	public var asyncMeta:AsyncInitMetadataTagTest;
 	public var asyncMxml:AsyncInitMxmlTagTest;
 	public var asyncXml:AsyncInitXmlTagTest;
+	public var asyncOrder:AsyncInitOrderTest;
 	
 	public var factoryMeta:FactoryMetadataTagTest;
 	public var factoryMxml:FactoryMxmlTagTest;

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *	  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.spicefactory.parsley.core.context.impl {
+
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
@@ -23,104 +23,97 @@ import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
 import flash.events.ErrorEvent;
 import flash.events.Event;
-import flash.events.IEventDispatcher;
-import flash.utils.Dictionary;
-import flash.utils.getQualifiedClassName;
 
 /**
  * Responsible for processing all non-lazy singletons that need to be instantiated upon Context creation.
- * 
+ *
  * @author Jens Halm
  */
 public class InitializerSequence {
-	
-	
-	private static const log:Logger = LogContext.getLogger(InitializerSequence);
-	
 
-	private var queuedInits:Array = new Array();
-	
-	private var activeAsyncDefinition:SingletonObjectDefinition;
-	private var activeAsyncInstance:IEventDispatcher;
-	private var parallelInits:Dictionary = new Dictionary();
-	private var parallelInitCount:int = 0;
-	
-	private var context:DefaultContext;
-	
-	
+
+	private static const log: Logger = LogContext.getLogger(InitializerSequence);
+	private var queuedInits: Array = new Array();
+	private var queuedAsync: AsyncInitGroup;
+	private var unqueuedAsync: AsyncInitGroup;
+	private var context: DefaultContext;
+
+
 	/**
 	 * Creates a new instance.
-	 * 
+	 *
 	 * @param context the associated Context
 	 */
-	function InitializerSequence (context:DefaultContext) {
+	function InitializerSequence (context: DefaultContext) {
 		this.context = context;
+		this.queuedAsync = new AsyncInitGroup(context);
+		this.unqueuedAsync = new AsyncInitGroup(context);
+		queuedAsync.addEventListener(Event.COMPLETE, queuedAsyncComplete);
+		unqueuedAsync.addEventListener(Event.COMPLETE, unqueuedAsyncComplete);
+		queuedAsync.addEventListener(ErrorEvent.ERROR, asyncError);
+		unqueuedAsync.addEventListener(ErrorEvent.ERROR, asyncError);
 	}
-
 
 	/**
 	 * Adds a definition to this sequence.
-	 * 
+	 *
 	 * @param def the definition to add to this sequence
-	 */	
-	public function addDefinition (def:ObjectDefinition) : void {
+	 */
+	public function addDefinition (def: ObjectDefinition): void {
 		queuedInits.push(def);
 	}
-	
+
 	/**
 	 * Starts processing the definitons that were added to this sequence.
 	 */
-	public function start () : void {
-		var sortFunc:Function = function (def1:SingletonObjectDefinition, def2:SingletonObjectDefinition) : int {
-			return (def1.order > def2.order) ? 1 
-			: (def1.order < def2.order) ? -1
-			: (def1.asyncInitConfig && !def2.asyncInitConfig) ? -1
-			: (def2.asyncInitConfig && !def1.asyncInitConfig) ? 1 
-			: 0;
+	public function start (): void {
+		var sortFunc: Function = function (def1: SingletonObjectDefinition, def2: SingletonObjectDefinition): int {
+			return (def1.order > def2.order) ? 1 : (def1.order < def2.order) ? -1 : (def1.asyncInitConfig && !def2.asyncInitConfig) ? -1 : (def2.asyncInitConfig && !def1.asyncInitConfig) ? 1 : 0;
 		};
 		queuedInits.sort(sortFunc);
 		createInstances();
 	}
-	
+
 	/**
 	 * Cancels the initialization sequence.
 	 */
-	public function cancel () : void {
-		if (activeAsyncInstance != null) {
-			removeListeners(activeAsyncInstance, activeAsyncDefinition, activeInstanceComplete, activeInstanceError);
-			activeAsyncInstance = null;
-			activeAsyncDefinition = null;
-		}
-		for (var instance:Object in parallelInits) {
-			var def:SingletonObjectDefinition = parallelInits[instance];
-			removeListeners(instance as IEventDispatcher, def, parallelInstanceComplete, parallelInstanceError);
-		}
-		parallelInits = new Dictionary();
-		parallelInitCount = 0;
+	public function cancel (): void {
+		queuedAsync.cancel();
+		unqueuedAsync.cancel();
 	}
 
 	/**
 	 * Indicates whether all definitions of this sequence have completed their initialization.
 	 */
-	public function get complete () : Boolean {
-		return queuedInits.length == 0 && parallelInitCount == 0;
+	public function get complete (): Boolean {
+		return queuedInits.length == 0 && queuedAsync.empty && unqueuedAsync.empty;
 	}
-	
-	private function createInstances () : void {
-		while (!activeAsyncDefinition) {
+
+	private function createInstances (): void {
+		var lastAsyncOrder: Number = NaN;
+
+		while (true) {
 			if (complete) {
 				context.finishInitialization();
 			}
+
 			if (queuedInits.length == 0) {
 				return;
 			}
-			var def:SingletonObjectDefinition = queuedInits.shift() as SingletonObjectDefinition;
-			activeAsyncDefinition = (def.asyncInitConfig != null) ? def : null;
-			activeAsyncInstance = null;
-			try {
-				context.getInstance(def);
+			var def: SingletonObjectDefinition = queuedInits[0] as SingletonObjectDefinition;
+
+			if ((def.order == lastAsyncOrder && def.asyncInitConfig != null) || isNaN(lastAsyncOrder) || queuedAsync.empty) {
+				lastAsyncOrder = def.order;
+				queuedInits.shift();
 			}
-			catch (e:Error) {
+			else {
+				return;
+			}
+
+			try {
+				context.getInstance(def, def.asyncInitConfig != null);
+			}
+			catch (e: Error) {
 				context.destroyWithError("Initialization of " + def + " failed", e);
 				return;
 			}
@@ -129,85 +122,130 @@ public class InitializerSequence {
 
 	/**
 	 * Adds a new instance to be watched by this sequence for completion of its asynchronous initialization.
-	 * 
+	 *
 	 * @param object the object to watch
 	 */
-	public function addInstance (object:ManagedObject) : void {
-		var asyncObj:IEventDispatcher = IEventDispatcher(object.instance);
-		var def:SingletonObjectDefinition = SingletonObjectDefinition(object.definition);
-		if (def == activeAsyncDefinition) {
-			activeAsyncInstance = asyncObj;
-			asyncObj.addEventListener(def.asyncInitConfig.completeEvent, activeInstanceComplete);
-			asyncObj.addEventListener(def.asyncInitConfig.errorEvent, activeInstanceError);
-		} 
+	public function handleAsyncInit (object: ManagedObject, isQueued: Boolean): void {
+		if (isQueued) {
+			queuedAsync.addObject(object);
+		}
 		else {
 			/*
 			 * Must be an initialization that was not triggered by this class.
 			 * Instead it was either tiggered by application code accessing the Context before the
 			 * INITIALIZED event or by a dependency of an object that this class initialized.
-			 * We remove it from the list of queued inits and let it run in parallel to our queue. 
+			 * We remove it from the list of queued inits and let it run in parallel to our queue.
 			 */
-			var index:int = queuedInits.indexOf(def);
+			var index: int = queuedInits.indexOf(object.definition);
+
 			if (index != -1) {
-				log.warn("Unexpected parallel trigger of async initialization of " + def);
 				queuedInits.splice(index, 1);
-				parallelInits[object.instance] = def;
-				parallelInitCount++;
-				asyncObj.addEventListener(def.asyncInitConfig.completeEvent, parallelInstanceComplete);
-				asyncObj.addEventListener(def.asyncInitConfig.errorEvent, parallelInstanceError);
+				log.warn("Unexpected parallel trigger of async initialization of " + object.definition);
+				unqueuedAsync.addObject(object);
 			}
 			else {
-				// should never happen
-				log.error("Unexpected async initialization of " + def);
+				// we should never get here
+				log.error("Unexpected async initialization of " + object.definition);
 			}
 		}
 	}
-	
-	
-	private function activeInstanceComplete (event:Event) : void {
-		removeListeners(IEventDispatcher(event.target), activeAsyncDefinition, activeInstanceComplete, activeInstanceError);
-		activeAsyncDefinition = null;
-		activeAsyncInstance = null;
+
+	private function queuedAsyncComplete (event: Event): void {
 		createInstances();
 	}
-	
-	private function activeInstanceError (event:ErrorEvent) : void {
-		removeListeners(IEventDispatcher(event.target), activeAsyncDefinition, activeInstanceComplete, activeInstanceError);
-		context.destroyWithError("Asynchronous initialization of " + activeAsyncDefinition + " failed", event);
-	}
-	
-	private function parallelInstanceComplete (event:Event) : void {
-		var def:SingletonObjectDefinition = removeParallelInit(event.target, false);
-		removeListeners(IEventDispatcher(event.target), def, parallelInstanceComplete, parallelInstanceError);
-		if (complete) context.finishInitialization();
-	}
-	
-	private function parallelInstanceError (event:ErrorEvent) : void {
-		var def:SingletonObjectDefinition = removeParallelInit(event.target, true);
-		removeListeners(IEventDispatcher(event.target), def, parallelInstanceComplete, parallelInstanceError);
-		context.destroyWithError("Asynchronous initialization of " + def + " failed", event);
-	}
-	
-	private function removeParallelInit (instance:Object, error:Boolean) : SingletonObjectDefinition {
-		var def:SingletonObjectDefinition = parallelInits[instance];
-		if (def != null) {
-			delete parallelInits[instance];
-			parallelInitCount--;
+
+	private function unqueuedAsyncComplete (event: Event): void {
+		if (complete) {
+			context.finishInitialization();
 		}
-		else {
-			// should never happen
-			log.warn("Internal error: Unexpected event for async-init instance of type " + getQualifiedClassName(instance));
-		}
-		return def;
 	}
 
-	private function removeListeners (asyncObj:IEventDispatcher, def:SingletonObjectDefinition, 
-			complete:Function, error:Function) : void {
-		if (def == null) return;
-		asyncObj.removeEventListener(def.asyncInitConfig.completeEvent, complete);
-		asyncObj.removeEventListener(def.asyncInitConfig.errorEvent, error);			
+	private function asyncError (event: ErrorEvent): void {
+		context.destroyWithError("Initialization of singletons failed", event);
+	}
+}
+}
+
+import org.spicefactory.lib.events.NestedErrorEvent;
+import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.core.lifecycle.ManagedObject;
+import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
+
+import flash.events.ErrorEvent;
+import flash.events.Event;
+import flash.events.EventDispatcher;
+import flash.events.IEventDispatcher;
+import flash.utils.Dictionary;
+
+class AsyncInitGroup extends EventDispatcher {
+
+
+	private var context: Context;
+	private var objects: Dictionary = new Dictionary();
+	private var cnt: int;
+
+
+	function AsyncInitGroup (context: Context) {
+		this.context = context;
+	}
+
+	public function get empty (): Boolean {
+		return (cnt == 0);
+	}
+
+	public function addObject (object: ManagedObject): void {
+		if (!objects[object.instance]) {
+			objects[object.instance] = object;
+			cnt++;
+		}
+		var asyncObj: IEventDispatcher = IEventDispatcher(object.instance);
+		var def: SingletonObjectDefinition = SingletonObjectDefinition(object.definition);
+		asyncObj.addEventListener(def.asyncInitConfig.completeEvent, asyncComplete);
+		asyncObj.addEventListener(def.asyncInitConfig.errorEvent, asyncError);
+	}
+
+	private function asyncComplete (event: Event): void {
+		removeObject(event.target);
+
+		if (empty) {
+			dispatchEvent(new Event(Event.COMPLETE));
+		}
+	}
+
+	private function asyncError (event: Event): void {
+		var object: ManagedObject = objects[event.target];
+
+		if (removeObject(event.target)) {
+			dispatchEvent(new NestedErrorEvent(ErrorEvent.ERROR, event, "Asynchronous initialization of " + object.definition + " failed"));
+		}
+	}
+
+	private function removeObject (instance: Object): Boolean {
+		var object: ManagedObject = objects[instance];
+
+		if (object) {
+			delete objects[instance];
+			cnt--;
+			removeListeners(object);
+			return true;
+		}
+		return false;
+	}
+
+	public function cancel (): void {
+		for each (var object:ManagedObject in objects) {
+			removeListeners(object);
+		}
+		objects = null;
+		cnt = 0;
+	}
+
+	private function removeListeners (object: ManagedObject): void {
+		var asyncObj: IEventDispatcher = IEventDispatcher(object.instance);
+		var def: SingletonObjectDefinition = SingletonObjectDefinition(object.definition);
+		asyncObj.removeEventListener(def.asyncInitConfig.completeEvent, asyncComplete);
+		asyncObj.removeEventListener(def.asyncInitConfig.errorEvent, asyncError);
 	}
 	
 	
-}
 }
