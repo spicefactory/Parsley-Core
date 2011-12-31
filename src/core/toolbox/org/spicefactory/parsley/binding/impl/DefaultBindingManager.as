@@ -15,13 +15,13 @@
  */
  
 package org.spicefactory.parsley.binding.impl {
+
+import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.util.ArrayUtil;
 import org.spicefactory.parsley.binding.BindingManager;
 import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.binding.Subscriber;
-
-import flash.utils.Dictionary;
 
 /**
  * Default implementation of the BindingManager interface.
@@ -32,7 +32,7 @@ public class DefaultBindingManager implements BindingManager {
 
 
 	private var publishers:Array = new Array();
-	private var subscribers:Dictionary = new Dictionary();
+	private var subscribers:Map = new Map();
 	private var uniqueElements:UniqueElements = new UniqueElements();
 
 
@@ -57,7 +57,7 @@ public class DefaultBindingManager implements BindingManager {
 		if (checkSubsriber && publisher is Subscriber && !publisher.unique) doAddSubscriber(publisher as Subscriber, false);
 		publisher.init();
 		publishers.push(publisher);
-		for each (var collection:SubscriberCollection in subscribers) {
+		for each (var collection:SubscriberCollection in subscribers.values) {
 			if (collection.isMatchingType(publisher)) {
 				collection.addPublisher(publisher);
 			}
@@ -79,7 +79,7 @@ public class DefaultBindingManager implements BindingManager {
 	private function doRemovePublisher (publisher:Publisher, checkSubsriber:Boolean) : void {
 		publisher.dispose();
 		ArrayUtil.remove(publishers, publisher);
-		for each (var collection:SubscriberCollection in subscribers) {
+		for each (var collection:SubscriberCollection in subscribers.values) {
 			if (collection.isMatchingType(publisher)) {
 				collection.removePublisher(publisher);
 			}
@@ -101,7 +101,7 @@ public class DefaultBindingManager implements BindingManager {
 	private function doAddSubscriber (subscriber:Subscriber, checkPublisher:Boolean) : void {
 		var collection:SubscriberCollection = getCollection(subscriber.type);
 		if (collection.empty) {
-			for each (var publisher:Publisher in publishers) {
+			for each (var publisher:Publisher in publishers.concat()) {
 				if (collection.isMatchingType(publisher)) {
 					collection.addPublisher(publisher);
 				}
@@ -127,7 +127,7 @@ public class DefaultBindingManager implements BindingManager {
 			collection.removeSubscriber(subscriber);
 			if (collection.empty) {
 				collection.dispose();
-				delete subscribers[subscriber.type.getClass()];
+				subscribers.remove(subscriber.type.getClass());
 			}
 		}
 		if (checkPublisher && subscriber is Publisher) doRemovePublisher(subscriber as Publisher, false);
@@ -135,23 +135,23 @@ public class DefaultBindingManager implements BindingManager {
 	
 	
 	private function getCollection (type:ClassInfo, create:Boolean = true) : SubscriberCollection {
-		var collection:SubscriberCollection = subscribers[type.getClass()] as SubscriberCollection;
+		var collection:SubscriberCollection = subscribers.get(type.getClass()) as SubscriberCollection;
 		if (collection == null && create) {
 			collection = new SubscriberCollection(type);
-			subscribers[type.getClass()] = collection;
+			subscribers.put(type.getClass(), collection);
 		}
 		return collection;
 	}
 }
 }
 
-import flash.utils.getQualifiedClassName;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.util.DictionaryUtil;
 import org.spicefactory.parsley.binding.Publisher;
 import org.spicefactory.parsley.binding.Subscriber;
 
 import flash.utils.Dictionary;
+import flash.utils.getQualifiedClassName;
 
 class UniqueElements {
 	
