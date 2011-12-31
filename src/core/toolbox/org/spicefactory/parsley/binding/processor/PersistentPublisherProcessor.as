@@ -109,8 +109,9 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	 * @private
 	 */
 	public function toString () : String {
-		return publisher.toString();
+		return "[PersistentPublisher(property=" + property + ((id) ? ",id=" + id : "") + ")]";
 	}
+
 	
 	
 }
