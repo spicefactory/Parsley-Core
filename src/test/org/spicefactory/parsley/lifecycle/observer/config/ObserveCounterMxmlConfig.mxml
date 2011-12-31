@@ -3,7 +3,8 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+
+			import org.spicefactory.parsley.core.processor.DestroyPhase;
 			import org.spicefactory.parsley.lifecycle.observer.model.LifecycleEventCounter;
 		]]>
 	</mx:Script>
@@ -20,7 +21,7 @@
 		<tag:ObserveMethodDecorator method="customVListener" scope="custom"/>
 		<tag:ObserveMethodDecorator method="customHListener" scope="custom"/>
 		<tag:ObserveMethodDecorator method="globalIdListener" objectId="text"/>
-		<tag:ObserveMethodDecorator method="globalDestroyListener" phase="{ObjectLifecycle.PRE_DESTROY}"/>
+		<tag:ObserveMethodDecorator method="globalDestroyListener" phase="{DestroyPhase.preDestroy()}"/>
 	</core:MxmlRootObjectTag>
 	
 	

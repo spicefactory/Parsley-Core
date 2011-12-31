@@ -21,7 +21,6 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.ManagedObjectHandler;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.lifecycle.ObjectLifecycleManager;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
@@ -78,10 +77,10 @@ public class DefaultObjectLifecycleManager implements ObjectLifecycleManager, In
 	/**
 	 * @private
 	 */	
-	internal function getObservers (definition:ObjectDefinition, lifecycle:ObjectLifecycle) : Array {
+	internal function getObservers (definition:ObjectDefinition, typeKey:String) : Array {
 		var observers:Array = new Array();
 		for each (var info:ScopeInfo in scopes.activeScopes) {
-			var scopeObservers: Array = info.selectLifecycleObservers(definition.type, lifecycle, definition.id);
+			var scopeObservers: Array = info.selectLifecycleObservers(definition.type, typeKey, definition.id);
 			if (scopeObservers.length) observers = observers.concat(scopeObservers);
 		}
 		return observers;

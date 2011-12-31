@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
@@ -162,11 +161,11 @@ public class DefaultScopeInfo implements ScopeInfo {
 	/**
 	 * @inheritDoc
 	 */
-	public function selectLifecycleObservers (type:ClassInfo, lifecycle:ObjectLifecycle, id:String = null) : Array {
+	public function selectLifecycleObservers (type:ClassInfo, phaseKey:String, id:String = null) : Array {
 		var allObservers:Array = [];
 		var cache:MessageReceiverCache = _lifecycleRegistry.getSelectionCache(type);
-		allObservers = concatLifecycleObservers(cache, lifecycle.key, allObservers);
-		allObservers = concatLifecycleObservers(cache, lifecycle.key + ":" + id, allObservers);
+		allObservers = concatLifecycleObservers(cache, phaseKey, allObservers);
+		allObservers = concatLifecycleObservers(cache, phaseKey + ":" + id, allObservers);
 		return allObservers;
 	}
 	

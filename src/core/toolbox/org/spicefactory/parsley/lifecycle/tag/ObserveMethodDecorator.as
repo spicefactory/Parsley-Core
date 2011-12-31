@@ -15,9 +15,11 @@
  */
 
 package org.spicefactory.parsley.lifecycle.tag {
+
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.InitPhase;
+import org.spicefactory.parsley.core.processor.Phase;
 import org.spicefactory.parsley.lifecycle.Observe;
 
 [Metadata(name="Observe", types="method", multiple="true")]
@@ -46,7 +48,7 @@ public class ObserveMethodDecorator implements ObjectDefinitionDecorator {
 	/**
 	 * The object lifecycle phase to listen for. Default is postInit.
 	 */
-	public var phase:ObjectLifecycle;
+	public var phase:Phase;
 	
 	/**
 	 * The (optional) id of the object to observe.
@@ -58,7 +60,7 @@ public class ObserveMethodDecorator implements ObjectDefinitionDecorator {
 	 * @inheritDoc
 	 */
 	public function decorate (builder:ObjectDefinitionBuilder) : void {
-		phase ||= ObjectLifecycle.POST_INIT;
+		phase ||= InitPhase.postInit(int.MIN_VALUE);
 		Observe
 			.forMethod(method)
 				.phase(phase)

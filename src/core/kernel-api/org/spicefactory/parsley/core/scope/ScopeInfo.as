@@ -21,7 +21,6 @@ import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 
@@ -94,7 +93,7 @@ public interface ScopeInfo {
 	 * @param id the id of the observerd object
 	 * @return all matching observers
 	 */
-	function selectLifecycleObservers (type:ClassInfo, lifecycle:ObjectLifecycle, id:String = null) : Array
+	function selectLifecycleObservers (type:ClassInfo, phaseKey:String, id:String = null) : Array
 
 	/**
 	 * The extensions registered for this scope.

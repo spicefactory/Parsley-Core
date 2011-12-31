@@ -20,7 +20,7 @@ package org.spicefactory.parsley.core.processor {
  * 
  * @author Jens Halm
  */
-public class DestroyPhase {
+public class DestroyPhase implements Phase {
 	
 	
 	private static const PRE_DESTROY: int = -1;
@@ -88,6 +88,10 @@ public class DestroyPhase {
 		return (phase < other.phase) ? -1
 			: (phase > other.phase) ? 1
 			: order - other.order;
+	}
+
+	public function get typeKey (): String {
+		return "destroy";
 	}
 	
 	

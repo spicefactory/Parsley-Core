@@ -16,13 +16,14 @@
 
 package org.spicefactory.parsley.core.lifecycle.impl {
 
+import org.spicefactory.parsley.core.processor.DestroyPhase;
+import org.spicefactory.parsley.core.processor.InitPhase;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.lifecycle.ManagedObjectHandler;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.processor.ObjectProcessorConfig;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 
@@ -110,8 +111,7 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 
 	 	createProcessors();
 	 	
-	 	fetchObservers(ObjectLifecycle.PRE_INIT);
-	 	fetchObservers(ObjectLifecycle.POST_INIT);
+	 	fetchObservers(InitPhase.init().typeKey);
 
 	 	invokeInitMethods();
 	}
@@ -130,8 +130,7 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		manager.globalObjectManager.removeManagedObject(target);
 		
 		try {
-			fetchObservers(ObjectLifecycle.PRE_DESTROY);
-	 		fetchObservers(ObjectLifecycle.POST_DESTROY);
+	 		fetchObservers(DestroyPhase.destroy().typeKey);
 	 	
 		 	invokeDestroyMethods();
 		}
@@ -184,8 +183,8 @@ public class DefaultManagedObjectHandler implements ManagedObjectHandler {
 		}
 	}
 	
-	private function fetchObservers (lifecycle:ObjectLifecycle) : void {
-		var observers:Array = manager.getObservers(target.definition, lifecycle);
+	private function fetchObservers (typeKey:String) : void {
+		var observers:Array = manager.getObservers(target.definition, typeKey);
 		if (observers.length) {
 			_processors = _processors.concat(observers);
 		}

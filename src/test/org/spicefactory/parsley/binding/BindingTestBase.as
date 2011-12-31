@@ -14,7 +14,7 @@ import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.DestroyPhase;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.core.state.GlobalState;
 import org.spicefactory.parsley.lifecycle.observer.model.LifecycleObserverDelegate;
@@ -139,9 +139,9 @@ public class BindingTestBase {
 			removed.push(c);
 		};
 		context.scopeManager.getScope(ScopeName.LOCAL)
-				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener, Cat, ObjectLifecycle.POST_INIT));
+				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener, Cat));
 		context.scopeManager.getScope(ScopeName.LOCAL)
-				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener2, Cat, ObjectLifecycle.PRE_DESTROY));
+				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener2, Cat, DestroyPhase.preDestroy()));
 		var cat1:Cat = new Cat();
 		var cat2:Cat = new Cat();
 		pub.value = cat1;

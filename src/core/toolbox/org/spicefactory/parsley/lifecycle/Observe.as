@@ -17,7 +17,8 @@
 package org.spicefactory.parsley.lifecycle {
 
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.InitPhase;
+import org.spicefactory.parsley.core.processor.Phase;
 import org.spicefactory.parsley.lifecycle.processor.ObserveMethodProcessor;
 
 /**
@@ -31,7 +32,7 @@ public class Observe {
 	private var method:String;
 
 	private var _scope:String;
-	private var _phase:ObjectLifecycle;
+	private var _phase:Phase;
 	private var _objectId:String;
 
 	
@@ -40,7 +41,7 @@ public class Observe {
 	 */
 	function Observe (method:String) {
 		this.method = method;
-		this._phase = ObjectLifecycle.POST_INIT;
+		this._phase = InitPhase.postInit(int.MIN_VALUE);
 	}
 
 	
@@ -65,7 +66,7 @@ public class Observe {
 	 * @param value the lifecycle phase this observer is interested in
 	 * @return this builder for method chaining
 	 */
-	public function phase (value:ObjectLifecycle) : Observe {
+	public function phase (value:Phase) : Observe {
 		_phase = value;
 		return this;
 	}

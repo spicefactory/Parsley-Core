@@ -22,7 +22,7 @@ import org.spicefactory.parsley.binding.model.StringPublishPersistentMetadata;
 import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.DynamicObject;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.DestroyPhase;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.core.state.GlobalState;
 import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
@@ -197,9 +197,9 @@ public class BindingMetadataTagTest {
 			removed.push(c);
 		};
 		context.scopeManager.getScope(ScopeName.LOCAL)
-				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener, Cat, ObjectLifecycle.POST_INIT));
+				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener, Cat));
 		context.scopeManager.getScope(ScopeName.LOCAL)
-				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener2, Cat, ObjectLifecycle.PRE_DESTROY));
+				.lifecycleObservers.addObserver(new LifecycleObserverDelegate(listener2, Cat, DestroyPhase.preDestroy()));
 		var cat1:Cat = new Cat();
 		var cat2:Cat = new Cat();
 		pub.value = cat1;

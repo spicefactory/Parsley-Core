@@ -15,13 +15,14 @@
  */
 
 package org.spicefactory.parsley.lifecycle.observer {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Parameter;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserver;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.Phase;
 
 /**
  * Default implementation of the LifecycleObserver interface.
@@ -35,7 +36,7 @@ public class DefaultLifecycleObserver implements LifecycleObserver {
 	private var targetMethod:Method;
 	
 	private var _observedType:ClassInfo;
-	private var _event:ObjectLifecycle;
+	private var _phase:Phase;
 	private var _objectId:String;
 	
 	
@@ -50,9 +51,9 @@ public class DefaultLifecycleObserver implements LifecycleObserver {
 	 * @param explicitType the type of object to observe
 	 */	
 	function DefaultLifecycleObserver (provider:ObjectProvider, method:String, 
-			phase:ObjectLifecycle = null, objectId:String = null, explicitType:ClassInfo = null) {
+			phase:Phase = null, objectId:String = null, explicitType:ClassInfo = null) {
 		this.provider = provider;
-		this._event = phase;
+		this._phase = phase;
 		this._objectId = objectId;
 		this.targetMethod = provider.type.getMethod(method);
 		if (targetMethod == null) {
@@ -92,8 +93,8 @@ public class DefaultLifecycleObserver implements LifecycleObserver {
 	/**
 	 * @inheritDoc
 	 */
-	public function get phase () : ObjectLifecycle {
-		return _event;
+	public function get phase () : Phase {
+		return _phase;
 	}
 	
 	/**

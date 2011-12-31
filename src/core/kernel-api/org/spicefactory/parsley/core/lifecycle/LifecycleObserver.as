@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.core.lifecycle {
 
+import org.spicefactory.parsley.core.processor.Phase;
 /**
  * Represents an observer that gets notified when matching objects reach a particular phase in their lifecycle.
  * 
@@ -32,7 +33,7 @@ public interface LifecycleObserver {
 	/**
 	 * The phase of the object lifecycle that should trigger the observer.
 	 */
-	function get phase () : ObjectLifecycle;
+	function get phase () : Phase;
 	
 	/**
 	 * The optional id of the object as registered in the Context.

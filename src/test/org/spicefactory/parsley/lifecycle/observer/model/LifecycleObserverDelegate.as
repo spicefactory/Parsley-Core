@@ -16,8 +16,9 @@
 
 package org.spicefactory.parsley.lifecycle.observer.model {
 
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.InitPhase;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserver;
+import org.spicefactory.parsley.core.processor.Phase;
 	
 /**
  * @author Jens Halm
@@ -25,17 +26,17 @@ import org.spicefactory.parsley.core.lifecycle.LifecycleObserver;
 public class LifecycleObserverDelegate implements LifecycleObserver {
 
 	private var _observedType:Class;
-	private var _phase:ObjectLifecycle;
+	private var _phase:Phase;
 	private var _objectId:String;
 	
 	private var callback:Function;
 
 	function LifecycleObserverDelegate (callback:Function, observedType:Class, 
-			phase:ObjectLifecycle, objectId:String = null) {
+			phase:Phase = null, objectId:String = null) {
 		this.callback = callback;
 		
 		_observedType = observedType;
-		_phase = phase;
+		_phase = phase || InitPhase.postInit(int.MIN_VALUE);
 		_objectId = objectId;
 	}
 
@@ -43,7 +44,7 @@ public class LifecycleObserverDelegate implements LifecycleObserver {
 		return _observedType;
 	}
 
-	public function get phase () : ObjectLifecycle {
+	public function get phase () : Phase {
 		return _phase;
 	}
 

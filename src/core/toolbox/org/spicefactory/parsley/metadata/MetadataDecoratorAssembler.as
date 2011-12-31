@@ -16,8 +16,6 @@
 
 package org.spicefactory.parsley.metadata {
 
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Converters;
@@ -26,7 +24,6 @@ import org.spicefactory.lib.reflect.Metadata;
 import org.spicefactory.lib.reflect.MetadataAware;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Property;
-import org.spicefactory.lib.reflect.converter.EnumerationConverter;
 import org.spicefactory.lib.reflect.metadata.Target;
 import org.spicefactory.parsley.asconfig.metadata.DynamicObjectDefinitionMetadata;
 import org.spicefactory.parsley.asconfig.metadata.InternalProperty;
@@ -38,8 +35,8 @@ import org.spicefactory.parsley.comobserver.tag.CommandStatusDecorator;
 import org.spicefactory.parsley.core.builder.DecoratorAssembler;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.core.errors.ContextError;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.messaging.impl.Selector;
+import org.spicefactory.parsley.core.processor.Phase;
 import org.spicefactory.parsley.core.view.metadata.Autoremove;
 import org.spicefactory.parsley.inject.tag.InjectConstructorDecorator;
 import org.spicefactory.parsley.inject.tag.InjectMethodDecorator;
@@ -55,6 +52,9 @@ import org.spicefactory.parsley.messaging.tag.MessageDispatcherDecorator;
 import org.spicefactory.parsley.messaging.tag.MessageErrorDecorator;
 import org.spicefactory.parsley.messaging.tag.MessageHandlerDecorator;
 import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
+
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 
 
 
@@ -128,7 +128,7 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 			Metadata.registerMetadataClass(typeToRegister);
 		}
 		
-		Converters.addConverter(ObjectLifecycle, new EnumerationConverter(ClassInfo.forClass(ObjectLifecycle)));
+		Converters.addConverter(Phase, new PhaseConverter());
 	}
 	
 	/**
@@ -242,8 +242,13 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 }
 }
 
+import org.spicefactory.lib.errors.IllegalArgumentError;
+import org.spicefactory.lib.reflect.Converter;
 import org.spicefactory.lib.reflect.Member;
+import org.spicefactory.parsley.core.processor.DestroyPhase;
+import org.spicefactory.parsley.core.processor.InitPhase;
 
+import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
 
 class ProcessedMembers {
@@ -256,6 +261,24 @@ class ProcessedMembers {
 		if (processed[key]) return false;
 		processed[key] = true;
 		return true;
+	}
+	
+}
+
+class PhaseConverter implements Converter {
+
+
+	public function convert (value: *, domain: ApplicationDomain = null): * {
+		switch (value) {
+			case "preInit": return InitPhase.preInit(int.MAX_VALUE);
+			case "init": return InitPhase.init();
+			case "postInit": return InitPhase.preInit(int.MIN_VALUE);
+			case "preDestroy": return DestroyPhase.preDestroy(int.MAX_VALUE);
+			case "destroy": return DestroyPhase.destroy();
+			case "postDestroy": return DestroyPhase.postDestroy(int.MIN_VALUE);
+			
+			otherwise: throw new IllegalArgumentError("Not a valid constant for a phase: " + value);
+		}
 	}
 	
 }

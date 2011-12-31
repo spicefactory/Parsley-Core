@@ -22,8 +22,8 @@ import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.context.provider.Provider;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserver;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
 import org.spicefactory.parsley.core.processor.MethodProcessor;
+import org.spicefactory.parsley.core.processor.Phase;
 import org.spicefactory.parsley.core.processor.SingletonPreProcessor;
 import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
@@ -40,7 +40,7 @@ public class ObserveMethodProcessor implements MethodProcessor, StatefulProcesso
 
 
 	private var method:Method;
-	private var phase:ObjectLifecycle;
+	private var phase:Phase;
 	private var objectId:String;
 	private var scopeName:String;
 	
@@ -53,7 +53,7 @@ public class ObserveMethodProcessor implements MethodProcessor, StatefulProcesso
 	 * @param objectId the id of the object to observe
 	 * @param scopeName the name of the scope to observe
 	 */
-	function ObserveMethodProcessor (phase:ObjectLifecycle, objectId:String, scopeName:String) {
+	function ObserveMethodProcessor (phase:Phase, objectId:String, scopeName:String) {
 		this.phase = phase;
 		this.objectId = objectId;
 		this.scopeName = scopeName;

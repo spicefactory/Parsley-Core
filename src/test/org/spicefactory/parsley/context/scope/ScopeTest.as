@@ -1,10 +1,5 @@
 package org.spicefactory.parsley.context.scope {
 
-import flash.events.Event;
-import flash.events.EventDispatcher;
-import mx.containers.Box;
-import mx.containers.HBox;
-import mx.containers.VBox;
 import org.hamcrest.assertThat;
 import org.hamcrest.collection.arrayWithSize;
 import org.hamcrest.core.not;
@@ -20,13 +15,20 @@ import org.spicefactory.parsley.context.scope.model.LocalReceiver;
 import org.spicefactory.parsley.context.scope.model.OrderedMixedScopeReceivers;
 import org.spicefactory.parsley.context.scope.model.PassiveSender;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.lifecycle.ObjectLifecycle;
+import org.spicefactory.parsley.core.processor.InitPhase;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeName;
 import org.spicefactory.parsley.core.state.GlobalScopeState;
 import org.spicefactory.parsley.core.state.GlobalState;
 import org.spicefactory.parsley.lifecycle.observer.model.LifecycleObserverDelegate;
 import org.spicefactory.parsley.util.XmlContextUtil;
+
+import mx.containers.Box;
+import mx.containers.HBox;
+import mx.containers.VBox;
+
+import flash.events.Event;
+import flash.events.EventDispatcher;
 
 
 
@@ -138,9 +140,9 @@ public class ScopeTest {
 	
 	private function addObserver (context:Context, scopeName:String, f:Function) : void {
 		var scope:Scope = context.scopeManager.getScope(scopeName);
-  		scope.lifecycleObservers.addObserver(new LifecycleObserverDelegate(f, Box, ObjectLifecycle.PRE_INIT));
-  		scope.lifecycleObservers.addObserver(new LifecycleObserverDelegate(f, HBox, ObjectLifecycle.PRE_INIT));
-  		scope.lifecycleObservers.addObserver(new LifecycleObserverDelegate(f, VBox, ObjectLifecycle.PRE_INIT));
+  		scope.lifecycleObservers.addObserver(new LifecycleObserverDelegate(f, Box, InitPhase.preInit(int.MAX_VALUE)));
+  		scope.lifecycleObservers.addObserver(new LifecycleObserverDelegate(f, HBox, InitPhase.preInit(int.MAX_VALUE)));
+  		scope.lifecycleObservers.addObserver(new LifecycleObserverDelegate(f, VBox, InitPhase.preInit(int.MAX_VALUE)));
 	}
 
 	[Test]
