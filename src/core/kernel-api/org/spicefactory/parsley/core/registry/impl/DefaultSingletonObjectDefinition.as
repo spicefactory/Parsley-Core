@@ -18,7 +18,6 @@ package org.spicefactory.parsley.core.registry.impl {
 
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.registry.AsyncInitConfig;
-import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
@@ -33,7 +32,7 @@ public class DefaultSingletonObjectDefinition extends AbstractObjectDefinition i
 	private var _lazy:Boolean;
 	private var _order:int;
 	private var _asyncInitConfig:AsyncInitConfig;
-	private var _parent:SingletonObjectDefinition;
+
 
 	/**
 	 * Creates a new instance.
@@ -46,13 +45,10 @@ public class DefaultSingletonObjectDefinition extends AbstractObjectDefinition i
 	 * @param parent the parent definition containing shared configuration for this definition
 	 */
 	function DefaultSingletonObjectDefinition (type:ClassInfo, id:String, registry:ObjectDefinitionRegistry,
-			lazy:Boolean = false, order:int = int.MAX_VALUE, parent:ObjectDefinition = null) {
-		super(type, id, registry, parent);
+			lazy:Boolean = false, order:int = int.MAX_VALUE) {
+		super(type, id, registry);
 		_lazy = lazy;
 		_order = order;
-		if (parent is SingletonObjectDefinition) {
-			_parent = SingletonObjectDefinition(parent);
-		}
 	}
 	
 	
@@ -74,7 +70,7 @@ public class DefaultSingletonObjectDefinition extends AbstractObjectDefinition i
 	 * @inheritDoc
 	 */
 	public function get asyncInitConfig () : AsyncInitConfig {
-		return (_asyncInitConfig) ? _asyncInitConfig : ((_parent) ? _parent.asyncInitConfig : null);
+		return _asyncInitConfig;
 	}
 	
 	/**

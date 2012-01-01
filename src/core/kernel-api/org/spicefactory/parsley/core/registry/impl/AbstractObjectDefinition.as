@@ -39,7 +39,6 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	private var attributes:Dictionary = new Dictionary();
 	
 	private var _registry:ObjectDefinitionRegistry;
-	private var _parent:ObjectDefinition;
 	
 	private var _instantiator:ObjectInstantiator;
     private var _processors:Array = new Array();	
@@ -56,11 +55,10 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	 * @param parent the parent definition containing shared configuration for this definition
 	 */
 	function AbstractObjectDefinition (type:ClassInfo, id:String, 
-			registry:ObjectDefinitionRegistry, parent:ObjectDefinition = null) {
+			registry:ObjectDefinitionRegistry) {
 		_type = type;
 		_id = id;
 		_registry = registry;
-		_parent = parent;		
 	}
 	
 
@@ -103,7 +101,7 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	 * @inheritDoc
 	 */
 	public function get instantiator () : ObjectInstantiator {
-		return (_instantiator) ? _instantiator : ((_parent) ? _parent.instantiator : null);
+		return _instantiator;
 	}
 	
 	/**
@@ -117,7 +115,7 @@ public class AbstractObjectDefinition implements ObjectDefinition {
 	 * @inheritDoc
 	 */
 	public function get processors () : Array {
-		return (_parent) ? _parent.processors.concat(_processors) : _processors.concat();
+		return _processors.concat();
 	}
 
 	/**

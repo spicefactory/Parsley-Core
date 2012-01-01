@@ -32,8 +32,6 @@ import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.ObjectInstantiator;
 import org.spicefactory.parsley.core.registry.SingletonObjectDefinition;
 
-
-
 /**
  * Represents the context for a single object definition build process.
  * 
@@ -130,9 +128,18 @@ public class ObjectDefinitionContext {
 	 */
 	public function processDefinition (target:ObjectDefinition, additionalDecorators:Array, 
 			builder:ObjectDefinitionBuilder) : ObjectDefinition {
+				
+		if (processed) {
+			throw new IllegalStateError("A definition has already been built from this configuration");
+		}
+		processed = true;		
+		
 		processDecorators(target, additionalDecorators, builder);
+		
 		applyBuilderParts(target);
+		
 		target.instantiator = instantiator;
+		
 		return applyDefinitionReplacer(target);
 	}
 
@@ -156,7 +163,6 @@ public class ObjectDefinitionContext {
 		return newDef;
 	}
 	
-	
 	/**
 	 * Processes the decorators for this builder. This implementation processes all decorators obtained
 	 * through the decorator assemblers registered for the core <code>Configuration</code> instance 
@@ -167,21 +173,16 @@ public class ObjectDefinitionContext {
 	 * @param definition the definition to process
 	 * @param additionalDecorators the decorators to process in addition to the ones added through the assemblers
 	 * @param builder the builder for the definition
-	 * @return the resulting definition (possibly the same instance that was passed to this method)
 	 */
 	protected function processDecorators (definition:ObjectDefinition, additionalDecorators:Array, 
 			builder:ObjectDefinitionBuilder) : void {
+		
 		var decorators:Array = new Array();
-		if (!processed) {
-			processed = true;				
-			for each (var assembler:DecoratorAssembler in assemblers) {
-				decorators = decorators.concat(assembler.assemble(definition.type));
-			}
-			decorators = decorators.concat(additionalDecorators);
+		for each (var assembler:DecoratorAssembler in assemblers) {
+			decorators = decorators.concat(assembler.assemble(definition.type));
 		}
-		else {
-			decorators = additionalDecorators;
-		}
+		decorators = decorators.concat(additionalDecorators);
+		
 		var errors:Array = new Array();
 		for each (var decorator:ObjectDefinitionDecorator in decorators) {
 			try {
@@ -196,5 +197,7 @@ public class ObjectDefinitionContext {
 			throw new ObjectDefinitionError(definition, errors);
 		} 
 	}
+	
+	
 }
 }

@@ -15,9 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.registry.impl {
+
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
-import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.instantiator.ObjectWrapperInstantiator;
 
@@ -36,9 +36,8 @@ public class DefaultDynamicObjectDefinition extends AbstractObjectDefinition imp
 	 * @param registry the registry this definition belongs to
 	 * @param parent the parent definition containing shared configuration for this definition
 	 */
-	function DefaultDynamicObjectDefinition (type:ClassInfo, id:String, 
-			registry:ObjectDefinitionRegistry, parent:ObjectDefinition = null) {
-		super(type, id, registry, parent);
+	function DefaultDynamicObjectDefinition (type:ClassInfo, id:String, registry:ObjectDefinitionRegistry) {
+		super(type, id, registry);
 	}
 	
 	
