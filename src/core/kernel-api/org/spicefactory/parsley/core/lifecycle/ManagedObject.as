@@ -15,8 +15,8 @@
  */
 
 package org.spicefactory.parsley.core.lifecycle {
+
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 
 /**
@@ -69,17 +69,6 @@ public interface ManagedObject {
 	 * @return the resolved object
 	 */
 	function resolveObjectReference (definition:ObjectDefinition) : Object;
-	
-	/**
-	 * Snychronizes the lifecycle of the specified dynamic object with the lifecycle
-	 * of this ManagedObject instance.
-	 * When this object gets removed from the Context, the specified dynamic object
-	 * will be removed too. This will also work if the dynamic object belongs to 
-	 * a parent Context of the Context this object belongs to.
-	 * 
-	 * <p>This method is primarily used for values that had been injected into this object.</p>
-	 */
-	function synchronizeLifecycle (object:DynamicObject) : void;
 	
 }
 }

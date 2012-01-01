@@ -15,7 +15,7 @@
  */
 
 package org.spicefactory.parsley.inject.model {
-import org.spicefactory.parsley.core.context.DynamicObject;
+
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.core.registry.ResolvableValue;
@@ -41,9 +41,7 @@ public class NestedObject implements ResolvableValue {
 	}
 
 	public function resolve (target:ManagedObject) : * {
-		var child:DynamicObject = target.context.addDynamicDefinition(definition);
-		target.synchronizeLifecycle(child);
-		return child.instance;
+		return target.resolveObjectReference(definition);
 	}
 	
 	

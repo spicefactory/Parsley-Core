@@ -250,16 +250,12 @@ class ManagedObjectImpl implements ManagedObject {
 	public function resolveObjectReference (definition:ObjectDefinition) : Object {
 		if (definition is DynamicObjectDefinition) {
 			var dynObject:DynamicObject = context.addDynamicDefinition(definition as DynamicObjectDefinition);
-			synchronizeLifecycle(dynObject);
+			synchronizedObjects.push(dynObject);
 			return dynObject.instance;
 		}
 		else {
 			return definition.registry.context.getObject(definition.id);
 		}
-	}
-	
-	public function synchronizeLifecycle (object:DynamicObject) : void {
-		synchronizedObjects.push(object);
 	}
 	
 	internal function removeSynchronizedObjects () : void {
