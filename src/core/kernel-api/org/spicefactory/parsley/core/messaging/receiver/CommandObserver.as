@@ -17,7 +17,7 @@
 package org.spicefactory.parsley.core.messaging.receiver {
 
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 
 /**
  * Represents a message receiver that gets invoked when an asnychronous command starts or finishes its execution.

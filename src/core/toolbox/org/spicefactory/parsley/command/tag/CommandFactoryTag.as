@@ -16,9 +16,9 @@
  
 package org.spicefactory.parsley.command.tag {
 
-import org.spicefactory.parsley.instantiator.ObjectWrapperInstantiator;
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.config.RootConfigurationElement;
+import org.spicefactory.parsley.core.builder.support.ObjectWrapperInstantiator;
 import org.spicefactory.parsley.core.command.ManagedCommandFactory;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 

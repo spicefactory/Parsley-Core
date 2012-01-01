@@ -15,7 +15,10 @@
  */
 
 package org.spicefactory.parsley.core.messaging.impl {
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
@@ -23,8 +26,6 @@ import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 import org.spicefactory.parsley.core.messaging.receiver.MessageTarget;
 import org.spicefactory.parsley.core.state.manager.GlobalDomainManager;
 
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
 
 /**
  * Default implementation of the MessageReceiverRegistry interface.

@@ -20,7 +20,7 @@ import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.comobserver.receiver.CommandStatusFlag;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.command.CommandManager;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.messaging.processor.PropertyReceiverProcessor;
 import org.spicefactory.parsley.messaging.receiver.MessageReceiverInfo;
 

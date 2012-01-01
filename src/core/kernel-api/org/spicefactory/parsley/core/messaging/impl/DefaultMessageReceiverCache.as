@@ -16,15 +16,16 @@
 
 package org.spicefactory.parsley.core.messaging.impl {
 
+import flash.events.Event;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 
-import flash.events.Event;
-import flash.utils.Dictionary;
 
 /**
  * A cached selection of receivers for a particular message type and its subtypes.
@@ -147,13 +148,13 @@ public class DefaultMessageReceiverCache implements MessageReceiverCache {
 }
 }
 
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverCollection;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
-
 import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
 import flash.utils.Proxy;
 import flash.utils.getQualifiedClassName;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.impl.MessageReceiverCollection;
+
 
 class SelectorMap {
 	

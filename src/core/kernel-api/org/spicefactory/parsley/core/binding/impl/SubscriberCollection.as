@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package org.spicefactory.parsley.binding.impl {
+package org.spicefactory.parsley.core.binding.impl {
 
 import flash.events.Event;
 import flash.utils.Dictionary;

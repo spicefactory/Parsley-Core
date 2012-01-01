@@ -21,6 +21,7 @@ import org.spicefactory.parsley.core.binding.impl.LocalPersistenceManager;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultApplicationDomainProvider;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;
+import org.spicefactory.parsley.core.builder.support.MetadataDecoratorAssembler;
 import org.spicefactory.parsley.core.context.impl.DefaultContext;
 import org.spicefactory.parsley.core.lifecycle.impl.DefaultObjectLifecycleManager;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageRouter;
@@ -30,7 +31,6 @@ import org.spicefactory.parsley.core.view.handler.ContextLookupHandler;
 import org.spicefactory.parsley.core.view.handler.ViewConfigurationHandler;
 import org.spicefactory.parsley.core.view.impl.DefaultViewManager;
 import org.spicefactory.parsley.core.view.processor.DefaultViewProcessor;
-import org.spicefactory.parsley.metadata.MetadataDecoratorAssembler;
 
 /**
  * Holds the instance that provides access to the global bootstrap configuration defaults 

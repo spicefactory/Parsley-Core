@@ -24,7 +24,7 @@ import org.spicefactory.parsley.core.command.CommandObserverProcessor;
 import org.spicefactory.parsley.core.context.provider.ObjectProvider;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.messaging.MessageProcessor;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.messaging.receiver.AbstractMethodReceiver;
 import org.spicefactory.parsley.messaging.receiver.MessageReceiverInfo;

@@ -18,7 +18,7 @@ package org.spicefactory.parsley.comobserver.receiver {
 
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 import org.spicefactory.parsley.messaging.receiver.AbstractPropertyReceiver;
 import org.spicefactory.parsley.messaging.receiver.MessageReceiverInfo;

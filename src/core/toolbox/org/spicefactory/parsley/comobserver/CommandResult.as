@@ -19,7 +19,7 @@ package org.spicefactory.parsley.comobserver {
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.comobserver.receiver.DefaultCommandObserver;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.messaging.processor.MethodReceiverProcessor;
 import org.spicefactory.parsley.messaging.receiver.MessageReceiverInfo;
 

@@ -22,9 +22,9 @@ import org.spicefactory.parsley.core.command.CommandObserverProcessor;
 import org.spicefactory.parsley.core.command.CommandStatus;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.MessageSettings;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageProcessor;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.CommandObserver;
 
 /**

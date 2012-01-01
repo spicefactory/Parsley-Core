@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.core.scope.impl {
 
+import flash.utils.Dictionary;
 import org.spicefactory.lib.command.builder.CommandGroupBuilder;
 import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.errors.IllegalArgumentError;
@@ -30,16 +31,15 @@ import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ContextEvent;
 import org.spicefactory.parsley.core.messaging.Message;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.MessageRouter;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessage;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
 import org.spicefactory.parsley.core.scope.ScopeInfoRegistry;
 import org.spicefactory.parsley.core.scope.ScopeManager;
 
-import flash.utils.Dictionary;
 
 
 /**
@@ -255,7 +255,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 }
 
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
 
 class MergedMessageReceiverCache implements MessageReceiverCache {
 

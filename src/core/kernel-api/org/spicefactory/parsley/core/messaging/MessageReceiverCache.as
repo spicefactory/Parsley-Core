@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.core.messaging {
 
-import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 
 /**
  * A cache of receivers for a particular message type which MessageRouter implementations use for performance optimizations.

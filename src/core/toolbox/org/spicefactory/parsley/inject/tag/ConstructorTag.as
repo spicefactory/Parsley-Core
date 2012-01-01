@@ -15,9 +15,10 @@
  */
 
 package org.spicefactory.parsley.inject.tag {
+
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
-import org.spicefactory.parsley.instantiator.ConstructorInstantiator;
+import org.spicefactory.parsley.core.builder.support.ConstructorInstantiator;
 import org.spicefactory.parsley.object.ArrayTag;
 import org.spicefactory.parsley.util.ConfigurationValueResolver;
 

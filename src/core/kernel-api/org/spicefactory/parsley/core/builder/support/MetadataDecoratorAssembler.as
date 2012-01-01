@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.metadata {
+package org.spicefactory.parsley.core.builder.support {
 
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Converters;
 import org.spicefactory.lib.reflect.Member;
@@ -27,10 +29,8 @@ import org.spicefactory.lib.reflect.metadata.Target;
 import org.spicefactory.parsley.core.builder.DecoratorAssembler;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.core.errors.ContextError;
-
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
-
+import org.spicefactory.parsley.metadata.ProcessInterfaces;
+import org.spicefactory.parsley.metadata.ProcessSuperclass;
 
 
 /**

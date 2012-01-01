@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.messaging.impl {
+package org.spicefactory.parsley.core.messaging {
 import org.spicefactory.parsley.core.command.CommandStatus;
 
 /**

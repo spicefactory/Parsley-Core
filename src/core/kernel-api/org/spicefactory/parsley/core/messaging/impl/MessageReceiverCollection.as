@@ -17,9 +17,10 @@
 package org.spicefactory.parsley.core.messaging.impl {
 import flash.events.Event;
 import flash.events.EventDispatcher;
-import org.spicefactory.lib.util.ArrayUtil;
-import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 import flash.utils.Dictionary;
+import org.spicefactory.lib.util.ArrayUtil;
+import org.spicefactory.parsley.core.messaging.MessageReceiverKind;
+import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 
 /**
  * Dispatched when a message receiver was added to or removed from the collection.

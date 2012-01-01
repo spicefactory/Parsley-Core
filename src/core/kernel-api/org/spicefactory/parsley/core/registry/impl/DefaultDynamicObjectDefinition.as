@@ -17,9 +17,9 @@
 package org.spicefactory.parsley.core.registry.impl {
 
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.builder.support.ObjectWrapperInstantiator;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.instantiator.ObjectWrapperInstantiator;
 
 /**
  * Default implementation of the DynamicObjectDefinition interface.

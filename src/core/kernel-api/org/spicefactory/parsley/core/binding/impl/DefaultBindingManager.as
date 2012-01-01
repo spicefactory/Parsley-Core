@@ -19,7 +19,6 @@ package org.spicefactory.parsley.core.binding.impl {
 import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.util.ArrayUtil;
-import org.spicefactory.parsley.binding.impl.SubscriberCollection;
 import org.spicefactory.parsley.core.binding.BindingManager;
 import org.spicefactory.parsley.core.binding.Publisher;
 import org.spicefactory.parsley.core.binding.Subscriber;
