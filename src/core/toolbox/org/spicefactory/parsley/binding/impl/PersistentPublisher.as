@@ -21,8 +21,10 @@ import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.binding.Publisher;
 import org.spicefactory.parsley.core.binding.Subscriber;
 
-
 /**
+ * A publisher that updates when the matching persisted value has changed
+ * in the installed persistence manager.
+ * 
  * @author Jens Halm
  */
 public class PersistentPublisher extends AbstractPublisher implements Publisher, Subscriber {
@@ -31,6 +33,14 @@ public class PersistentPublisher extends AbstractPublisher implements Publisher,
 	private var key:Object;
 	private var subscriber:Subscriber;
 	
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param manager the manager to read values from
+	 * @param type the type of the published value
+	 * @param id the id the value is published with
+	 * @param persistentKey the key to pass to the persistence manager in case it differs from the id
+	 */
 	function PersistentPublisher (manager:PersistenceManager, type:ClassInfo, id:String = null, persistentKey:Object = null) {
 		super(type, id, true);
 		this.manager = manager;

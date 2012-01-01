@@ -21,6 +21,8 @@ import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.binding.Subscriber;
 
 /**
+ * A subscriber that passes all updates to the installed persistence manager.
+ * 
  * @author Jens Halm
  */
 public class PersistentSubscriber extends AbstractSubscriber implements Subscriber {
@@ -28,12 +30,23 @@ public class PersistentSubscriber extends AbstractSubscriber implements Subscrib
 	private var manager:PersistenceManager;
 	private var key:Object;
 	
+	/**
+	 * Creates a new instance.
+	 * 
+	 * @param manager the manager to write values to
+	 * @param type the type of the published value
+	 * @param id the id the value is published with
+	 * @param persistentKey the key to pass to the persistence manager in case it differs from the id
+	 */
 	function PersistentSubscriber (manager:PersistenceManager, type:ClassInfo, id:String = null, persistentKey:Object = null) {
 		super(type, id, true);
 		this.manager = manager;
 		this.key = persistentKey || id;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function update (newValue : *) : void {
 		manager.saveValue(key, newValue);
 	}
