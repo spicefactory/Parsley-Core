@@ -16,9 +16,7 @@
 
 package org.spicefactory.parsley.asconfig {
 
-import org.spicefactory.parsley.asconfig.processor.ActionScriptConfigurationProcessor;
-import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
-import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
 
 import flash.display.DisplayObject;
@@ -45,10 +43,12 @@ public class ActionScriptContextBuilder {
 	 * @return a new Context instance, possibly not fully initialized yet
 	 */
 	public static function build (configClass:Class, viewRoot:DisplayObject = null) : Context {
-		var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
-		manager.config.viewRoot = viewRoot;
-		manager.config.addProcessor(new ActionScriptConfigurationProcessor([configClass]));
-		return manager.createProcessor().process();
+		return ContextBuilder
+			.newSetup()
+			.viewRoot(viewRoot)
+			.newBuilder()
+			.config(ActionScriptConfig.forClass(configClass))
+			.build();
 	}
 	
 	

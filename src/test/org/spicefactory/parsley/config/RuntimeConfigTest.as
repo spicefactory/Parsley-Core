@@ -80,11 +80,9 @@ public class RuntimeConfigTest {
 	[Test]
 	public function lazyClass () : void {
 		SimpleClass.instanceCounter = 0;
-		var manager:BootstrapManager = new DefaultBootstrapManager();
 		var processor:RuntimeConfigurationProcessor = new RuntimeConfigurationProcessor();
 		processor.addClass(SimpleClass, null, true, true);
-		manager.config.addProcessor(processor);
-		var context:Context = manager.createProcessor().process();
+		var context:Context = ContextBuilder.newBuilder().config(processor).build();
 		assertThat(context, contextInState());
 		assertThat(context.getObjectCount(), equalTo(1));		
 		assertThat(context.getObjectCount(SimpleClass), equalTo(1));		

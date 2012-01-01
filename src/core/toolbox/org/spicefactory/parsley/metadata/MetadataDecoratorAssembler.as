@@ -16,7 +16,6 @@
 
 package org.spicefactory.parsley.metadata {
 
-import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Converters;
 import org.spicefactory.lib.reflect.Member;
@@ -25,33 +24,9 @@ import org.spicefactory.lib.reflect.MetadataAware;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.lib.reflect.metadata.Target;
-import org.spicefactory.parsley.asconfig.metadata.DynamicObjectDefinitionMetadata;
-import org.spicefactory.parsley.asconfig.metadata.InternalProperty;
-import org.spicefactory.parsley.asconfig.metadata.ObjectDefinitionMetadata;
-import org.spicefactory.parsley.comobserver.tag.CommandCompleteDecorator;
-import org.spicefactory.parsley.comobserver.tag.CommandErrorDecorator;
-import org.spicefactory.parsley.comobserver.tag.CommandResultDecorator;
-import org.spicefactory.parsley.comobserver.tag.CommandStatusDecorator;
 import org.spicefactory.parsley.core.builder.DecoratorAssembler;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.core.errors.ContextError;
-import org.spicefactory.parsley.core.messaging.impl.Selector;
-import org.spicefactory.parsley.core.processor.Phase;
-import org.spicefactory.parsley.core.view.metadata.Autoremove;
-import org.spicefactory.parsley.inject.tag.InjectConstructorDecorator;
-import org.spicefactory.parsley.inject.tag.InjectMethodDecorator;
-import org.spicefactory.parsley.inject.tag.InjectPropertyDecorator;
-import org.spicefactory.parsley.lifecycle.tag.AsyncInitDecorator;
-import org.spicefactory.parsley.lifecycle.tag.DestroyMethodDecorator;
-import org.spicefactory.parsley.lifecycle.tag.FactoryMethodDecorator;
-import org.spicefactory.parsley.lifecycle.tag.InitMethodDecorator;
-import org.spicefactory.parsley.lifecycle.tag.ObserveMethodDecorator;
-import org.spicefactory.parsley.messaging.tag.ManagedEventsDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageBindingDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageDispatcherDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageErrorDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageHandlerDecorator;
-import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
 
 import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
@@ -72,80 +47,15 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 	
 	private static var initialized:Boolean = false;
 	
-	private static const metadataClasses:Array = [
-	
-		ProcessSuperclass,
-		ProcessInterfaces,
-	
-		InjectConstructorDecorator,
-		InjectPropertyDecorator,
-		InjectMethodDecorator,
-		
-		FactoryMethodDecorator,
-		InitMethodDecorator,
-		DestroyMethodDecorator,
-		ObserveMethodDecorator,
-		AsyncInitDecorator,
-		
-		ManagedEventsDecorator,
-		MessageDispatcherDecorator,
-		MessageHandlerDecorator,
-		MessageBindingDecorator,
-		MessageErrorDecorator,
-
-		CommandCompleteDecorator,
-		CommandResultDecorator,
-		CommandErrorDecorator,
-		CommandStatusDecorator,
-		
-		ResourceBindingDecorator,
-		
-		Autoremove,
-
-		Selector,
-		Target,
-		
-		InternalProperty, // TODO - 3.0.M2 - move to ActionScriptContextBuilder
-		ObjectDefinitionMetadata,
-		DynamicObjectDefinitionMetadata
-		
-	];
-	
-	private static const replacements:Dictionary = new Dictionary();
-	
-	
-	/**
-	 * Initializes the metadata tag registrations for all builtin metadata tags.
-	 * Will usually be called by the framework
-	 * and does not need to be called by an application.
-	 */
-	public static function initialize () : void {
+	private static function initialize () : void {
 		if (initialized) return;
 		initialized = true;
 		
-		for each (var metadataClass:Class in metadataClasses) {
-			var typeToRegister:Class = (replacements[metadataClass] != null) ? replacements[metadataClass] : metadataClass;
-			Metadata.registerMetadataClass(typeToRegister);
-		}
-		
-		Converters.addConverter(Phase, new PhaseConverter());
+		Metadata.registerMetadataClass(Target);
+		Metadata.registerMetadataClass(ProcessSuperclass);
+		Metadata.registerMetadataClass(ProcessInterfaces);
 	}
 	
-	/**
-	 * Replaces one of the framework's builtin metadata tags with a custom one.
-	 * Any previous replacements for the same type would get overwritten.
-	 * This method must be called before starting to create the first Context of the application.
-	 * 
-	 * @param builtinTag the builtin tag that should be replaced
-	 * @param replacement the actual replacement
-	 */
-	public static function replaceTag (builtinTag:Class, replacement:Class) : void {
-		if (initialized) {
-			throw new IllegalStateError("Builtin metadata tags have already been initialized");
-		}
-		replacements[builtinTag] = replacement;
-	}
-
 	/**
 	 * Creates a new instance.
 	 */
@@ -242,13 +152,8 @@ public class MetadataDecoratorAssembler implements DecoratorAssembler {
 }
 }
 
-import org.spicefactory.lib.errors.IllegalArgumentError;
-import org.spicefactory.lib.reflect.Converter;
 import org.spicefactory.lib.reflect.Member;
-import org.spicefactory.parsley.core.processor.DestroyPhase;
-import org.spicefactory.parsley.core.processor.InitPhase;
 
-import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
 
 class ProcessedMembers {
@@ -265,20 +170,3 @@ class ProcessedMembers {
 	
 }
 
-class PhaseConverter implements Converter {
-
-
-	public function convert (value: *, domain: ApplicationDomain = null): * {
-		switch (value) {
-			case "preInit": return InitPhase.preInit(int.MAX_VALUE);
-			case "init": return InitPhase.init();
-			case "postInit": return InitPhase.preInit(int.MIN_VALUE);
-			case "preDestroy": return DestroyPhase.preDestroy(int.MAX_VALUE);
-			case "destroy": return DestroyPhase.destroy();
-			case "postDestroy": return DestroyPhase.postDestroy(int.MIN_VALUE);
-			
-			otherwise: throw new IllegalArgumentError("Not a valid constant for a phase: " + value);
-		}
-	}
-	
-}

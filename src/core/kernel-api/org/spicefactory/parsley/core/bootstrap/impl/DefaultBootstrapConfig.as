@@ -16,14 +16,10 @@
 
 package org.spicefactory.parsley.core.bootstrap.impl {
 
-import flash.display.DisplayObject;
-import flash.system.ApplicationDomain;
-import flash.utils.Dictionary;
 import org.spicefactory.lib.collection.Set;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.binding.BindingSupport;
 import org.spicefactory.parsley.core.bootstrap.ApplicationDomainProvider;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
@@ -51,6 +47,10 @@ import org.spicefactory.parsley.core.state.GlobalState;
 import org.spicefactory.parsley.core.state.manager.GlobalStateManager;
 import org.spicefactory.parsley.core.view.ViewSettings;
 import org.spicefactory.parsley.core.view.impl.DefaultViewSettings;
+
+import flash.display.DisplayObject;
+import flash.system.ApplicationDomain;
+import flash.utils.Dictionary;
 
 
 /**
@@ -279,7 +279,6 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 	 * @private
 	 */
 	internal function createProcessor () : BootstrapProcessor {
-		BindingSupport.initialize();
 		findParent();
 		var info:BootstrapInfo = prepareBootstrapInfo();
 		var processor:BootstrapProcessor = new DefaultBootstrapProcessor(info);

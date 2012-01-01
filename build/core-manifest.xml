@@ -39,6 +39,13 @@
     <component id="PublishSubscribe" class="org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator"/>
 
     <component id="ResourceBinding" class="org.spicefactory.parsley.resources.tag.ResourceBindingDecorator"/>
+
+    <component id="InjectMetadataSupport" class="org.spicefactory.parsley.inject.metadata.InjectMetadataSupport"/>
+    <component id="BindingMetadataSupport" class="org.spicefactory.parsley.binding.metadata.BindingMetadataSupport"/>
+    <component id="MessagingMetadataSupport" class="org.spicefactory.parsley.messaging.metadata.MessagingMetadataSupport"/>
+    <component id="CommandObserverMetadataSupport" class="org.spicefactory.parsley.comobserver.metadata.CommandObserverMetadataSupport"/>
+    <component id="LifecycleMetadataSupport" class="org.spicefactory.parsley.lifecycle.metadata.LifecycleMetadataSupport"/>
+    <component id="ResourceMetadataSupport" class="org.spicefactory.parsley.resources.metadata.ResourceMetadataSupport"/>
 </componentPackage>
 
 

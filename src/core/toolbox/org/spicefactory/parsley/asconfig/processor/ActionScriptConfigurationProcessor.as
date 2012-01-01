@@ -19,6 +19,7 @@ package org.spicefactory.parsley.asconfig.processor {
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.lib.reflect.Metadata;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.lib.util.ClassUtil;
 import org.spicefactory.parsley.asconfig.ConfigurationBase;
@@ -49,6 +50,18 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 	private var configClasses:Array;
 	
 	
+	private static var metadataRegistered: Boolean;
+	
+	private static function registerMetadata (): void {
+		if (metadataRegistered) return;
+		metadataRegistered = true;
+		
+		Metadata.registerMetadataClass(ObjectDefinitionMetadata);
+		Metadata.registerMetadataClass(DynamicObjectDefinitionMetadata);
+		Metadata.registerMetadataClass(InternalProperty);
+	}
+	
+	
 	/**
 	 * Creates a new instance.
 	 * 
@@ -63,6 +76,8 @@ public class ActionScriptConfigurationProcessor implements ConfigurationProcesso
 	 * @inheritDoc
 	 */
 	public function processConfiguration (registry:ObjectDefinitionRegistry) : void {
+		registerMetadata();
+		
 		var errors:Array = new Array();
 		for each (var configClass:Class in configClasses) {
 			try {

@@ -15,10 +15,9 @@
  */
 
 package org.spicefactory.parsley.xml {
-import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
-import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
+
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.xml.processor.XmlConfigurationProcessor;
 
 import flash.display.DisplayObject;
 
@@ -44,10 +43,12 @@ public class XmlContextBuilder {
 	 * @return a new Context instance, possibly not fully initialized yet
 	 */		
 	public static function build (filename:String, viewRoot:DisplayObject = null) : Context {
-		var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
-		manager.config.viewRoot = viewRoot;
-		manager.config.addProcessor(new XmlConfigurationProcessor([filename]));
-		return manager.createProcessor().process();
+		return ContextBuilder
+			.newSetup()
+			.viewRoot(viewRoot)
+			.newBuilder()
+			.config(XmlConfig.forFile(filename))
+			.build();
 	}
 	
 	

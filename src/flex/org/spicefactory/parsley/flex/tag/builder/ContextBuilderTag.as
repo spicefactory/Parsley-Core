@@ -16,6 +16,12 @@
 
 package org.spicefactory.parsley.flex.tag.builder {
 
+import org.spicefactory.parsley.resources.metadata.ResourceMetadataSupport;
+import org.spicefactory.parsley.lifecycle.metadata.LifecycleMetadataSupport;
+import org.spicefactory.parsley.comobserver.metadata.CommandObserverMetadataSupport;
+import org.spicefactory.parsley.binding.metadata.BindingMetadataSupport;
+import org.spicefactory.parsley.messaging.metadata.MessagingMetadataSupport;
+import org.spicefactory.parsley.inject.metadata.InjectMetadataSupport;
 import org.spicefactory.lib.events.NestedErrorEvent;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
@@ -150,11 +156,28 @@ public class ContextBuilderTag extends ConfigurationTagBase {
 	}
 
 
+	private static var metadataRegistered: Boolean;
+	
+	private static function registerMetadata (): void {
+		if (metadataRegistered) return;
+		metadataRegistered = true;
+		
+		InjectMetadataSupport.initialize();
+		BindingMetadataSupport.initialize();
+		MessagingMetadataSupport.initialize();
+		CommandObserverMetadataSupport.initialize();
+		LifecycleMetadataSupport.initialize();
+		ResourceMetadataSupport.initialize();
+	}
+	
+
 	/**
 	 * @private
 	 */
 	public override function initialized (document:Object, id:String) : void {
 		FlexSupport.initialize();
+		registerMetadata();
+		
 		if (document is DisplayObject) {
 			cachedAutowirePrefilterTargets.push(document);
 		}

@@ -14,35 +14,33 @@
  * limitations under the License.
  */
  
-package org.spicefactory.parsley.binding {
+package org.spicefactory.parsley.binding.metadata {
 
+import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.lib.reflect.Metadata;
 import org.spicefactory.parsley.binding.tag.PublishDecorator;
 import org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator;
 import org.spicefactory.parsley.binding.tag.SubscribeDecorator;
+import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
 
 
 /**
- * Provides a static method to initalize the decoupled binding facility.
+ * Provides a static method to initalize the metadata tags for the decoupled binding facility.
  * Can be used as a child tag of a &lt;ContextBuilder&gt; tag in MXML alternatively.
- * The core Parsley distribution automatically includes this extension, thus
- * there is usually no need to explicitly initialize it in applications.
+ * The use of this class is only required when using the LightContextBuilder API or tag.
+ * The standard ContextBuilder API and tag automatically installs these metadata tags.
  * 
  * @author Jens Halm
  */
-public class BindingSupport {
+public class BindingMetadataSupport  implements BootstrapConfigProcessor {
 	
 	
 	private static var initialized:Boolean = false;
 	
 
 	/**
-	 * Initializes the support for decoupled bindings.
-	 * Installs the Publish, Subscribe and PublishSubscribe tags for metadata, MXML and XML.
-	 * Must be invoked before a <code>ContextBuilder</code> is used for the first time.
-	 * 
-	 * <p>The core Parsley distribution automatically includes this extension, thus
- 	 * there is usually no need to explicitly initialize it in applications.</p>
+	 * Initializes the support for the metadata tags for decoupled bindings.
+	 * Must be invoked before a <code>LightContextBuilder</code> is used for the first time.
   	 */
 	public static function initialize () : void {
 		
@@ -54,5 +52,13 @@ public class BindingSupport {
 		Metadata.registerMetadataClass(PublishSubscribeDecorator);
 		
 	}
+
+	/**
+	 * @private
+	 */
+	public function processConfig (config: BootstrapConfig): void {
+		initialize();
+	}
+	
 }
 }

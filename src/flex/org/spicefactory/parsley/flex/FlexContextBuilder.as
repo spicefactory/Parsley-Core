@@ -16,10 +16,8 @@
 
 package org.spicefactory.parsley.flex {
 
-import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
-import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
+import org.spicefactory.parsley.context.ContextBuilder;
 import org.spicefactory.parsley.core.context.Context;
-import org.spicefactory.parsley.flex.processor.FlexConfigurationProcessor;
 
 import flash.display.DisplayObject;
 
@@ -46,10 +44,12 @@ public class FlexContextBuilder {
 	 */	
 	public static function build (configClass:Class, viewRoot:DisplayObject = null) : Context {
 		FlexSupport.initialize();
-		var manager:BootstrapManager = BootstrapDefaults.config.services.bootstrapManager.newInstance() as BootstrapManager;
-		manager.config.viewRoot = viewRoot;
-		manager.config.addProcessor(new FlexConfigurationProcessor([configClass]));
-		return manager.createProcessor().process();
+		return ContextBuilder
+			.newSetup()
+			.viewRoot(viewRoot)
+			.newBuilder()
+			.config(FlexConfig.forClass(configClass))
+			.build();
 	}
 	
 

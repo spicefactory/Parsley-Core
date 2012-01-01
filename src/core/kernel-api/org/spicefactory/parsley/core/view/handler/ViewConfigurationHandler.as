@@ -19,6 +19,7 @@ package org.spicefactory.parsley.core.view.handler {
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.lib.reflect.Metadata;
 import org.spicefactory.lib.util.ArrayUtil;
 import org.spicefactory.lib.util.Flag;
 import org.spicefactory.parsley.core.context.Context;
@@ -63,10 +64,22 @@ public class ViewConfigurationHandler implements ViewRootHandler {
 	private var settings:ViewSettings;
 	
 
+	private static var metadataRegistered: Boolean;
+	
+	private static function registerMetadata (): void {
+		if (metadataRegistered) return;
+		metadataRegistered = true;
+		
+		Metadata.registerMetadataClass(Autoremove);
+	}
+
+
 	/**
 	 * @inheritDoc
 	 */	
 	public function init (context:Context, settings:ViewSettings) : void {
+		registerMetadata();
+		
 		this.context = context;
 		this.settings = settings;
 		this.explicitHandler = new ContextAwareEventHandler(context, processExplicitEvent);

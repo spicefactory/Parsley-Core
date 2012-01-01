@@ -15,10 +15,17 @@
  */
 
 package org.spicefactory.parsley.context {
+
+import org.spicefactory.parsley.binding.metadata.BindingMetadataSupport;
+import org.spicefactory.parsley.comobserver.metadata.CommandObserverMetadataSupport;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.context.Context;
+import org.spicefactory.parsley.inject.metadata.InjectMetadataSupport;
+import org.spicefactory.parsley.lifecycle.metadata.LifecycleMetadataSupport;
+import org.spicefactory.parsley.messaging.metadata.MessagingMetadataSupport;
+import org.spicefactory.parsley.resources.metadata.ResourceMetadataSupport;
 
 import flash.display.DisplayObject;
 import flash.system.ApplicationDomain;
@@ -40,6 +47,29 @@ public class ContextBuilderSetup {
 	private var scopes:Array = new Array();
 	
 	private var parts:Array = new Array();
+	
+	
+	private static var metadataRegistered: Boolean;
+	
+	private static function registerMetadata (): void {
+		if (metadataRegistered) return;
+		metadataRegistered = true;
+		
+		InjectMetadataSupport.initialize();
+		BindingMetadataSupport.initialize();
+		MessagingMetadataSupport.initialize();
+		CommandObserverMetadataSupport.initialize();
+		LifecycleMetadataSupport.initialize();
+		ResourceMetadataSupport.initialize();
+	}
+	
+	
+	/**
+	 * @private
+	 */
+	function ContextBuilderSetup () {
+		registerMetadata();
+	}
 	
 	
 	/**
