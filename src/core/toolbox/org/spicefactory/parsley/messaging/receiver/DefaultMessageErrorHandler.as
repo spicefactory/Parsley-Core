@@ -45,9 +45,9 @@ public class DefaultMessageErrorHandler extends AbstractMethodReceiver implement
 	 * @param info the mapping information for the receiver
 	 * @param errorType the type of Error this handler is interested in
 	 */
-	function DefaultMessageErrorHandler (info:MessageReceiverInfo, errorType:ClassInfo = null) {
+	function DefaultMessageErrorHandler (info:MessageReceiverInfo = null, errorType:ClassInfo = null) {
 		
-		super(info);
+		super(info || new MessageReceiverInfo());
 		_errorType = errorType;
 	}
 	
