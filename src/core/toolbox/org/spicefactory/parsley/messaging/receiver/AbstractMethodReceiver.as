@@ -36,15 +36,7 @@ public class AbstractMethodReceiver extends AbstractObjectProviderReceiver imple
 	 * @param info the mapping information for this receiver
 	 */
 	function AbstractMethodReceiver (info: MessageReceiverInfo) {
-		
 		super(info);
-		
-		/*
-		if (_targetMethod == null) {
-			throw new ContextError("Target instance of type " + provider.type.name 
-					+ " does not contain a method with name " + methodName);
-		}
-		 */
 	}
 	
 	/**
