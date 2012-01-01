@@ -15,6 +15,13 @@
  */
 
 package org.spicefactory.parsley.xml {
+import org.spicefactory.parsley.xml.mapper.CommandXmlSupport;
+import org.spicefactory.parsley.xml.mapper.ResourceXmlSupport;
+import org.spicefactory.parsley.xml.mapper.LifecycleXmlSupport;
+import org.spicefactory.parsley.xml.mapper.CommandObserverXmlSupport;
+import org.spicefactory.parsley.xml.mapper.MessagingXmlSupport;
+import org.spicefactory.parsley.xml.mapper.InjectXmlSupport;
+import org.spicefactory.parsley.xml.mapper.BindingXmlSupport;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.xml.processor.XmlConfigurationProcessor;
 
@@ -43,6 +50,7 @@ public class XmlConfig {
 	 * @return a new configuration processor instance which can be added to a ContextBuilder
 	 */
 	public static function forFile (file:String) : ConfigurationProcessor {
+		registerMappers();
 		return new XmlConfigurationProcessor([file]);	
 	}
 	
@@ -53,6 +61,7 @@ public class XmlConfig {
 	 * @return a new configuration processor instance which can be added to a ContextBuilder
 	 */
 	public static function forFiles (...files) : ConfigurationProcessor {
+		registerMappers();
 		return new XmlConfigurationProcessor(files);	
 	}
 	
@@ -63,11 +72,29 @@ public class XmlConfig {
 	 * @return a new configuration processor instance which can be added to a ContextBuilder
 	 */
 	public static function forInstance (xml:XML) : ConfigurationProcessor {
+		registerMappers();
 		var processor:XmlConfigurationProcessor = new XmlConfigurationProcessor([]);
 		processor.addXml(xml);
 		return processor;	
 	}
+
+
+	private static var mappersRegistered: Boolean;
 	
+	private static function registerMappers (): void {
+		if (mappersRegistered) return;
+		mappersRegistered = true;
+		
+		InjectXmlSupport.initialize();
+		BindingXmlSupport.initialize();
+		MessagingXmlSupport.initialize();
+		CommandObserverXmlSupport.initialize();
+		LifecycleXmlSupport.initialize();
+		ResourceXmlSupport.initialize();
+		
+		CommandXmlSupport.initialize();
+	}
+		
 	
 }
 }

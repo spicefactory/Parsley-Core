@@ -18,7 +18,7 @@ package org.spicefactory.parsley.xml.tag {
 
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
-import org.spicefactory.parsley.xml.processor.XmlConfigurationProcessor;
+import org.spicefactory.parsley.xml.XmlConfig;
 
 /**
  * MXML tag for adding an XML configuration file to a ContextBuilder.
@@ -45,7 +45,7 @@ public class XmlConfigTag implements BootstrapConfigProcessor {
 	 * @private
 	 */
 	public function processConfig (config:BootstrapConfig) : void {
-		config.addProcessor(new XmlConfigurationProcessor([file]));
+		config.addProcessor(XmlConfig.forFile(file));
 	}
 	
 	

@@ -16,52 +16,21 @@
 
 package org.spicefactory.parsley.xml.mapper {
 
-import flash.system.ApplicationDomain;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.types.Any;
 import org.spicefactory.lib.reflect.types.Void;
 import org.spicefactory.lib.xml.XmlObjectMapper;
 import org.spicefactory.lib.xml.mapper.SimpleValueMapper;
 import org.spicefactory.lib.xml.mapper.XmlObjectMappings;
-import org.spicefactory.parsley.binding.tag.PublishDecorator;
-import org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator;
-import org.spicefactory.parsley.binding.tag.SubscribeDecorator;
-import org.spicefactory.parsley.command.tag.CommandFactoryTag;
-import org.spicefactory.parsley.command.tag.CommandFlowTag;
-import org.spicefactory.parsley.command.tag.CommandRefTag;
-import org.spicefactory.parsley.command.tag.CommandSequenceTag;
-import org.spicefactory.parsley.command.tag.CommandTag;
-import org.spicefactory.parsley.command.tag.MapCommandTag;
-import org.spicefactory.parsley.command.tag.ParallelCommandsTag;
-import org.spicefactory.parsley.comobserver.tag.CommandCompleteDecorator;
-import org.spicefactory.parsley.comobserver.tag.CommandErrorDecorator;
-import org.spicefactory.parsley.comobserver.tag.CommandResultDecorator;
-import org.spicefactory.parsley.comobserver.tag.CommandStatusDecorator;
-import org.spicefactory.parsley.inject.tag.ConstructorTag;
-import org.spicefactory.parsley.inject.tag.DynamicPropertyTag;
-import org.spicefactory.parsley.inject.tag.PropertyTag;
-import org.spicefactory.parsley.lifecycle.tag.AsyncInitDecorator;
-import org.spicefactory.parsley.lifecycle.tag.DestroyMethodDecorator;
-import org.spicefactory.parsley.lifecycle.tag.FactoryMethodDecorator;
-import org.spicefactory.parsley.lifecycle.tag.InitMethodDecorator;
-import org.spicefactory.parsley.lifecycle.tag.ObserveMethodDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageBindingDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageDispatcherDecorator;
-import org.spicefactory.parsley.messaging.tag.MessageErrorDecorator;
 import org.spicefactory.parsley.object.ArrayTag;
 import org.spicefactory.parsley.object.DynamicObjectTag;
 import org.spicefactory.parsley.object.NestedObjectTag;
 import org.spicefactory.parsley.object.ObjectReferenceTag;
 import org.spicefactory.parsley.object.RootObjectTag;
 import org.spicefactory.parsley.object.ViewTag;
-import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
-import org.spicefactory.parsley.xml.tag.ManagedEventsDecoratorTag;
-import org.spicefactory.parsley.xml.tag.MessageHandlerDecoratorTag;
 import org.spicefactory.parsley.xml.tag.ObjectsTag;
-import org.spicefactory.parsley.xml.tag.command.XmlLinkAllResultsTag;
-import org.spicefactory.parsley.xml.tag.command.XmlLinkResultPropertyTag;
-import org.spicefactory.parsley.xml.tag.command.XmlLinkResultTypeTag;
-import org.spicefactory.parsley.xml.tag.command.XmlLinkResultValueTag;
+
+import flash.system.ApplicationDomain;
 
 
 /**
@@ -123,20 +92,8 @@ public class XmlObjectDefinitionMapperFactory {
 					.customMapper(createSimpleValueMapper(String, "string"))
 					.customMapper(createSimpleValueMapper(Date, "date"))
 					.customMapper(createSimpleValueMapper(Class, "class"))
-				    .choiceId(CHOICE_ID_DECORATORS, ConstructorTag, PropertyTag, DynamicPropertyTag, 
-				    								AsyncInitDecorator, FactoryMethodDecorator, 
-				    								InitMethodDecorator, DestroyMethodDecorator, ObserveMethodDecorator,
-				    								MessageHandlerDecoratorTag, MessageBindingDecorator,
-				    								MessageErrorDecorator, MessageDispatcherDecorator,
-				    								CommandResultDecorator, CommandCompleteDecorator,
-				    								CommandErrorDecorator, CommandStatusDecorator,
-				    								ManagedEventsDecoratorTag, ResourceBindingDecorator,
-				    								PublishDecorator, PublishSubscribeDecorator, SubscribeDecorator)
-				    .choiceId(CHOICE_ID_ROOT_ELEMENTS, RootObjectTag, DynamicObjectTag, ViewTag, CommandFactoryTag, MapCommandTag)
+				    .choiceId(CHOICE_ID_ROOT_ELEMENTS, RootObjectTag, DynamicObjectTag, ViewTag)
 				    .choiceId(CHOICE_ID_NESTED_ELEMENTS, ArrayTag, ObjectReferenceTag, NestedObjectTag,
-				    								CommandTag, CommandFlowTag, CommandSequenceTag, ParallelCommandsTag,
-				    								XmlLinkResultTypeTag, XmlLinkResultValueTag, XmlLinkResultPropertyTag,
-				    								XmlLinkAllResultsTag, CommandRefTag, 
 				    								Void, Any, Boolean, Number, int, uint, String, Date, Class);
 		
 		addCustomConfigurationNamespaces(mappings);

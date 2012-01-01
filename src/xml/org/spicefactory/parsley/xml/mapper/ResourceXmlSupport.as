@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,33 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
-package org.spicefactory.parsley.binding.metadata {
+package org.spicefactory.parsley.xml.mapper {
 
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
-import org.spicefactory.lib.reflect.Metadata;
-import org.spicefactory.parsley.binding.tag.PublishDecorator;
-import org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator;
-import org.spicefactory.parsley.binding.tag.SubscribeDecorator;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfigProcessor;
-
-
+import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
+	
 /**
- * Provides a static method to initalize the metadata tags for the decoupled binding facility.
- * Can be used as a child tag of a &lt;ContextBuilder&gt; tag in MXML alternatively.
- * The use of this class is only required when using the LightContextBuilder API or tag.
- * The standard ContextBuilder API and tag automatically installs these metadata tags.
+ * Provides a static method to initalize the XML tags for resource bindings.
+ * Can be used as a child tag of a &lt;LightContextBuilder&gt; tag in MXML alternatively.
+ * The use of this class is only required when using the LightContextBuilder with LightXmlConfig API or tag.
+ * The standard XmlConfig API and tag automatically installs these XML tags.
  * 
  * @author Jens Halm
  */
-public class BindingMetadataSupport implements BootstrapConfigProcessor {
+public class ResourceXmlSupport implements BootstrapConfigProcessor {
 	
 	
 	private static var initialized:Boolean = false;
 	
 
 	/**
-	 * Initializes the support for the metadata tags for decoupled bindings.
+	 * Initializes the support for the XML tags for resource bindings.
 	 * Must be invoked before a <code>LightContextBuilder</code> is used for the first time.
   	 */
 	public static function initialize () : void {
@@ -47,10 +42,9 @@ public class BindingMetadataSupport implements BootstrapConfigProcessor {
 		if (initialized) return;
 		initialized = true;
 		
-		Metadata.registerMetadataClass(SubscribeDecorator);
-		Metadata.registerMetadataClass(PublishDecorator);
-		Metadata.registerMetadataClass(PublishSubscribeDecorator);
-		
+		XmlConfigurationNamespaceRegistry
+			.getNamespace(XmlObjectDefinitionMapperFactory.PARSLEY_NAMESPACE_URI)
+			.choiceId(XmlObjectDefinitionMapperFactory.CHOICE_ID_DECORATORS, ResourceBindingDecorator);
 	}
 
 	/**
