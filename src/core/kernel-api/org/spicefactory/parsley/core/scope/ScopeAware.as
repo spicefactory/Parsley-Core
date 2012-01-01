@@ -22,7 +22,7 @@ package org.spicefactory.parsley.core.scope {
  * 
  * @author Jens Halm
  */
-public interface InitializingExtension {
+public interface ScopeAware {
 	
 	
 	/**

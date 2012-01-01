@@ -3,14 +3,14 @@ package org.spicefactory.parsley.binding {
 import flash.events.EventDispatcher;
 import flash.utils.Dictionary;
 import org.spicefactory.parsley.core.binding.PersistenceManager;
-import org.spicefactory.parsley.core.scope.InitializingExtension;
+import org.spicefactory.parsley.core.scope.ScopeAware;
 import org.spicefactory.parsley.core.scope.Scope;
 
 
 /**
  * @author Jens Halm
  */
-public class DictionaryPersistenceService extends EventDispatcher implements PersistenceManager, InitializingExtension {
+public class DictionaryPersistenceService extends EventDispatcher implements PersistenceManager, ScopeAware {
 	
 	private static var data:Dictionary = new Dictionary();
 	public static var changeCount:int;

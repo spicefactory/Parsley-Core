@@ -32,7 +32,7 @@ import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
-import org.spicefactory.parsley.core.scope.InitializingExtension;
+import org.spicefactory.parsley.core.scope.ScopeAware;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeExtensions;
@@ -91,9 +91,9 @@ public class DefaultScopeInfo implements ScopeInfo {
 
 	
 	private function initScopeExtension (ext:Object) : void {
-		if (ext is InitializingExtension) {
+		if (ext is ScopeAware) {
 			var scope:Scope = rootContext.scopeManager.getScope(name);
-			InitializingExtension(ext).init(scope);
+			ScopeAware(ext).init(scope);
 		}
 	}
 	

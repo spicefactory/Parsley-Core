@@ -21,7 +21,7 @@ import flash.events.TimerEvent;
 import flash.net.SharedObject;
 import flash.utils.Timer;
 import org.spicefactory.parsley.core.binding.PersistenceManager;
-import org.spicefactory.parsley.core.scope.InitializingExtension;
+import org.spicefactory.parsley.core.scope.ScopeAware;
 import org.spicefactory.parsley.core.scope.Scope;
 
 
@@ -30,7 +30,7 @@ import org.spicefactory.parsley.core.scope.Scope;
  * 
  * @author Jens Halm
  */
-public class LocalPersistenceManager extends EventDispatcher implements PersistenceManager, InitializingExtension {
+public class LocalPersistenceManager extends EventDispatcher implements PersistenceManager, ScopeAware {
 	
 	private var timer:Timer;
 	private var lso:SharedObject;
