@@ -14,54 +14,52 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.builder.support {
+package org.spicefactory.parsley.core.builder.processor {
 
-import org.spicefactory.lib.reflect.Method;
+import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.processor.MethodProcessor;
+import org.spicefactory.parsley.core.processor.PropertyProcessor;
 
 /**
- * Processor that invokes a method in the target object, potentially 
- * resolving references to other objects in the Context for the parameter values.
+ * Processor that sets the value of a single property in the target object, potentially 
+ * resolving references to other objects in the Context.
  * 
  * @author Jens Halm
  */
-public class MethodInvocationProcessor implements MethodProcessor {
+public class PropertySetterProcessor implements PropertyProcessor {
 	
 	
-	private var unresolvedParams:Array;	
+	private var unresolvedValue:*;	
 	
 	
 	/**
 	 * Creates a new processor instance.
 	 * 
-	 * @param unresolvedParams the unresolved method parameters
+	 * @param unresolvedValue the unresolved property value
 	 */
-	function MethodInvocationProcessor (unresolvedParams:Array) {
-		this.unresolvedParams = unresolvedParams;
+	function PropertySetterProcessor (unresolvedValue:*) {
+		this.unresolvedValue = unresolvedValue;
 	}
-	
-	
-	private var method: Method;
+
+
+	private var property: Property;
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function targetMethod (method: Method): void {
-		this.method = method;
+	public function targetProperty (property: Property): void {
+		this.property = property;
 	}
-
 
 	/**
 	 * @inheritDoc
 	 */
 	public function init (target: ManagedObject) : void {
-		var params:Array = new Array();
-		for each (var param:* in unresolvedParams) {
-			var value:* = target.resolveValue(param);
-			params.push(value);
+		var value:* = target.resolveValue(unresolvedValue);
+		if (value != null || unresolvedValue == null) {
+			// do not override default value when optional dependencies are missing
+			property.setValue(target.instance, value);
 		}
-		method.invoke(target.instance, params);
 	}
 	
 	/**
@@ -76,7 +74,7 @@ public class MethodInvocationProcessor implements MethodProcessor {
 	 * @private
 	 */
 	public function toString () : String {
-		return "[MethodInvocation(method=" + method + ",parameters=" + unresolvedParams.join(",") + ")]";
+		return "[Property(name=" + property + ",value=" + unresolvedValue + ")]";
 	}	
 	
 	

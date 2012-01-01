@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.inject.processor {
+package org.spicefactory.parsley.core.builder.processor {
 
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.processor.ObjectProcessor;

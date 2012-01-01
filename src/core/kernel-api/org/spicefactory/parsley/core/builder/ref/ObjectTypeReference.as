@@ -14,33 +14,35 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.inject.model {
-import org.spicefactory.parsley.core.registry.ObjectDefinition;
+package org.spicefactory.parsley.core.builder.ref {
+
+import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
+import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ResolvableValue;
 
 /**
- * Represent a reference to an object in the Parsley Context by id.
+ * Represent a reference to an object in the Parsley Context by type.
  * 
  * @author Jens Halm
  */
-public class ObjectIdReference implements ResolvableValue {
+public class ObjectTypeReference implements ResolvableValue {
 
 
-	private var _id:String;
+	private var _type:Class;
 	private var _required:Boolean;
 	private var _defaultValue:Object;
 	
-	
+
 	/**
 	 * Creates a new instance.
 	 * 
-	 * @param id the id of the referenced object
+	 * @param type the type of the referenced object
 	 * @param required whether this instance represents a required dependency
-	 */
-	function ObjectIdReference (id:String, required:Boolean = true, defaultValue: Object = null) {
-		_id = id;
+	 */	
+	function ObjectTypeReference (type:Class, required:Boolean = true, defaultValue: Object = null) {
+		_type = type;
 		_required = required;
 		_defaultValue = defaultValue;
 	}
@@ -51,17 +53,29 @@ public class ObjectIdReference implements ResolvableValue {
 	public function get required () : Boolean {
 		return _required;
 	}
+
+	/**
+	 * The type of the referenced object.
+	 */
+	public function get type () : Class {
+		return _type;
+	}
 	
 	/**
-	 * The id of the referenced object.
+	 * Sets the type of the referenced object.
+	 * May be used by subclasses that determine the expected type lazily.
+	 * 
+	 * @param type the type of the referenced object
 	 */
-	public function get id ():String {
-		return _id;
+	protected function setType (type: Class): void {
+		_type = type;
 	}
 	
 	public function resolve (target:ManagedObject) : * {
-		
-		var def:ObjectDefinition = target.context.findDefinition(id);
+		if (type == Context) {
+			return target.context;
+		}
+		var def:ObjectDefinition = target.context.findDefinitionByType(type);
 		
 		if (def) {
 			return target.resolveObjectReference(def);
@@ -70,16 +84,15 @@ public class ObjectIdReference implements ResolvableValue {
 			return _defaultValue;
 		}
 		else {
-			throw new ContextError("Required object with id " + id + " does not exist");
+			throw new ContextError("Required object of type " + type + " does not exist");
 		}
 	}
-	
 	
 	/**
 	 * @private
 	 */
 	public function toString () : String {
-		return "{Injection(id=" + id + ")}";
+		return "{Injection(type=" + type + ")}";
 	}	
 	
 	

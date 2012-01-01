@@ -18,10 +18,10 @@ package org.spicefactory.parsley.inject.tag {
 
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
+import org.spicefactory.parsley.core.builder.processor.DynamicPropertyProcessor;
+import org.spicefactory.parsley.core.builder.ref.ObjectIdReference;
+import org.spicefactory.parsley.core.builder.ref.ObjectTypeReference;
 import org.spicefactory.parsley.core.errors.ObjectDefinitionBuilderError;
-import org.spicefactory.parsley.inject.model.ObjectIdReference;
-import org.spicefactory.parsley.inject.model.ObjectTypeReference;
-import org.spicefactory.parsley.inject.processor.DynamicPropertyProcessor;
 
 [DefaultProperty("value")]
 [XmlMapping(elementName="dynamic-property")]

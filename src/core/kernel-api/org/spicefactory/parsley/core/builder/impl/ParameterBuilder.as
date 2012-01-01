@@ -19,7 +19,7 @@ import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.reflect.FunctionBase;
 import org.spicefactory.lib.reflect.Parameter;
 import org.spicefactory.parsley.core.builder.ImplicitTypeReference;
-import org.spicefactory.parsley.inject.model.ObjectTypeReference;
+import org.spicefactory.parsley.core.builder.ref.ObjectTypeReference;
 
 /**
  * Utility class for resolving parameters of constructors and methods.

@@ -18,9 +18,9 @@ package org.spicefactory.parsley.inject.tag {
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
+import org.spicefactory.parsley.core.builder.ref.ObjectTypeReferenceArray;
 import org.spicefactory.parsley.core.errors.ContextError;
 import org.spicefactory.parsley.inject.Inject;
-import org.spicefactory.parsley.inject.model.ObjectTypeReferenceArray;
 
 [Metadata(name="Inject", types="property")]
 /**

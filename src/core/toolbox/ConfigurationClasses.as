@@ -27,7 +27,7 @@ import org.spicefactory.parsley.command.tag.CommandSequenceTag;
 import org.spicefactory.parsley.command.tag.CommandTag;
 import org.spicefactory.parsley.command.tag.ParallelCommandsTag;
 import org.spicefactory.parsley.context.ContextBuilder;
-import org.spicefactory.parsley.core.builder.support.MetadataDecoratorAssembler;
+import org.spicefactory.parsley.core.builder.metadata.MetadataDecoratorAssembler;
 import org.spicefactory.parsley.object.DynamicObjectTag;
 import org.spicefactory.parsley.object.RootObjectTag;
 import org.spicefactory.parsley.object.ViewTag;

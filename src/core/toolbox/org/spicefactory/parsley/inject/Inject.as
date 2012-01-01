@@ -15,11 +15,11 @@
  */
 package org.spicefactory.parsley.inject {
 
+import org.spicefactory.parsley.core.builder.ref.ImplicitObjectTypeReference;
+import org.spicefactory.parsley.core.builder.ref.NestedObject;
+import org.spicefactory.parsley.core.builder.ref.ObjectIdReference;
+import org.spicefactory.parsley.core.builder.ref.ObjectTypeReference;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
-import org.spicefactory.parsley.inject.model.ImplicitObjectTypeReference;
-import org.spicefactory.parsley.inject.model.NestedObject;
-import org.spicefactory.parsley.inject.model.ObjectIdReference;
-import org.spicefactory.parsley.inject.model.ObjectTypeReference;
 
 /**
  * API for defining injections to be passed to configurations

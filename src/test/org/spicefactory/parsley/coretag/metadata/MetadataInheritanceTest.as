@@ -2,7 +2,7 @@ package org.spicefactory.parsley.coretag.metadata {
 import org.hamcrest.assertThat;
 import org.hamcrest.collection.arrayWithSize;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.core.builder.support.MetadataDecoratorAssembler;
+import org.spicefactory.parsley.core.builder.metadata.MetadataDecoratorAssembler;
 import org.spicefactory.parsley.coretag.metadata.model.ImplementationNoInheritance;
 import org.spicefactory.parsley.coretag.metadata.model.ImplementationWithInheritance;
 import org.spicefactory.parsley.coretag.metadata.model.SubclassNoInheritance;

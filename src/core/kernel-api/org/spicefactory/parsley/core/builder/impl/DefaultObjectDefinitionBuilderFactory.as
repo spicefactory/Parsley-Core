@@ -19,7 +19,7 @@ package org.spicefactory.parsley.core.builder.impl {
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilderFactory;
-import org.spicefactory.parsley.core.builder.support.ObjectWrapperInstantiator;
+import org.spicefactory.parsley.core.builder.instantiator.ObjectWrapperInstantiator;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 
 /**

@@ -18,7 +18,7 @@ package org.spicefactory.parsley.core.builder.impl {
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.parsley.core.builder.MethodBuilder;
 import org.spicefactory.parsley.core.builder.MethodProcessorBuilder;
-import org.spicefactory.parsley.core.builder.support.MethodInvocationProcessor;
+import org.spicefactory.parsley.core.builder.processor.MethodInvocationProcessor;
 import org.spicefactory.parsley.core.processor.MethodProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 

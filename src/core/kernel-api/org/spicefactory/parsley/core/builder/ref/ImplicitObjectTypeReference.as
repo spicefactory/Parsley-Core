@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.inject.model {
+package org.spicefactory.parsley.core.builder.ref {
 
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.parsley.core.builder.ImplicitTypeReference;

@@ -21,7 +21,7 @@ import org.spicefactory.parsley.core.binding.impl.LocalPersistenceManager;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultApplicationDomainProvider;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;
-import org.spicefactory.parsley.core.builder.support.MetadataDecoratorAssembler;
+import org.spicefactory.parsley.core.builder.metadata.MetadataDecoratorAssembler;
 import org.spicefactory.parsley.core.context.impl.DefaultContext;
 import org.spicefactory.parsley.core.lifecycle.impl.DefaultObjectLifecycleManager;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageRouter;

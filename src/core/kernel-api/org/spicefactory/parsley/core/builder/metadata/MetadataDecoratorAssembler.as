@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.builder.support {
+package org.spicefactory.parsley.core.builder.metadata {
 
 import flash.system.ApplicationDomain;
 import flash.utils.Dictionary;
@@ -29,9 +29,6 @@ import org.spicefactory.lib.reflect.metadata.Target;
 import org.spicefactory.parsley.core.builder.DecoratorAssembler;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
 import org.spicefactory.parsley.core.errors.ContextError;
-import org.spicefactory.parsley.metadata.ProcessInterfaces;
-import org.spicefactory.parsley.metadata.ProcessSuperclass;
-
 
 /**
  * DecoratorAssembler implementation that can be used by all object definition builders that wish to process

@@ -19,7 +19,7 @@ import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.core.builder.ImplicitTypeReference;
 import org.spicefactory.parsley.core.builder.PropertyBuilder;
 import org.spicefactory.parsley.core.builder.PropertyProcessorBuilder;
-import org.spicefactory.parsley.core.builder.support.PropertySetterProcessor;
+import org.spicefactory.parsley.core.builder.processor.PropertySetterProcessor;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinition;
 

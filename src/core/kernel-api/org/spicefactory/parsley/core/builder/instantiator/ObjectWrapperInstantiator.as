@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.core.builder.support {
+package org.spicefactory.parsley.core.builder.instantiator {
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.registry.ContainerObjectInstantiator;
 

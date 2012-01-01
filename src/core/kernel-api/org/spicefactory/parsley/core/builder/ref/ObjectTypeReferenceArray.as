@@ -14,34 +14,40 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.inject.model {
+package org.spicefactory.parsley.core.builder.ref {
 
+import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
-import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
+import org.spicefactory.parsley.core.registry.ObjectDefinition;
 import org.spicefactory.parsley.core.registry.ResolvableValue;
 
 /**
- * Represents an inline object reference.
+ * Represent a reference to an object in the Parsley Context by type.
  * 
  * @author Jens Halm
  */
-public class NestedObject implements ResolvableValue {
+public class ObjectTypeReferenceArray implements ResolvableValue {
 
 
-	private var definition:DynamicObjectDefinition;
+	private var type:ClassInfo;
 	
 
 	/**
 	 * Creates a new instance.
 	 * 
-	 * @param definition the definition for the nested object
+	 * @param id the type of the referenced objects
 	 */	
-	function NestedObject (definition:DynamicObjectDefinition) {
-		this.definition = definition;
+	function ObjectTypeReferenceArray (type:ClassInfo) {
+		this.type = type;
 	}
 
 	public function resolve (target:ManagedObject) : * {
-		return target.resolveObjectReference(definition);
+		var defs:Array = target.context.findAllDefinitionsByType(type.getClass());
+		var resolved:Array = new Array();
+		for each (var def:ObjectDefinition in defs) {
+			resolved.push(target.resolveObjectReference(def));
+		}
+		return resolved;
 	}
 	
 	
@@ -49,7 +55,7 @@ public class NestedObject implements ResolvableValue {
 	 * @private
 	 */
 	public function toString () : String {
-		return "{NestedObject(type=" + definition.type + ")}";
+		return "{ArrayInjection(type=" + type.name + ")}";
 	}	
 	
 	

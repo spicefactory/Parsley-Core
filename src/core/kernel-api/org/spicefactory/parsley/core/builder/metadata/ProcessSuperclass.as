@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.spicefactory.parsley.metadata {
+package org.spicefactory.parsley.core.builder.metadata {
 
 [Metadata(types="class")]
 /**

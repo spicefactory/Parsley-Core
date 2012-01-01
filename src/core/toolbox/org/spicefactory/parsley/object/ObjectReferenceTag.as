@@ -17,10 +17,10 @@
 package org.spicefactory.parsley.object {
 
 import org.spicefactory.parsley.config.NestedConfigurationElement;
+import org.spicefactory.parsley.core.builder.ref.ObjectIdReference;
+import org.spicefactory.parsley.core.builder.ref.ObjectTypeReference;
 import org.spicefactory.parsley.core.errors.ObjectDefinitionBuilderError;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.inject.model.ObjectIdReference;
-import org.spicefactory.parsley.inject.model.ObjectTypeReference;
 
 [XmlMapping(elementName="object-ref")]
 /**

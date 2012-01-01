@@ -9,6 +9,7 @@ import org.spicefactory.parsley.context.dynobjects.model.AnnotatedDynamicTestObj
 import org.spicefactory.parsley.context.dynobjects.model.DynamicTestDependency;
 import org.spicefactory.parsley.context.dynobjects.model.DynamicTestObject;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
+import org.spicefactory.parsley.core.builder.ref.NestedObject;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.context.impl.DefaultContext;
@@ -16,7 +17,6 @@ import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.state.GlobalState;
 import org.spicefactory.parsley.inject.Inject;
-import org.spicefactory.parsley.inject.model.NestedObject;
 import org.spicefactory.parsley.messaging.MessageHandler;
 import org.spicefactory.parsley.runtime.RuntimeContextBuilder;
 import org.spicefactory.parsley.util.contextInState;

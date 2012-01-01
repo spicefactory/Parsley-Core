@@ -17,8 +17,8 @@
 package org.spicefactory.parsley.object {
 
 import org.spicefactory.parsley.config.NestedConfigurationElement;
+import org.spicefactory.parsley.core.builder.ref.ManagedArray;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.inject.model.ManagedArray;
 import org.spicefactory.parsley.util.ConfigurationValueResolver;
 
 [DefaultProperty("values")]

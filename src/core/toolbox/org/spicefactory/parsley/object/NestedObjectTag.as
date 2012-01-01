@@ -17,9 +17,9 @@
 package org.spicefactory.parsley.object {
 
 import org.spicefactory.parsley.config.NestedConfigurationElement;
+import org.spicefactory.parsley.core.builder.ref.NestedObject;
 import org.spicefactory.parsley.core.registry.DynamicObjectDefinition;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
-import org.spicefactory.parsley.inject.model.NestedObject;
 
 [DefaultProperty("decorators")]
 [XmlMapping(elementName="object")]

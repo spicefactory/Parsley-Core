@@ -28,7 +28,7 @@ import org.spicefactory.parsley.core.builder.ObjectDefinitionReplacer;
 import org.spicefactory.parsley.core.builder.ObjectProcessorBuilder;
 import org.spicefactory.parsley.core.builder.PropertyBuilder;
 import org.spicefactory.parsley.core.builder.SingletonBuilder;
-import org.spicefactory.parsley.core.builder.support.ConstructorInstantiator;
+import org.spicefactory.parsley.core.builder.instantiator.ConstructorInstantiator;
 import org.spicefactory.parsley.core.processor.ObjectProcessor;
 import org.spicefactory.parsley.core.registry.ObjectDefinitionRegistry;
 import org.spicefactory.parsley.core.registry.ObjectInstantiator;
