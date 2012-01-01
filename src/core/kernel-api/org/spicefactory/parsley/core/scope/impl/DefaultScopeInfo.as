@@ -17,6 +17,10 @@
 package org.spicefactory.parsley.core.scope.impl {
 
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
+import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
+import org.spicefactory.parsley.core.bootstrap.Service;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.command.impl.DefaultCommandManager;
@@ -25,7 +29,6 @@ import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
 import org.spicefactory.parsley.core.lifecycle.impl.DefaultLifecycleObserverRegistry;
 import org.spicefactory.parsley.core.messaging.MessageReceiverCache;
 import org.spicefactory.parsley.core.messaging.MessageReceiverRegistry;
-import org.spicefactory.parsley.core.messaging.MessageSettings;
 import org.spicefactory.parsley.core.messaging.impl.DefaultMessageReceiverRegistry;
 import org.spicefactory.parsley.core.messaging.impl.MessageReceiverKind;
 import org.spicefactory.parsley.core.messaging.receiver.MessageErrorHandler;
@@ -35,8 +38,6 @@ import org.spicefactory.parsley.core.scope.ScopeDefinition;
 import org.spicefactory.parsley.core.scope.ScopeExtensions;
 import org.spicefactory.parsley.core.scope.ScopeInfo;
 import org.spicefactory.parsley.core.state.manager.GlobalDomainManager;
-
-import flash.utils.Dictionary;
 
 
 /**
@@ -70,21 +71,22 @@ public class DefaultScopeInfo implements ScopeInfo {
 	 * @param extensions the extensions registered for this scope mapped by type (Class)
 	 * @param domainManager the manager that keeps track of all ApplicationDomains currently used by one or more Contexts
 	 */
-	function DefaultScopeInfo (scopeDef:ScopeDefinition, rootContext:Context, settings:MessageSettings,
-			extensions:Dictionary, domainManager:GlobalDomainManager) {
+	function DefaultScopeInfo (scopeDef:ScopeDefinition, info:BootstrapInfo) {
 		_name = scopeDef.name;
 		_uuid = scopeDef.uuid;
 		_inherited = scopeDef.inherited;
-		_rootContext = rootContext;
-		this.domainManager = domainManager;
+		_rootContext = info.context;
+		this.domainManager = info.globalState.domains;
 		_messageReceivers = new DefaultMessageReceiverRegistry(domainManager);
-		for each (var handler:MessageErrorHandler in settings.getErrorHandlers()) {
+		for each (var handler:MessageErrorHandler in info.messageSettings.getErrorHandlers()) {
 			_messageReceivers.addErrorHandler(handler);
 		}
 		_commandManager = new DefaultCommandManager();
 		_lifecycleRegistry = new DefaultMessageReceiverRegistry(domainManager);
 		this._lifecycleObservers = new DefaultLifecycleObserverRegistry(_lifecycleRegistry);
-		this._extensions = new DefaultScopeExtensions(extensions, initScopeExtension);
+		this._extensions = new DefaultScopeExtensions(info.scopeExtensions, initScopeExtension);
+		bindingManagerConfig = info.bindingManager;
+		persistenceManagerConfig = info.persistenceManager;
 	}
 
 	
@@ -144,6 +146,26 @@ public class DefaultScopeInfo implements ScopeInfo {
 		return _commandManager;
 	}
 	
+	private var bindingManagerConfig: Service;
+	private var _bindingManager: BindingManager;
+	
+	public function get bindingManager (): BindingManager {
+		if (!_bindingManager) {
+			_bindingManager = bindingManagerConfig.newInstance(initScopeExtension) as BindingManager;
+		}
+		return _bindingManager;
+	}
+
+	private var persistenceManagerConfig: Service;
+	private var _persistenceManager: PersistenceManager;
+	
+	public function get persistenceManager (): PersistenceManager {
+		if (!_persistenceManager) {
+			_persistenceManager = persistenceManagerConfig.newInstance(initScopeExtension) as PersistenceManager;
+		}
+		return _persistenceManager;
+	}
+	
 	/**
 	 * @inheritDoc
 	 */
@@ -180,7 +202,7 @@ public class DefaultScopeInfo implements ScopeInfo {
 	public function get extensions () : ScopeExtensions {
 		return _extensions;
 	}
-	
+
 	
 }
 }

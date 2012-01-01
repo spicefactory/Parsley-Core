@@ -17,9 +17,9 @@
 package org.spicefactory.parsley.binding.processor {
 
 import org.spicefactory.lib.reflect.Property;
-import org.spicefactory.parsley.binding.BindingManager;
-import org.spicefactory.parsley.binding.Subscriber;
 import org.spicefactory.parsley.binding.impl.PropertySubscriber;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.Subscriber;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
 import org.spicefactory.parsley.core.processor.StatefulProcessor;
@@ -78,8 +78,7 @@ public class SubscriberProcessor implements PropertyProcessor, StatefulProcessor
 	}
 	
 	private function getManager (target: ManagedObject): BindingManager {
-		return target.context.scopeManager.getScope(scope)
-			.extensions.forType(BindingManager) as BindingManager;
+		return target.context.scopeManager.getScope(scope).bindingManager;
 	}
 	
 	/**

@@ -20,7 +20,7 @@ import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.binding.PropertyWatcher;
-import org.spicefactory.parsley.binding.Publisher;
+import org.spicefactory.parsley.core.binding.Publisher;
 import org.spicefactory.parsley.core.context.Context;
 
 /**

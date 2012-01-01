@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package org.spicefactory.parsley.binding {
+package org.spicefactory.parsley.core.binding {
 import flash.events.IEventDispatcher;
 import org.spicefactory.lib.reflect.ClassInfo;
 

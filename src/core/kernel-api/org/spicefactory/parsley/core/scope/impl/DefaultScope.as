@@ -22,6 +22,8 @@ import org.spicefactory.lib.command.builder.Commands;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.events.ContextEvent;
@@ -168,6 +170,20 @@ public class DefaultScope implements Scope {
 	/**
 	 * @inheritDoc
 	 */
+	public function get bindingManager (): BindingManager {
+		return info.bindingManager;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get persistenceManager (): PersistenceManager {
+		return info.persistenceManager;
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
 	public function get lifecycleObservers () : LifecycleObserverRegistry {
 		return info.lifecycleObservers;
 	}
@@ -185,6 +201,8 @@ public class DefaultScope implements Scope {
 	public function toString () : String {
 		return "Scope " + name + " in " + rootContext;
 	}
+
+
 }
 }
 

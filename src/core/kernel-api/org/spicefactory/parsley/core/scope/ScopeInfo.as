@@ -17,6 +17,8 @@
 package org.spicefactory.parsley.core.scope {
 
 import org.spicefactory.lib.reflect.ClassInfo;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.command.ObservableCommand;
 import org.spicefactory.parsley.core.context.Context;
@@ -79,6 +81,16 @@ public interface ScopeInfo {
 	 * As the CommandManager is a public API it does not contain a comparable method itself.
 	 */
 	function addActiveCommand (command:ObservableCommand) : void;
+	
+	/**
+	 * The manager for publishers and subscribers of the decoupled binding facility.
+	 */
+	function get bindingManager () : BindingManager;
+	
+	/**
+	 * The manager for values persisted by publishers.
+	 */
+	function get persistenceManager () : PersistenceManager;
 	
 	/**
 	 * The registry for observers of lifecycle events dispatched by objects within this scope.

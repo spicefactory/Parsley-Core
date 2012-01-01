@@ -15,6 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap.impl {
+
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.bootstrap.Service;
 import org.spicefactory.parsley.core.bootstrap.ServiceRegistry;
@@ -46,6 +49,8 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		_lifecycleManager.addParent(parent.lifecycleManager);
 		_scopeManager.addParent(parent.scopeManager);
 		_viewManager.addParent(parent.viewManager);
+		_bindingManager.addParent(parent.bindingManager);
+		_persistenceManager.addParent(parent.persistenceManager);
 	}
 
 	
@@ -116,6 +121,26 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	 */
 	public function get viewManager () : Service {
 		return _viewManager;
+	}
+
+
+	private var _bindingManager:DefaultService = new DefaultService(BindingManager); 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get bindingManager (): Service {
+		return _bindingManager;
+	}
+
+
+	private var _persistenceManager:DefaultService = new DefaultService(PersistenceManager);
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function get persistenceManager (): Service {
+		return _persistenceManager;
 	}
 	
 	

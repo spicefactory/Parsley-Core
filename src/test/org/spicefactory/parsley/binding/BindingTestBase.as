@@ -10,6 +10,7 @@ import org.spicefactory.parsley.binding.model.AnimalHolder;
 import org.spicefactory.parsley.binding.model.Cat;
 import org.spicefactory.parsley.binding.model.CatHolder;
 import org.spicefactory.parsley.binding.model.StringHolder;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;

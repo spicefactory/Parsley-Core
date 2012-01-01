@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.core.bootstrap.impl {
 
+import org.spicefactory.parsley.core.bootstrap.Service;
 import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.BootstrapInfo;
 import org.spicefactory.parsley.core.bootstrap.InitializingService;
@@ -257,6 +258,21 @@ public class DefaultBootstrapInfo implements BootstrapInfo {
 	 */
 	public function get scopeExtensions () : Dictionary {
 		return _scopeExtensions;
+	}
+	
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function get bindingManager (): Service {
+		return config.services.bindingManager;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get persistenceManager (): Service {
+		return config.services.persistenceManager;
 	}
 
 

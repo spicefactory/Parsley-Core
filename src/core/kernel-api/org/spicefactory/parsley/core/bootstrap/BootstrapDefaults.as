@@ -15,7 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.bootstrap {
-import org.spicefactory.parsley.metadata.MetadataDecoratorAssembler;
+
+import org.spicefactory.parsley.core.binding.impl.DefaultBindingManager;
+import org.spicefactory.parsley.core.binding.impl.LocalPersistenceManager;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultApplicationDomainProvider;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapConfig;
 import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;
@@ -28,6 +30,7 @@ import org.spicefactory.parsley.core.view.handler.ContextLookupHandler;
 import org.spicefactory.parsley.core.view.handler.ViewConfigurationHandler;
 import org.spicefactory.parsley.core.view.impl.DefaultViewManager;
 import org.spicefactory.parsley.core.view.processor.DefaultViewProcessor;
+import org.spicefactory.parsley.metadata.MetadataDecoratorAssembler;
 
 /**
  * Holds the instance that provides access to the global bootstrap configuration defaults 
@@ -57,6 +60,8 @@ public class BootstrapDefaults {
 			defaults.services.lifecycleManager.setImplementation(DefaultObjectLifecycleManager);
 			defaults.services.scopeManager.setImplementation(DefaultScopeManager);
 			defaults.services.viewManager.setImplementation(DefaultViewManager);
+			defaults.services.bindingManager.setImplementation(DefaultBindingManager);
+			defaults.services.persistenceManager.setImplementation(LocalPersistenceManager);
 			
 			defaults.viewSettings.addViewRootHandler(ContextLookupHandler);
 			defaults.viewSettings.addViewRootHandler(ViewConfigurationHandler);

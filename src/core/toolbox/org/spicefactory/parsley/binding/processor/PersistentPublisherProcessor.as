@@ -16,12 +16,12 @@
  
 package org.spicefactory.parsley.binding.processor {
 
-import org.spicefactory.parsley.core.processor.PropertyProcessor;
 import org.spicefactory.lib.reflect.Property;
-import org.spicefactory.parsley.binding.BindingManager;
-import org.spicefactory.parsley.binding.PersistenceManager;
 import org.spicefactory.parsley.binding.impl.PersistentPublisher;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
+import org.spicefactory.parsley.core.processor.PropertyProcessor;
 import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.scope.Scope;
 import org.spicefactory.parsley.core.scope.ScopeName;
@@ -86,8 +86,7 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	}
 	
 	private function getManager (target: ManagedObject): BindingManager {
-		return target.context.scopeManager.getScope(scope)
-			.extensions.forType(BindingManager) as BindingManager;
+		return target.context.scopeManager.getScope(scope).bindingManager;
 	}
 	
 	/**

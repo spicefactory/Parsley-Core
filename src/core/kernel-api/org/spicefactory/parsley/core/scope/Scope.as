@@ -15,6 +15,8 @@
  */
 
 package org.spicefactory.parsley.core.scope {
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.command.CommandManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.LifecycleObserverRegistry;
@@ -62,6 +64,16 @@ public interface Scope {
 	 * The manager for active asynchronous commands in this scope.
 	 */
 	function get commandManager () : CommandManager;
+	
+	/**
+	 * The manager for publishers and subscribers of the decoupled binding facility.
+	 */
+	function get bindingManager () : BindingManager;
+	
+	/**
+	 * The manager for values persisted by publishers.
+	 */
+	function get persistenceManager () : PersistenceManager;
 	
 	/**
 	 * The registry for observers of lifecycle events dispatched by objects within this scope.

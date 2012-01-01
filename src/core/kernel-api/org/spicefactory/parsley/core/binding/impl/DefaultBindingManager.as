@@ -14,14 +14,15 @@
  * limitations under the License.
  */
  
-package org.spicefactory.parsley.binding.impl {
+package org.spicefactory.parsley.core.binding.impl {
 
 import org.spicefactory.lib.collection.Map;
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.util.ArrayUtil;
-import org.spicefactory.parsley.binding.BindingManager;
-import org.spicefactory.parsley.binding.Publisher;
-import org.spicefactory.parsley.binding.Subscriber;
+import org.spicefactory.parsley.binding.impl.SubscriberCollection;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.Publisher;
+import org.spicefactory.parsley.core.binding.Subscriber;
 
 /**
  * Default implementation of the BindingManager interface.
@@ -145,13 +146,13 @@ public class DefaultBindingManager implements BindingManager {
 }
 }
 
-import org.spicefactory.lib.errors.IllegalStateError;
-import org.spicefactory.lib.util.DictionaryUtil;
-import org.spicefactory.parsley.binding.Publisher;
-import org.spicefactory.parsley.binding.Subscriber;
-
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
+import org.spicefactory.lib.errors.IllegalStateError;
+import org.spicefactory.lib.util.DictionaryUtil;
+import org.spicefactory.parsley.core.binding.Publisher;
+import org.spicefactory.parsley.core.binding.Subscriber;
+
 
 class UniqueElements {
 	

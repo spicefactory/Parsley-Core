@@ -1,10 +1,11 @@
 package org.spicefactory.parsley.binding {
 
+import flash.events.EventDispatcher;
+import flash.utils.Dictionary;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.scope.InitializingExtension;
 import org.spicefactory.parsley.core.scope.Scope;
 
-import flash.events.EventDispatcher;
-import flash.utils.Dictionary;
 
 /**
  * @author Jens Halm

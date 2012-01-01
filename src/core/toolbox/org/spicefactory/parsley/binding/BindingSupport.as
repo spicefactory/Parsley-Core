@@ -15,15 +15,11 @@
  */
  
 package org.spicefactory.parsley.binding {
+
 import org.spicefactory.lib.reflect.Metadata;
-import org.spicefactory.parsley.binding.impl.DefaultBindingManager;
-import org.spicefactory.parsley.binding.impl.LocalPersistenceManager;
 import org.spicefactory.parsley.binding.tag.PublishDecorator;
 import org.spicefactory.parsley.binding.tag.PublishSubscribeDecorator;
 import org.spicefactory.parsley.binding.tag.SubscribeDecorator;
-import org.spicefactory.parsley.core.bootstrap.BootstrapDefaults;
-import org.spicefactory.parsley.core.bootstrap.Service;
-import org.spicefactory.parsley.core.scope.ScopeExtensionRegistry;
 
 
 /**
@@ -49,21 +45,14 @@ public class BindingSupport {
  	 * there is usually no need to explicitly initialize it in applications.</p>
   	 */
 	public static function initialize () : void {
+		
 		if (initialized) return;
+		initialized = true;
 		
 		Metadata.registerMetadataClass(SubscribeDecorator);
 		Metadata.registerMetadataClass(PublishDecorator);
 		Metadata.registerMetadataClass(PublishSubscribeDecorator);
 		
-		var scopeExtensions:ScopeExtensionRegistry = BootstrapDefaults.config.scopeExtensions;
-		
-		scopeExtensions.forType(BindingManager).setImplementation(DefaultBindingManager);
-		var service:Service = scopeExtensions.forType(PersistenceManager);
-		if (!service.factory) {
-			service.setImplementation(LocalPersistenceManager);
-		}
-		
-		initialized = true;
 	}
 }
 }

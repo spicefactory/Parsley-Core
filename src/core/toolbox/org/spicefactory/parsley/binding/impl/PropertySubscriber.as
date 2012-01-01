@@ -17,7 +17,7 @@
 package org.spicefactory.parsley.binding.impl {
 import org.spicefactory.lib.reflect.ClassInfo;
 import org.spicefactory.lib.reflect.Property;
-import org.spicefactory.parsley.binding.Subscriber;
+import org.spicefactory.parsley.core.binding.Subscriber;
 
 /**
  * A Subscriber that updates the value of a single property whenever the

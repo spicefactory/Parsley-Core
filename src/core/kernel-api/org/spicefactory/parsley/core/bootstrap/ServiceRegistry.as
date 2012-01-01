@@ -59,6 +59,18 @@ public interface ServiceRegistry {
 	 */
 	function get viewManager () : Service;
 	
+	/**
+	 * The configuration for the service that manages decoupled binding based on
+	 * publishers and subscribers.
+	 */
+	function get bindingManager () : Service;
+	
+	/**
+	 * The configuration for the service that manages values persisted
+	 * by publishers.
+	 */
+	function get persistenceManager () : Service;
+	
 	
 }
 }

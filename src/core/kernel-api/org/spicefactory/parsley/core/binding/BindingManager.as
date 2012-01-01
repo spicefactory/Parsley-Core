@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
-package org.spicefactory.parsley.binding {
+package org.spicefactory.parsley.core.binding {
 
 /**
  * The central manager of the decoupled binding facility.

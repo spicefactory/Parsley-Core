@@ -17,8 +17,8 @@
 package org.spicefactory.parsley.binding.impl {
 
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.binding.PersistenceManager;
-import org.spicefactory.parsley.binding.Subscriber;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
+import org.spicefactory.parsley.core.binding.Subscriber;
 
 /**
  * @author Jens Halm

@@ -16,17 +16,17 @@
  
 package org.spicefactory.parsley.binding.impl {
 
+import flash.events.Event;
+import flash.utils.Dictionary;
 import org.spicefactory.lib.collection.List;
 import org.spicefactory.lib.collection.MultiMap;
 import org.spicefactory.lib.errors.IllegalArgumentError;
 import org.spicefactory.lib.logging.LogContext;
 import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.lib.reflect.ClassInfo;
-import org.spicefactory.parsley.binding.Publisher;
-import org.spicefactory.parsley.binding.Subscriber;
+import org.spicefactory.parsley.core.binding.Publisher;
+import org.spicefactory.parsley.core.binding.Subscriber;
 
-import flash.events.Event;
-import flash.utils.Dictionary;
 
 /**
  * Internal collection utility used by the default BindingManager implementation.

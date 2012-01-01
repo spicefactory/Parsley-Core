@@ -101,7 +101,7 @@ public class DefaultScopeManager implements ScopeManager, InitializingService {
 			addScope(scopeInfo, info);
 		}
 		for each (var scopeDef:ScopeDefinition in scopeInfoRegistry.newScopes) {
-			var newScope:ScopeInfo = new DefaultScopeInfo(scopeDef, info.context, info.messageSettings, info.scopeExtensions, info.globalState.domains);
+			var newScope:DefaultScopeInfo = new DefaultScopeInfo(scopeDef, info);
 			addScope(newScope, info);
 		}
 	}

@@ -17,8 +17,8 @@
 package org.spicefactory.parsley.binding.processor {
 
 import org.spicefactory.lib.reflect.Property;
-import org.spicefactory.parsley.binding.BindingManager;
-import org.spicefactory.parsley.binding.Publisher;
+import org.spicefactory.parsley.core.binding.BindingManager;
+import org.spicefactory.parsley.core.binding.Publisher;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
@@ -94,8 +94,7 @@ public class PublisherProcessor implements PropertyProcessor, StatefulProcessor 
 	}
 	
 	private function getManager (target: ManagedObject): BindingManager {
-		return target.context.scopeManager.getScope(scope)
-			.extensions.forType(BindingManager) as BindingManager;
+		return target.context.scopeManager.getScope(scope).bindingManager;
 	}
 	
 	/**

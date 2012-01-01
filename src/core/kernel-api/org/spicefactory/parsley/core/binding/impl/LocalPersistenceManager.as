@@ -14,16 +14,16 @@
  * limitations under the License.
  */
  
-package org.spicefactory.parsley.binding.impl {
-
-import org.spicefactory.parsley.core.scope.InitializingExtension;
-import org.spicefactory.parsley.binding.PersistenceManager;
-import org.spicefactory.parsley.core.scope.Scope;
+package org.spicefactory.parsley.core.binding.impl {
 
 import flash.events.EventDispatcher;
 import flash.events.TimerEvent;
 import flash.net.SharedObject;
 import flash.utils.Timer;
+import org.spicefactory.parsley.core.binding.PersistenceManager;
+import org.spicefactory.parsley.core.scope.InitializingExtension;
+import org.spicefactory.parsley.core.scope.Scope;
+
 
 /**
  * Default implementation of the PersistenceManager interface that persists to a local SharedObject.
