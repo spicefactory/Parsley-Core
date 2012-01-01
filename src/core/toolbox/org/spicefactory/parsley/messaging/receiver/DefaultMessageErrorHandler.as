@@ -40,8 +40,6 @@ public class DefaultMessageErrorHandler extends AbstractMethodReceiver implement
 	 * The target method must have a parameter of type <code>org.spicefactory.parsley.messaging.MessageProcessor</code>
 	 * and a second parameter of type Error (or a subtype).
 	 * 
-	 * @param provider the provider for the actual instance handling the message
-	 * @param methodName the name of the method to invoke for matching messages
 	 * @param info the mapping information for the receiver
 	 * @param errorType the type of Error this handler is interested in
 	 */
