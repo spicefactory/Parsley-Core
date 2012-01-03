@@ -35,7 +35,7 @@ public class ManagedEventsProcessor implements StatefulProcessor {
 	private var names:Array;
 	private var scope:String;
 
-	private var dispatcher:Function;
+	private var dispatcher:MessageDispatcher;
 	
 	
 	/**
@@ -55,9 +55,10 @@ public class ManagedEventsProcessor implements StatefulProcessor {
 	 * @inheritDoc
 	 */
 	public function init (target: ManagedObject) : void {
-		this.dispatcher = new MessageDispatcher(target.context.scopeManager, scope).dispatchMessage;
+		this.dispatcher = new MessageDispatcher(target.context.scopeManager, scope);
+		
 		for each (var name:String in names) {		
-			IEventDispatcher(target.instance).addEventListener(name, dispatcher);
+			IEventDispatcher(target.instance).addEventListener(name, dispatcher.dispatchMessage);
 		}
 	}
 	
@@ -65,8 +66,10 @@ public class ManagedEventsProcessor implements StatefulProcessor {
 	 * @inheritDoc
 	 */
 	public function destroy (target: ManagedObject) : void {
+		dispatcher.disable();
+		
 		for each (var name:String in names) {		
-			IEventDispatcher(target.instance).removeEventListener(name, dispatcher);
+			IEventDispatcher(target.instance).removeEventListener(name, dispatcher.dispatchMessage);
 		}
 	}
 	
