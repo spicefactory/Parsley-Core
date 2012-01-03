@@ -3,7 +3,7 @@
 	
 	<property file="build.properties" />
 	
-	<property name="version" value="3.0.M2-SNAPSHOT"/>
+	<property name="version" value="3.0.M2"/>
 	<property name="project.dir" value="${basedir}/.."/>
 	<property name="release.target.dir" value="${project.dir}/release/${version}"/>
 
