@@ -28,8 +28,8 @@ import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
  * <p>A standard ContextBuilder can be created using the <code>newBuilder</code> method:</p>
  * 
  * <p><pre>ContextBuilder.newBuilder()
- *     .xmlConfig("logging.xml")
- *     .flexConfig(MyConfig)
+ *     .config(XmlConfig.forFile("logging.xml"))
+ *     .config(FlexConfig.forClass(MyConfig))
  * 	   .build();</pre></p>
  * 	   
  * <p>If you need to specify more options than just the configuration artifacts, you must enter
@@ -42,8 +42,8 @@ import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
  *     .parent(parent)
  *     .viewSettings().autoremoveComponents(false)
  *     .newBuilder()
- *         .xmlConfig("logging.xml")
- *         .flexConfig(MyConfig)
+ *         .config(XmlConfig.forFile("logging.xml"))
+ *         .config(FlexConfig.forClass(MyConfig))
  * 	       .build();</pre></p>
  * 
  * @author Jens Halm
