@@ -157,7 +157,7 @@ class SingletonProcessors {
 	private function contextDestroyed (event:ContextEvent) : void {
 		removeListeners();
 		
-		// TODO - 3.0.M2 - this timing leaves a small window where destroy and destoryBeforeInit might get called
+		// TODO - 3.1 - this timing leaves a small window where destroy and destoryBeforeInit might get called
 		for each (var config: ObjectProcessorConfig in processors) {
 			SingletonPreProcessor(config.processor).destroyBeforeInit(definition);
 		}

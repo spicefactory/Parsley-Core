@@ -29,15 +29,15 @@ public class CommandFactoryTestBase extends CommandTestBase {
 	
 	
 	protected override function validateStatus (active: Boolean, result: Object = null, error: Object = null): void {
-		/* TODO - 3.0.M2 - observers must get enhanced to match by command type or id first */
+		/* TODO - 3.1 - observers must get enhanced to match by command type or id first */
 	}
 	
 	protected override function validateResults (...results): void {
-		/* TODO - 3.0.M2 - observers must get enhanced to match by command type or id first */
+		/* TODO - 3.1 - observers must get enhanced to match by command type or id first */
 	}
 	
 	protected override function validateError (error: Object = null): void {	
-		/* TODO - 3.0.M2 - observers must get enhanced to match by command type or id first */
+		/* TODO - 3.1 - observers must get enhanced to match by command type or id first */
 	}
 	
 	
