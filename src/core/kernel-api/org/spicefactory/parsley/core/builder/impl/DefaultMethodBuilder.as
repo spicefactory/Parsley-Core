@@ -75,6 +75,7 @@ public class DefaultMethodBuilder implements MethodBuilder, ObjectDefinitionBuil
 
 import org.spicefactory.lib.errors.IllegalStateError;
 import org.spicefactory.lib.reflect.Method;
+import org.spicefactory.lib.reflect.Parameter;
 import org.spicefactory.parsley.core.builder.MethodProcessorBuilder;
 import org.spicefactory.parsley.core.processor.DestroyPhase;
 import org.spicefactory.parsley.core.processor.InitPhase;
@@ -140,7 +141,9 @@ class DefaultMethodProcessorBuilder implements MethodProcessorBuilder {
 			throw new IllegalStateError("Method " + method + " must at least have " + _minParams + " parameter(s)");
 		}
 		if (params > _maxParams) {
-			throw new IllegalStateError("Method " + method + " cannot have more than " + _maxParams + " parameter(s)");
+			var param:Parameter = Parameter(method.parameters[_maxParams]);
+			if (param.required)
+				throw new IllegalStateError("Method " + method + " cannot have more than " + _maxParams + " parameter(s)");
 		}
 	}
 	
