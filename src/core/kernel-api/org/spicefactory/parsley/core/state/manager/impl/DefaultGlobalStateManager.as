@@ -15,7 +15,7 @@
  */
 
 package org.spicefactory.parsley.core.state.manager.impl {
-import org.spicefactory.parsley.core.state.GlobalViewState;
+
 import org.spicefactory.parsley.core.state.manager.GlobalContextManager;
 import org.spicefactory.parsley.core.state.manager.GlobalDomainManager;
 import org.spicefactory.parsley.core.state.manager.GlobalObjectManager;
@@ -70,16 +70,6 @@ public class DefaultGlobalStateManager implements GlobalStateManager {
 	 */
 	public function get scopes () : GlobalScopeManager {
 		return scopeManager;
-	}
-	
-	
-	private var viewState:GlobalViewState = new DefaultGlobalViewState();
-	
-	/**
-	 * @inheritDoc
-	 */
-	public function get views () : GlobalViewState {
-		return viewState;
 	}
 	
 	

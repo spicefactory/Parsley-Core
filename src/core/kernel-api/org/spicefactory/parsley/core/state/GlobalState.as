@@ -32,14 +32,7 @@ public class GlobalState {
 	public static function get objects () : GlobalObjectState {
 		return GlobalStateAccessor.objects;
 	}
-	
-	/**
-	 * Global status information about the view hierarchy.
-	 */
-	public static function get views () : GlobalViewState {
-		return GlobalStateAccessor.views;
-	}
-	
+
 	/**
 	 * Global status information about currently active scopes.
 	 */

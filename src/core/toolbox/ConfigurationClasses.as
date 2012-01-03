@@ -36,6 +36,8 @@ import org.spicefactory.parsley.runtime.RuntimeContextBuilder;
 import org.spicefactory.parsley.runtime.processor.RuntimeConfigurationProcessor;
 import org.spicefactory.parsley.view.Configure;
 import org.spicefactory.parsley.view.FastInject;
+import org.spicefactory.parsley.view.FirstChildContext;
+import org.spicefactory.parsley.view.ParentContext;
 
 /**
  * @private 
@@ -59,6 +61,8 @@ public class ConfigurationClasses {
 	ContextBuilder;
 	Configure;
 	FastInject;
+	ParentContext;
+	FirstChildContext;
 	
 	RootObjectTag,
 	ViewTag,

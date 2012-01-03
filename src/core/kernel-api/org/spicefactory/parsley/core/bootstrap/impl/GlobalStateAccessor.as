@@ -1,7 +1,7 @@
 package org.spicefactory.parsley.core.bootstrap.impl {
+
 import org.spicefactory.parsley.core.state.GlobalObjectState;
 import org.spicefactory.parsley.core.state.GlobalScopeState;
-import org.spicefactory.parsley.core.state.GlobalViewState;
 import org.spicefactory.parsley.core.state.manager.GlobalStateManager;
 import org.spicefactory.parsley.core.state.manager.impl.DefaultGlobalStateManager;
 
@@ -29,10 +29,6 @@ public class GlobalStateAccessor {
 	
 	public static function get objects () : GlobalObjectState {
 		return stateManager.objects.publicState;
-	}
-	
-	public static function get views () : GlobalViewState {
-		return stateManager.views;
 	}
 	
 	public static function get scopes () : GlobalScopeState {

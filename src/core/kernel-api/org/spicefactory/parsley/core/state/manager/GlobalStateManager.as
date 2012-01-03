@@ -15,7 +15,6 @@
  */
 
 package org.spicefactory.parsley.core.state.manager {
-import org.spicefactory.parsley.core.state.GlobalViewState;
 
 /**
  * The central entry point for access to all global state managers.
@@ -47,11 +46,6 @@ public interface GlobalStateManager {
 	 * The manager that keeps track of all ApplicationDomains of all the currently active Context instances.
 	 */
 	function get domains () : GlobalDomainManager;
-	
-	/**
-	 * Global status information about the view hierarchy.
-	 */
-	function get views () : GlobalViewState;
 	
 	
 }
