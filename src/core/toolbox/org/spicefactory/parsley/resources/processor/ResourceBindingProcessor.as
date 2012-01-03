@@ -71,7 +71,7 @@ public class ResourceBindingProcessor implements PropertyProcessor, StatefulProc
 	 * @param key the key for the resource
 	 * @param bundle the bundle name 
 	 */
-	function ResourceBindingProcessor (key:String, bundle:String) {
+	function ResourceBindingProcessor (bundle:String, key:String) {
 		this.key = key;
 		this.bundle = bundle;		
 		initializeAdapter();
