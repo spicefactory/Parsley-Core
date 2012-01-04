@@ -152,7 +152,7 @@ public class DefaultViewManager implements ViewManager, InitializingService {
 	 		handleRemovedViewRoot(viewRoot);
 			delete viewRoots[view];
 			viewRootCount--;
-			if (viewRootCount == 0) {
+			if (viewRootCount == 0 && settings.autodestroyContext) {
 				log.info("Last view root removed from ViewManager - Destroy Context");
 				context.destroy();
 			}

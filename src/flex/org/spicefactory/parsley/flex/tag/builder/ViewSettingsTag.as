@@ -44,6 +44,7 @@ public class ViewSettingsTag extends DefaultViewSettings implements BootstrapCon
 	 * @private
 	 */
 	public function processConfig (config:BootstrapConfig) : void {
+		config.viewSettings.autodestroyContext = autodestroyContext;
 		config.viewSettings.autoremoveComponents = autoremoveComponents;
 		config.viewSettings.autoremoveViewRoots = autoremoveViewRoots;
 		config.viewSettings.autowireComponents = autowireComponents;

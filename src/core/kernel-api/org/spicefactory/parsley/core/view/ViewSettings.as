@@ -26,6 +26,14 @@ import org.spicefactory.parsley.core.context.LookupStatus;
 public interface ViewSettings {
 
 	/**
+	 * Indicates whether the Context should be automatically destroyed when the last view
+	 * root is removed from the ViewManager. The default is <code>true</code>.
+	 */
+	function get autodestroyContext () : Boolean;
+	
+	function set autodestroyContext (value:Boolean) : void;
+	
+	/**
 	 * Indicates whether view roots should be automatically removed from the ViewManager 
 	 * when they are removed from the stage. The default is <code>true</code>.
 	 * When set to false view roots must dispatch a custom <code>"removeView"</code> event

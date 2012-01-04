@@ -37,6 +37,7 @@ public class DefaultViewSettings implements ViewSettings {
 
 	private var _parents:Array = new Array();
 	
+	private var _autodestroyContext:Flag;
 	private var _autoremoveViewRoots:Flag;
 	private var _autoremoveComponents:Flag;
 	private var _autowireComponents:Flag;
@@ -54,6 +55,22 @@ public class DefaultViewSettings implements ViewSettings {
 		_viewProcessor.addParent(parent.viewProcessor);
 	}
 
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function get autodestroyContext () : Boolean {
+		return (_autodestroyContext) 
+				? _autodestroyContext.value 
+				: ((_parents.length) ? _parents[0].autodestroyContext : true);
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function set autodestroyContext (value:Boolean) : void {
+		_autodestroyContext = new Flag(value);
+	}
 	
 	/**
 	 * @inheritDoc
