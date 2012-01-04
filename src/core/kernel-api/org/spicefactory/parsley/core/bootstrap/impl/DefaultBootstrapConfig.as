@@ -290,14 +290,21 @@ public class DefaultBootstrapConfig implements BootstrapConfig {
 	
 	private function findParent () : void {
 		var viewParent:Context;
-		if (_viewRoot != null && findParentInView) {
+		if (_viewRoot != null) {
 			if (viewRoot.stage == null) {
 				log.warn("Probably unable to look for parent Context in the view hierarchy " +
 						" - specified view root has not been added to the stage yet");
 			}
+			
 			var event:ContextConfigurationEvent = new ContextConfigurationEvent(this);
 			viewRoot.dispatchEvent(event);
-			viewParent = event.viewParent;
+			
+			if (findParentInView) {
+				/* a listener for the event dispatched in the previous statement
+				 * might have changed the findParentInView flag, therefore this is
+				 * the earliest time we can use it. */
+				viewParent = event.viewParent;
+			}
 		}
 		
 		if (viewParent) {
