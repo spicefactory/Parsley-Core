@@ -15,6 +15,7 @@
  */
 
 package org.spicefactory.parsley.context {
+import org.spicefactory.parsley.util.ContextCallbacks;
 import org.spicefactory.parsley.core.bootstrap.BootstrapProcessor;
 import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilderFactory;
@@ -77,6 +78,9 @@ public class ContextBuilder {
 	private var processor:BootstrapProcessor;
 	private var runtimeConfig:RuntimeConfigurationProcessor;
 	
+	private var completeHandlers:Array = new Array();
+	private var errorHandlers:Array = new Array();
+	
 	
 	/**
 	 * @private
@@ -134,13 +138,75 @@ public class ContextBuilder {
 	}
 	
 	/**
+	 * Adds a callback to invoke when the Context created by this builder
+	 * finishes initialization. This may happen synchronously or asynchronously.
+	 * 
+	 * <p>The handler function has to accept a parameter of type Context.</p>
+	 * 
+	 * @param handler a callback to invoke when the Context created by this builder
+	 * finishes initialization
+	 * @return this builder instance for method chaining
+	 */
+	public function complete (handler: Function) : ContextBuilder {
+		completeHandlers.push(handler);
+		return this;
+	}
+	
+	/**
+	 * Adds a callback to invoke when Context creation aborts with an error. 
+	 * This may happen synchronously or asynchronously.
+	 * 
+	 * <p>The handler function has to accept a parameter of type Object for 
+	 * the cause of the failure. This is usually an instance of type <code>Error</code>
+	 * or <code>ErrorEvent</code>.</p>
+	 * 
+	 * @param handler a callback to invoke when Context creation aborts with an error
+	 * @return this builder instance for method chaining
+	 */
+	public function error (handler: Function) : ContextBuilder {
+		errorHandlers.push(handler);
+		return this;
+	}
+	
+	private function completeHandler (context: Context): void {
+		for each (var handler: Function in completeHandlers) {
+			handler(context);
+		}
+	}
+	
+	private function errorHandler (cause: Object): void {
+		for each (var handler: Function in errorHandlers) {
+			handler(cause);
+		}
+	}
+	
+	/**
 	 * Builds and returns the final Context instance, applying all settings
 	 * specified for this builder.
 	 * 
 	 * @return the final Context instance
 	 */
 	public function build () : Context {
-		return processor.process();
+		var context: Context;
+		try {
+			context = processor.process();
+		}
+		catch (e: Error) {
+			if (errorHandlers.length) {
+				errorHandler(e);
+				return null;
+			}
+			else {
+				throw e;
+			}
+		}
+		if (completeHandlers.length || errorHandlers.length) {
+			ContextCallbacks
+				.forContext(context)
+				.initialized(completeHandler)
+				.error(errorHandler);
+		}
+		return context;
 	}
 	
 	
