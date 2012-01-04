@@ -72,7 +72,6 @@ public class ContextLookupHandler implements ViewRootHandler {
 	}
 	
 	private function contextCreated (event:ContextConfigurationEvent) : void {
-		event.stopImmediatePropagation();
 		if (event.viewParent == null) {
 			event.viewParent = context;
 		}
