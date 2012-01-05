@@ -79,6 +79,7 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 			var dynamicObject:DynamicObject;
 			if (!GlobalState.objects.isManaged(command)) {
 				dynamicObject = context.addDynamicObject(command);
+				dynamicObject.instance; // force immediate addition to Context
 			}
 			var targetContext: Context = (trigger) ? trigger.senderContext : context;
 			targetContext.scopeManager.observeCommand(createObservableCommand(command, dynamicObject));
