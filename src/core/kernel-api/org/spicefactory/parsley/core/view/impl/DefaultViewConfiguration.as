@@ -137,16 +137,16 @@ public class DefaultViewConfiguration implements ViewConfiguration {
 	}
 	
 	
-	private var _reuse:Boolean;
+	private var _reuse:Flag;
 	
 	/**
 	 * @inheritDoc
 	 */
-	public function get reuse () : Boolean {
+	public function get reuse () : Flag {
 		return _reuse;
 	}
 	
-	public function set reuse (value:Boolean) : void {
+	public function set reuse (value:Flag) : void {
 		_reuse = value;
 	}
 	

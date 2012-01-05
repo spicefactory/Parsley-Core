@@ -72,7 +72,7 @@ public class ConfigureTag extends ConfigurationTagBase {
 	public var configId:String;
 	
 	
-	private var _reuse:Boolean = true; // TODO - 3.0.0 - change default to false in version 3.0
+	private var _reuse:Flag;
 	
 	/**
 	 * Indicates whether the wiring should happen repeatedly after the wired
@@ -80,7 +80,7 @@ public class ConfigureTag extends ConfigurationTagBase {
 	 * The default is false.
 	 */
 	public function set reuse (value:Boolean) : void {
-		_reuse = value;
+		_reuse = new Flag(value);
 	}
 	
 	private var _autoremove:Flag;

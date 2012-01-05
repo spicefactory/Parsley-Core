@@ -56,7 +56,7 @@ public class AutoremoveLifecycle extends EventDispatcher implements ViewLifecycl
 		this.config = config;
 		this.context = context;
 		this.active = true;
-		var addedHandler:Function = (config.reuse) ? viewAdded : null;
+		var addedHandler:Function = (config.reuse && config.reuse.value) ? viewAdded : null;
 		this.filter = new StageEventFilter(config.view, viewRemoved, addedHandler);
 	}
 	

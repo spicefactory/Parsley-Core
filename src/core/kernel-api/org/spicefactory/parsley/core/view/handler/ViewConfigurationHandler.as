@@ -198,7 +198,7 @@ public class ViewConfigurationHandler implements ViewRootHandler {
 		config.processor.init(config, context);
 		if (config.lifecycle) {
 			config.lifecycle.addEventListener(ViewLifecycleEvent.DESTROY_VIEW, viewDestroyed);
-			if (config.reuse) {
+			if (config.reuse && config.reuse.value) {
 				config.lifecycle.addEventListener(ViewLifecycleEvent.INIT_VIEW, viewInitialized);
 			}
 			config.lifecycle.start(config, context);
@@ -207,7 +207,7 @@ public class ViewConfigurationHandler implements ViewRootHandler {
 	
 	private function viewDestroyed (event:ViewLifecycleEvent) : void {
 		event.configuration.processor.destroy();
-		if (!event.configuration.reuse) {
+		if (!event.configuration.reuse || !event.configuration.reuse.value) {
 			disposeLifecycle(event.configuration);
 			ArrayUtil.remove(activeConfigs, event.configuration);
 		}

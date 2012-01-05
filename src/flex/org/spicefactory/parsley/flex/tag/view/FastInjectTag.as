@@ -107,7 +107,10 @@ public class FastInjectTag extends ConfigurationTagBase {
 	 * The id of the object to inject.
 	 */
 	public var objectId:String;
+
 	
+	private var _reuse:Flag;
+
 	/**
 	 * Indicates whether the target instance will be reused in subsequent
 	 * lifecycles of the view. When set to false the injection will
@@ -116,7 +119,10 @@ public class FastInjectTag extends ConfigurationTagBase {
 	 * later. It should be false if the view will get garbage collected once
 	 * it has been removed from the stage.
 	 */
-	public var reuse:Boolean;
+	public function set reuse (value:Boolean) : void {
+		_reuse = new Flag(value);
+	}
+	
 	
 	private var _autoremove:Flag;
 	
@@ -165,7 +171,7 @@ public class FastInjectTag extends ConfigurationTagBase {
 		if (!type && !objectId) {
 			throw new IllegalStateError("Either type or objectId must be specified for FastInject into " + config.target);
 		}
-		config.reuse = reuse;
+		config.reuse = _reuse;
 		config.autoremove = _autoremove;
 		config.processor = new FastInjectProcessor(property, type, objectId);
 		return config;

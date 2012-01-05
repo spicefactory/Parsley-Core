@@ -45,7 +45,7 @@ public class FastInject {
 	private var _view:DisplayObject;
 	private var _target:Object;
 	
-	private var _reuse:Boolean;
+	private var _reuse:Flag;
 	private var _autoremove:Flag;
 	private var _lifecycle:ViewLifecycle;
 	private var _property:String;
@@ -102,8 +102,8 @@ public class FastInject {
 	 * lifecycles of the view
 	 * @return this FastInject instance for method chaining
 	 */
-	public function reuse (reuse:Boolean) : FastInject {
-		_reuse = reuse;
+	public function reuse (value:Boolean) : FastInject {
+		_reuse = new Flag(value);
 		return this;
 	}
 	
@@ -117,8 +117,8 @@ public class FastInject {
 	 * when the view is removed from the stage and the injected object is a DynamicObject
 	 * @return this FastInject instance for method chaining
 	 */
-	public function autoremove (autoremove:Boolean) : FastInject {
-		_autoremove = new Flag(autoremove);
+	public function autoremove (value:Boolean) : FastInject {
+		_autoremove = new Flag(value);
 		return this;
 	}
 	

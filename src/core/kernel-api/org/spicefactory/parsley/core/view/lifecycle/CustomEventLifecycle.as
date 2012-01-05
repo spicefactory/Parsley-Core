@@ -54,7 +54,7 @@ public class CustomEventLifecycle extends EventDispatcher implements ViewLifecyc
 	public function start (config:ViewConfiguration, context:Context) : void {
 		this.config = config;
 		config.view.addEventListener(REMOVE_VIEW, removeView);
-		if (config.reuse) {
+		if (config.reuse && config.reuse.value) {
 			config.view.addEventListener(CONFIGURE_VIEW, configureView);
 		}
 	}
@@ -64,7 +64,7 @@ public class CustomEventLifecycle extends EventDispatcher implements ViewLifecyc
 	 */
 	public function stop () : void {
 		config.view.removeEventListener(REMOVE_VIEW, removeView);
-		if (config.reuse) {
+		if (config.reuse && config.reuse.value) {
 			config.view.removeEventListener(CONFIGURE_VIEW, configureView);
 		}
 		config = null;

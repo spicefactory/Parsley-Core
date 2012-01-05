@@ -44,7 +44,7 @@ public class Configure {
 	private var _view:DisplayObject;
 	private var _target:Object;
 	
-	private var _reuse:Boolean;
+	private var _reuse:Flag;
 	private var _autoremove:Flag;
 	private var _processor:ViewProcessor;
 	private var _lifecycle:ViewLifecycle;
@@ -101,8 +101,8 @@ public class Configure {
 	 * lifecycles of the view
 	 * @return this Configure instance for method chaining
 	 */
-	public function reuse (reuse:Boolean) : Configure {
-		_reuse = reuse;
+	public function reuse (value:Boolean) : Configure {
+		_reuse = new Flag(value);
 		return this;
 	}
 	
@@ -115,8 +115,8 @@ public class Configure {
 	 * from the stage
 	 * @return this Configure instance for method chaining
 	 */
-	public function autoremove (autoremove:Boolean) : Configure {
-		_autoremove = new Flag(autoremove);
+	public function autoremove (value:Boolean) : Configure {
+		_autoremove = new Flag(value);
 		return this;
 	}
 

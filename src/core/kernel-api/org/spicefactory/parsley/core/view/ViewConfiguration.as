@@ -98,9 +98,9 @@ public interface ViewConfiguration {
 	 * later. It should be false if the view will get garbage collected once
 	 * it has been removed from the stage.
 	 */
-	function get reuse () : Boolean;
+	function get reuse () : Flag;
 	
-	function set reuse (value:Boolean) : void;
+	function set reuse (value:Flag) : void;
 	
 	
 }
