@@ -195,6 +195,9 @@ public class ViewConfigurationHandler implements ViewRootHandler {
 		if (!config.processor) {
 			config.processor = settings.viewProcessor.newInstance() as ViewProcessor;
 		}
+		if (!config.reuse) {
+			config.reuse = new Flag(settings.reuseComponents);
+		}
 		config.processor.init(config, context);
 		if (config.lifecycle) {
 			config.lifecycle.addEventListener(ViewLifecycleEvent.DESTROY_VIEW, viewDestroyed);

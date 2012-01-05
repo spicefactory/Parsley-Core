@@ -66,6 +66,18 @@ public interface ViewSettings {
 	function set autowireComponents (value:Boolean) : void;
 	
 	/**
+	 * Indicates whether managed components will be reused after they have been
+	 * removed from the stage. When set to false their configuration will
+	 * only be processed once. This value should be true if the application
+	 * keeps instances of the view in memory and adds them back to the stage
+	 * later. It should be false (the default) if the view should get garbage collected once
+	 * it has been removed from the stage.
+	 */
+	function get reuseComponents () : Boolean;
+	
+	function set reuseComponents (value:Boolean) : void;
+	
+	/**
 	 * The filter responsible for selecting views that should be autowired to the Context.
 	 * Only has an effect if the <code>autowireComponents</code> flag is set to true.
 	 * The default filter installed with Parsley is one that only wires views that

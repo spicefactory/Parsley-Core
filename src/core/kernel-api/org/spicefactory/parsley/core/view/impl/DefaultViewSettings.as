@@ -41,6 +41,7 @@ public class DefaultViewSettings implements ViewSettings {
 	private var _autoremoveViewRoots:Flag;
 	private var _autoremoveComponents:Flag;
 	private var _autowireComponents:Flag;
+	private var _reuseComponents:Flag;
 	private var _autowireFilter:ViewAutowireFilter;
 	private var _viewRootHandlers:Array = new Array();
 
@@ -118,6 +119,22 @@ public class DefaultViewSettings implements ViewSettings {
 	 */
 	public function set autowireComponents (value:Boolean) : void {
 		_autowireComponents = new Flag(value);
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function get reuseComponents () : Boolean {
+		return (_reuseComponents) 
+				? _reuseComponents.value 
+				: ((_parents.length) ? _parents[0].reuseComponents : false);
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public function set reuseComponents (value:Boolean) : void {
+		_reuseComponents = new Flag(value);
 	}
 	
 	/**

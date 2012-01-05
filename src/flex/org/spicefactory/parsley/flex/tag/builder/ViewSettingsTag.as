@@ -48,6 +48,7 @@ public class ViewSettingsTag extends DefaultViewSettings implements BootstrapCon
 		config.viewSettings.autoremoveComponents = autoremoveComponents;
 		config.viewSettings.autoremoveViewRoots = autoremoveViewRoots;
 		config.viewSettings.autowireComponents = autowireComponents;
+		config.viewSettings.reuseComponents = reuseComponents;
 		if (autowireFilter) {
 			config.viewSettings.autowireFilter = autowireFilter;
 		}
