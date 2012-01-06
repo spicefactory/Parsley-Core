@@ -89,7 +89,6 @@ public class CommandFactoryTagTestBase extends CommandFactoryTestBase {
 			.object(factoryHolder)
 			.build();
 		} catch (e: Error) {
-			trace(e.getStackTrace());
 			throw e;
 		}
 		setContext(context);
