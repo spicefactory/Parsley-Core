@@ -148,7 +148,7 @@ public class SubscriberCollection {
 	 */
 	public function addSubscriber (subscriber:Subscriber) : void {
 		subscribers.add(subscriber.id, subscriber);
-		if (!(subscriber is Publisher) || !publishers.getAll(subscriber.id).isEmpty()) {
+		if (!subscriber.unique && (!(subscriber is Publisher) || !publishers.getAll(subscriber.id).isEmpty())) {
 			subscriber.update(currentValue[subscriber.id]);
 		}
 	}
