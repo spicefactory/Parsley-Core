@@ -104,14 +104,14 @@ public class SubscriberCollection {
 		if (log.isInfoEnabled()) {
 			log.info("Updated value for {0}", publisher);
 		}
-		setCurrentValue(publisher.id, publisher.currentValue);	
+		setCurrentValue(publisher.id, publisher.currentValue, publisher);	
 	}
 		
-	private function setCurrentValue (id:String, value:*) : void {
+	private function setCurrentValue (id:String, value:*, publisherRef:Publisher) : void {
 		if (currentValue[id] === value) return;
 		currentValue[id] = value;
 		for each (var subscriber:Subscriber in subscribers.getAll(id)) {
-			subscriber.update(value);
+			if (subscriber != publisherRef) subscriber.update(value);
 		}
 	}
 	
@@ -136,7 +136,7 @@ public class SubscriberCollection {
 		publisher.removeEventListener(Event.CHANGE, publisherChanged);
 		publishers.remove(publisher.id, publisher);
 		if (publishers.getAll(publisher.id).isEmpty()) {
-			setCurrentValue(publisher.id, undefined);
+			setCurrentValue(publisher.id, undefined, publisher);
 		}
 	}
 	
