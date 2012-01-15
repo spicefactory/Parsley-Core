@@ -11,6 +11,38 @@ import org.spicefactory.parsley.core.context.Context;
 public class MapCommandTagTestBase extends MapCommandTestBase {
 	
 	
+	[Test]
+	public function singleCommandTwice () : void {
+		
+		singleCommand();
+		singleCommand();
+		
+	}
+	
+	[Test]
+	public function commandSequenceTwice () : void {
+		
+		commandSequence();
+		commandSequence();
+		
+	}
+	
+	[Test]
+	public function parallelCommandsTwice () : void {
+		
+		parallelCommands();	
+		parallelCommands();
+			
+	}
+	
+	[Test]
+	public function commandFlowTwice () : void {
+		
+		commandFlow();		
+		commandFlow();
+				
+	}
+	
 	protected override function configureSingleCommand (): void {
 		buildContext(singleCommandConfig);
 	}

@@ -49,6 +49,17 @@ public class CommandObservers {
 		errors.push(result);
 	}
 
+	public function reset (): void {
+		completeInvoked = 0;
+		completeAInvoked = 0;
+		completeBInvoked = 0;
+		
+		results = new Array();
+		resultsA = new Array();
+		resultsB = new Array();
+		errors = new Array();
+	}
+
 	
 }
 }

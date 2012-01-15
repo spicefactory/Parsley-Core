@@ -49,7 +49,8 @@ public class CommandTestBase {
 	[Test]
 	public function singleCommand () : void {
 		
-		configureSingleCommand();
+		if (!context) configureSingleCommand();
+		else observers.reset();
 		
 		validateManager(0);
 		
@@ -71,7 +72,8 @@ public class CommandTestBase {
 	[Test]
 	public function commandSequence () : void {
 		
-		configureCommandSequence();
+		if (!context) configureCommandSequence();
+		else observers.reset();
 		
 		validateManager(0);
 		
@@ -100,7 +102,8 @@ public class CommandTestBase {
 	[Test]
 	public function parallelCommands () : void {
 		
-		configureParallelCommands();
+		if (!context) configureParallelCommands();
+		else observers.reset();
 		
 		validateManager(0);
 		
@@ -129,7 +132,8 @@ public class CommandTestBase {
 	[Test]
 	public function commandFlow () : void {
 		
-		configureCommandFlow();
+		if (!context) configureCommandFlow();
+		else observers.reset();
 		
 		validateManager(0);
 		
