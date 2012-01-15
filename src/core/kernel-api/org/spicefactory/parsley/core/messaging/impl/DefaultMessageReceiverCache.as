@@ -16,6 +16,7 @@
 
 package org.spicefactory.parsley.core.messaging.impl {
 
+import org.spicefactory.lib.util.ArrayUtil;
 import flash.events.Event;
 import flash.utils.Dictionary;
 import org.spicefactory.lib.logging.LogContext;
@@ -109,6 +110,11 @@ public class DefaultMessageReceiverCache implements MessageReceiverCache {
 	
 	private function collectionChanged (event:Event) : void {
 		selectorMaps = new Dictionary();
+		var collection:MessageReceiverCollection = event.target as MessageReceiverCollection;
+		if (collection.empty) {
+			collection.removeEventListener(Event.CHANGE, collectionChanged);
+			ArrayUtil.remove(collections, collection);
+		}
 	}
 	
 	/**
@@ -138,10 +144,11 @@ public class DefaultMessageReceiverCache implements MessageReceiverCache {
 	 * ApplicationDomain the message type of this cache belongs to.
 	 */
 	public function release () : void {
-		selectorMaps = null;
+		selectorMaps = new Dictionary();
 		for each (var collection:MessageReceiverCollection in collections) {
 			collection.removeEventListener(Event.CHANGE, collectionChanged);
 		}
+		collections = new Array();
 	}
 
 

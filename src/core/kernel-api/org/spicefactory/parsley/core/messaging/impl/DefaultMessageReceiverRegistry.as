@@ -100,6 +100,9 @@ public class DefaultMessageReceiverRegistry implements MessageReceiverRegistry {
 			return;
 		}
 		collection.removeReceiver(kind, receiver);
+		if (collection.empty) {
+			delete receivers[receiver.type];
+		}
 	}
 	
 	

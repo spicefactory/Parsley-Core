@@ -41,6 +41,8 @@ public class MessageReceiverCollection extends EventDispatcher {
 	private var byType:Dictionary = new Dictionary();
 	private var anySelector:Dictionary = new Dictionary();
 	
+	private var receiverCount:uint = 0;
+	
 	private var _messageType:Class;
 	
 	
@@ -128,6 +130,7 @@ public class MessageReceiverCollection extends EventDispatcher {
 			map[kind] = array;
 		}
 		array.push(receiver);
+		receiverCount++;
 		dispatchEvent(new Event(Event.CHANGE));
 	}
 
@@ -143,8 +146,17 @@ public class MessageReceiverCollection extends EventDispatcher {
 		if (array == null) {
 			return;
 		}
-		ArrayUtil.remove(array, receiver);
-		dispatchEvent(new Event(Event.CHANGE));
+		if (ArrayUtil.remove(array, receiver)) {
+			receiverCount--;
+			dispatchEvent(new Event(Event.CHANGE));
+		}
+	}
+	
+	/**
+	 * Indicates whether this collection is empty.
+	 */
+	public function get empty (): Boolean {
+		return (receiverCount == 0); 
 	}
 	
 	private function getReceiverMap (receiver:MessageReceiver) : Dictionary {
