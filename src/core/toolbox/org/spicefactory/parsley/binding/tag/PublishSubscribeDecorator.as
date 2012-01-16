@@ -22,8 +22,7 @@ import org.spicefactory.parsley.binding.processor.PersistentPublisherProcessor;
 import org.spicefactory.parsley.binding.processor.PublisherProcessor;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionBuilder;
 import org.spicefactory.parsley.core.builder.ObjectDefinitionDecorator;
-
-	
+import org.spicefactory.parsley.core.processor.InitPhase;
 
 [Metadata(name="PublishSubscribe", types="property")]
 [XmlMapping(elementName="publish-subscribe")]
@@ -82,7 +81,8 @@ public class PublishSubscribeDecorator implements ObjectDefinitionDecorator {
 		if (persistent) {
 			builder
 				.property(property)
-				.process(new PersistentPublisherProcessor(scope, objectId));
+				.process(new PersistentPublisherProcessor(scope, objectId))
+				.initIn(InitPhase.preInit(-1));
 		}
 		
 		builder
