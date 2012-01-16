@@ -87,7 +87,7 @@ public class SubscriberCollection {
 	 * @param publisher the publisher to add
 	 */
 	public function addPublisher (publisher:Publisher) : void {
-		if (!publishers.getAll(publisher.id).isEmpty()) {
+		if (!publishers.getAll(publisher.id).isEmpty() && !subscribers.getAll(publisher.id).isEmpty()) {
 			var all:List = publishers.getAll(publisher.id);
 			validate(all.getLast() as Publisher, publisher, publisher.id);
 		}
@@ -147,8 +147,14 @@ public class SubscriberCollection {
 	 * @param subscriber the subscriber to add
 	 */
 	public function addSubscriber (subscriber:Subscriber) : void {
+		var matchingPublishers:List = publishers.getAll(subscriber.id);
+		if (matchingPublishers.size() > 1) {
+			for (var i:uint = 1; i < matchingPublishers.size(); i++) {
+				validate(matchingPublishers[0] as Publisher, matchingPublishers[i] as Publisher, subscriber.id);
+			}
+		}
 		subscribers.add(subscriber.id, subscriber);
-		if (!subscriber.unique && (!(subscriber is Publisher) || !publishers.getAll(subscriber.id).isEmpty())) {
+		if (!subscriber.unique && (!(subscriber is Publisher) || !matchingPublishers.isEmpty())) {
 			subscriber.update(currentValue[subscriber.id]);
 		}
 	}
