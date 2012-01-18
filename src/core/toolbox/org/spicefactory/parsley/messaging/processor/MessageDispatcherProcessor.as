@@ -62,7 +62,7 @@ public class MessageDispatcherProcessor implements PropertyProcessor, StatefulPr
 	 * @inheritDoc
 	 */
 	public function init (target: ManagedObject) : void {
-		this.dispatcher = new MessageDispatcher(target.context.scopeManager, scope);
+		this.dispatcher = new MessageDispatcher(target.context.scopeManager, scope, this);
 		property.setValue(target.instance, dispatcher.dispatchMessage);
 	}
 	
@@ -85,7 +85,7 @@ public class MessageDispatcherProcessor implements PropertyProcessor, StatefulPr
 	 * @private
 	 */
 	public function toString () : String {
-		return "[MessageDispatcher]";
+		return "[MessageDispatcher(" + property + ")]";
 	}	
 	
 	

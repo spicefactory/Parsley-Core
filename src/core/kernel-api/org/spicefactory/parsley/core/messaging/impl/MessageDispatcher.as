@@ -15,6 +15,9 @@
  */
 
 package org.spicefactory.parsley.core.messaging.impl {
+
+import org.spicefactory.lib.logging.LogContext;
+import org.spicefactory.lib.logging.Logger;
 import org.spicefactory.parsley.core.scope.ScopeManager;
 
 /**
@@ -25,9 +28,14 @@ import org.spicefactory.parsley.core.scope.ScopeManager;
 public class MessageDispatcher {
 	
 	
+	private static const log:Logger = LogContext.getLogger(MessageDispatcher);
+	
+	
 	private var scopeManager:ScopeManager;
 	private var scope:String;
 	private var enabled:Boolean = true;
+	
+	private var owner:Object;
 	
 	
 	/**
@@ -35,10 +43,12 @@ public class MessageDispatcher {
 	 * 
 	 * @param scopeManager the scope manager the message should be dispatched through
 	 * @param scope the scope the message should be dispatched to
+	 * @param owner the owner of this dispatcher 
 	 */
-	function MessageDispatcher (scopeManager:ScopeManager, scope:String = null) {
+	function MessageDispatcher (scopeManager:ScopeManager, scope:String = null, owner:Object = null) {
 		this.scopeManager = scopeManager;
 		this.scope = scope;
+		this.owner = owner;
 	}
 	
 	
@@ -49,7 +59,11 @@ public class MessageDispatcher {
 	 * @param selector the selector to use if it cannot be determined from the message instance itself
 	 */
 	public function dispatchMessage (message:Object, selector:* = undefined) : void {
-		if (!enabled) return;
+		if (!enabled) {
+			var ownerDesc:String = (owner) ? owner.toString() : "<unknown>";
+			log.warn("Attempt to use message dispatcher for {0} after it has been disabled", ownerDesc);
+			return;
+		}
 		if (scope == null) {
 			scopeManager.dispatchMessage(message, selector);
 		}

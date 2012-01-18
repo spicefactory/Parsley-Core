@@ -55,7 +55,7 @@ public class ManagedEventsProcessor implements StatefulProcessor {
 	 * @inheritDoc
 	 */
 	public function init (target: ManagedObject) : void {
-		this.dispatcher = new MessageDispatcher(target.context.scopeManager, scope);
+		this.dispatcher = new MessageDispatcher(target.context.scopeManager, scope, this);
 		
 		for each (var name:String in names) {		
 			IEventDispatcher(target.instance).addEventListener(name, dispatcher.dispatchMessage);
