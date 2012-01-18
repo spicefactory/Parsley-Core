@@ -86,7 +86,7 @@ public class DefaultMessageReceiverCache implements MessageReceiverCache {
 			return selectorProperty.getValue(message);
 		}
 		else {
-			return message.toString();
+			return null;
 		}
 	}
 	
