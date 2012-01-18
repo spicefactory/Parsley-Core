@@ -198,7 +198,7 @@ class UniqueElements {
 	private function removeElement (elements:Dictionary, type:Class, id:String) : Boolean {
 		var ids:Dictionary = elements[type] as Dictionary;
 		if (!ids) {
-			throw IllegalStateError("No elements managed for type " + type);
+			throw new IllegalStateError("No elements managed for type " + type);
 		}
 		if (ids[id] > 1)
 		{
