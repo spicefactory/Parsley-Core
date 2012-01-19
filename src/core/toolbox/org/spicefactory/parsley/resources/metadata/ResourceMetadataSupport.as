@@ -24,8 +24,9 @@ import org.spicefactory.parsley.resources.tag.ResourceBindingDecorator;
 /**
  * Provides a static method to initalize the metadata tags for resource bindings.
  * Can be used as a child tag of a &lt;ContextBuilder&gt; tag in MXML alternatively.
- * The use of this class is only required when using the LightContextBuilder API or tag.
- * The standard ContextBuilder API and tag automatically installs these metadata tags.
+ * The use of this class is only required when disabling the default set of metadata 
+ * tags with <code>DefaultMetadataTags.disable()</code>, otherwise these tags will
+ * be installed automatically.
  * 
  * @author Jens Halm
  */
@@ -37,7 +38,7 @@ public class ResourceMetadataSupport implements BootstrapConfigProcessor {
 
 	/**
 	 * Initializes the support for the metadata tags for resource bindings.
-	 * Must be invoked before a <code>LightContextBuilder</code> is used for the first time.
+	 * Must be invoked before building the first Context.
   	 */
 	public static function initialize () : void {
 		

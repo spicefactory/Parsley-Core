@@ -23,9 +23,10 @@ import org.spicefactory.parsley.inject.tag.PropertyTag;
 	
 /**
  * Provides a static method to initalize the XML tags for dependency injection.
- * Can be used as a child tag of a &lt;LightContextBuilder&gt; tag in MXML alternatively.
- * The use of this class is only required when using the LightContextBuilder with LightXmlConfig API or tag.
- * The standard XmlConfig API and tag automatically installs these XML tags.
+ * Can be used as a child tag of a &lt;ContextBuilder&gt; tag in MXML alternatively.
+ * The use of this class is only required when disabling the default set of XML 
+ * tags with <code>DefaultXmlTags.disable()</code>, otherwise these tags will
+ * be installed automatically.
  * 
  * @author Jens Halm
  */
@@ -37,7 +38,7 @@ public class InjectXmlSupport implements BootstrapConfigProcessor {
 
 	/**
 	 * Initializes the support for the XML tags for dependency injection.
-	 * Must be invoked before a <code>LightContextBuilder</code> is used for the first time.
+	 * Must be invoked before building the first Context.
   	 */
 	public static function initialize () : void {
 		
