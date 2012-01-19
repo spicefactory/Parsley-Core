@@ -54,6 +54,12 @@ public class AbstractPropertyReceiver extends AbstractObjectProviderReceiver imp
 		return _targetProperty;
 	}
 
+
+	public function toString () : String {
+		return (_targetProperty) 
+			? "[MessageReceiver " + _targetProperty + "]" 
+			: "[MessageReceiver on Property]";
+	}
 	
 }
 }

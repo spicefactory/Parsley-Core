@@ -75,6 +75,13 @@ public class AbstractMethodReceiver extends AbstractObjectProviderReceiver imple
 				+ " is not applicable to message type " + info.type.name);
 		}
 	}
+	
+	
+	public function toString () : String {
+		return (_targetMethod) 
+			? "[MessageReceiver " + _targetMethod + "]" 
+			: "[MessageReceiver on Method]";
+	}
 
 	
 }

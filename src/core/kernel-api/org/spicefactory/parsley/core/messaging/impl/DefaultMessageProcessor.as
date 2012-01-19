@@ -126,7 +126,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 				currentProcessor.proceed();
 			}
 			catch (e:Error) {
-				log.error("Message Target threw Error {0}", e);
+				log.error("Message receiver {0} threw Error: {1}", currentProcessor.currentReceiver, e);
 				if (!currentProcessor.handleErrors || (e is MessageProcessorError)) {
 					// avoid the risk of endless loops
 					throw e;
@@ -288,6 +288,7 @@ public class DefaultMessageProcessor implements MessageProcessor {
 }
 
 import org.spicefactory.lib.errors.NestedError;
+import org.spicefactory.parsley.core.messaging.receiver.MessageReceiver;
 
 class Processor {
 	
@@ -313,6 +314,10 @@ class Processor {
 
 	internal function rewind () : void {
 		currentIndex = 0;
+	}
+	
+	internal function get currentReceiver () : MessageReceiver {
+		return (hasNext()) ? receivers[currentIndex] as MessageReceiver : null;
 	}
 
 	internal function proceed () : void {
