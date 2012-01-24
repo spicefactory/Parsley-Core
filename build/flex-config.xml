@@ -13,7 +13,7 @@
 			<path-element>${flexlib}/libs/framework.swc</path-element>
 			<path-element>${flexlib}/libs/rpc.swc</path-element>
 
-			<path-element>${project}/libs/spicelib-util-3.0.0.swc</path-element>
+			<path-element>${project}/libs/spicelib-util-3.1.0.swc</path-element>
 			<path-element>${project}/libs/spicelib-reflect-3.0.0.swc</path-element>
 			<path-element>${project}/libs/spicelib-commands-3.1.0.swc</path-element>
 
