@@ -115,6 +115,32 @@ public class ServiceRegistryBuilder implements SetupPart {
 	}
 	
 	/**
+	 * Returns the builder for specifying the implementation or decorators for the service that
+	 * manages decoupled publishers and subscribers.
+	 * 
+	 * @return the builder for specifying the implementation or decorators for the service that
+	 * manages decoupled publishers and subscribers
+	 */
+	public function bindingManager () : ServiceBuilder {
+		var delegate:ServiceBuilder = new ServiceBuilder(setup, services.getProperty("bindingManager"));
+		delegates.push(delegate);
+		return delegate;
+	}
+	
+	/**
+	 * Returns the builder for specifying the implementation or decorators for the service that
+	 * manages persistent publishers.
+	 * 
+	 * @return the builder for specifying the implementation or decorators for the service that
+	 * manages persistent publishers
+	 */
+	public function persistenceManager () : ServiceBuilder {
+		var delegate:ServiceBuilder = new ServiceBuilder(setup, services.getProperty("persistenceManager"));
+		delegates.push(delegate);
+		return delegate;
+	}
+	
+	/**
 	 * @private
 	 */
 	public function apply (config:BootstrapConfig) : void {
