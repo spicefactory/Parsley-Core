@@ -18,6 +18,7 @@ package org.spicefactory.parsley.comobserver.receiver {
 
 import org.spicefactory.lib.command.adapter.CommandAdapter;
 import org.spicefactory.lib.command.data.CommandData;
+import org.spicefactory.lib.command.events.CommandFailure;
 import org.spicefactory.lib.reflect.Method;
 import org.spicefactory.lib.reflect.Parameter;
 import org.spicefactory.parsley.core.command.CommandObserverProcessor;
@@ -154,6 +155,13 @@ public class DefaultCommandObserver extends AbstractMethodReceiver implements Co
 			return true;
 		}
 		var param:Parameter = targetMethod.parameters[0];
+		if (result is CommandFailure) {
+			var rootCause:Object = CommandFailure(result).rootCause;
+			if (rootCause is param.type.getClass()) {
+				params.push(rootCause);
+				return true;
+			} 				
+		}
 		if (result is param.type.getClass()) {
 			 params.push(result);
 			 return true;
