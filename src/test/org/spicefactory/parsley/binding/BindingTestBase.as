@@ -10,10 +10,8 @@ import org.spicefactory.parsley.binding.model.AnimalHolder;
 import org.spicefactory.parsley.binding.model.Cat;
 import org.spicefactory.parsley.binding.model.CatHolder;
 import org.spicefactory.parsley.binding.model.StringHolder;
-import org.spicefactory.parsley.core.binding.PersistenceManager;
-import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
-import org.spicefactory.parsley.core.bootstrap.BootstrapManager;
-import org.spicefactory.parsley.core.bootstrap.impl.DefaultBootstrapManager;
+import org.spicefactory.parsley.context.ContextBuilder;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.processor.DestroyPhase;
 import org.spicefactory.parsley.core.scope.ScopeName;
@@ -38,7 +36,7 @@ public class BindingTestBase {
 		throw new AbstractMethodError();
 	}
 	
-	protected function addConfig (conf:BootstrapConfig) : void {
+	protected function get bindingConfig () : ConfigurationProcessor {
 		throw new AbstractMethodError();
 	}
 	
@@ -159,10 +157,11 @@ public class BindingTestBase {
 		DictionaryPersistenceService.reset();
 		DictionaryPersistenceService.putStoredValue("local0", "test", "A");
 		
-		var manager:BootstrapManager = new DefaultBootstrapManager();
-		manager.config.scopeExtensions.forType(PersistenceManager).setImplementation(DictionaryPersistenceService);
-		addConfig(manager.config);
-		var context:Context = manager.createProcessor().process();
+		var context:Context = ContextBuilder.newSetup()
+			.services().persistenceManager().setImplementation(DictionaryPersistenceService)
+			.newBuilder()
+			.config(bindingConfig)
+			.build();
 		
 		var pub1:StringHolder = context.getObject("publishPersistent") as StringHolder;
 		var pub2:StringHolder = context.getObject("publishPersistent") as StringHolder;

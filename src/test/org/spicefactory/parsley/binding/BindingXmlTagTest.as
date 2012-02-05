@@ -1,7 +1,7 @@
 package org.spicefactory.parsley.binding {
 
 import org.spicefactory.parsley.binding.impl.PropertyPublisher;
-import org.spicefactory.parsley.core.bootstrap.BootstrapConfig;
+import org.spicefactory.parsley.core.bootstrap.ConfigurationProcessor;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.flex.binding.FlexPropertyWatcher;
 import org.spicefactory.parsley.util.XmlContextUtil;
@@ -22,8 +22,8 @@ public class BindingXmlTagTest extends BindingTestBase {
 		return XmlContextUtil.newContext(config);
 	}
 	
-	protected override function addConfig (conf:BootstrapConfig) : void {
-		conf.addProcessor(XmlConfig.forInstance(config));
+	protected override function get bindingConfig () : ConfigurationProcessor {
+		return XmlConfig.forInstance(config);
 	}
 	
 	public static const config:XML = <objects 

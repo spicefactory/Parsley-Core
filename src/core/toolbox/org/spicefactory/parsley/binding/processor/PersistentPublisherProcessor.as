@@ -18,13 +18,10 @@ package org.spicefactory.parsley.binding.processor {
 
 import org.spicefactory.lib.reflect.Property;
 import org.spicefactory.parsley.binding.impl.PersistentPublisher;
-import org.spicefactory.parsley.core.binding.BindingManager;
-import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.lifecycle.ManagedObject;
 import org.spicefactory.parsley.core.processor.PropertyProcessor;
 import org.spicefactory.parsley.core.processor.StatefulProcessor;
 import org.spicefactory.parsley.core.scope.Scope;
-import org.spicefactory.parsley.core.scope.ScopeName;
 
 /**
  * Processes the persistence aspect of a published value.
@@ -70,23 +67,13 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	 * @inheritDoc
 	 */
 	public function init (target:ManagedObject) : void {
-		var scopeRef:Scope = target.context.scopeManager.getScope(scope);
-		this.publisher = new PersistentPublisher(getPersistenceManager(scopeRef), property.type, id, persistentKey); 
-		getManager(target).addPublisher(publisher);
+		var scopeRef:Scope = getScope(target);
+		this.publisher = new PersistentPublisher(scopeRef.persistenceManager, property.type, id, persistentKey); 
+		scopeRef.bindingManager.addPublisher(publisher);
 	}
 	
-	private function getPersistenceManager (scope:Scope) : PersistenceManager {
-		if (scope.extensions.hasType(PersistenceManager)) {
-			return scope.extensions.forType(PersistenceManager) as PersistenceManager;
-		}
-		else {
-			return scope.rootContext.scopeManager.getScope(ScopeName.GLOBAL)
-				.extensions.forType(PersistenceManager) as PersistenceManager;
-		}
-	}
-	
-	private function getManager (target: ManagedObject): BindingManager {
-		return target.context.scopeManager.getScope(scope).bindingManager;
+	private function getScope (target: ManagedObject): Scope {
+		return target.context.scopeManager.getScope(scope);
 	}
 	
 	/**
@@ -94,7 +81,7 @@ public class PersistentPublisherProcessor implements PropertyProcessor, Stateful
 	 */
 	public function destroy (target:ManagedObject) : void {
 		publisher.disableSubscriber();
-		getManager(target).removePublisher(publisher);
+		getScope(target).bindingManager.removePublisher(publisher);
 	}
 	
 	/**

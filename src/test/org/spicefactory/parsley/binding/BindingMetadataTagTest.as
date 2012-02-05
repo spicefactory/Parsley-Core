@@ -20,7 +20,6 @@ import org.spicefactory.parsley.binding.model.CatSubscribeLocalMetadata;
 import org.spicefactory.parsley.binding.model.CatSubscribeMetadata;
 import org.spicefactory.parsley.binding.model.StringPublishPersistentMetadata;
 import org.spicefactory.parsley.context.ContextBuilder;
-import org.spicefactory.parsley.core.binding.PersistenceManager;
 import org.spicefactory.parsley.core.context.Context;
 import org.spicefactory.parsley.core.context.DynamicObject;
 import org.spicefactory.parsley.core.processor.DestroyPhase;
@@ -222,8 +221,8 @@ public class BindingMetadataTagTest {
 		
 		var context:Context = ContextBuilder
 			.newSetup()
-				.scopeExtensions()
-					.forType(PersistenceManager)
+				.services()
+					.persistenceManager()
 					.setImplementation(DictionaryPersistenceService)
 				.newBuilder()
 					.object(pub1)
