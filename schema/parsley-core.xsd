@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+    xmlns="http://www.spicefactory.org/parsley"
+    xmlns:tns="http://www.spicefactory.org/parsley"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.spicefactory.org/parsley">
+
+    <xs:element name="objects">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+	            <xs:element name="include" type="includeType" minOccurs="0" maxOccurs="unbounded"/>
+	            <xs:element name="variable" type="variableType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="object" type="rootObjectType"/>    
+                <xs:element name="view" type="viewObjectType"/>    
+                <xs:element name="dynamic-object" type="dynamicObjectType"/>    
+                <xs:element name="map-command" type="mapCommandType"/>    
+                <xs:element name="command-factory" type="commandFactoryType"/>    
+            	<xs:any namespace="##other"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="includeType">
+        <xs:attribute name="filename" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="variableType">
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="value" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="objectType">
+        <xs:sequence>
+            <xs:group ref="decorators"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="objectAttributes"/>
+    </xs:complexType>
+    
+    <xs:group name="decorators">
+        <xs:sequence>
+            <xs:element name="constructor-args" type="arrayType" minOccurs="0"/>
+            <xs:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dynamic-property" type="dynamicPropertyType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="async-init" type="asyncInitType" minOccurs="0"/>
+	        
+	        <xs:element name="destroy" type="methodType" minOccurs="0" maxOccurs="unbounded"/>
+	        <xs:element name="init" type="methodType" minOccurs="0" maxOccurs="unbounded"/>
+	        <xs:element name="observe" type="observeType" minOccurs="0" maxOccurs="unbounded"/>
+	        <xs:element name="factory" type="methodType" minOccurs="0"/>
+            
+            <xs:element name="managed-events" type="managedEventsType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="message-dispatcher" type="messageDispatcherType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="message-handler" type="messageHandlerType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="message-binding" type="messageBindingType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="message-error" type="messageErrorType" minOccurs="0" maxOccurs="unbounded"/>
+
+            <xs:element name="command-complete" type="commandResultType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="command-result" type="commandResultType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="command-error" type="commandErrorType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="command-status" type="commandStatusType" minOccurs="0" maxOccurs="unbounded"/>
+
+            <xs:element name="publish" type="publishType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="subscribe" type="subscribeType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="publish-subscribe" type="publishType" minOccurs="0" maxOccurs="unbounded"/>
+
+            <xs:element name="resource-binding" type="resourceBindingType" minOccurs="0" maxOccurs="unbounded"/>
+            
+            <xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:group>
+    
+    <xs:attributeGroup name="objectAttributes">
+        <xs:attribute name="type" type="xs:token" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:complexType name="rootObjectType">
+        <xs:complexContent>
+            <xs:extension base="objectType">
+                <xs:attributeGroup ref="rootObjectAttributes"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="viewObjectType">
+        <xs:complexContent>
+            <xs:extension base="objectType">
+                <xs:attribute name="id" type="xs:token" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="dynamicObjectType">
+        <xs:complexContent>
+            <xs:extension base="objectType">
+                <xs:attribute name="id" type="xs:token" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:attributeGroup name="rootObjectAttributes">
+        <xs:attribute name="id" type="xs:token" use="optional"/>
+        <xs:attribute name="lazy" type="xs:boolean" use="optional"/>  
+        <xs:attribute name="order" type="intOrExpression" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:complexType name="propertyType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="value"/>
+    	</xs:sequence>
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="value" type="xs:token" use="optional"/>
+        <xs:attribute name="id-ref" type="xs:token" use="optional"/>
+        <xs:attribute name="type-ref" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="dynamicPropertyType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="value"/>
+    	</xs:sequence>
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="id-ref" type="xs:token" use="optional"/>
+        <xs:attribute name="type-ref" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="methodType">
+        <xs:attribute name="method" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="observeType">
+        <xs:attribute name="method" type="xs:token" use="required"/>
+        <xs:attribute name="phase" type="phaseType" use="optional"/>
+        <xs:attribute name="scope" type="xs:token" use="optional"/>
+        <xs:attribute name="id" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="asyncInitType">
+        <xs:attribute name="complete-event" type="xs:token" use="optional"/>
+        <xs:attribute name="error-event" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="managedEventsType">
+        <xs:attribute name="names" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="messageDispatcherType">
+        <xs:attribute name="property" type="xs:token" use="required"/>
+        <xs:attribute name="scope" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:attributeGroup name="messagingAttributes">
+        <xs:attribute name="type" type="xs:token" use="optional"/>
+        <xs:attribute name="selector" type="xs:token" use="optional"/>
+        <xs:attribute name="scope" type="xs:token" use="optional"/>
+        <xs:attribute name="order" type="intOrExpression" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:complexType name="messageHandlerType">
+    	<xs:attributeGroup ref="messagingAttributes"/>
+        <xs:attribute name="method" type="xs:token" use="required"/>
+        <xs:attribute name="message-properties" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="messageErrorType">
+    	<xs:attributeGroup ref="messagingAttributes"/>
+        <xs:attribute name="method" type="xs:token" use="required"/>
+        <xs:attribute name="error-type" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="mapCommandType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="commandTypes"/>
+    	</xs:sequence>
+        <xs:attribute name="type" type="xs:token" use="optional"/>
+        <xs:attribute name="message-type" type="xs:token" use="optional"/>
+        <xs:attribute name="selector" type="xs:token" use="optional"/>
+        <xs:attribute name="scope" type="xs:token" use="optional"/>
+        <xs:attribute name="order" type="intOrExpression" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="commandFactoryType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="commandTypes"/>
+    	</xs:sequence>
+        <xs:attribute name="id" type="xs:token" use="optional"/>
+     </xs:complexType>
+    
+    <xs:group name="commandTypes">
+        <xs:choice>
+            <xs:element name="command" type="commandType"/>
+            <xs:element name="command-sequence" type="commandGroupType"/>
+            <xs:element name="parallel-commands" type="commandGroupType"/>
+            <xs:element name="command-flow" type="commandGroupType"/>
+            <xs:element name="command-ref" type="commandRefType"/>
+            
+            <xs:any namespace="##other"/>
+        </xs:choice>
+    </xs:group>
+    
+    <xs:complexType name="commandType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="decorators"/>
+    		<xs:group ref="linkTypes"/>
+    	</xs:sequence>
+        <xs:attribute name="type" type="xs:token" use="required"/>
+        <xs:attribute name="id" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="commandGroupType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="commandTypes"/>
+    		<xs:group ref="linkTypes"/>
+    	</xs:sequence>
+        <xs:attribute name="id" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+     <xs:complexType name="commandRefType">
+    	<xs:sequence minOccurs="0">
+    		<xs:group ref="linkTypes"/>
+    		<xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+    	</xs:sequence>
+        <xs:attribute name="id-ref" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:group name="linkTypes">
+        <xs:choice>
+            <xs:element name="link-result-value" type="linkResultValueType"/>
+            <xs:element name="link-result-type" type="linkResultTypeType"/>
+            <xs:element name="link-result-property" type="linkResultPropertyType"/>
+            <xs:element name="link-all-results" type="linkAllResultsType"/>
+        </xs:choice>
+    </xs:group>
+    
+    <xs:complexType name="linkResultValueType">
+        <xs:attribute name="value" type="xs:token" use="required"/>
+        <xs:attribute name="to" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="linkResultTypeType">
+        <xs:attribute name="type" type="xs:token" use="required"/>
+        <xs:attribute name="to" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="linkResultPropertyType">
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="value" type="xs:token" use="required"/>
+        <xs:attribute name="to" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="linkAllResultsType">
+        <xs:attribute name="to" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="commandResultType">
+    	<xs:attributeGroup ref="messagingAttributes"/>
+        <xs:attribute name="method" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+	<xs:complexType name="commandErrorType">
+    	<xs:attributeGroup ref="messagingAttributes"/>
+        <xs:attribute name="method" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="commandStatusType">
+    	<xs:attribute name="type" type="xs:token" use="optional"/>
+        <xs:attribute name="selector" type="xs:token" use="optional"/>
+        <xs:attribute name="scope" type="xs:token" use="optional"/>
+        <xs:attribute name="property" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="messageBindingType">
+    	<xs:attributeGroup ref="messagingAttributes"/>
+        <xs:attribute name="message-property" type="xs:token" use="required"/>
+        <xs:attribute name="target-property" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="publishType">
+    	<xs:attribute name="scope" type="xs:token" use="optional"/>
+    	<xs:attribute name="object-id" type="xs:token" use="optional"/>
+    	<xs:attribute name="property" type="xs:token" use="required"/>
+    	<xs:attribute name="change-event" type="xs:token" use="optional"/>
+    	<xs:attribute name="managed" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="subscribeType">
+    	<xs:attribute name="scope" type="xs:token" use="optional"/>
+    	<xs:attribute name="object-id" type="xs:token" use="optional"/>
+    	<xs:attribute name="property" type="xs:token" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="resourceBindingType">
+        <xs:attribute name="property" type="xs:token" use="required"/>
+        <xs:attribute name="bundle-name" type="xs:token" use="required"/>
+        <xs:attribute name="resource-name" type="xs:token" use="optional"/>
+    </xs:complexType>
+
+    <xs:group name="value">
+        <xs:choice>
+            <xs:element name="null" type="emptyType"/>
+            <xs:element name="boolean" type="booleanOrExpression"/>
+            <xs:element name="number" type="numberOrExpression"/>
+            <xs:element name="int" type="intOrExpression"/>
+            <xs:element name="uint" type="uintOrExpression"/>
+            <xs:element name="string" type="xs:string"/>
+            <xs:element name="date" type="dateOrExpression"/>
+            <xs:element name="class" type="xs:token"/>
+            
+            <xs:element name="static-property" type="staticPropertyType"/>
+            <xs:element name="array" type="arrayType"/>
+            <xs:element name="object" type="objectType"/>
+            <xs:element name="object-ref" type="refType"/>
+            
+            <xs:any namespace="##other"/>
+        </xs:choice>
+    </xs:group>
+    
+    <xs:complexType name="emptyType"/>
+    
+    <xs:simpleType name="expression">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="\$\{.+\}"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="date">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}( [0-9]{1,2}:[0-9]{2}:[0-9]{2})?"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="booleanOrExpression">
+        <xs:union memberTypes="xs:boolean expression"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="numberOrExpression">
+        <xs:union memberTypes="xs:double hexValue expression"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="intOrExpression">
+        <xs:union memberTypes="xs:int hexValue expression"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="uintOrExpression">
+        <xs:union memberTypes="xs:nonNegativeInteger nonNegativeHexValue expression"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="nonNegativeHexValue">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="0[Xx][0-9a-fA-F]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="hexValue">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="-?0[Xx][0-9a-fA-F]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="dateOrExpression">
+        <xs:union memberTypes="date expression"/>
+    </xs:simpleType>
+    
+    <xs:complexType name="arrayType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:group ref="value"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="staticPropertyType">
+        <xs:attribute name="type" type="xs:token" use="required"/>
+        <xs:attribute name="property" type="xs:token" use="required"/>
+    </xs:complexType>    
+    
+    <xs:complexType name="refType">
+        <xs:attribute name="id-ref" type="xs:token" use="optional"/>
+        <xs:attribute name="type-ref" type="xs:token" use="optional"/>
+        <xs:attribute name="required" type="xs:token" use="optional"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="phaseType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="preInit"/>
+            <xs:enumeration value="init"/>
+            <xs:enumeration value="postInit"/>
+            <xs:enumeration value="preDestroy"/>
+            <xs:enumeration value="destroy"/>
+            <xs:enumeration value="postDestroy"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>
