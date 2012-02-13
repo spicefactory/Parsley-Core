@@ -58,6 +58,7 @@ public class ManagedCommandLifecycle extends DefaultCommandLifecycle {
 	 * @param trigger the message that triggered the command (if any)
 	 */
 	function ManagedCommandLifecycle (context:Context, root:ManagedCommandProxy, trigger:Message = null) {
+		super(context.domain);
 		this.context = context;
 		this.nextId = root.id;
 		this._trigger = trigger;
